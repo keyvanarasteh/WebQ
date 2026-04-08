@@ -109,30 +109,65 @@
 - [x] Paraglide-js EN/TR (Multi-language) entegrasyonu WebTech, Domain Validator ve SEO Analysis modülleri için tamamlanacak.
 
 ## Faz 3: Reconnaissance (Keşif ve Zafiyet Tespiti)
-### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`)
-- [ ] Arka plan: `subfinder` çağrısını yapan, asenkron Subdomain keşfi başlatan Komut.
-- [ ] State: TLD parçalama işlemleri ve hiyerarşik JSON dönüşümü.
-- [ ] UI: Bulunan subdomain'leri Liste ve File-Tree hiyerarşisinde render edilmesi.
-- [ ] Component: Kapsamlı (Wildcard) tespit edilen hedeflerin yıldızla (*) belirtilmesi.
-- [ ] Component: Keşfedilen her subdomain satırında "Tarama Başlat" hızlı ping aksiyon butonu.
-- [ ] Frontend: Alt alan adı bulunma animasyonu (Matrix style stream).
-- [ ] Export: Subdomain listesinin txt olarak çekilmesi.
+### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`) [Mimari ve UX Planı]
+- [ ] Sayfa: `src/routes/recon/subdomain-discovery/+page.svelte` (Tabbed View)
+  - *Input:* Hedef Domain
+  - *Output:* Tauri'den dönen `SubdomainInfoResult` objesi (liste ve ağaç).
+  - *Visualize:* Karanlık uzay/Neon UI ile Subdomain Tree (Hiyerarşik Dosya Sistemi görünümü) ve List View özellikleri.
+- [ ] Component: `src/lib/components/recon/subdomain-discovery/SubdomainTree.svelte`
+  - *Input:* TLD parçalanmış hiyerarşik JSON dönüşümü.
+  - *Output:* Collapsible (Daraltılabilir) ağaç yapısında subdomain'ler.
+  - *Visualize:* Her node için icon, wildcard (*) gösterimi, ağaç dalları çizgileri.
+- [ ] Component: `src/lib/components/recon/subdomain-discovery/SubdomainGrid.svelte`
+  - *Input:* Keşfedilen tüm subdomain'lerin düz listesi.
+  - *Output:* "Tarama Başlat", "Ping", "Copy" hızlı aksiyon butonları olan tablo satırları.
+  - *Visualize:* Her subdomain satırında animasyonlu (Matrix style stream) bulunma göstergesi.
+- [ ] Component: `src/lib/components/recon/guides/SubdomainGuide.svelte`
+  - *İçerik:* SecOps ve Güvenli web geliştirme açısından açıkta kalan subdomain'lerin (Dangling Subdomain Takeover) tehlikeleri.
+- [ ] Arkaplan: Rust Tauri Command `scan_subdomains` asenkron Subdomain keşfi.
+- [ ] İhracat: Subdomain listesinin txt ve JSON olarak dışa aktarımı.
+- [ ] Multi-language: Eğitim modalları dahil tüm statik metinlerin `m.*` ile (Paraglide-js EN/TR) çevrilmesi.
 
-### 3.2 Contact Spy Modülü (`contact_spy`)
-- [ ] Arka plan: BFS Crawl motorunu başlatan ve contact extraction yapan komut.
-- [ ] UI: Hedef siteden Email, Telefon numaraları ve Sosyal Medya (15 platform) linklerini ayrıştıran Grid.
-- [ ] Component: E-postalarda "Role-based" (info@, admin@) vs. "Personal" ayrımını görselleştiren liste.
-- [ ] Component: Açık kaynaklı istihbarattan (OSINT) elde edilen sosyal profil icon box'ları.
-- [ ] Frontend: Crawling (tarama) sırasında BFS deepth-level (Derinlik seviyesi) göstergesi.
-- [ ] Veri: Çekilen numaraların format doğrulama işaretleri (Checkmark).
+### 3.2 Contact Spy Modülü (`contact_spy`) [Mimari ve UX Planı]
+- [ ] Sayfa: `src/routes/recon/contact-spy/+page.svelte`
+  - *Input:* Hedef URL / Toplu URL listesi.
+  - *Output:* Tauri `ContactSpyResult` (E-postalar, Telefon Numaraları, Sosyal Profiller).
+  - *Visualize:* Ekranın solunda OSINT kartları, sağında veri tablosu içeren Masonry Grid tasarımı.
+- [ ] Component: `src/lib/components/recon/contact-spy/EmailHarvester.svelte`
+  - *Input:* Çıkarılan e-posta listesi.
+  - *Output:* "Role-based" (info@, admin@) vs "Personal" ayrımı yapan istatistiksel liste.
+  - *Visualize:* Rol tabanlıysa kırmızı rozet (Hedefli Phishing riski!), kişiselse mavi rozet.
+- [ ] Component: `src/lib/components/recon/contact-spy/SocialOsintBox.svelte`
+  - *Input:* Çekilen sosyal medya bağlantıları (LinkedIn, Github, Twitter vb).
+  - *Output:* Açık kaynak istihbarat profil bağlantıları.
+  - *Visualize:* İlgili platformun marka ikonu (Lucide veya Custom SVG) ile aydınlatılmış (glow) icon box'ları.
+- [ ] Component: `src/lib/components/recon/contact-spy/CrawlingConsole.svelte`
+  - *Input:* Tarama logları ve derinlik (BFS Depth-Level).
+  - *Output:* Canlı tarama hızı, işlem yapılan sayfa sayısı.
+  - *Visualize:* Matrix temalı saniyede kayan console satırları.
+- [ ] Component: `src/lib/components/recon/guides/ContactSpyGuide.svelte`
+  - *İçerik:* Açıkta bırakılan personel bilgileri, Phishing vektörleri ve veri maskeleme eğitim materyali.
+- [ ] Arkaplan: Rust BFS Crawl motorunu (tokio/reqwest) başlatan komut.
+- [ ] Multi-language: Bileşenlerdeki statik string'lerin Paraglide (EN/TR) ile lokalize edilmesi.
 
-### 3.3 Advanced Content Scanner (`advanced_content_scanner`)
-- [ ] Arka plan: 24 secret paterni ve dizin (directory) tarayıcısını entegre eden komut.
-- [ ] UI: Çok yoğun veriyi kilitlenmeden gösterecek Console/Terminal Component tasarımı.
-- [ ] Component: Hassas dosya (Sensitive files) (.env, .git, config) uyarıları için Kırmızı Kritik Alert barları.
-- [ ] Component: SSRF ve JS Vuln testlerinin çıktılarının döküleceği satır renkli log tablosu.
-- [ ] Frontend: Scroll-lock (Auto-scroll to bottom) özelliği olan Log Stream.
-- [ ] Export: Açıkların "Vulnerability Report" biçiminde Dışa Aktarımı.
+### 3.3 Advanced Content Scanner (`advanced_content_scanner`) [Mimari ve UX Planı]
+- [ ] Sayfa: `src/routes/recon/content-scanner/+page.svelte`
+  - *Input:* URL ve Tarama Derinliği parametreleri.
+  - *Output:* `ContentScanSummary` (Secret keys, exposed files, JS vulnerabilities).
+  - *Visualize:* Terminal tabanlı, scroll-lock mekanizmalı log stream ağırlıklı karanlık hacker teması (Obsidian).
+- [ ] Component: `src/lib/components/recon/content-scanner/SensitiveFilesAlert.svelte`
+  - *Input:* Bulunan `.env`, `.git`, `config.php` gibi dosyalar.
+  - *Output:* Kırmızı Alarm kritik uyarı barları (Alert Components).
+  - *Visualize:* Kalp atışı (Pulse/Ping) animasyonu ile acil eylem gerektiren dosyaların vurgulanması.
+- [ ] Component: `src/lib/components/recon/content-scanner/VulnerabilityLogTable.svelte`
+  - *Input:* SSRF, JS analiz sonuçları.
+  - *Output:* Renklendirilmiş (Kritik: Kırmızı, Medium: Sarı) güvenlik log tablosu.
+  - *Visualize:* Hızlı arama / Filtreleme segmentleri olan Data Grid.
+- [ ] Component: `src/lib/components/recon/guides/ContentScannerGuide.svelte`
+  - *İçerik:* GitHub dorks, Exposed Environment Variables (Secret sızıntıları) risklerini anlatan educational modal.
+- [ ] Arkaplan: 24 secret paterni (Regex) ve dizin bruit-force (Directory Busting) altyapısı entegrasyonu.
+- [ ] İhracat: PDF/JSON formatında Vulnerability Report ihracatı.
+- [ ] Multi-language: UI bileşenlerinin ve uyarıların Paraglide `m.*` dil dosyalarına eklenmesi.
 
 ## Faz 4: Security Assessment (Gelişmiş Güvenlik Değerlendirmesi)
 ### 4.1 Security Analysis Modülü (`security_analysis`)
