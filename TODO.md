@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [10] done, [7] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
+📈 **Progress Statistics:** [14] done, [3] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -9,9 +9,9 @@
 - [x] Tailwind CSS v4 ve typography/forms eklentileri ayarlanacak.
 - [ ] Shadcn/Bits UI (veya Luxe UI / Qix UI) kütüphanesi Svelte 5'e uygun entegre edilecek.
 - [x] `web-analyzer` bağımlılığı Cargo.toml'a (`all-features` ile) eklenecek.
-- [ ] `reqwest`, `tokio`, `serde_json` gibi temel Rust bağımlılıkları ayarlanacak.
-- [ ] Routing mimarisi (SvelteKit veya SPA Router) kurulacak.
-- [ ] Genel Siber Güvenlik Teması (Obsidian/Neon) Svelte global CSS'ine (app.css) eklenecek.
+- [x] `reqwest`, `tokio`, `serde_json` gibi temel Rust bağımlılıkları ayarlanacak.
+- [x] Routing mimarisi (SvelteKit veya SPA Router) kurulacak.
+- [x] Genel Siber Güvenlik Teması (Obsidian/Neon) Svelte global CSS'ine (app.css) eklenecek.
 - [x] AppError (Tauri hata yönetimi) `Result<T, String>` kalıpları yazılacak.
 - [x] Global Store (Runes `$state`) class'ları oluşturulacak (`AppState.svelte.ts`).
 - [x] Tauri `Window::emit` dinleyicileri (Listener) için ortak Svelte fonksiyonları yazılacak.
@@ -21,16 +21,24 @@
 - [x] Settings (Ayarlar) sayfası ve config.json okuma/yazma servisleri hazırlanacak.
 
 ## Faz 2: Intelligence Gathering (İstihbarat)
-### 2.1 Domain Info Modülü (`domain_info`)
-- [ ] Arka plan: `get_domain_info` fonksiyonunu wrap eden Tauri Command yazılacak.
-- [ ] UI: Domain arama çubuğu ve ana Dashboard Grid tasarımı.
-- [ ] Veri: IP (IPv4/IPv6) parse edilip Svelte state'e yedirilecek.
-- [ ] Component: WHOIS bilgileri (Kayıt tarihi, Son kullanım, Registrar) Data Table olarak çizilecek.
-- [ ] Component: SSL Sertifika Detayları (Açılış/Bitiş, Issuer) için Gauge ve Metric Card'lar eklenecek.
-- [ ] Component: Açık Portlar için Interactive Matrix (Grid) bileşeni hazırlanacak.
-- [ ] Frontend: WHOIS sorgusu sırasında çalışan Matrix Loading animasyonu eklenecek.
-- [ ] Hata yönetimi (Timeout, No Route to Host) ayarlanacak.
-- [ ] Security Score, 100 üzerinden Gauge Chart (Doughnut) formatında görselleştirilecek.
+### 2.1 Domain Info Modülü (`domain_info`) [Mimari ve UX Planı]
+- [x] Sayfa: `src/routes/intelligence/domain-info/+page.svelte` (Ana Dashboard)
+  - *Input:* Kullanıcıdan alınan hedef `domain` string'i.
+  - *Output:* Tauri `invoke` aracılığıyla arka plandan gelen `DomainInfoResult` objesi (`JSON`).
+  - *Visualize:* En üstte multi-language arama çubuğu, altında responsive (Mobile: 1 column, Desktop: 2-3 column) CSS Grid veri panelleri. Karanlık/Aydınlık tema ile duyarlı (adaptive) renkler.
+- [x] Component: `src/lib/components/intelligence/domain-info/DomainOverview.svelte`
+  - *Input:* `whois`, `ipv4`, `web_server`, `response_time_ms`.
+  - *Output:* Registrar, Kayıt Tarihi, IP Lokasyonu, Hizmet Veren Sunucu Tipi (Nginx vs).
+  - *Visualize:* Verileri "Key-Value" Metric Grid formatında (ikili satırlar halinde) gösteren Neon Glow kenarlıklı Luxe Card tasarımı.
+- [x] Component: `src/lib/components/intelligence/domain-info/SslStatus.svelte`
+  - *Input:* `ssl` objesi (`status`, `issuer`, `days_until_expiry`, `protocol_version`).
+  - *Output:* Sertifika ömrü, yayınlayan otorite (Let's encrypt vb).
+  - *Visualize:* Kalan gün sayısını 365 gün üzerinden oranlayan Dairesel (Doughnut) Gauge grafiği. Kalan güne göre yeşil, sarı veya kırmızı progres.
+- [x] Component: `src/lib/components/intelligence/domain-info/PortSecurityMatrix.svelte`
+  - *Input:* `open_ports`, `security`, `security_score`.
+  - *Output:* 100 üzerinden animasyonlu genel güvenlik skoru, eksik HTTPS veya Firewall kuralları yüzünden tespit edilen açık port listesi.
+  - *Visualize:* NumberFlow ile artan animasyonlu 0-100 skoru. Açık portlar için Grid: 80/443 yeşil, tehlikeli olanlar (21, 22, 3306) kırmızı yanıp sönen noktalar (ping animation).
+- [ ] Arkaplan: Rust Tauri Command `scan_domain_info` fonksiyonu `web_analyzer::domain_info`'yu asenkron Tokio thread'inde çağıracak. Hata yönetimi Paraglide ile lokalize edilip Svelte-Sonner toast olarak verilecek.
 
 ### 2.2 Domain DNS Modülü (`domain_dns`)
 - [ ] Arka plan: A, AAAA, MX, NS, SOA, TXT, CNAME query'lerini çeken Tauri Command.
