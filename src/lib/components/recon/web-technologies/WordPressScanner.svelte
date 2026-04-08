@@ -1,4 +1,5 @@
 <script lang="ts">
+  import * as m from '$lib/paraglide/messages';
   type WpUser = { id: number, name: string, slug: string };
   type WordPressAnalysis = {
       is_wordpress: boolean;
@@ -13,9 +14,9 @@
 
 <div class="bg-gray-50/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm">
   <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">CMS Fingerprinting</h3>
+      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">{m.wp_cms_fingerprinting()}</h3>
       {#if data?.is_wordpress}
-          <span class="px-2 py-1 bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/30 rounded-md text-[10px] font-black tracking-widest animate-pulse">WP DETECTED</span>
+          <span class="px-2 py-1 bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/30 rounded-md text-[10px] font-black tracking-widest animate-pulse">{m.wp_detected()}</span>
       {/if}
   </div>
   
@@ -25,13 +26,13 @@
       {#if data.is_wordpress}
           <div class="space-y-4">
               <div class="p-4 bg-gray-50 dark:bg-[#121214] border border-gray-200 dark:border-[#27272a] rounded-lg border-l-4 border-l-blue-500">
-                  <p class="text-xs text-gray-500 font-bold mb-1">Version Detection</p>
-                  <p class="text-sm font-mono text-gray-900 dark:text-gray-300">{data.version || 'Hardened / Version hidden'}</p>
+                  <p class="text-xs text-gray-500 font-bold mb-1">{m.wp_version_detection()}</p>
+                  <p class="text-sm font-mono text-gray-900 dark:text-gray-300">{data.version || m.wp_version_hidden()}</p>
               </div>
 
               {#if data.users.length > 0}
                   <div class="p-4 bg-gray-50 dark:bg-[#121214] border border-gray-200 dark:border-[#27272a] rounded-lg">
-                      <p class="text-xs text-red-500 font-bold mb-2 uppercase tracking-wide">Exposed Users (REST API VULN)</p>
+                      <p class="text-xs text-red-500 font-bold mb-2 uppercase tracking-wide">{m.wp_exposed_users()}</p>
                       <ul class="space-y-1">
                           {#each data.users as user (user.id)}
                               <li class="text-xs md:text-sm text-gray-900 dark:text-gray-300 border-b border-gray-200 dark:border-[#27272a] pb-1 font-mono last:border-0 last:pb-0">
@@ -44,10 +45,10 @@
           </div>
       {:else}
           <div class="text-gray-500 text-sm py-4 flex items-center justify-center border border-gray-200 dark:border-[#27272a] rounded-lg bg-gray-50 dark:bg-[#121214] min-h-[140px]">
-              No WordPress CMS identified on target host.
+              {m.wp_no_cms()}
           </div>
       {/if}
   {:else}
-      <div class="text-gray-500 text-sm py-4">Awaiting scan data...</div>
+      <div class="text-gray-500 text-sm py-4">{m.tech_awaiting()}</div>
   {/if}
 </div>

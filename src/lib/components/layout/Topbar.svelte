@@ -19,6 +19,15 @@
             </div>
         {/if}
 
+        <button class="text-xs font-bold text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all border border-[#27272a]" onclick={() => {
+            const currentLang = localStorage.getItem('webq-lang') || 'en';
+            const nextLang = currentLang === 'en' ? 'tr' : 'en';
+            localStorage.setItem('webq-lang', nextLang);
+            window.location.reload();
+        }}>
+            {typeof localStorage !== 'undefined' && localStorage.getItem('webq-lang') === 'tr' ? 'TR' : 'EN'}
+        </button>
+
         <button class="text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all" onclick={() => appState.toggleTheme()}>
             {#if appState.theme === 'dark'}
                 <Sun class="size-5" />

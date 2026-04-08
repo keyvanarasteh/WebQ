@@ -1,11 +1,12 @@
 <script lang="ts">
   import SecOpsGuideModal from '$lib/components/ui/SecOpsGuideModal.svelte';
   import { Network, ShieldAlert, ShieldCheck, Mail, Globe, Server } from 'lucide-svelte';
+  import * as m from '$lib/paraglide/messages';
 
   let { isOpen = $bindable(false) } = $props<{ isOpen: boolean }>();
 </script>
 
-<SecOpsGuideModal bind:isOpen title="DNS Intelligence & Security Records" icon={Network}>
+<SecOpsGuideModal bind:isOpen title={m.dns_guide_title()} icon={Network}>
   <div class="space-y-8 text-gray-300">
       
       <!-- Introduction section -->

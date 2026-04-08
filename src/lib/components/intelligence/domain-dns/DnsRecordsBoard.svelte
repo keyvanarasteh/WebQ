@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Info } from 'lucide-svelte';
   import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
+  import * as m from '$lib/paraglide/messages';
   type DnsRecordsMap = {
       a: string[];
       aaaa: string[];
@@ -28,8 +29,8 @@
   
   <div class="flex items-center justify-between mb-4 border-b border-[#27272a] pb-2">
       <div class="flex items-center gap-2">
-          <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">DNS Records</h3>
-          <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+          <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">{m.dns_records_board_title()}</h3>
+          <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
       </div>
   </div>
 
@@ -70,13 +71,13 @@
               </div>
           {:else}
               <div class="flex items-center justify-center h-full text-gray-600 mt-10">
-                  <p>No {activeTab} records found.</p>
+                  <p>{m.dns_records_empty({ tab: activeTab })}</p>
               </div>
           {/if}
       </div>
   {:else}
       <div class="flex items-center justify-center h-48 text-gray-600">
-          <p>Execute scan to fetch DNS records.</p>
+          <p>{m.dns_records_pending()}</p>
       </div>
   {/if}
 </div>

@@ -2,6 +2,11 @@
   import "../app.css";
   import Sidebar from "$lib/components/layout/Sidebar.svelte";
   import Topbar from "$lib/components/layout/Topbar.svelte";
+  import { setLanguageTag } from "$lib/paraglide/runtime";
+
+  if (typeof localStorage !== "undefined") {
+      setLanguageTag(localStorage.getItem('webq-lang') || 'en');
+  }
 
   let { children } = $props();
 </script>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Info } from 'lucide-svelte';
   import ValidatorGuide from '$lib/components/recon/guides/ValidatorGuide.svelte';
+  import * as m from '$lib/paraglide/messages';
   type ValidationResult = {
       domain: string;
       is_valid: boolean;
@@ -18,10 +19,10 @@
    
    <div class="p-6 border-b border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#121214] flex justify-between items-center">
        <div class="flex items-center gap-2">
-           <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">Bulk Verification Ledger</h3>
-           <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+           <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">{m.val_ledger_title()}</h3>
+           <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
        </div>
-       <span class="text-xs text-gray-500 font-mono">{results?.length || 0} Domains Tracked</span>
+       <span class="text-xs text-gray-500 font-mono">{m.val_domains_tracked({ count: results?.length || 0 })}</span>
    </div>
 
    <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
