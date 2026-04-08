@@ -33,6 +33,8 @@
     <rule id="FE-05" severity="required">Navigation: Strictly wrap internal path logic using SvelteKit's `$app/paths` `resolve()` when routing.</rule>
     <rule id="FE-06" severity="required">Avoid `@const` invalid placement: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/const_invalid_placement.md` to prevent compilation errors.</rule>
     <rule id="FE-07" severity="required">Avoid module resolution errors: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/sveltekit_tsconfig_paths.md` for tsconfig alias handling constraints.</rule>
+    <rule id="FE-08" severity="required">Avoid missing script tags: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/script_tags_missing.md` to prevent massive parsing failures during build.</rule>
+    <rule id="FE-09" severity="required">Type assertions for Paraglide-js: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/paraglide_language_types.md` when bridging generic string APIs to i18n literal enums.</rule>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════

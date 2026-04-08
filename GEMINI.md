@@ -13,6 +13,8 @@ Bu belge, **WebQ** (Cross-platform Web İstihbarat ve Siber Güvenlik İnceleme 
 
 ## 2.1 Svelte 5 & SvelteKit Hata Çözüm Direktifleri (Rules)
 Gelecek implementasyonlarda derleme (build) aşamasında çıkan Svelte hatalarını engellemek için aşağıdaki .agents kural dosyalarına mutlaka uyulmalıdır:
+- **Missing Script Tags Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/script_tags_missing.md` (Dosyanın en üstünde logic katmanının `<script lang="ts">` ile sarmalanmaması durumu).
+- **Paraglide-js Types Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/paraglide_language_types.md` (localStorage veya env verisinden gelen raw string'in Paraglide sistemine uygun literllere cast edilmesi).
 - **`@const` Invalid Placement Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/const_invalid_placement.md` (Svelte 5'te `@const` etiketinin div vb. generic elementler içerisine değil, doğrudan {#each} altına veya `<script>` içerisinde `$derived` ile tanımlanması gereklidir).
 - **`$app/paths` Module Not Found Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/sveltekit_tsconfig_paths.md` (Vite / SvelteKit projelerinde `tsconfig.json` içerisinde `"paths"` override edilmemeli, path alias'lar `svelte.config.js` üzerinden `kit.alias` bloğunda tanımlanmalıdır).
 
