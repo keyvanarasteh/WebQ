@@ -1,7 +1,8 @@
-<script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import { Search, UploadCloud } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import ValidationStatsBar from '$lib/components/recon/domain-validator/ValidationStatsBar.svelte';
+  import ValidationDataGrid from '$lib/components/recon/domain-validator/ValidationDataGrid.svelte';
 
   let targetDomains = $state('');
   let scanResult = $state<any>(null); // BulkValidationResult
@@ -50,15 +51,8 @@
 
   {#if scanResult || appState.isScanning}
       <div class="space-y-6">
-          <!-- placeholder for ValidationStatsBar -->
-          <div class="w-full bg-[#09090b] border border-[#27272a] p-4 rounded-xl text-gray-500">
-              Validation Stats Bar Placeholder (Progress visualizer)
-          </div>
-
-          <!-- placeholder for ValidationDataGrid -->
-          <div class="w-full bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500 h-96 overflow-y-auto">
-              Validation Data Grid Placeholder (Virtualized table of checks)
-          </div>
+          <ValidationStatsBar stats={scanResult?.stats} isLoading={appState.isScanning} />
+          <ValidationDataGrid results={scanResult?.results} isLoading={appState.isScanning} />
       </div>
   {/if}
 </div>

@@ -18,3 +18,7 @@ Bu belge, **WebQ** (Cross-platform Web İstihbarat ve Siber Güvenlik İnceleme 
 
 ## 4. UI/UX "WebQ" Estetiği
 Tasarımlar TailwindCSS v4 altyapısı ile beslenir. Standart renk temamız; **Siber Güvenlik, DevSecOps ve İstihbarat** hissiyatı veren Obsidiyen (simsiyah) zeminler üzerinden akan cam efektli elementler (Glassmorphism), Log Consol'ları ve Matrix neon çizgileridir. (Cyan, Teal veya Magenta veri hatları). UI hatları data-heavy uygulamalarda görüleceği gibi keskin ve yüksek yoğunluklu olmalıdır.
+
+## 5. Algorithmic Processing & Planning (MANDATORY)
+- **Görev ve Planlama**: Tüm aşamalar/ilerlemeler mutlaka Kesin Görevler (Tasks) ve yapılandırılmış bir Uygulama Planı (Implementation Plan) barındırmalıdır. 
+- **TODO Güncellemeleri**: İlerledikçe `TODO.md` dosyası, kullanıcının bir sonraki adıma karar vermesine yardımcı olacak şekilde detayı artırılarak sürekli güncellenmelidir.

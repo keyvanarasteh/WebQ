@@ -2,6 +2,8 @@
   import { appState } from '$lib/stores/AppState.svelte';
   import { Search } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import DnsRecordsBoard from '$lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte';
+  import DnsSecurityCheck from '$lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<any>(null); // DomainDnsResult
@@ -50,16 +52,10 @@
   {#if scanResult || appState.isScanning}
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div class="lg:col-span-2">
-              <!-- placeholder for DnsRecordsBoard -->
-              <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-                  DNS Records Board Placeholder (A, AAAA, MX, NS, SOA, TXT)
-              </div>
+              <DnsRecordsBoard records={scanResult?.records} isLoading={appState.isScanning} />
           </div>
           <div class="lg:col-span-1 space-y-6">
-              <!-- placeholder for DnsSecurityCheck -->
-              <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-                  DNS Security Status (SPF, DMARC) Placeholder
-              </div>
+              <DnsSecurityCheck records={scanResult?.records} isLoading={appState.isScanning} />
           </div>
       </div>
   {/if}

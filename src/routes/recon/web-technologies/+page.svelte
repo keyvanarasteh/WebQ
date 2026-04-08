@@ -1,7 +1,9 @@
-<script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import { Search } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import TechStackGrid from '$lib/components/recon/web-technologies/TechStackGrid.svelte';
+  import WordPressScanner from '$lib/components/recon/web-technologies/WordPressScanner.svelte';
+  import SecurityHeadersList from '$lib/components/recon/web-technologies/SecurityHeadersList.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<any>(null); // WebTechResult
@@ -49,20 +51,11 @@
 
   {#if scanResult || appState.isScanning}
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- placeholder for TechStackGrid -->
-          <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-              Tech Stack Grid Placeholder
-          </div>
+          <TechStackGrid data={scanResult} isLoading={appState.isScanning} />
+          <WordPressScanner data={scanResult?.wp_analysis} isLoading={appState.isScanning} />
           
-          <!-- placeholder for SecurityHeadersList -->
-          <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-              Security Headers Checklist Placeholder
-          </div>
-
-          <!-- placeholder for WordPressScanner -->
-          <div class="lg:col-span-2 bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-              WordPress Vulnerability Scanner Placeholder
-          </div>
+          <!-- SecurityHeadersList already has col-span-full in its container -->
+          <SecurityHeadersList data={scanResult?.security_headers} isLoading={appState.isScanning} />
       </div>
   {/if}
 </div>

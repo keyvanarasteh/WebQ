@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [14] done, [3] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
+📈 **Progress Statistics:** [20] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -45,15 +45,15 @@
   - *Input:* Domain adı string'i.
   - *Output:* Tauri'den dönen `DomainDnsResult` (içinde `DnsRecords` objesi).
   - *Visualize:* Yatay Tabs menüsü (A, AAAA, MX, NS, SOA, TXT). İçerikler Data Grid şeklinde.
-- [ ] Component: `src/lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte`
+- [x] Component: `src/lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte`
   - *Input:* Seçilen DNS türüne ait satır verileri (örn. `Vec<String>`).
   - *Output:* Düzenli IP Adresleri ve Record değerleri.
   - *Visualize:* Obsidian/Neon theme, scrollable overflow table.
-- [ ] Component: `src/lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte`
+- [x] Component: `src/lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte`
   - *Input:* DMARC ve SPF değerleri.
   - *Output:* Güvenlik zafiyeti göstergeleri (DMARC policy missing vb).
   - *Visualize:* Kırmızı (Risk) / Yeşil (Safe) uyarı rozetleri (Badges).
-- [ ] Arkaplan: Rust Tauri Command `scan_domain_dns` fonksiyonu entegre edilecek.
+- [x] Arkaplan: Rust Tauri Command `scan_domain_dns` fonksiyonu entegre edilecek.
 - [ ] İhracat: Kayıtları JSON olarak panoya (Clipboard) kopyalama fonksiyonu `Cargo.toml -> tauri-plugin-clipboard-manager`.
 
 ### 2.3 SEO Analysis Modülü (`seo_analysis`) [Mimari ve UX Planı]
@@ -61,49 +61,49 @@
   - *Input:* Hedef Domain
   - *Output:* Tauri'den dönen `SeoAnalysisResult` objesi.
   - *Visualize:* Üstte `SeoScoreResult` Gauge Chart, altta Masonry Grid şeklinde alt paneller.
-- [ ] Component: `src/lib/components/intelligence/seo-analysis/BasicSeoOverview.svelte`
+- [x] Component: `src/lib/components/intelligence/seo-analysis/BasicSeoOverview.svelte`
   - *Input:* `BasicSeoResult` (TitleAnalysis, MetaDescAnalysis, HeadingInfo).
   - *Output:* SEO Title, Meta Description uzunluğu, kelime yoğunluğu (KeywordInfo).
   - *Visualize:* Missing Meta Description gibi hataları vurgulayan kırmızı "!" checklist.
-- [ ] Component: `src/lib/components/intelligence/seo-analysis/TechnicalSeoCard.svelte`
+- [x] Component: `src/lib/components/intelligence/seo-analysis/TechnicalSeoCard.svelte`
   - *Input:* `TechnicalSeoResult` (Robots.txt, Sitemap.xml, Canonical URLs).
   - *Output:* Teknik SEO postürü.
   - *Visualize:* Luxe Card içerisinde True/False bool checkmark ikonları.
-- [ ] Component: `src/lib/components/intelligence/seo-analysis/SocialMediaCard.svelte`
+- [x] Component: `src/lib/components/intelligence/seo-analysis/SocialMediaCard.svelte`
   - *Input:* `SocialMediaResult` (OpenGraph, Twitter Cards).
   - *Output:* Paylaşıldığında görünecek sosyal medya önizlemesi (Preview Box mock).
-- [ ] Arkaplan: Rust Tauri Command `scan_seo_analysis` modülü eklenecek.
+- [x] Arkaplan: Rust Tauri Command `scan_seo_analysis` modülü eklenecek.
 
 ### 2.4 Web Technologies Modülü (`web_technologies`) [Mimari ve UX Planı]
 - [x] Sayfa: `src/routes/recon/web-technologies/+page.svelte`
   - *Input:* URL / Domain
   - *Output:* Tauri `WebTechResult` parse edilecek.
-- [ ] Component: `src/lib/components/recon/web-technologies/TechStackGrid.svelte`
+- [x] Component: `src/lib/components/recon/web-technologies/TechStackGrid.svelte`
   - *Input:* Bulunan framework, dil ve sunucu listeleri.
   - *Output:* Nginx, PHP, React gibi teknoloji ağaçları.
   - *Visualize:* Her teknoloji için ikonlu neon badge grid.
-- [ ] Component: `src/lib/components/recon/web-technologies/WordPressScanner.svelte`
+- [x] Component: `src/lib/components/recon/web-technologies/WordPressScanner.svelte`
   - *Input:* `WordPressAnalysis` objesi ve `WpUser` listeleri.
   - *Output:* Versiyon tespiti, yüklü eklentiler/temalar ve enumeration user list.
-- [ ] Component: `src/lib/components/recon/web-technologies/SecurityHeadersList.svelte`
+- [x] Component: `src/lib/components/recon/web-technologies/SecurityHeadersList.svelte`
   - *Input:* `SecurityHeaderInfo`.
   - *Output:* Strict-Transport-Security, X-Frame-Options varlığı.
   - *Visualize:* Accordion halinde eksik header'ların CVSS skorlama tahminleri.
-- [ ] Arkaplan: Rust Tauri Command `scan_web_technologies` çağrısı entegre edilecek.
+- [x] Arkaplan: Rust Tauri Command `scan_web_technologies` çağrısı entegre edilecek.
 
 ### 2.5 Domain Validator Modülü (`domain_validator`) [Mimari ve UX Planı]
 - [x] Sayfa: `src/routes/recon/domain-validator/+page.svelte`
   - *Input:* Virgülle ayrılmış domain listesi veya txt dosyası yükleme (File Drop Zone).
   - *Output:* Toplu analiz çıktıları (`BulkValidationResult`).
-- [ ] Component: `src/lib/components/recon/domain-validator/ValidationStatsBar.svelte`
+- [x] Component: `src/lib/components/recon/domain-validator/ValidationStatsBar.svelte`
   - *Input:* `ValidationStats` (Total, valid, invalid, skipped).
   - *Output:* Canlı test progress bar.
   - *Visualize:* Percentage hesaplayan yeşil-kırmızı linear bar.
-- [ ] Component: `src/lib/components/recon/domain-validator/ValidationDataGrid.svelte`
+- [x] Component: `src/lib/components/recon/domain-validator/ValidationDataGrid.svelte`
   - *Input:* Her domain'in DNS, HTTP ve SSL validasyon durumu (`ValidationResult`).
   - *Output:* Table/Grid satırları.
   - *Visualize:* Her domain için 3 sütunlu "Checkmark" matrisi. Hatalı domain'ler soluklaşacak (opacity-50).
-- [ ] Arkaplan: Rust tarafında multi-threading (Tokio) kullanılarak toplu analiz başlatan `validate_bulk_domains` komutu eklenecek. Mümkünse stream (tauri event handler) üzerinden `%` (yüzde) bazlı aktarım sağlanacak.
+- [x] Arkaplan: Rust tarafında multi-threading (Tokio) kullanılarak toplu analiz başlatan `validate_bulk_domains` komutu eklenecek. Mümkünse stream (tauri event handler) üzerinden `%` (yüzde) bazlı aktarım sağlanacak.
 
 ## Faz 3: Reconnaissance (Keşif ve Zafiyet Tespiti)
 ### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`)

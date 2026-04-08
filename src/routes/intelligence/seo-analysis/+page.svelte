@@ -1,7 +1,9 @@
-<script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import { Search } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import BasicSeoOverview from '$lib/components/intelligence/seo-analysis/BasicSeoOverview.svelte';
+  import TechnicalSeoCard from '$lib/components/intelligence/seo-analysis/TechnicalSeoCard.svelte';
+  import SocialMediaCard from '$lib/components/intelligence/seo-analysis/SocialMediaCard.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<any>(null); // SeoAnalysisResult
@@ -49,20 +51,11 @@
 
   {#if scanResult || appState.isScanning}
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- placeholder for BasicSeoOverview -->
-          <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-              Basic SEO Overview Placeholder
-          </div>
+          <BasicSeoOverview data={scanResult?.basic} isLoading={appState.isScanning} />
           
-          <!-- placeholder for TechnicalSeoCard -->
-          <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-              Technical SEO Card Placeholder
-          </div>
+          <TechnicalSeoCard data={scanResult?.technical} isLoading={appState.isScanning} />
 
-          <!-- placeholder for SocialMediaCard -->
-          <div class="bg-[#09090b] border border-[#27272a] p-6 rounded-xl text-gray-500">
-              Social Media Graph Placeholder
-          </div>
+          <SocialMediaCard data={scanResult?.social} isLoading={appState.isScanning} />
       </div>
   {/if}
 </div>
