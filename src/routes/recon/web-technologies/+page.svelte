@@ -1,4 +1,5 @@
-  import { appState } from '$lib/stores/AppState.svelte';
+<script lang="ts">
+    import { appState } from '$lib/stores/AppState.svelte';
   import { Search } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import TechStackGrid from '$lib/components/recon/web-technologies/TechStackGrid.svelte';

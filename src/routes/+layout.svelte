@@ -5,7 +5,7 @@
   import { setLanguageTag } from "$lib/paraglide/runtime";
 
   if (typeof localStorage !== "undefined") {
-      setLanguageTag(localStorage.getItem('webq-lang') || 'en');
+      setLanguageTag((localStorage.getItem('webq-lang') || 'en') as "en" | "tr");
   }
 
   let { children } = $props();

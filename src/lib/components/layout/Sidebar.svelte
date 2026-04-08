@@ -1,5 +1,6 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
+    // @ts-expect-error SvelteKit generated module not playing nice with TS ambient types sometimes
     import { resolve } from '$app/paths';
     import { Shield, Target, Search, Settings, Network } from 'lucide-svelte';
 

@@ -1,4 +1,5 @@
-  import { appState } from '$lib/stores/AppState.svelte';
+<script lang="ts">
+    import { appState } from '$lib/stores/AppState.svelte';
   import { Search, UploadCloud } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import ValidationStatsBar from '$lib/components/recon/domain-validator/ValidationStatsBar.svelte';
