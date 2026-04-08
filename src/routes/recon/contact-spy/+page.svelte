@@ -102,6 +102,7 @@
 
 <!-- Slide-over Educational Guide -->
 {#if showGuide}
+	<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 	<div class="fixed inset-0 z-50 flex justify-end">
 		<div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick={() => showGuide = false}></div>
 		<div class="relative z-50 h-full max-w-sm w-full animate-in slide-in-from-right-full duration-300">
