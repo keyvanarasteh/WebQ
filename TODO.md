@@ -1,97 +1,173 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [0] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
+📈 **Progress Statistics:** [21] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
 - [x] Git depositörü, Remote ve `.gitignore` ayarlandı.
-- [ ] Tauri v2 iskeleti kurulacak (`cargo tauri init`).
-- [ ] Svelte 5 (Vite) iskeleti kurulacak.
-- [ ] Tailwind CSS v4 ve typography/forms eklentileri ayarlanacak.
+- [x] Tauri v2 iskeleti kurulacak (`cargo tauri init`).
+- [x] Svelte 5 (Vite) iskeleti kurulacak.
+- [x] Tailwind CSS v4 ve typography/forms eklentileri ayarlanacak.
 - [ ] Shadcn/Bits UI (veya Luxe UI / Qix UI) kütüphanesi Svelte 5'e uygun entegre edilecek.
-- [ ] `web-analyzer` bağımlılığı Cargo.toml'a (`all-features` ile) eklenecek.
-- [ ] `reqwest`, `tokio`, `serde_json` gibi temel Rust bağımlılıkları ayarlanacak.
-- [ ] Routing mimarisi (SvelteKit veya SPA Router) kurulacak.
-- [ ] Genel Siber Güvenlik Teması (Obsidian/Neon) Svelte global CSS'ine (app.css) eklenecek.
-- [ ] AppError (Tauri hata yönetimi) `Result<T, String>` kalıpları yazılacak.
-- [ ] Global Store (Runes `$state`) class'ları oluşturulacak (`AppState.svelte.ts`).
-- [ ] Tauri `Window::emit` dinleyicileri (Listener) için ortak Svelte fonksiyonları yazılacak.
-- [ ] Global Layout (Sidebar, Topbar) iskeleti oluşturulacak.
-- [ ] Dark Mode / Theme toggle butonu eklenecek.
-- [ ] Export (PDF, CSV, JSON) veri kaydetme mekanizmasının iskeleti yazılacak.
-- [ ] Settings (Ayarlar) sayfası ve config.json okuma/yazma servisleri hazırlanacak.
+- [x] `web-analyzer` bağımlılığı Cargo.toml'a (`all-features` ile) eklenecek.
+- [x] `reqwest`, `tokio`, `serde_json` gibi temel Rust bağımlılıkları ayarlanacak.
+- [x] Routing mimarisi (SvelteKit veya SPA Router) kurulacak.
+- [x] Genel Siber Güvenlik Teması (Obsidian/Neon) Svelte global CSS'ine (app.css) eklenecek.
+- [x] AppError (Tauri hata yönetimi) `Result<T, String>` kalıpları yazılacak.
+- [x] Global Store (Runes `$state`) class'ları oluşturulacak (`AppState.svelte.ts`).
+- [x] Tauri `Window::emit` dinleyicileri (Listener) için ortak Svelte fonksiyonları yazılacak.
+- [x] Global Layout (Sidebar, Topbar) iskeleti oluşturulacak.
+- [x] Dark Mode / Theme toggle butonu eklenecek.
+- [x] Export (PDF, CSV, JSON) veri kaydetme mekanizmasının iskeleti yazılacak.
+- [x] Settings (Ayarlar) sayfası ve config.json okuma/yazma servisleri hazırlanacak.
 
 ## Faz 2: Intelligence Gathering (İstihbarat)
-### 2.1 Domain Info Modülü (`domain_info`)
-- [ ] Arka plan: `get_domain_info` fonksiyonunu wrap eden Tauri Command yazılacak.
-- [ ] UI: Domain arama çubuğu ve ana Dashboard Grid tasarımı.
-- [ ] Veri: IP (IPv4/IPv6) parse edilip Svelte state'e yedirilecek.
-- [ ] Component: WHOIS bilgileri (Kayıt tarihi, Son kullanım, Registrar) Data Table olarak çizilecek.
-- [ ] Component: SSL Sertifika Detayları (Açılış/Bitiş, Issuer) için Gauge ve Metric Card'lar eklenecek.
-- [ ] Component: Açık Portlar için Interactive Matrix (Grid) bileşeni hazırlanacak.
-- [ ] Frontend: WHOIS sorgusu sırasında çalışan Matrix Loading animasyonu eklenecek.
-- [ ] Hata yönetimi (Timeout, No Route to Host) ayarlanacak.
-- [ ] Security Score, 100 üzerinden Gauge Chart (Doughnut) formatında görselleştirilecek.
+### 2.1 Domain Info Modülü (`domain_info`) [Mimari ve UX Planı]
+- [x] Sayfa: `src/routes/intelligence/domain-info/+page.svelte` (Ana Dashboard)
+  - *Input:* Kullanıcıdan alınan hedef `domain` string'i.
+  - *Output:* Tauri `invoke` aracılığıyla arka plandan gelen `DomainInfoResult` objesi (`JSON`).
+  - *Visualize:* En üstte multi-language arama çubuğu, altında responsive (Mobile: 1 column, Desktop: 2-3 column) CSS Grid veri panelleri. Karanlık/Aydınlık tema ile duyarlı (adaptive) renkler.
+- [x] Component: `src/lib/components/intelligence/domain-info/DomainOverview.svelte`
+  - *Input:* `whois`, `ipv4`, `web_server`, `response_time_ms`.
+  - *Output:* Registrar, Kayıt Tarihi, IP Lokasyonu, Hizmet Veren Sunucu Tipi (Nginx vs).
+  - *Visualize:* Verileri "Key-Value" Metric Grid formatında (ikili satırlar halinde) gösteren Neon Glow kenarlıklı Luxe Card tasarımı.
+- [x] Component: `src/lib/components/intelligence/domain-info/SslStatus.svelte`
+  - *Input:* `ssl` objesi (`status`, `issuer`, `days_until_expiry`, `protocol_version`).
+  - *Output:* Sertifika ömrü, yayınlayan otorite (Let's encrypt vb).
+  - *Visualize:* Kalan gün sayısını 365 gün üzerinden oranlayan Dairesel (Doughnut) Gauge grafiği. Kalan güne göre yeşil, sarı veya kırmızı progres.
+- [x] Component: `src/lib/components/intelligence/domain-info/PortSecurityMatrix.svelte`
+  - *Input:* `open_ports`, `security`, `security_score`.
+  - *Output:* 100 üzerinden animasyonlu genel güvenlik skoru, eksik HTTPS veya Firewall kuralları yüzünden tespit edilen açık port listesi.
+  - *Visualize:* NumberFlow ile artan animasyonlu 0-100 skoru. Açık portlar için Grid: 80/443 yeşil, tehlikeli olanlar (21, 22, 3306) kırmızı yanıp sönen noktalar (ping animation).
+- [ ] Arkaplan: Rust Tauri Command `scan_domain_info` fonksiyonu `web_analyzer::domain_info`'yu asenkron Tokio thread'inde çağıracak. Hata yönetimi Paraglide ile lokalize edilip Svelte-Sonner toast olarak verilecek.
 
-### 2.2 Domain DNS Modülü (`domain_dns`)
-- [ ] Arka plan: A, AAAA, MX, NS, SOA, TXT, CNAME query'lerini çeken Tauri Command.
-- [ ] UI: DNS Kayıtları (Records) için sekmeli (Tabbed) bir görünüm eklenecek.
-- [ ] Component: TXT kayıtları (SPF, DMARC) güvenlik doğrulamaları özel badge'lerle gösterilecek.
-- [ ] Component: SOA ve MX sunucularının listeleneceği satır renkli Data Grid eklenecek.
-- [ ] Frontend: DNS çözümleme esnasında "Resolving..." skeleton loader'ları geliştirilecek.
-- [ ] Export: DNS Kayıtlarının JSON formatında kopyalanması için "Copy to Clipboard" butonu.
+### 2.2 Domain DNS Modülü (`domain_dns`) [Mimari ve UX Planı]
+- [x] Sayfa: `src/routes/intelligence/domain-dns/+page.svelte` (Tabbed DNS View)
+  - *Input:* Domain adı string'i.
+  - *Output:* Tauri'den dönen `DomainDnsResult` (içinde `DnsRecords` objesi).
+  - *Visualize:* Yatay Tabs menüsü (A, AAAA, MX, NS, SOA, TXT). İçerikler Data Grid şeklinde.
+- [x] Component: `src/lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte`
+  - *Input:* Seçilen DNS türüne ait satır verileri (örn. `Vec<String>`).
+  - *Output:* Düzenli IP Adresleri ve Record değerleri.
+  - *Visualize:* Obsidian/Neon theme, scrollable overflow table.
+- [x] Component: `src/lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte`
+  - *Input:* DMARC ve SPF değerleri.
+  - *Output:* Güvenlik zafiyeti göstergeleri (DMARC policy missing vb).
+  - *Visualize:* Kırmızı (Risk) / Yeşil (Safe) uyarı rozetleri (Badges).
+- [x] Arkaplan: Rust Tauri Command `scan_domain_dns` fonksiyonu entegre edilecek.
+- [ ] İhracat: Kayıtları JSON olarak panoya (Clipboard) kopyalama fonksiyonu `Cargo.toml -> tauri-plugin-clipboard-manager`.
 
-### 2.3 SEO Analysis Modülü (`seo_analysis`)
-- [ ] Arka plan: 13 kategorilik SEO tarayıcısını başlatan komut yazılacak.
-- [ ] UI: SEO Overview kartları (Performance, Accessibility, Best Practices, SEO).
-- [ ] Component: Robot.txt ve Sitemap.xml dedektörleri UI'da gösterilecek.
-- [ ] Component: Meta etiketleri, OpenGraph ve Twitter card analizlerini gösteren Accordion eklenecek.
-- [ ] Component: Schema yönlendirme (Markup) tabloları.
-- [ ] Component: 13 tracking aracı (Google Analytics, Pixels vb.) tespiti için liste.
-- [ ] Frontend: Sayfadaki H1-H6 hiyerarşisini görselleyen ağaç (Tree) view.
+### 2.3 SEO Analysis Modülü (`seo_analysis`) [Mimari ve UX Planı]
+- [x] Sayfa: `src/routes/intelligence/seo-analysis/+page.svelte`
+  - *Input:* Hedef Domain
+  - *Output:* Tauri'den dönen `SeoAnalysisResult` objesi.
+  - *Visualize:* Üstte `SeoScoreResult` Gauge Chart, altta Masonry Grid şeklinde alt paneller.
+- [x] Component: `src/lib/components/intelligence/seo-analysis/BasicSeoOverview.svelte`
+  - *Input:* `BasicSeoResult` (TitleAnalysis, MetaDescAnalysis, HeadingInfo).
+  - *Output:* SEO Title, Meta Description uzunluğu, kelime yoğunluğu (KeywordInfo).
+  - *Visualize:* Missing Meta Description gibi hataları vurgulayan kırmızı "!" checklist.
+- [x] Component: `src/lib/components/intelligence/seo-analysis/TechnicalSeoCard.svelte`
+  - *Input:* `TechnicalSeoResult` (Robots.txt, Sitemap.xml, Canonical URLs).
+  - *Output:* Teknik SEO postürü.
+  - *Visualize:* Luxe Card içerisinde True/False bool checkmark ikonları.
+- [x] Component: `src/lib/components/intelligence/seo-analysis/SocialMediaCard.svelte`
+  - *Input:* `SocialMediaResult` (OpenGraph, Twitter Cards).
+  - *Output:* Paylaşıldığında görünecek sosyal medya önizlemesi (Preview Box mock).
+- [x] Arkaplan: Rust Tauri Command `scan_seo_analysis` modülü eklenecek.
 
-### 2.4 Web Technologies Modülü (`web_technologies`)
-- [ ] Arka plan: Teknolojik yığını parmak izini çıkaran Tauri Command yazılacak.
-- [ ] State: Gelen verideki 16 kategorinin parse edilmesi işlemleri.
-- [ ] UI: Kategoriler (Server, Backend, Frontend, CMS vs.) için Flex/Wrap Layout.
-- [ ] Component: Her bir teknoloji (React, Nginx, PHP vb.) için teknoloji ikonları barındıran Badge (Çip) bileşenleri.
-- [ ] Component: WordPress özel analizi (Tema, Plugin, User Enumeration) için ayrı bir Detail Modal eklenecek.
-- [ ] Component: Tespit edilen CDN (Cloudflare, Akamai vb.) ve E-Ticaret altyapılarının (Shopify, Magento) uyarıları.
-- [ ] Frontend: Parmak izi alınamadığında "Unknown/Not Detected" fallback state tasarımları.
-- [ ] Veri: Bulunan teknolojilerin CVSS vulnerability listesiyle cross-check yapılması.
+### 2.4 Web Technologies Modülü (`web_technologies`) [Mimari ve UX Planı]
+- [x] Sayfa: `src/routes/recon/web-technologies/+page.svelte`
+  - *Input:* URL / Domain
+  - *Output:* Tauri `WebTechResult` parse edilecek.
+- [x] Component: `src/lib/components/recon/web-technologies/TechStackGrid.svelte`
+  - *Input:* Bulunan framework, dil ve sunucu listeleri.
+  - *Output:* Nginx, PHP, React gibi teknoloji ağaçları.
+  - *Visualize:* Her teknoloji için ikonlu neon badge grid.
+- [x] Component: `src/lib/components/recon/web-technologies/WordPressScanner.svelte`
+  - *Input:* `WordPressAnalysis` objesi ve `WpUser` listeleri.
+  - *Output:* Versiyon tespiti, yüklü eklentiler/temalar ve enumeration user list.
+- [x] Component: `src/lib/components/recon/web-technologies/SecurityHeadersList.svelte`
+  - *Input:* `SecurityHeaderInfo`.
+  - *Output:* Strict-Transport-Security, X-Frame-Options varlığı.
+  - *Visualize:* Accordion halinde eksik header'ların CVSS skorlama tahminleri.
+- [x] Arkaplan: Rust Tauri Command `scan_web_technologies` çağrısı entegre edilecek.
 
-### 2.5 Domain Validator Modülü (`domain_validator`)
-- [ ] Arka plan: Bulk domain yükleme ve paralel test `tokio` kanallarına aktarımı.
-- [ ] UI: Dosyadan içeri aktarma (.txt, .csv) için Drag & Drop alanı.
-- [ ] Component: Paralel doğrulama (DNS + HTTP + SSL) süreçlerini gösteren Canlı Progress Bar.
-- [ ] Component: Bulk operasyon sonuçlarını listeleyen Virtualized List Veya Data Table.
-- [ ] Component: Taranan domainlerin canlı olarak Geçerli (Valid), Geçersiz (Invalid), Atlandı (Skipped) durum badge'leri.
-- [ ] Frontend: 34 skip limit aşımı uyarısı (Rate-limit) toast bildirimleri.
+### 2.5 Domain Validator Modülü (`domain_validator`) [Mimari ve UX Planı]
+- [x] Sayfa: `src/routes/recon/domain-validator/+page.svelte`
+  - *Input:* Virgülle ayrılmış domain listesi veya txt dosyası yükleme (File Drop Zone).
+  - *Output:* Toplu analiz çıktıları (`BulkValidationResult`).
+- [x] Component: `src/lib/components/recon/domain-validator/ValidationStatsBar.svelte`
+  - *Input:* `ValidationStats` (Total, valid, invalid, skipped).
+  - *Output:* Canlı test progress bar.
+  - *Visualize:* Percentage hesaplayan yeşil-kırmızı linear bar.
+- [x] Component: `src/lib/components/recon/domain-validator/ValidationDataGrid.svelte`
+  - *Input:* Her domain'in DNS, HTTP ve SSL validasyon durumu (`ValidationResult`).
+  - *Output:* Table/Grid satırları.
+  - *Visualize:* Her domain için 3 sütunlu "Checkmark" matrisi. Hatalı domain'ler soluklaşacak (opacity-50).
+- [x] Arkaplan: Rust tarafında multi-threading (Tokio) kullanılarak toplu analiz başlatan `validate_bulk_domains` komutu eklenecek. Mümkünse stream (tauri event handler) üzerinden `%` (yüzde) bazlı aktarım sağlanacak.
+
+### 2.6 Localization & Multi-Language
+- [x] Paraglide-js EN/TR (Multi-language) entegrasyonu WebTech, Domain Validator ve SEO Analysis modülleri için tamamlanacak.
 
 ## Faz 3: Reconnaissance (Keşif ve Zafiyet Tespiti)
-### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`)
-- [ ] Arka plan: `subfinder` çağrısını yapan, asenkron Subdomain keşfi başlatan Komut.
-- [ ] State: TLD parçalama işlemleri ve hiyerarşik JSON dönüşümü.
-- [ ] UI: Bulunan subdomain'leri Liste ve File-Tree hiyerarşisinde render edilmesi.
-- [ ] Component: Kapsamlı (Wildcard) tespit edilen hedeflerin yıldızla (*) belirtilmesi.
-- [ ] Component: Keşfedilen her subdomain satırında "Tarama Başlat" hızlı ping aksiyon butonu.
-- [ ] Frontend: Alt alan adı bulunma animasyonu (Matrix style stream).
-- [ ] Export: Subdomain listesinin txt olarak çekilmesi.
+### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`) [Mimari ve UX Planı]
+- [ ] Sayfa: `src/routes/recon/subdomain-discovery/+page.svelte` (Tabbed View)
+  - *Input:* Hedef Domain
+  - *Output:* Tauri'den dönen `SubdomainInfoResult` objesi (liste ve ağaç).
+  - *Visualize:* Karanlık uzay/Neon UI ile Subdomain Tree (Hiyerarşik Dosya Sistemi görünümü) ve List View özellikleri.
+- [ ] Component: `src/lib/components/recon/subdomain-discovery/SubdomainTree.svelte`
+  - *Input:* TLD parçalanmış hiyerarşik JSON dönüşümü.
+  - *Output:* Collapsible (Daraltılabilir) ağaç yapısında subdomain'ler.
+  - *Visualize:* Her node için icon, wildcard (*) gösterimi, ağaç dalları çizgileri.
+- [ ] Component: `src/lib/components/recon/subdomain-discovery/SubdomainGrid.svelte`
+  - *Input:* Keşfedilen tüm subdomain'lerin düz listesi.
+  - *Output:* "Tarama Başlat", "Ping", "Copy" hızlı aksiyon butonları olan tablo satırları.
+  - *Visualize:* Her subdomain satırında animasyonlu (Matrix style stream) bulunma göstergesi.
+- [ ] Component: `src/lib/components/recon/guides/SubdomainGuide.svelte`
+  - *İçerik:* SecOps ve Güvenli web geliştirme açısından açıkta kalan subdomain'lerin (Dangling Subdomain Takeover) tehlikeleri.
+- [ ] Arkaplan: Rust Tauri Command `scan_subdomains` asenkron Subdomain keşfi.
+- [ ] İhracat: Subdomain listesinin txt ve JSON olarak dışa aktarımı.
+- [ ] Multi-language: Eğitim modalları dahil tüm statik metinlerin `m.*` ile (Paraglide-js EN/TR) çevrilmesi.
 
-### 3.2 Contact Spy Modülü (`contact_spy`)
-- [ ] Arka plan: BFS Crawl motorunu başlatan ve contact extraction yapan komut.
-- [ ] UI: Hedef siteden Email, Telefon numaraları ve Sosyal Medya (15 platform) linklerini ayrıştıran Grid.
-- [ ] Component: E-postalarda "Role-based" (info@, admin@) vs. "Personal" ayrımını görselleştiren liste.
-- [ ] Component: Açık kaynaklı istihbarattan (OSINT) elde edilen sosyal profil icon box'ları.
-- [ ] Frontend: Crawling (tarama) sırasında BFS deepth-level (Derinlik seviyesi) göstergesi.
-- [ ] Veri: Çekilen numaraların format doğrulama işaretleri (Checkmark).
+### 3.2 Contact Spy Modülü (`contact_spy`) [Mimari ve UX Planı]
+- [ ] Sayfa: `src/routes/recon/contact-spy/+page.svelte`
+  - *Input:* Hedef URL / Toplu URL listesi.
+  - *Output:* Tauri `ContactSpyResult` (E-postalar, Telefon Numaraları, Sosyal Profiller).
+  - *Visualize:* Ekranın solunda OSINT kartları, sağında veri tablosu içeren Masonry Grid tasarımı.
+- [ ] Component: `src/lib/components/recon/contact-spy/EmailHarvester.svelte`
+  - *Input:* Çıkarılan e-posta listesi.
+  - *Output:* "Role-based" (info@, admin@) vs "Personal" ayrımı yapan istatistiksel liste.
+  - *Visualize:* Rol tabanlıysa kırmızı rozet (Hedefli Phishing riski!), kişiselse mavi rozet.
+- [ ] Component: `src/lib/components/recon/contact-spy/SocialOsintBox.svelte`
+  - *Input:* Çekilen sosyal medya bağlantıları (LinkedIn, Github, Twitter vb).
+  - *Output:* Açık kaynak istihbarat profil bağlantıları.
+  - *Visualize:* İlgili platformun marka ikonu (Lucide veya Custom SVG) ile aydınlatılmış (glow) icon box'ları.
+- [ ] Component: `src/lib/components/recon/contact-spy/CrawlingConsole.svelte`
+  - *Input:* Tarama logları ve derinlik (BFS Depth-Level).
+  - *Output:* Canlı tarama hızı, işlem yapılan sayfa sayısı.
+  - *Visualize:* Matrix temalı saniyede kayan console satırları.
+- [ ] Component: `src/lib/components/recon/guides/ContactSpyGuide.svelte`
+  - *İçerik:* Açıkta bırakılan personel bilgileri, Phishing vektörleri ve veri maskeleme eğitim materyali.
+- [ ] Arkaplan: Rust BFS Crawl motorunu (tokio/reqwest) başlatan komut.
+- [ ] Multi-language: Bileşenlerdeki statik string'lerin Paraglide (EN/TR) ile lokalize edilmesi.
 
-### 3.3 Advanced Content Scanner (`advanced_content_scanner`)
-- [ ] Arka plan: 24 secret paterni ve dizin (directory) tarayıcısını entegre eden komut.
-- [ ] UI: Çok yoğun veriyi kilitlenmeden gösterecek Console/Terminal Component tasarımı.
-- [ ] Component: Hassas dosya (Sensitive files) (.env, .git, config) uyarıları için Kırmızı Kritik Alert barları.
-- [ ] Component: SSRF ve JS Vuln testlerinin çıktılarının döküleceği satır renkli log tablosu.
-- [ ] Frontend: Scroll-lock (Auto-scroll to bottom) özelliği olan Log Stream.
-- [ ] Export: Açıkların "Vulnerability Report" biçiminde Dışa Aktarımı.
+### 3.3 Advanced Content Scanner (`advanced_content_scanner`) [Mimari ve UX Planı]
+- [ ] Sayfa: `src/routes/recon/content-scanner/+page.svelte`
+  - *Input:* URL ve Tarama Derinliği parametreleri.
+  - *Output:* `ContentScanSummary` (Secret keys, exposed files, JS vulnerabilities).
+  - *Visualize:* Terminal tabanlı, scroll-lock mekanizmalı log stream ağırlıklı karanlık hacker teması (Obsidian).
+- [ ] Component: `src/lib/components/recon/content-scanner/SensitiveFilesAlert.svelte`
+  - *Input:* Bulunan `.env`, `.git`, `config.php` gibi dosyalar.
+  - *Output:* Kırmızı Alarm kritik uyarı barları (Alert Components).
+  - *Visualize:* Kalp atışı (Pulse/Ping) animasyonu ile acil eylem gerektiren dosyaların vurgulanması.
+- [ ] Component: `src/lib/components/recon/content-scanner/VulnerabilityLogTable.svelte`
+  - *Input:* SSRF, JS analiz sonuçları.
+  - *Output:* Renklendirilmiş (Kritik: Kırmızı, Medium: Sarı) güvenlik log tablosu.
+  - *Visualize:* Hızlı arama / Filtreleme segmentleri olan Data Grid.
+- [ ] Component: `src/lib/components/recon/guides/ContentScannerGuide.svelte`
+  - *İçerik:* GitHub dorks, Exposed Environment Variables (Secret sızıntıları) risklerini anlatan educational modal.
+- [ ] Arkaplan: 24 secret paterni (Regex) ve dizin bruit-force (Directory Busting) altyapısı entegrasyonu.
+- [ ] İhracat: PDF/JSON formatında Vulnerability Report ihracatı.
+- [ ] Multi-language: UI bileşenlerinin ve uyarıların Paraglide `m.*` dil dosyalarına eklenmesi.
 
 ## Faz 4: Security Assessment (Gelişmiş Güvenlik Değerlendirmesi)
 ### 4.1 Security Analysis Modülü (`security_analysis`)

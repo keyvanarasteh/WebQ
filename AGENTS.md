@@ -33,4 +33,12 @@
     <rule id="FE-05" severity="required">Navigation: Strictly wrap internal path logic using SvelteKit's `$app/paths` `resolve()` when routing.</rule>
   </section>
 
+  <!-- ═══════════════════════════════════════════════════════════
+       DEVELOPMENT PROGRESS REPORTING & PLANNING
+  ═══════════════════════════════════════════════════════════ -->
+  <section id="dev-progress" source="gemini-directives">
+    <rule id="DEV-01" severity="required">All progress MUST include structured Tasks and an implementation plan. Agents are required to rigorously break down UI and backend features before coding.</rule>
+    <rule id="DEV-02" severity="required">Throughout the development process, `TODO.md` MUST be updated continuously with detailed architectures and planning to help the user decide the next steps.</rule>
+  </section>
+
 </rules>
