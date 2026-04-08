@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme {
+  --color-qix-obsidian: #09090b;
+  --color-qix-neon: #22d3ee;
+}

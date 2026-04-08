@@ -1,24 +1,24 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [0] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
+📈 **Progress Statistics:** [10] done, [7] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
 - [x] Git depositörü, Remote ve `.gitignore` ayarlandı.
-- [ ] Tauri v2 iskeleti kurulacak (`cargo tauri init`).
-- [ ] Svelte 5 (Vite) iskeleti kurulacak.
-- [ ] Tailwind CSS v4 ve typography/forms eklentileri ayarlanacak.
+- [x] Tauri v2 iskeleti kurulacak (`cargo tauri init`).
+- [x] Svelte 5 (Vite) iskeleti kurulacak.
+- [x] Tailwind CSS v4 ve typography/forms eklentileri ayarlanacak.
 - [ ] Shadcn/Bits UI (veya Luxe UI / Qix UI) kütüphanesi Svelte 5'e uygun entegre edilecek.
-- [ ] `web-analyzer` bağımlılığı Cargo.toml'a (`all-features` ile) eklenecek.
+- [x] `web-analyzer` bağımlılığı Cargo.toml'a (`all-features` ile) eklenecek.
 - [ ] `reqwest`, `tokio`, `serde_json` gibi temel Rust bağımlılıkları ayarlanacak.
 - [ ] Routing mimarisi (SvelteKit veya SPA Router) kurulacak.
 - [ ] Genel Siber Güvenlik Teması (Obsidian/Neon) Svelte global CSS'ine (app.css) eklenecek.
-- [ ] AppError (Tauri hata yönetimi) `Result<T, String>` kalıpları yazılacak.
-- [ ] Global Store (Runes `$state`) class'ları oluşturulacak (`AppState.svelte.ts`).
-- [ ] Tauri `Window::emit` dinleyicileri (Listener) için ortak Svelte fonksiyonları yazılacak.
-- [ ] Global Layout (Sidebar, Topbar) iskeleti oluşturulacak.
-- [ ] Dark Mode / Theme toggle butonu eklenecek.
-- [ ] Export (PDF, CSV, JSON) veri kaydetme mekanizmasının iskeleti yazılacak.
-- [ ] Settings (Ayarlar) sayfası ve config.json okuma/yazma servisleri hazırlanacak.
+- [x] AppError (Tauri hata yönetimi) `Result<T, String>` kalıpları yazılacak.
+- [x] Global Store (Runes `$state`) class'ları oluşturulacak (`AppState.svelte.ts`).
+- [x] Tauri `Window::emit` dinleyicileri (Listener) için ortak Svelte fonksiyonları yazılacak.
+- [x] Global Layout (Sidebar, Topbar) iskeleti oluşturulacak.
+- [x] Dark Mode / Theme toggle butonu eklenecek.
+- [x] Export (PDF, CSV, JSON) veri kaydetme mekanizmasının iskeleti yazılacak.
+- [x] Settings (Ayarlar) sayfası ve config.json okuma/yazma servisleri hazırlanacak.
 
 ## Faz 2: Intelligence Gathering (İstihbarat)
 ### 2.1 Domain Info Modülü (`domain_info`)
