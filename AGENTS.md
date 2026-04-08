@@ -31,6 +31,8 @@
     <rule id="FE-03" severity="required">Every `{#each}` block MUST use a key: `{#each items as item (item.id)}`. Svelte compiler arrays will warn otherwise.</rule>
     <rule id="FE-04" severity="required">Type safety: Use TypeScript strictly. No `any` types allowed for props, snippet parameters or event handlers.</rule>
     <rule id="FE-05" severity="required">Navigation: Strictly wrap internal path logic using SvelteKit's `$app/paths` `resolve()` when routing.</rule>
+    <rule id="FE-06" severity="required">Avoid `@const` invalid placement: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/const_invalid_placement.md` to prevent compilation errors.</rule>
+    <rule id="FE-07" severity="required">Avoid module resolution errors: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/sveltekit_tsconfig_paths.md` for tsconfig alias handling constraints.</rule>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════

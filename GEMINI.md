@@ -11,6 +11,11 @@ Bu belge, **WebQ** (Cross-platform Web İstihbarat ve Siber Güvenlik İnceleme 
 - **Reaktif Performans (Veri Yoğunluğu):** Tarama sonuçları (örn: binlerce port, DNS kaydı veya API endpointi) saniye başına akarken DOM güncellemelerini kilitlememek için listelemelerde her `{#each}` dögüsüne mutlak suretle eşsiz `(key)` tanımlaması yapın.
 - **Strict Typing:** TypeScript kullanımında değişkenlerde veya interfacelerde `any` kullanımı kesinlikle kabul edilemez.
 
+## 2.1 Svelte 5 & SvelteKit Hata Çözüm Direktifleri (Rules)
+Gelecek implementasyonlarda derleme (build) aşamasında çıkan Svelte hatalarını engellemek için aşağıdaki .agents kural dosyalarına mutlaka uyulmalıdır:
+- **`@const` Invalid Placement Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/const_invalid_placement.md` (Svelte 5'te `@const` etiketinin div vb. generic elementler içerisine değil, doğrudan {#each} altına veya `<script>` içerisinde `$derived` ile tanımlanması gereklidir).
+- **`$app/paths` Module Not Found Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/sveltekit_tsconfig_paths.md` (Vite / SvelteKit projelerinde `tsconfig.json` içerisinde `"paths"` override edilmemeli, path alias'lar `svelte.config.js` üzerinden `kit.alias` bloğunda tanımlanmalıdır).
+
 ## 3. Rust, Tauri v2 & `web-analyzer` (Backend)
 - **Güvenlik ve Analiz Motoru:** Bütün altyapı DrVoid (Keyvan Arasteh) tarıfından geliştirilen açık kaynaklı `web-analyzer` Crate'i üzerine bina edilecek. Kullanılacak potansiyel feature flagler: `domain-info`, `subdomain-discovery`, `security-analysis`, `nmap-zero-day` vb. 
 - **Asenkron Optimizasyon:** Kapsamlı tarama ve keşif işlemleri donanım ve ağı zorlayacaktır. Kesinlikle `std::fs` vb. bloklayıcılar olmadan `tokio::spawn` ile tam asenkron kanallar kurulmalı, Backend Tauri UI loop'unu tıkamadan çalışmalıdır.
