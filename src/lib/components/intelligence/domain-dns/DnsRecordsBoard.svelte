@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Info } from 'lucide-svelte';
+  import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
   type DnsRecordsMap = {
       a: string[];
       aaaa: string[];
@@ -16,13 +18,19 @@
 
   let { records, isLoading }: Props = $props();
   
+  let isGuideOpen = $state(false);
   let activeTab = $state('A');
   const tabs = ['A', 'AAAA', 'MX', 'NS', 'SOA', 'TXT', 'CNAME'];
 </script>
 
 <div class="bg-white/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm dark:shadow-md transition-all h-full">
+  <DnsGuide bind:isOpen={isGuideOpen} />
+  
   <div class="flex items-center justify-between mb-4 border-b border-[#27272a] pb-2">
-      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">DNS Records</h3>
+      <div class="flex items-center gap-2">
+          <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">DNS Records</h3>
+          <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+      </div>
   </div>
 
   {#if isLoading}

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Info } from 'lucide-svelte';
+  import TechStackGuide from '$lib/components/recon/guides/TechStackGuide.svelte';
   type WebTechResult = {
       server: string | null;
       powered_by: string | null;
@@ -7,10 +9,16 @@
   };
   
   let { data, isLoading } = $props<{ data: WebTechResult | undefined, isLoading: boolean }>();
+  let isGuideOpen = $state(false);
 </script>
 
 <div class="bg-gray-50/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm">
-  <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400 mb-4">Core Technology Stack</h3>
+  <TechStackGuide bind:isOpen={isGuideOpen} />
+  
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">Core Technology Stack</h3>
+      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+  </div>
   
   {#if isLoading}
     <div class="grid grid-cols-2 gap-4 animate-pulse">

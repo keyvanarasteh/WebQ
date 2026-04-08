@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Info } from 'lucide-svelte';
+  import SeoGuide from '$lib/components/recon/guides/SeoGuide.svelte';
   type BasicSeoResult = {
       title: string;
       description: string;
@@ -8,10 +10,16 @@
   };
 
   let { data, isLoading } = $props<{ data: BasicSeoResult | undefined, isLoading: boolean }>();
+  let isGuideOpen = $state(false);
 </script>
 
 <div class="bg-white/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm h-full">
-  <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400 mb-4">Basic Meta Data</h3>
+  <SeoGuide bind:isOpen={isGuideOpen} />
+  
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">Basic Meta Data</h3>
+      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+  </div>
   
   {#if isLoading}
     <div class="space-y-4 animate-pulse">

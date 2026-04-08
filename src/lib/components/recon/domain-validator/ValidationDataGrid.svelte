@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Info } from 'lucide-svelte';
+  import ValidatorGuide from '$lib/components/recon/guides/ValidatorGuide.svelte';
   type ValidationResult = {
       domain: string;
       is_valid: boolean;
@@ -8,11 +10,17 @@
   };
   
   let { results, isLoading } = $props<{ results: ValidationResult[] | undefined, isLoading: boolean }>();
+  let isGuideOpen = $state(false);
 </script>
 
 <div class="bg-white/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl overflow-hidden shadow-sm">
+   <ValidatorGuide bind:isOpen={isGuideOpen} />
+   
    <div class="p-6 border-b border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#121214] flex justify-between items-center">
-       <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">Bulk Verification Ledger</h3>
+       <div class="flex items-center gap-2">
+           <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">Bulk Verification Ledger</h3>
+           <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+       </div>
        <span class="text-xs text-gray-500 font-mono">{results?.length || 0} Domains Tracked</span>
    </div>
 

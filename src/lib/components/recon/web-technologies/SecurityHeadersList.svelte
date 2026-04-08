@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { Info } from 'lucide-svelte';
+  import SecurityHeadersGuide from '$lib/components/recon/guides/SecurityHeadersGuide.svelte';
   type SecurityHeaderInfo = {
       strict_transport_security: boolean;
       x_frame_options: boolean;
@@ -7,10 +9,16 @@
   };
   
   let { data, isLoading } = $props<{ data: SecurityHeaderInfo | undefined, isLoading: boolean }>();
+  let isGuideOpen = $state(false);
 </script>
 
 <div class="col-span-full bg-gray-50/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm mt-6">
-  <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400 mb-4">Security Headers Assessment (OWASP)</h3>
+  <SecurityHeadersGuide bind:isOpen={isGuideOpen} />
+  
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">Security Headers Assessment (OWASP)</h3>
+      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title="SecOps Intelligence Guide"><Info class="size-4" /></button>
+  </div>
   
   {#if isLoading}
     <div class="h-24 bg-gray-200 dark:bg-[#27272a] rounded animate-pulse"></div>
