@@ -6,6 +6,8 @@ use web_analyzer::domain_dns::{get_dns_records, DomainDnsResult};
 use web_analyzer::seo_analysis::{analyze_advanced_seo, SeoAnalysisResult};
 use web_analyzer::web_technologies::{detect_web_technologies, WebTechResult};
 use web_analyzer::domain_validator::{validate_domains_bulk, BulkValidationResult};
+use web_analyzer::subdomain_discovery::{discover_subdomains, SubdomainDiscoveryResult};
+use web_analyzer::contact_spy::{crawl_contacts, ContactSpyResult};
 
 #[tauri::command]
 fn get_system_status() -> String {
@@ -38,6 +40,16 @@ async fn validate_bulk_domains(domains: Vec<String>) -> Result<BulkValidationRes
     Ok(validate_domains_bulk(&domains, 10).await)
 }
 
+#[tauri::command]
+async fn scan_subdomains(domain: String) -> Result<SubdomainDiscoveryResult, AppError> {
+    discover_subdomains(&domain).await.map_err(|e| AppError::ModuleFailed(e.to_string()))
+}
+
+#[tauri::command]
+async fn scan_contacts(domain: String, max_pages: usize) -> Result<ContactSpyResult, AppError> {
+    crawl_contacts(&domain, max_pages).await.map_err(|e| AppError::ModuleFailed(e.to_string()))
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -48,7 +60,9 @@ pub fn run() {
             scan_domain_dns,
             scan_seo_analysis,
             scan_web_technologies,
-            validate_bulk_domains
+            validate_bulk_domains,
+            scan_subdomains,
+            scan_contacts
         ])
         .run(tauri::generate_context!())
         .expect("error while running WebQ application");
