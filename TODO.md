@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [20] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~285
+📈 **Progress Statistics:** [21] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -104,6 +104,9 @@
   - *Output:* Table/Grid satırları.
   - *Visualize:* Her domain için 3 sütunlu "Checkmark" matrisi. Hatalı domain'ler soluklaşacak (opacity-50).
 - [x] Arkaplan: Rust tarafında multi-threading (Tokio) kullanılarak toplu analiz başlatan `validate_bulk_domains` komutu eklenecek. Mümkünse stream (tauri event handler) üzerinden `%` (yüzde) bazlı aktarım sağlanacak.
+
+### 2.6 Localization & Multi-Language
+- [x] Paraglide-js EN/TR (Multi-language) entegrasyonu WebTech, Domain Validator ve SEO Analysis modülleri için tamamlanacak.
 
 ## Faz 3: Reconnaissance (Keşif ve Zafiyet Tespiti)
 ### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`)
