@@ -223,9 +223,9 @@
 - [x] Backend Error'lerin Global Toast bileşenine (Svelte-sonner) bağlanması.
 
 ### 5.2 Raporlama ve Dışa Aktarma (Reporting)
-- [ ] Markdown tabanlı otomatik rapor oluşturucu (`web-analyzer` çıktılarından).
-- [ ] Tüm istihbarat ve zafiyet raporunu tek bir JSON yapısına derleyip indirme işlevi.
-- [ ] Yöneticiler / C-Level için PDF biçiminde Minimalist Rapor üretimi.
+- [x] Markdown tabanlı otomatik rapor oluşturucu (`web-analyzer` çıktılarından).
+- [x] Tüm istihbarat ve zafiyet raporunu tek bir JSON yapısına derleyip indirme işlevi.
+- [x] Yöneticiler / C-Level için PDF biçiminde Minimalist Rapor üretimi.
 
 ### 5.3 UX Cila ve Mikro-Etkileşimler
 - [ ] Hover Spotlight efektleri ve LuxeCard component optimizasyonu.
