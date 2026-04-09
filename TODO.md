@@ -201,13 +201,13 @@
 - [x] Veri: Çıkan CVE'lerin özetinin popover (Hover) ile detaylandırılması.
 
 ### 4.5 API Security Scanner (`api_security_scanner`)
-- [ ] Arka plan: 9 Test Suiti (SQLi, XSS, SSRF vs.) paralel çalışan komut.
-- [ ] UI: Geniş ekran API Güvenlik Paneli (Radar Chart ile Zafiyet Dağılımı).
-- [ ] Component: SQL Injection açık bulguları gösteren Log arayüzü ve Payload Injection denemeleri.
-- [ ] Component: XSS açıklarını ve tetikleyici parametreleri gösteren tablo.
-- [ ] Component: Path Traversal veya LFI tespit panelinde, okunan örnek dizinlerin gösterimi (`/etc/passwd`).
-- [ ] Component: Rate Limiting veya Header Injection zaafiyetlerini vurgulayan test satırları.
-- [ ] Frontend: Payload'ların (Attack Vectors) tek tek denendiğini gösteren Fuzzing Speed göstergesi (Req/s).
+- [x] Arka plan: 9 Test Suiti (SQLi, XSS, SSRF vs.) paralel çalışan komut.
+- [x] UI: Geniş ekran API Güvenlik Paneli (Radar Chart ile Zafiyet Dağılımı).
+- [x] Component: SQL Injection açık bulguları gösteren Log arayüzü ve Payload Injection denemeleri.
+- [x] Component: XSS açıklarını ve tetikleyici parametreleri gösteren tablo.
+- [x] Component: Path Traversal veya LFI tespit panelinde, okunan örnek dizinlerin gösterimi (`/etc/passwd`).
+- [x] Component: Rate Limiting veya Header Injection zaafiyetlerini vurgulayan test satırları.
+- [x] Frontend: Payload'ların (Attack Vectors) tek tek denendiğini gösteren Fuzzing Speed göstergesi (Req/s).
 
 ### 4.6 Geo Analysis Modülü (`geo_analysis`)
 - [ ] Arka plan: llms.txt, AI crawler direktifleri bulucu komutu entegrasyonu.

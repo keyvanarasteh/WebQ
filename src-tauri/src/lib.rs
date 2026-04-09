@@ -13,6 +13,7 @@ use web_analyzer::security_analysis::SecurityAnalysisResult;
 use web_analyzer::subdomain_takeover::TakeoverResult;
 use web_analyzer::cloudflare_bypass::CloudflareBypassResult;
 use web_analyzer::nmap_zero_day::NmapScanResult;
+use web_analyzer::api_security_scanner::ApiScanResult;
 
 #[tauri::command]
 fn get_system_status() -> String {
@@ -90,6 +91,13 @@ async fn scan_nmap_zero_day(domain: String) -> Result<NmapScanResult, AppError> 
         .map_err(|e| AppError::ModuleFailed(e.to_string()))
 }
 
+#[tauri::command]
+async fn scan_api_security(domain: String) -> Result<ApiScanResult, AppError> {
+    web_analyzer::api_security_scanner::scan_api_endpoints(&domain)
+        .await
+        .map_err(|e| AppError::ModuleFailed(e.to_string()))
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -107,7 +115,8 @@ pub fn run() {
             scan_security_posture,
             scan_subdomain_takeover,
             scan_cloudflare_bypass,
-            scan_nmap_zero_day
+            scan_nmap_zero_day,
+            scan_api_security
         ])
         .run(tauri::generate_context!())
         .expect("error while running WebQ application");
