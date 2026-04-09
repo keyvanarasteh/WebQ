@@ -35,17 +35,18 @@
         <div class="text-xs uppercase tracking-widest text-fuchsia-400 font-semibold">Start Recon &rarr;</div>
     </a>
 
-    <!-- Scan History Widget (Stub for Phase 7 SQLite) -->
-    <a href={resolve('/')} class="bg-surface/30 border border-base rounded-xl p-6 opacity-60 cursor-not-allowed shadow-lg group">
-        <div class="flex items-center gap-4 mb-4">
+    <!-- Scan History Database Widget -->
+    <a href={resolve('/history')} class="bg-surface/30 border border-emerald-500/30 rounded-xl p-6 hover:bg-surface/50 hover:border-emerald-500/60 transition-all shadow-lg group relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-32 h-32 bg-linear-to-br from-transparent to-emerald-500/10 rounded-full blur-xl group-hover:to-emerald-400/20 transition-all"></div>
+        <div class="flex items-center gap-4 mb-4 relative z-10">
             <div class="p-3 bg-background rounded-lg shadow-inner">
-                <Shield class="w-6 h-6 text-slate-400" />
+                <Shield class="w-6 h-6 text-emerald-400 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
             </div>
             <h2 class="text-xl font-bold text-primary-text">Scan History</h2>
         </div>
-        <p class="text-secondary-text text-sm mb-4">Review past vulnerability assessments and intelligence reports from the database.</p>
-        <div class="text-xs uppercase tracking-widest text-emerald-500 font-semibold flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> Offline Database Initializing
+        <p class="text-secondary-text text-sm mb-4 relative z-10">Review past vulnerability assessments and intelligence reports securely from the SQLite DB.</p>
+        <div class="text-xs uppercase tracking-widest text-emerald-400 font-semibold flex items-center gap-2 relative z-10">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span> Database Active &rarr;
         </div>
     </a>
 </div>

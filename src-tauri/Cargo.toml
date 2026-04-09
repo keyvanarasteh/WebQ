@@ -29,6 +29,9 @@ web-analyzer = { path = "/home/drvoid/Qix/Qicro/web-analyzer" }
 tauri-plugin-dialog = "2.7.0"
 tauri-plugin-fs = "2.5.0"
 tauri-plugin-os = "2.3.2"
+sqlx = { version = "0.8.6", features = ["sqlite", "runtime-tokio-rustls", "uuid", "chrono", "json"] }
+uuid = { version = "1.23.0", features = ["v4"] }
+chrono = { version = "0.4.44", features = ["serde"] }
 
 [dev-dependencies]
 tempfile = "3.27.0"
