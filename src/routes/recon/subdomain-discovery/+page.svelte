@@ -9,7 +9,7 @@
 	import SubdomainGuide from '$lib/components/recon/guides/SubdomainGuide.svelte';
 
 	// Icons
-	import { Network, Search, LayoutGrid, GitBranch, ShieldAlert, TimerReset, Filter, ActivitySquare, Globe, ShieldCheck } from 'lucide-svelte';
+	import { Network, Search, LayoutGrid, GitBranch, ShieldAlert, TimerReset, Filter, ActivitySquare, Globe, ShieldCheck, HelpCircle } from 'lucide-svelte';
 
 	// ── State ─────────────────────────────────────────────────────────────────
 	
@@ -28,6 +28,7 @@
 	};
 
 	let scanResult = $state<ResultPayload | null>(null);
+	let showGuide = $state(false);
 
 	// ── Handlers ──────────────────────────────────────────────────────────────
 	
@@ -64,6 +65,13 @@
 				<h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.nav_subdomain_discovery()}</h1>
 				<p class="text-gray-400 mt-2">Passive infrastructure surface discovery utilizing Open Source Intelligence.</p>
 			</div>
+			<button
+				onclick={() => showGuide = true}
+				class="p-2 ml-2 transition-colors border rounded-lg bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
+				title="View SecOps Guide"
+			>
+				<HelpCircle class="w-4 h-4" />
+			</button>
 		</div>
 	</div>
 
@@ -161,9 +169,7 @@
 			</div>
 		</div>
 
-		<div class="lg:col-span-4">
-			<SubdomainGuide />
-		</div>
+		<SubdomainGuide bind:isOpen={showGuide} />
 	</div>
 
 	<!-- Results Layout -->

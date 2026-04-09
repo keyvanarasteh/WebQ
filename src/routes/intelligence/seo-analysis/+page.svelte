@@ -1,13 +1,15 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
-  import { Search } from 'lucide-svelte';
+  import { Search, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import BasicSeoOverview from '$lib/components/intelligence/seo-analysis/BasicSeoOverview.svelte';
   import TechnicalSeoCard from '$lib/components/intelligence/seo-analysis/TechnicalSeoCard.svelte';
   import SocialMediaCard from '$lib/components/intelligence/seo-analysis/SocialMediaCard.svelte';
+  import SeoGuide from '$lib/components/recon/guides/SeoGuide.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<any>(null); // SeoAnalysisResult
+  let showGuide = $state(false);
   
   async function performScan() {
       if (!targetDomain) return;
@@ -25,9 +27,18 @@
 
 <div class="space-y-6 max-w-7xl mx-auto w-full">
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
-      <div>
-          <h1 class="text-3xl font-black text-white tracking-widest uppercase">SEO Analysis</h1>
-          <p class="text-gray-400 mt-2">13-category SEO scanner & optimization diagnostics.</p>
+      <div class="flex items-center gap-3">
+          <div>
+              <h1 class="text-3xl font-black text-white tracking-widest uppercase">SEO Analysis</h1>
+              <p class="text-gray-400 mt-2">13-category SEO scanner & optimization diagnostics.</p>
+          </div>
+          <button
+              onclick={() => showGuide = true}
+              class="p-2 ml-2 transition-colors border rounded-lg bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
+              title="View SecOps Guide"
+          >
+              <HelpCircle class="w-4 h-4" />
+          </button>
       </div>
 
       <div class="flex items-center gap-2 w-full md:w-96">
@@ -60,3 +71,5 @@
       </div>
   {/if}
 </div>
+
+<SeoGuide bind:isOpen={showGuide} />

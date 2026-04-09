@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
     import { invoke } from '@tauri-apps/api/core';
-    import { ShieldQuestion, Loader2, AlertCircle, History } from 'lucide-svelte';
+    import { ShieldQuestion, Loader2, AlertCircle, History, HelpCircle } from 'lucide-svelte';
     import BypassGrid from '$lib/components/assessment/cloudflare-bypass/BypassGrid.svelte';
     import BypassGuide from '$lib/components/assessment/cloudflare-bypass/BypassGuide.svelte';
     import { slide } from 'svelte/transition';
@@ -15,6 +15,7 @@
         scan_time_ms: number;
     } | null>(null);
     let errorMessage = $state<string | null>(null);
+    let showGuide = $state(false);
 
     async function runScan() {
         if (!targetDomain.trim()) {
@@ -45,6 +46,13 @@
             {m.sec_cfbypass_title()}
         </h1>
         <p class="text-zinc-400 mt-2 text-lg">{m.sec_cfbypass_desc()}</p>
+        <button
+            onclick={() => showGuide = true}
+            class="mt-3 flex items-center gap-2 px-4 py-2 bg-teal-500/10 hover:bg-teal-500/20 text-teal-400 text-sm font-medium rounded-lg border border-teal-500/20 transition-colors"
+        >
+            <HelpCircle size={16} />
+            SecOps Guide
+        </button>
     </div>
 
     <div class="bg-black/40 border border-white/5 rounded-2xl p-6 shadow-2xl backdrop-blur-xl">
@@ -89,7 +97,7 @@
         </div>
     </div>
 
-    <BypassGuide />
+    <BypassGuide bind:isOpen={showGuide} />
 
     {#if scanResult}
         <div transition:slide class="pt-4">

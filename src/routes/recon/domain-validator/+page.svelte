@@ -1,12 +1,14 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
-  import { Search, UploadCloud } from 'lucide-svelte';
+  import { Search, UploadCloud, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import ValidationStatsBar from '$lib/components/recon/domain-validator/ValidationStatsBar.svelte';
   import ValidationDataGrid from '$lib/components/recon/domain-validator/ValidationDataGrid.svelte';
+  import ValidatorGuide from '$lib/components/recon/guides/ValidatorGuide.svelte';
 
   let targetDomains = $state('');
   let scanResult = $state<any>(null); // BulkValidationResult
+  let showGuide = $state(false);
   
   async function performBulkScan() {
       if (!targetDomains) return;
@@ -25,9 +27,18 @@
 
 <div class="space-y-6 max-w-7xl mx-auto w-full">
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
-      <div>
-          <h1 class="text-3xl font-black text-white tracking-widest uppercase">Domain Validator</h1>
-          <p class="text-gray-400 mt-2">High-speed concurrent scanning for list of domains.</p>
+      <div class="flex items-center gap-3">
+          <div>
+              <h1 class="text-3xl font-black text-white tracking-widest uppercase">Domain Validator</h1>
+              <p class="text-gray-400 mt-2">High-speed concurrent scanning for list of domains.</p>
+          </div>
+          <button
+              onclick={() => showGuide = true}
+              class="p-2 ml-2 transition-colors border rounded-lg bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
+              title="View SecOps Guide"
+          >
+              <HelpCircle class="w-4 h-4" />
+          </button>
       </div>
 
       <div class="flex items-center gap-2 w-full md:w-96">
@@ -57,3 +68,5 @@
       </div>
   {/if}
 </div>
+
+<ValidatorGuide bind:isOpen={showGuide} />

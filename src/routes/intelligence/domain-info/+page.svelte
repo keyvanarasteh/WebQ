@@ -3,12 +3,14 @@
   import DomainOverview from '$lib/components/intelligence/domain-info/DomainOverview.svelte';
   import SslStatus from '$lib/components/intelligence/domain-info/SslStatus.svelte';
   import PortSecurityMatrix from '$lib/components/intelligence/domain-info/PortSecurityMatrix.svelte';
-  import { Search } from 'lucide-svelte';
+  import DomainInfoGuide from '$lib/components/intelligence/domain-info/DomainInfoGuide.svelte';
+  import { Search, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
 
   // State: Using Svelte 5 Runes for reactive data
   let targetDomain = $state('');
   let scanResult = $state<any>(null); // To be typed as DomainInfoResult
+  let showGuide = $state(false);
   
   async function performScan() {
       if (!targetDomain) return;
@@ -28,10 +30,18 @@
 <div class="space-y-6 max-w-7xl mx-auto w-full">
   <!-- Header & Input Area -->
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
-      <div>
-          <!-- Placeholder for Paraglide Multilanguage translation (m.domain_intelligence_title()) -->
-          <h1 class="text-3xl font-black text-white tracking-widest uppercase">Domain Intelligence</h1>
-          <p class="text-gray-400 mt-2">Comprehensive WHOIS, DNS, SSL, and basic security footprinting.</p>
+      <div class="flex items-center gap-3">
+          <div>
+              <h1 class="text-3xl font-black text-white tracking-widest uppercase">Domain Intelligence</h1>
+              <p class="text-gray-400 mt-2">Comprehensive WHOIS, DNS, SSL, and basic security footprinting.</p>
+          </div>
+          <button
+              onclick={() => showGuide = true}
+              class="p-2 ml-2 transition-colors border rounded-lg bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
+              title="View SecOps Guide"
+          >
+              <HelpCircle class="w-4 h-4" />
+          </button>
       </div>
 
       <div class="flex items-center gap-2 w-full md:w-96">
@@ -67,3 +77,5 @@
       </div>
   {/if}
 </div>
+
+<DomainInfoGuide bind:isOpen={showGuide} />

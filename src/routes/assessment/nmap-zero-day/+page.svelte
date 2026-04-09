@@ -6,11 +6,13 @@
     import NmapPortsGrid from '$lib/components/assessment/nmap-zero-day/NmapPortsGrid.svelte';
     import NmapVulnGrid from '$lib/components/assessment/nmap-zero-day/NmapVulnGrid.svelte';
     import NmapGuide from '$lib/components/assessment/nmap-zero-day/NmapGuide.svelte';
+    import { HelpCircle } from 'lucide-svelte';
 
     let domain = $state('');
     let loading = $state(false);
     let error = $state<string | null>(null);
     let result = $state<any>(null);
+    let showGuide = $state(false);
 
     async function analyzeDomain() {
         if (!domain.trim()) {
@@ -47,6 +49,13 @@
                 {m.sec_nmap_desc()}
             </p>
         </div>
+        <button
+            onclick={() => showGuide = true}
+            class="ml-auto flex items-center gap-2 px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-sm font-medium rounded-lg border border-rose-500/20 transition-colors"
+        >
+            <HelpCircle size={16} />
+            SecOps Guide
+        </button>
     </div>
 
     <!-- Input Form Area -->
@@ -133,12 +142,5 @@
         </div>
     {/if}
 
-    <!-- Pedagogical Guide Module -->
-    <div class="mt-auto pt-8">
-        <div class="flex items-center gap-4 mb-4">
-            <h2 class="text-lg font-medium text-white">{m.sec_nmap_guide_title()}</h2>
-            <div class="h-px flex-1 bg-white/5"></div>
-        </div>
-        <NmapGuide />
-    </div>
+    <NmapGuide bind:isOpen={showGuide} />
 </div>
