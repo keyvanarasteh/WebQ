@@ -13,9 +13,12 @@ pub struct DependencyStatus {
 pub async fn check_dependency(name: String) -> Result<DependencyStatus, String> {
     let mut cmd = Command::new(&name);
     
-    // Some tools use -v, -V, or --version. We try to be smart.
     if name == "dig" {
         cmd.arg("-v");
+    } else if name == "openssl" {
+        cmd.arg("version");
+    } else if name == "nmap" {
+        cmd.arg("-V");
     } else {
         cmd.arg("--version");
     }
