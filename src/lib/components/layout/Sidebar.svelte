@@ -6,9 +6,9 @@
 
     const menuItems = [
         { name: 'Dashboard', path: '/', icon: Shield },
-        { name: 'Intelligence', path: '/intelligence', icon: Search },
+        { name: 'Intelligence', path: '/intelligence/domain-info', icon: Search },
         { name: 'Reconnaissance', path: '/recon', icon: Target },
-        { name: 'Security Assessment', path: '/assessment', icon: Network },
+        { name: 'Security Assessment', path: '/assessment/security-posture', icon: Network },
         { name: 'Settings', path: '/settings', icon: Settings },
     ];
 </script>
