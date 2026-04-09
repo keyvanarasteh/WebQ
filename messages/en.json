@@ -159,5 +159,18 @@
   "sec_posture_recommendations": "Mitigation Recommendations",
   "sec_posture_risk": "Risk Level: {risk}",
   "sec_posture_secops_context": "SecOps Context",
-  "sec_posture_secops_tip": "Evaluates WAF presence, TLS cryptography, HTTP security headers, CORS configurations, and vulnerabilities. Used during initial attack surface mapping to identify low-hanging fruit like misconfigured cross-origin sharing."
+  "sec_posture_secops_tip": "Evaluates WAF presence, TLS cryptography, HTTP security headers, CORS configurations, and vulnerabilities. Used during initial attack surface mapping to identify low-hanging fruit like misconfigured cross-origin sharing.",
+
+  "sec_takeover_title": "Subdomain Takeover Scan",
+  "sec_takeover_desc": "Discover dangling DNS records and misconfigured provider services.",
+  "sec_takeover_stats": "Scanned {count} subdomains. {vuln} vulnerable services found.",
+  "sec_takeover_col_subdomain": "Subdomain",
+  "sec_takeover_col_service": "Target Service",
+  "sec_takeover_col_type": "Vuln Type",
+  "sec_takeover_col_confidence": "Confidence",
+  "sec_takeover_col_exploit": "Exploitability",
+  "sec_takeover_col_actions": "Actions",
+  "sec_takeover_guide_title": "Takeover Mechanics",
+  "sec_takeover_guide_desc": "Dangling CNAMEs pointing to expired Elastic Beanstalk applications, AWS S3 buckets or unauthorized GitHub Pages can be easily registered by attackers to intercept traffic, bypass CORS, or host malicious content under a trusted domain.",
+  "sec_takeover_mitigate": "Mitigate"
 }

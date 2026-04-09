@@ -10,6 +10,7 @@ use web_analyzer::subdomain_discovery::{discover_subdomains, SubdomainDiscoveryR
 use web_analyzer::contact_spy::{crawl_contacts, ContactSpyResult};
 use web_analyzer::advanced_content_scanner::ScannerResult;
 use web_analyzer::security_analysis::SecurityAnalysisResult;
+use web_analyzer::subdomain_takeover::TakeoverResult;
 
 #[tauri::command]
 fn get_system_status() -> String {
@@ -66,6 +67,13 @@ async fn scan_security_posture(domain: String) -> Result<SecurityAnalysisResult,
         .map_err(|e| AppError::ModuleFailed(e.to_string()))
 }
 
+#[tauri::command]
+async fn scan_subdomain_takeover(domain: String, subdomains: Vec<String>) -> Result<TakeoverResult, AppError> {
+    web_analyzer::subdomain_takeover::check_subdomain_takeover(&domain, &subdomains)
+        .await
+        .map_err(|e| AppError::ModuleFailed(e.to_string()))
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -80,7 +88,8 @@ pub fn run() {
             scan_subdomains,
             scan_contacts,
             scan_advanced_content,
-            scan_security_posture
+            scan_security_posture,
+            scan_subdomain_takeover
         ])
         .run(tauri::generate_context!())
         .expect("error while running WebQ application");

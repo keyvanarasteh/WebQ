@@ -159,5 +159,18 @@
   "sec_posture_recommendations": "Azaltma (Mitigation) Önerileri",
   "sec_posture_risk": "Risk Seviyesi: {risk}",
   "sec_posture_secops_context": "SecOps Bağlamı",
-  "sec_posture_secops_tip": "WAF varlığını, TLS şifrelemesini, HTTP başlıklarını, CORS yapılandırmalarını ve zafiyetleri değerlendirir. Zayıf CORS ve eksik başlıklar gibi temel zafiyetleri saldırı yüzeyi haritalamasında (EASM) tespit etmek için kullanılır."
+  "sec_posture_secops_tip": "WAF varlığını, TLS şifrelemesini, HTTP başlıklarını, CORS yapılandırmalarını ve zafiyetleri değerlendirir. Zayıf CORS ve eksik başlıklar gibi temel zafiyetleri saldırı yüzeyi haritalamasında (EASM) tespit etmek için kullanılır.",
+
+  "sec_takeover_title": "Subdomain Takeover Analizi",
+  "sec_takeover_desc": "Bozuk DNS kayıtlarını ve unutulmuş hedef servisleri keşfeder.",
+  "sec_takeover_stats": "{count} alt alan tarandı. {vuln} zafiyetli servis bulundu.",
+  "sec_takeover_col_subdomain": "Alt Alan Adı (Subdomain)",
+  "sec_takeover_col_service": "Hedef Servis",
+  "sec_takeover_col_type": "Zafiyet Türü",
+  "sec_takeover_col_confidence": "Kesinlik",
+  "sec_takeover_col_exploit": "Sömürülebilirlik",
+  "sec_takeover_col_actions": "Aksiyonlar",
+  "sec_takeover_guide_title": "Takeover Mekaniği",
+  "sec_takeover_guide_desc": "Süresi dolmuş Elastic Beanstalk uygulamalarını, AWS S3 bucket'larını veya yetkisiz olarak kullanılan GitHub Pages sayfalarını işaret eden açıkta kalmış (dangling) CNAME'ler, saldırganlar tarafından trafiği engellemek, korsanlaştırmak veya güvenilir bir domain altında zararlı içerik barındırmak için kolayca ele geçirilebilir.",
+  "sec_takeover_mitigate": "Çözüm (Mitigate)"
 }

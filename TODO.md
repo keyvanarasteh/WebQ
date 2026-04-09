@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [31] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
+📈 **Progress Statistics:** [36] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -177,12 +177,12 @@
 - [x] Component: Zayıf Çerez (Cookies) Security, HttpOnly, SameSite analiz satırları.
 - [x] Frontend: Güvenlik skoru 50'nin altındaysa sayfanın kırmızı alarm durumuna (Red State) girmesi.
 
-### 4.2 Subdomain Takeover Modülü (`subdomain_takeover`)
-- [ ] Arka plan: 36 Servislik Fingerprint ve Takeover veritabanını tarayan komut.
-- [ ] UI: Hangi subdomainin hangi serviste (AWS, Github Pages, Heroku, Azure vb.) açık unutulduğunu gösteren Grid.
-- [ ] Component: Exploit Edilebilirlik (Difficulty: Easy, High, Edge case) rozetleri (Badges).
-- [ ] Component: Takeover mitigation (çözüm yolu) önerilerini içeren Collapsible/Accordion bölümü.
-- [ ] Frontend: Ele geçirilebilen bir alt alan bulunduğunda animasyonlu ve sesli (vibrational) bildirim.
+### Faz 4.2 Subdomain Takeover Modülü (`subdomain_takeover`)
+- [x] Arka plan: 36 Servislik Fingerprint ve Takeover veritabanını tarayan komut.
+- [x] UI: Hangi subdomainin hangi serviste (AWS, Github Pages, Heroku, Azure vb.) açık unutulduğunu gösteren Grid.
+- [x] Component: Exploit Edilebilirlik (Difficulty: Easy, High, Edge case) rozetleri (Badges).
+- [x] Component: Takeover mitigation (çözüm yolu) önerilerini içeren Collapsible/Accordion bölümü.
+- [x] Frontend: Ele geçirilebilen bir alt alan bulunduğunda animasyonlu ve sesli (vibrational) bildirim.
 
 ### 4.3 Cloudflare Bypass Modülü (`cloudflare_bypass`)
 - [ ] Arka plan: Internet geçmişi DNS'lerinden (History Lookup) orijin IP çözen özellik.
