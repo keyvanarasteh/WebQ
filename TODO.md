@@ -235,7 +235,7 @@
 
 ## Faz 6: Release & DevOps
 - [ ] Nmap, Dig, Openssl bağımlılıklarının kontrol edilmesi, yoksalar UI üzerinden kullanıcıya "Install dependencies" bildirimi verilmesi.
-- [ ] Linux AppImage build dosyaları için Icon ve Meta verilerinin ayarlanması.
+- [x] Linux AppImage build dosyaları için Icon ve Meta verilerinin ayarlanması.
 - [ ] macOS (dmg) build süreçlerinde imzalama / M1 M2 ARM architecture ayarları.
 - [ ] Windows (msi / nsis) derleme profillerinin oluşturulması.
 - [ ] Github Actions (CI/CD) Workflow `release.yml` oluşturulması.
