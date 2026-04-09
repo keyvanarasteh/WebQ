@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -38,8 +38,8 @@
             onclick={(e) => e.stopPropagation()}
         >
             <!-- Header Area -->
-            <div class="relative bg-gradient-to-r from-cyan-950/40 via-blue-900/10 to-transparent p-6 border-b border-cyan-500/10 shrink-0">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-[64px] rounded-full pointer-events-none"></div>
+            <div class="relative bg-linear-to-r from-cyan-950/40 via-blue-900/10 to-transparent p-6 border-b border-cyan-500/10 shrink-0">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
                     class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
@@ -50,7 +50,7 @@
 
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
+                        <div class="w-14 h-14 rounded-2xl bg-linear-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
                             <Layers size={28} class="text-cyan-400" />
                         </div>
                         <div>
@@ -135,7 +135,7 @@
                         <h3 class="text-lg font-semibold text-emerald-400 mb-4">Secure Developer Protocols</h3>
                         <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Implementing defensive measures to limit fingerprinting effectively mitigates active and passive probes.</p>
 
-                        <div class="bg-[#0A0C10] border-l-4 border-emerald-500 p-6 rounded-r-xl border-y border-r border-emerald-500/20 shadow-lg">
+                        <div class="bg-[#0A0C10] border-l-4 border-emerald-500 p-6 rounded-r-xl border-y border-r  shadow-lg">
                             <h4 class="font-bold text-emerald-400 mb-4 flex items-center gap-2">
                                 <Lock size={18} /> Remediation Steps
                             </h4>

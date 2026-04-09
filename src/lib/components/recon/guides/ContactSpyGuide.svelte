@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -38,8 +38,8 @@
             onclick={(e) => e.stopPropagation()}
         >
             <!-- Header Area -->
-            <div class="relative bg-gradient-to-r from-indigo-950/40 via-purple-900/10 to-transparent p-6 border-b border-indigo-500/10 shrink-0">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 blur-[64px] rounded-full pointer-events-none"></div>
+            <div class="relative bg-linear-to-r from-indigo-950/40 via-purple-900/10 to-transparent p-6 border-b border-indigo-500/10 shrink-0">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
                     class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-indigo-500/20 rounded-xl transition-all border border-white/5 hover:border-indigo-500/30 font-medium"
@@ -50,7 +50,7 @@
 
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-600/10 flex items-center justify-center border border-indigo-500/30 shadow-inner">
+                        <div class="w-14 h-14 rounded-2xl bg-linear-to-br from-indigo-500/20 to-purple-600/10 flex items-center justify-center border border-indigo-500/30 shadow-inner">
                             <Users size={28} class="text-indigo-400" />
                         </div>
                         <div>
@@ -97,7 +97,7 @@
 
                             <!-- Visual Network UI -->
                             <div class="bg-black/50 border border-white/5 rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col justify-center">
-                                <div class="absolute inset-0 bg-[linear-gradient(to_right,#4f46e510_1px,transparent_1px),linear-gradient(to_bottom,#4f46e510_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                                <div class="absolute inset-0 bg-[linear-gradient(to_right,#4f46e510_1px,transparent_1px),linear-gradient(to_bottom,#4f46e510_1px,transparent_1px)] bg-size-[24px_24px]"></div>
                                 
                                 <div class="relative z-10 space-y-4">
                                     <div class="flex items-center gap-3 bg-zinc-900/80 p-3 rounded-lg border border-white/10 backdrop-blur">

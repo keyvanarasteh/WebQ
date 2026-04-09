@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -38,8 +38,8 @@
             onclick={(e) => e.stopPropagation()}
         >
             <!-- Header Area -->
-            <div class="relative bg-gradient-to-r from-purple-950/40 via-cyan-900/10 to-transparent p-6 border-b border-purple-500/10 shrink-0">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-purple-500/10 blur-[64px] rounded-full pointer-events-none"></div>
+            <div class="relative bg-linear-to-r from-purple-950/40 via-cyan-900/10 to-transparent p-6 border-b border-purple-500/10 shrink-0">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-purple-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
                     class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-purple-500/20 rounded-xl transition-all border border-white/5 hover:border-purple-500/30 font-medium"
@@ -50,7 +50,7 @@
 
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-cyan-600/10 flex items-center justify-center border border-purple-500/30 shadow-inner">
+                        <div class="w-14 h-14 rounded-2xl bg-linear-to-br from-purple-500/20 to-cyan-600/10 flex items-center justify-center border border-purple-500/30 shadow-inner">
                             <Network size={28} class="text-purple-400" />
                         </div>
                         <div>
@@ -94,7 +94,7 @@
                             </div>
 
                             <!-- Terminal Mockup -->
-                            <div class="bg-[#0d1117] rounded-xl border border-white/5 shadow-2xl overflow-hidden font-mono text-xs shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                            <div class="bg-[#0d1117] rounded-xl border border-white/5 shadow-2xl overflow-hidden font-mono text-xs ">
                                 <div class="bg-zinc-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
                                     <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                     <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>

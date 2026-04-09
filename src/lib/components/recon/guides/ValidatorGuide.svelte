@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -38,8 +38,8 @@
             onclick={(e) => e.stopPropagation()}
         >
             <!-- Header Area -->
-            <div class="relative bg-gradient-to-r from-cyan-950/40 via-blue-900/10 to-transparent p-6 border-b border-cyan-500/10 shrink-0">
-                <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-[64px] rounded-full pointer-events-none"></div>
+            <div class="relative bg-linear-to-r from-cyan-950/40 via-blue-900/10 to-transparent p-6 border-b border-cyan-500/10 shrink-0">
+                <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
                     class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
@@ -50,7 +50,7 @@
 
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
+                        <div class="w-14 h-14 rounded-2xl bg-linear-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
                             <ListChecks size={28} class="text-cyan-400" />
                         </div>
                         <div>
@@ -83,7 +83,7 @@
                             Bulk validation acts as the initial broad stroke of <strong class="text-white">Attack Surface Management (ASM)</strong>. When dealing with thousands of potential subdomains, confirming what is alive and actively resolving over HTTP/HTTPS is crucial for scoping engagements and reducing noise.
                         </p>
 
-                        <div class="bg-gradient-to-r from-blue-900/20 to-transparent border-l-4 border-blue-500 p-6 rounded-r-xl shadow-lg">
+                        <div class="bg-linear-to-r from-blue-900/20 to-transparent border-l-4 border-blue-500 p-6 rounded-r-xl shadow-lg">
                             <p class="text-blue-300 font-semibold mb-2">Why It Matters</p>
                             <p class="text-sm text-gray-400 leading-relaxed">
                                 You cannot brute force vulnerabilities on an endpoint that is internally inaccessible or dead. Validating live hosts ensures you direct deep-scanning efforts (like port mapping or fuzzing) only at responding targets, drastically reducing assessment times.

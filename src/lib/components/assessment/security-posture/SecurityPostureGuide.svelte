@@ -40,7 +40,7 @@
 {#if isOpen}
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div
-    class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+    class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
     transition:fade={{ duration: 200 }}
     onclick={close}
   >
@@ -51,10 +51,10 @@
     >
       <!-- Header Area -->
       <div
-        class="relative bg-gradient-to-r from-orange-950/40 via-red-900/10 to-transparent p-6 border-b border-orange-500/10 shrink-0"
+        class="relative bg-linear-to-r from-orange-950/40 via-red-900/10 to-transparent p-6 border-b border-orange-500/10 shrink-0"
       >
         <div
-          class="absolute -right-20 -top-20 w-64 h-64 bg-orange-500/10 blur-[64px] rounded-full pointer-events-none"
+          class="absolute -right-20 -top-20 w-64 h-64 bg-orange-500/10 blur-3xl rounded-full pointer-events-none"
         ></div>
         <button
           onclick={close}
@@ -69,7 +69,7 @@
         >
           <div class="flex items-center gap-4">
             <div
-              class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-600/10 flex items-center justify-center border border-orange-500/30 shadow-inner"
+              class="w-14 h-14 rounded-2xl bg-linear-to-br from-orange-500/20 to-red-600/10 flex items-center justify-center border border-orange-500/30 shadow-inner"
             >
               <GraduationCap size={28} class="text-orange-400" />
             </div>
@@ -205,7 +205,7 @@
 
                     <!-- XSS Payload Injection Animation -->
                     <div
-                      class="absolute right-0 top-0 h-full w-0 group-hover:w-full bg-gradient-to-r from-transparent to-red-500/20 transition-all duration-1000 ease-in flex items-center justify-end pr-4"
+                      class="absolute right-0 top-0 h-full w-0 group-hover:w-full bg-linear-to-r from-transparent to-red-500/20 transition-all duration-1000 ease-in flex items-center justify-end pr-4"
                     >
                       <span class="font-mono text-red-400 text-[10px]"
                         >&lt;script&gt;steal()&lt;/script&gt;</span
@@ -253,7 +253,7 @@
 
             <!-- Terminal Mockup -->
             <div
-              class="bg-[#0d1117] rounded-xl border border-orange-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+              class="bg-[#0d1117] rounded-xl border border-orange-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm "
             >
               <div
                 class="bg-zinc-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur"

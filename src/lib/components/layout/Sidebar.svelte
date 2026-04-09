@@ -13,7 +13,7 @@
     ];
 </script>
 
-<aside class="w-64 h-full bg-[#09090b] border-r border-[#27272a] p-4 flex flex-col transition-all {appState.sidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
+<aside class="w-64 h-full bg-qix-obsidian border-r border-[#27272a] p-4 flex flex-col transition-all {appState.sidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
     <div class="flex items-center gap-3 mb-8 px-2">
         <div class="h-8 w-8 rounded-md bg-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.5)]">
             <Shield class="text-black size-5" />
