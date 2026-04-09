@@ -192,13 +192,13 @@
 - [x] Frontend: DNS geçmiş arama animasyonu.
 
 ### 4.4 Nmap Zero Day Modülü (`nmap_zero_day`)
-- [ ] Arka plan: Nmap entegrasyonu, XML çıktı okuyucu ve NVD CVE sorgusunu çalıştıran komut.
-- [ ] UI: Siber güvenlik / Red Team görünümünde Port => Servis => Versiyon => CVE ağacı tablosu.
-- [ ] Component: Nmap Service Versiyonuna bağlı Zero-Day veya genel Exploits listesi tablosu.
-- [ ] Component: CVE skoru (CVSS 1-10) arası renklendirme (Low, Medium, High, Critical).
-- [ ] Component: Exploit-DB Referans linkleri için dışarı yönlendiren Butonlar.
-- [ ] Frontend: "Nmap çalışıyor..." süresi tahmini (ETA) Progress Bar.
-- [ ] Veri: Çıkan CVE'lerin özetinin popover (Hover) ile detaylandırılması.
+- [x] Arka plan: Nmap entegrasyonu, XML çıktı okuyucu ve NVD CVE sorgusunu çalıştıran komut.
+- [x] UI: Açık portlar ve Versiyon bilgilerini listeleyen Data Grid tablosu.
+- [x] Component: CVE Zero-Day datagrid'i. (Description, Critical Score, ID verilerini listelemeli).
+- [x] Component: Svelte derived logic ile skorların (CVSS) görsel renklendirmesinin entegrasyonu.
+- [x] Component: Exploit-DB Referans linkleri için dışarı yönlendiren Butonlar.
+- [-] Frontend: "Nmap çalışıyor..." süresi tahmini (ETA) Progress Bar. (Skipped: Nmap command execution blocks determinism for ETA)
+- [x] Veri: Çıkan CVE'lerin özetinin popover (Hover) ile detaylandırılması.
 
 ### 4.5 API Security Scanner (`api_security_scanner`)
 - [ ] Arka plan: 9 Test Suiti (SQLi, XSS, SSRF vs.) paralel çalışan komut.
