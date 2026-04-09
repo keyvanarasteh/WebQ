@@ -8,7 +8,7 @@
         { name: 'Dashboard', path: '/', icon: Shield },
         { name: 'Intelligence', path: '/intelligence', icon: Search },
         { name: 'Reconnaissance', path: '/recon', icon: Target },
-        { name: 'Security Assessment', path: '/security', icon: Network },
+        { name: 'Security Assessment', path: '/assessment', icon: Network },
         { name: 'Settings', path: '/settings', icon: Settings },
     ];
 </script>
