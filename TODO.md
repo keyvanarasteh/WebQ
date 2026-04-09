@@ -243,19 +243,27 @@
 
 ## Faz 7: Scan History & SQLite Database Architecture (Offline Persistence)
 ### 7.1 Veritabanı Mimarisi & Şema Yapısı (Backend - SeaORM / Sqlx)
-- [ ] Arkan plan: SQLite veritabanı entegrasyonu `src-tauri/src/db/` dizinine eklenecek.
+- [ ] Arkan plan: SQLite veritabanı entegrasyonu `src-tauri/src/db/` dizinine eklenecek. SQLite için `WAL` modu (Write-Ahead Logging) asenkron I/O performansını artırmak adına aktif edilecek.
 - [ ] Schema 1: **`scans`** (Ana Tarama Oturum Tablosu)
   - `id`: UUID (Primary Key)
-  - `target_domain`: String (Hedef adres e.g `example.com`)
+  - `target_domain`: String (Hedef adres e.g `example.com`, indekslenecek - `CREATE INDEX idx_scans_domain`)
   - `scan_module`: Enum (`SecurityAnalysis`, `DomainDns`, `SubdomainDiscovery`, `SeoAnalysis`, `NmapZeroDay`, `WebTech`, `ContactSpy`)
-  - `status`: Enum (`Running`, `Completed`, `Failed`)
-  - `timestamp`: DateTime (Tarama tarihi)
-- [ ] Schema 2: **`scan_results`** (Detaylı Sonuç Blob Tablosu)
+  - `status`: Enum (`Running`, `Completed`, `Failed`, `Cancelled`)
+  - `error_message`: Option<String> (Tarama başarısız olursa stack-trace / neden hatası tutulacak)
+  - `config_options`: Option<JSONB> (Kullanıcının tarama anında seçtiği konfigürasyon, örn: `{ "wordlist": "huge", "threads": 50 }`)
+  - `is_favorite`: Boolean (Kullanıcının sonucu yıldızlaması/sabitlemesi için)
+  - `duration_ms`: i64 (Taramanın ne kadar sürdüğü, performans istatistikleri için)
+  - `started_at`: DateTime (Tarama başlama tarihi)
+  - `finished_at`: Option<DateTime> (Tarama bitiş tarihi)
+- [ ] Schema 2: **`scan_results`** (Detaylı Sonuç & İstatistik Tablosu)
   - `id`: UUID (Primary Key)
-  - `scan_id`: Foreign Key (`scans.id` ile cascade)
-  - `security_score_cache`: i32 (Grid'de hızlı renk ayrımı için)
-  - `critical_findings_count`: i32 (Zero-day veya WAF bypass adedi tespiti)
-  - `raw_json_blob`: JSONB. Bu bloba doğrudan Serialize edilecek `web-analyzer` struct'ları:
+  - `scan_id`: Foreign Key (`scans.id` ile cascade delete, zorunlu constraint)
+  - `security_score`: Option<i32> (Tarihsel Data-Grid Dashboardlarında hızlı line-chart çizimi için)
+  - `critical_vulns`: i32 (Zero-day, Kritik açık sayıları - Tablo filtreleme için)
+  - `high_vulns`: i32 (Yüksek riskli açık adedi)
+  - `medium_vulns`: i32
+  - `low_vulns`: i32
+  - `raw_json_blob`: JSONB. Bu bloba doğrudan Serialize edilecek `web-analyzer` internal struct'ları:
     - **`SecurityAnalysisResult`**: (İçerisinde `WafMatch`, `HeaderAnalysis`, `SslAnalysisResult`, `CorsPolicyResult`, `VulnScanResult` node'ları var)
     - **`DomainDnsResult`**: (İçerisinde `DnsRecords` A, AAAA, MX, NS arrayleri)
     - **`SubdomainDiscoveryResult`**: (`host`, `ips`, `cdn_provider` listeleri)
@@ -264,7 +272,13 @@
     - **`NmapScanResult`**: (`PortInfo`, `VulnerabilityInfo`, `SeverityInfo` - Zafiyet ağacı)
     - **`CloudflareBypassResult`**: (`FoundIp` array)
     - **`ContactSpyResult`**: (Emails, `SocialMedia` node'ları)
-- [ ] Tauri Commands: `get_global_scan_history`, `get_scan_blob_details(id)`, `delete_scan(id)`, `export_scan_json(id)` hooklarının `main.rs` içine implementasyonu.
+- [ ] Database Queries (Tauri Commands in `src-tauri/src/db.rs`):
+  - `get_scans_paginated(limit, offset, filter_domain, filter_module, sort_by)`: Veri tablosu için Server-Side Pagination ve arama fonksiyonu.
+  - `get_global_statistics()`: Son 30 günün ortalama security score'u, en çok test edilen 5 domain, module kullanım oranları, tespit edilen toplam zafiyetlerin `Group By` sorgusu (Frontend'deki Pie, Bar ve Line Chartlar için).
+  - `get_scan_blob_details(id)`: UI, Dashboard Row açıldığında sadece gerekli olan bu ağır JSON blobu request edecek (Lazy loading logic).
+  - `toggle_favorite(id)`: Scan'in favori statüsünü tetikleme.
+  - `bulk_delete_scans(ids: Vec<UUID>)`: Seçili scan'leri veritabanından toplu kalıcı silme.
+  - `export_scan_json(id)`: Json raw blobu disk üzerine yazdırma.
 
 ### 7.2 History Dashboard & Widgets (Frontend)
 - [ ] Ana Sayfa (Main Dashboard) Widget: `src/routes/+page.svelte` içine "Recent Scans" veri tablosu mini-widget'ının (Son 5 tarama) eklenmesi.
