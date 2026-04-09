@@ -240,3 +240,21 @@
 - [ ] Windows (msi / nsis) derleme profillerinin oluşturulması.
 - [ ] Github Actions (CI/CD) Workflow `release.yml` oluşturulması.
 - [ ] Son güvenlik testleri ve 1.0.0 Release Yayını.
+
+## Faz 7: Scan History & SQLite Database Architecture (Offline Persistence)
+### 7.1 Veritabanı Mimarisi (Backend)
+- [ ] Arkan plan: SQLite (sea-orm veya sqlx) entegrasyonu `src-tauri/src/db/` dizinine eklenecek.
+- [ ] Schema (Şema) Tasarımı: `scans` (id, domain, type, timestamp, status), `scan_results` (id, scan_id, raw_json_blob, parsed_summary) tablolarının oluşturulması.
+- [ ] Entity Mappings: Tüm zafiyet ve OSINT analiz dönütlerinin (Structlar) Serialized JSON blob (veya relational) olarak veritabanına yazılması.
+- [ ] Tauri Commands: `get_scan_history`, `get_scan_details`, `delete_scan`, `clear_history` metodlarının `main.rs` hookuna eklenmesi.
+
+### 7.2 History Dashboard & Widgets (Frontend)
+- [ ] Ana Sayfa (Main Dashboard) Widget: `src/routes/+page.svelte` içine "Recent Scans" veri tablosu mini-widget'ının (Son 5 tarama) eklenmesi.
+- [ ] Sayfa: `src/routes/history/+page.svelte` Detaylı arama çubuğuna, tarihe, domain adına ve tarama modülüne (Nmap, DNS, ContactSpy) göre filtrelenebilir kompleks bir Scan History Data-Grid tablosu.
+- [ ] Component: "Re-Scan" butonu içeren geçmiş scanleri tek tıkla tekrar çalıştırabilen etkileşimli satırlar.
+- [ ] Component: Geçmiş scan detaylarını tıklayarak tam sayfa Dashboard Raporuna geri dönüştüren dinamik `/history/[id]/+page.svelte` tasarımı.
+
+### 7.3 Mevcut Sayfa Modifikasyonları
+- [ ] Zafiyet Raporlaması: Mevcut Recon ve Intelligence sayfalarında, sonuçlar ekrana basılırken arka planda asenkron olarak SQLite'a kaydolduğuna dair "Saved to DB" Svelte-Sonner onayı.
+- [ ] Ayarlar (Settings) Modifikasyonu: Veritabanını yedekleme (Export SQLite), veritabanı boyutunu görme ve komple sıfırlama (Nuke History) fonksiyonları için tehlike (Danger) butonları.
+

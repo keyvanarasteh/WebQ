@@ -2,13 +2,14 @@
     import { appState } from '$lib/stores/AppState.svelte';
     // @ts-expect-error SvelteKit generated module not playing nice with TS ambient types sometimes
     import { resolve } from '$app/paths';
-    import { Shield, Target, Search, Settings, Network } from 'lucide-svelte';
+    import { Shield, Target, Search, Settings, Network, Activity } from 'lucide-svelte';
 
     const menuItems = [
         { name: 'Dashboard', path: '/', icon: Shield },
         { name: 'Intelligence', path: '/intelligence/domain-info', icon: Search },
         { name: 'Reconnaissance', path: '/recon', icon: Target },
         { name: 'Security Assessment', path: '/assessment/security-posture', icon: Network },
+        { name: 'Engine Health', path: '/settings/dependencies', icon: Activity },
         { name: 'Settings', path: '/settings', icon: Settings },
     ];
 </script>
