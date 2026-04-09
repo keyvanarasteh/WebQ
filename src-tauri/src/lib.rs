@@ -1,4 +1,5 @@
 pub mod error;
+pub mod system_health;
 
 use crate::error::AppError;
 use web_analyzer::domain_info::{get_domain_info, DomainInfoResult};
@@ -141,8 +142,10 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
+        .plugin(tauri_plugin_os::init())
         .invoke_handler(tauri::generate_handler![
             check_dependencies,
+            system_health::check_dependency,
             get_system_status,
             scan_domain_info,
             scan_domain_dns,
