@@ -55,7 +55,7 @@
 	>
 		<!-- Backdrop -->
 		<button
-			class="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-default w-full h-full border-none p-0 focus:outline-none"
+			class="absolute inset-0 bg-overlay backdrop-blur-sm cursor-default w-full h-full border-none p-0 focus:outline-none"
 			onclick={() => (isOpen = false)}
 			aria-label="Close"
 			transition:fade={{ duration: 200 }}
@@ -68,14 +68,14 @@
 			<!-- Close Button -->
 			<button
 				onclick={() => (isOpen = false)}
-				class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-[#121214] hover:bg-surface rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+				class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-sunken hover:bg-surface rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
 				aria-label="Close"
 			>
 				<X class="size-4" />
 			</button>
 
 			<!-- Sidebar Navigation -->
-			<div class="w-full md:w-64 bg-[#121214] border-r border-base shrink-0 flex flex-col">
+			<div class="w-full md:w-64 bg-sunken border-r border-base shrink-0 flex flex-col">
 				<div class="p-6 border-b border-base">
 					<div class="flex items-center gap-3">
 						<div class="p-2 bg-emerald-500/10 rounded-lg">
@@ -149,7 +149,7 @@
 
 						<div class="space-y-4">
                             <!-- Strict-Transport-Security -->
-                            <div class="bg-[#121214] border border-base p-4 rounded-xl">
+                            <div class="bg-sunken border border-base p-4 rounded-xl">
                                 <h4 class="font-bold text-green-400 text-sm mb-2 font-mono flex items-center gap-2">
                                     Strict-Transport-Security (HSTS)
                                     <span class="px-2 py-0.5 rounded text-[9px] bg-green-500/20 text-green-400 border border-green-500/30 uppercase tracking-widest font-sans">Critical</span>
@@ -161,7 +161,7 @@
                             </div>
                   
                             <!-- Content-Security-Policy -->
-                            <div class="bg-[#121214] border border-base p-4 rounded-xl">
+                            <div class="bg-sunken border border-base p-4 rounded-xl">
                                 <h4 class="font-bold text-blue-400 text-sm mb-2 font-mono flex items-center gap-2">
                                     Content-Security-Policy (CSP)
                                     <span class="px-2 py-0.5 rounded text-[9px] bg-blue-500/20 text-blue-400 border border-blue-500/30 uppercase tracking-widest font-sans">Advanced</span>
@@ -173,7 +173,7 @@
                             </div>
                   
                             <!-- X-Frame-Options -->
-                            <div class="bg-[#121214] border border-base p-4 rounded-xl">
+                            <div class="bg-sunken border border-base p-4 rounded-xl">
                                 <h4 class="font-bold text-orange-400 text-sm mb-2 font-mono flex items-center gap-2">
                                     X-Frame-Options
                                     <span class="px-2 py-0.5 rounded text-[9px] bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase tracking-widest font-sans">Critical</span>

@@ -44,7 +44,7 @@
 
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-    <div class="fixed inset-0 z-50 flex items-start justify-center pt-32 bg-black/60 backdrop-blur-sm" transition:fade={{ duration: 150 }} onclick={() => isOpen = false}>
+    <div class="fixed inset-0 z-50 flex items-start justify-center pt-32 bg-overlay backdrop-blur-sm" transition:fade={{ duration: 150 }} onclick={() => isOpen = false}>
         <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions, a11y_no_noninteractive_element_interactions -->
         <div class="w-full max-w-2xl bg-background border border-cyan-500/30 rounded-xl shadow-[0_0_50px_-12px_rgba(34,211,238,0.2)] overflow-hidden flex flex-col" transition:fly={{ y: -20, duration: 250, easing: backOut }} onclick={(e) => e.stopPropagation()}>
             <div class="flex items-center px-4 py-3 border-b border-base gap-3">
@@ -57,7 +57,7 @@
                     class="w-full bg-transparent border-none text-primary-text focus:outline-none focus:ring-0 text-sm font-mono"
                     autofocus
                 />
-                <button onclick={() => isOpen = false} class="text-muted hover:text-primary-text transition-colors bg-white/5 hover:bg-white/10 rounded-md p-1 border border-transparent hover:border-white/10">
+                <button onclick={() => isOpen = false} class="text-muted hover:text-primary-text transition-colors bg-glass hover:bg-glass-hover rounded-md p-1 border border-transparent hover:border-glass">
                     <X size={16} />
                 </button>
             </div>
@@ -81,10 +81,10 @@
                 {/if}
             </div>
             
-            <div class="bg-black/40 px-4 py-2 border-t border-base text-xs text-muted flex justify-between items-center font-mono">
-                <span><kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 mr-1">↑↓</kbd> to navigate</span>
-                <span><kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 mr-1">Enter</kbd> to select</span>
-                <span><kbd class="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 mr-1">Esc</kbd> to close</span>
+            <div class="bg-glass px-4 py-2 border-t border-base text-xs text-muted flex justify-between items-center font-mono">
+                <span><kbd class="px-1.5 py-0.5 rounded bg-glass border border-glass mr-1">↑↓</kbd> to navigate</span>
+                <span><kbd class="px-1.5 py-0.5 rounded bg-glass border border-glass mr-1">Enter</kbd> to select</span>
+                <span><kbd class="px-1.5 py-0.5 rounded bg-glass border border-glass mr-1">Esc</kbd> to close</span>
             </div>
         </div>
     </div>

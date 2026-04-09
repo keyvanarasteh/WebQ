@@ -34,7 +34,7 @@
 </script>
 
 <div class="bg-background border border-base rounded-lg overflow-hidden flex flex-col w-full shadow-inner shadow-black/80 font-mono" style="min-height: 250px;">
-	<div class="bg-[#18181b] border-b border-base p-2.5 flex items-center justify-between shadow-sm z-10 px-4 shrink-0">
+	<div class="bg-elevated border-b border-base p-2.5 flex items-center justify-between shadow-sm z-10 px-4 shrink-0">
 		<div class="flex items-center gap-2">
 			<TerminalSquare size={16} class="text-emerald-500" />
 			<span class="text-xs text-primary-text font-bold tracking-widest uppercase">Harvesting Console</span>
@@ -51,12 +51,12 @@
 	>
 		{#each logs as log (log.id)}
 			<div class="flex items-start gap-3 group" in:fade={{duration:150}}>
-				<span class="text-slate-600 shrink-0">[{log.timestamp}]</span>
+				<span class="text-tertiary-text shrink-0">[{log.timestamp}]</span>
 				<span class="shrink-0 font-bold uppercase w-14 {getStatusColor(log.status)}">{log.status}</span>
-				<span class="text-slate-300 wrap-break-word group-hover:text-primary-text transition-colors">{log.message}</span>
+				<span class="text-secondary-text wrap-break-word group-hover:text-primary-text transition-colors">{log.message}</span>
 			</div>
 		{:else}
-			<div class="h-full flex items-center justify-center text-slate-600 py-10 opacity-50 text-[10px] tracking-widest uppercase">
+			<div class="h-full flex items-center justify-center text-tertiary-text py-10 opacity-50 text-[10px] tracking-widest uppercase">
 				Waiting for crawler initialization...
 			</div>
 		{/each}

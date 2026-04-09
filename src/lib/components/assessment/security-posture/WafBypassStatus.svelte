@@ -11,7 +11,7 @@
     } = $props();
 </script>
 
-<div class="border border-white/5 bg-white/5 backdrop-blur-md rounded-xl p-6">
+<div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
     <div class="flex items-center gap-3 mb-6">
         <Server class="w-5 h-5 text-indigo-400" />
         <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_waf()}</h3>
@@ -36,9 +36,9 @@
             </div>
         </div>
     {:else}
-        <div class="flex flex-col items-center justify-center p-8 border border-dashed rounded-lg border-white/10 text-center">
+        <div class="flex flex-col items-center justify-center p-8 border border-dashed rounded-lg border-glass text-center">
             <ShieldBan class="w-10 h-10 mb-4 text-muted" />
-            <h4 class="text-slate-300 font-medium mb-1">{m.sec_posture_waf_none()}</h4>
+            <h4 class="text-secondary-text font-medium mb-1">{m.sec_posture_waf_none()}</h4>
             <p class="text-sm text-muted">No active firewalls detected for this target.</p>
         </div>
     {/if}

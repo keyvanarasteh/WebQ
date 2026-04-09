@@ -14,12 +14,12 @@
   let isGuideOpen = $state(false);
 </script>
 
-<div class="bg-white/5 bg-background border border-base border-base rounded-xl overflow-hidden shadow-sm">
+<div class="bg-background border border-base rounded-xl overflow-hidden shadow-sm">
    <ValidatorGuide bind:isOpen={isGuideOpen} />
    
-   <div class="p-6 border-b border-base border-base bg-background dark:bg-[#121214] flex justify-between items-center">
+   <div class="p-6 border-b border-base bg-background flex justify-between items-center">
        <div class="flex items-center gap-2">
-           <h3 class="text-lg font-bold text-inverse text-accent">{m.val_ledger_title()}</h3>
+           <h3 class="text-lg font-bold text-accent">{m.val_ledger_title()}</h3>
            <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
        </div>
        <span class="text-xs text-muted font-mono">{m.val_domains_tracked({ count: results?.length || 0 })}</span>
@@ -28,7 +28,7 @@
    <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
        <table class="w-full text-left border-collapse">
            <thead class="sticky top-0 z-10">
-               <tr class="bg-gray-100 dark:bg-[#18181b] border-b border-base border-base text-xs uppercase tracking-widest text-muted font-black">
+               <tr class="bg-surface-hover border-b border-base text-xs uppercase tracking-widest text-muted font-black">
                    <th class="p-4">Target Domain</th>
                    <th class="p-4 text-center">DNS Res</th>
                    <th class="p-4 text-center">HTTP:80</th>
@@ -36,20 +36,20 @@
                    <th class="p-4 text-right">Target State</th>
                </tr>
            </thead>
-           <tbody class="divide-y divide-gray-200 dark:divide-base">
+           <tbody class="divide-y divide-base">
                {#if isLoading && (!results || results.length === 0)}
                    {#each Array(7) as _, i (i)}
                        <tr class="animate-pulse bg-background/50 bg-background">
-                           <td class="p-4"><div class="h-4 bg-surface bg-surface rounded w-48"></div></td>
-                           <td class="p-4"><div class="h-4 bg-surface bg-surface rounded w-8 mx-auto"></div></td>
-                           <td class="p-4"><div class="h-4 bg-surface bg-surface rounded w-8 mx-auto"></div></td>
-                           <td class="p-4"><div class="h-4 bg-surface bg-surface rounded w-8 mx-auto"></div></td>
-                           <td class="p-4"><div class="h-6 bg-surface bg-surface rounded w-16 ml-auto"></div></td>
+                           <td class="p-4"><div class="h-4 bg-surface rounded w-48"></div></td>
+                           <td class="p-4"><div class="h-4 bg-surface rounded w-8 mx-auto"></div></td>
+                           <td class="p-4"><div class="h-4 bg-surface rounded w-8 mx-auto"></div></td>
+                           <td class="p-4"><div class="h-4 bg-surface rounded w-8 mx-auto"></div></td>
+                           <td class="p-4"><div class="h-6 bg-surface rounded w-16 ml-auto"></div></td>
                        </tr>
                    {/each}
                {:else if results && results.length > 0}
                    {#each results as row (row.domain)}
-                       <tr class="hover:bg-gray-100 hover:dark:bg-[#121214] transition-colors {row.is_valid ? 'bg-white bg-background' : 'bg-background dark:bg-[#0d0d0f] opacity-80'}">
+                       <tr class="hover:bg-surface-hover transition-colors {row.is_valid ? 'bg-white bg-background' : 'bg-background opacity-80'}">
                            <td class="p-4 font-mono text-sm text-inverse text-primary-text font-medium">{row.domain}</td>
                            <td class="p-4 text-center">
                                {#if row.dns_resolved}
@@ -74,9 +74,9 @@
                            </td>
                            <td class="p-4 text-right">
                                {#if row.is_valid}
-                                   <span class="px-2 py-1 bg-green-500/10 text-green-600 dark:text-green-400 text-[10px] font-black rounded uppercase tracking-widest border border-green-500/30">VALID</span>
+                                   <span class="px-2 py-1 bg-green-500/10 text-green-600 text-[10px] font-black rounded uppercase tracking-widest border border-green-500/30">VALID</span>
                                {:else}
-                                   <span class="px-2 py-1 bg-red-500/10 text-red-600 dark:text-red-500 text-[10px] font-black rounded uppercase tracking-widest border border-red-500/30">INVALID</span>
+                                   <span class="px-2 py-1 bg-red-500/10 text-red-600 text-[10px] font-black rounded uppercase tracking-widest border border-red-500/30">INVALID</span>
                                {/if}
                            </td>
                        </tr>

@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-red-500/10 blur-[64px] rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-red-500/20 rounded-xl transition-all border border-white/5 hover:border-red-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-red-500/20 rounded-xl transition-all border border-subtle hover:border-red-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-red-500/20 text-red-300 border border-red-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-red-500/20 text-red-300 border border-red-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -96,10 +96,10 @@
                             </div>
 
                             <!-- Visual Diagram -->
-                            <div class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
+                            <div class="bg-glass border border-subtle rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
                                 <div class="flex items-center justify-between w-full mb-6 relative py-4">
                                     <div class="flex flex-col items-center z-10 w-20">
-                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-600 flex items-center justify-center shadow-lg">
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-base flex items-center justify-center shadow-lg">
                                             <Search size={20} class="text-muted"/>
                                         </div>
                                         <span class="text-xs text-muted mt-2">Scanner</span>
@@ -132,7 +132,7 @@
                                     </div>
 
                                     <div class="flex flex-col items-center z-10 w-20">
-                                        <div class="w-14 h-14 rounded-lg bg-surface border-2 border-zinc-700 flex flex-col items-center justify-center text-primary-text shadow-xl">
+                                        <div class="w-14 h-14 rounded-lg bg-surface border-2 border-base flex flex-col items-center justify-center text-primary-text shadow-xl">
                                             <Network size={20} class="text-emerald-400"/>
                                             <span class="text-[10px] mt-1 font-bold">Port 22</span>
                                         </div>
@@ -152,7 +152,7 @@
                         
                         <!-- Terminal Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-red-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-subtle backdrop-blur">
                                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
@@ -177,7 +177,7 @@
                                     <p class="text-muted">|       A flaw was found in a change made to path normalization in Apache HTTP Server.</p>
                                 </div>
                                 
-                                <p class="text-emerald-400 flex items-center gap-2 mt-4 font-semibold border-t border-white/5 pt-4"><span>➜</span> <span class="text-blue-400">curl</span> -v --path-as-is http://10.0.0.45/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/passwd</p>
+                                <p class="text-emerald-400 flex items-center gap-2 mt-4 font-semibold border-t border-subtle pt-4"><span>➜</span> <span class="text-blue-400">curl</span> -v --path-as-is http://10.0.0.45/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/passwd</p>
                                 <div class="pl-4 mt-2 text-orange-400/80">
                                     <p>root:x:0:0:root:/root:/bin/bash</p>
                                     <p>daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</p>
@@ -238,13 +238,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-red-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

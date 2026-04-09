@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-amber-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-amber-500/20 rounded-xl transition-all border border-white/5 hover:border-amber-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-amber-500/20 rounded-xl transition-all border border-subtle hover:border-amber-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-amber-500/20 text-amber-300 border border-amber-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-amber-500/20 text-amber-300 border border-amber-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -96,10 +96,10 @@
                             </div>
 
                             <!-- Visual Diagram -->
-                            <div class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
+                            <div class="bg-glass border border-subtle rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
                                 <div class="flex items-center justify-between w-full mb-6 relative py-4">
                                     <div class="flex flex-col items-center z-10 w-24">
-                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-600 flex items-center justify-center text-primary-text mb-2">User</div>
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-base flex items-center justify-center text-primary-text mb-2">User</div>
                                         <span class="text-xs text-muted text-center">visits<br>auth.target.com</span>
                                     </div>
                                     
@@ -137,30 +137,30 @@
                         
                         <!-- Terminal Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-amber-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm ">
-                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-subtle backdrop-blur">
                                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                                 <span class="ml-2 text-muted text-xs tracking-wider">attacker@kali:~/recon</span>
                             </div>
                             <div class="p-5 space-y-3 text-primary-text h-72 overflow-y-auto custom-scrollbar">
-                                <p class="text-emerald-400 flex items-center gap-2 font-semibold border-b border-white/5 pb-2"><span>➜</span> <span class="text-blue-400">dig</span> auth.target.com CNAME</p>
+                                <p class="text-emerald-400 flex items-center gap-2 font-semibold border-b border-subtle pb-2"><span>➜</span> <span class="text-blue-400">dig</span> auth.target.com CNAME</p>
                                 <div class="opacity-80 pl-4 py-2">
                                     <p class="text-muted">; &lt;&lt;&gt;&gt; DiG 9.16.1 &lt;&lt;&gt;&gt; auth.target.com CNAME</p>
                                     <p class="text-muted mt-1">;; ANSWER SECTION:</p>
                                     <p class="text-amber-400 font-bold bg-amber-500/5 px-2 py-1 fit-content border border-amber-500/20 rounded">auth.target.com.    300  IN  CNAME   target-auth-app.s3.amazonaws.com.</p>
                                 </div>
 
-                                <p class="text-emerald-400 flex items-center gap-2 font-semibold border-b border-white/5 pb-2 pt-2"><span>➜</span> <span class="text-blue-400">curl</span> -I http://target-auth-app.s3.amazonaws.com</p>
+                                <p class="text-emerald-400 flex items-center gap-2 font-semibold border-b border-subtle pb-2 pt-2"><span>➜</span> <span class="text-blue-400">curl</span> -I http://target-auth-app.s3.amazonaws.com</p>
                                 <div class="opacity-80 pl-4 py-2">
                                     <p class="text-red-400 font-bold">HTTP/1.1 404 Not Found</p>
                                     <p class="text-muted">&lt;Code&gt;NoSuchBucket&lt;/Code&gt;</p>
                                     <p class="text-muted">&lt;Message&gt;The specified bucket does not exist&lt;/Message&gt;</p>
                                 </div>
 
-                                <p class="text-emerald-400 flex items-center gap-2 mt-4 font-semibold border-t border-white/5 pt-4"><span>➜</span> <span class="text-blue-400">aws</span> s3api create-bucket --bucket target-auth-app --region us-east-1</p>
+                                <p class="text-emerald-400 flex items-center gap-2 mt-4 font-semibold border-t border-subtle pt-4"><span>➜</span> <span class="text-blue-400">aws</span> s3api create-bucket --bucket target-auth-app --region us-east-1</p>
                                 <div class="pl-4 mt-2 mb-4">
-                                <pre class="text-green-300 bg-black/60 p-4 rounded-xl border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+                                <pre class="text-green-300 bg-glass p-4 rounded-xl border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]">
 &#123;
   "Location": "/target-auth-app"
 &#125;
@@ -228,13 +228,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-amber-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

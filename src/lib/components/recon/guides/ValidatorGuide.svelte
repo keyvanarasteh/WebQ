@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-cyan-500/20 rounded-xl transition-all border border-subtle hover:border-cyan-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -98,19 +98,19 @@
                         <p class="text-sm text-muted mb-6 max-w-3xl">Active probing operates hierarchically across several protocols.</p>
                         
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div class="bg-[#121214] border border-base p-6 rounded-xl flex flex-col items-center text-center shadow-lg hover:border-purple-500/30 transition-colors">
+                            <div class="bg-sunken border border-base p-6 rounded-xl flex flex-col items-center text-center shadow-lg hover:border-purple-500/30 transition-colors">
                                 <div class="p-4 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-2xl mb-4 shadow-inner"><Eye class="size-6" /></div>
                                 <h4 class="font-bold text-primary-text text-base mb-3">DNS Resolution</h4>
                                 <p class="text-xs text-muted leading-relaxed">Detects if the domain resolves to an IP. A missing DNS record but present subdomain in a bruteforce list might indicate a potential Subdomain Takeover vector.</p>
                             </div>
 
-                            <div class="bg-[#121214] border border-base p-6 rounded-xl flex flex-col items-center text-center shadow-lg hover:border-blue-500/30 transition-colors">
+                            <div class="bg-sunken border border-base p-6 rounded-xl flex flex-col items-center text-center shadow-lg hover:border-blue-500/30 transition-colors">
                                 <div class="p-4 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-2xl mb-4 shadow-inner"><ListChecks class="size-6" /></div>
                                 <h4 class="font-bold text-primary-text text-base mb-3">Port 80 (HTTP)</h4>
                                 <p class="text-xs text-muted leading-relaxed">Unencrypted web traffic. Modern sites should immediately 301 redirect this to HTTPS. A 200 OK on Port 80 without redirection is an instant security audit flag.</p>
                             </div>
 
-                            <div class="bg-[#121214] border border-base p-6 rounded-xl flex flex-col items-center text-center shadow-lg hover:border-green-500/30 transition-colors">
+                            <div class="bg-sunken border border-base p-6 rounded-xl flex flex-col items-center text-center shadow-lg hover:border-green-500/30 transition-colors">
                                 <div class="p-4 bg-green-500/10 border border-green-500/20 text-green-400 rounded-2xl mb-4 shadow-inner"><ShieldCheck class="size-6" /></div>
                                 <h4 class="font-bold text-primary-text text-base mb-3">Port 443 (HTTPS)</h4>
                                 <p class="text-xs text-muted leading-relaxed">Secure web traffic. Successful connection indicates an active service and SSL certificate deployment, meaning the endpoint is a live target for deep scanning.</p>
@@ -122,12 +122,12 @@
                         <h3 class="text-lg font-semibold text-emerald-400 mb-4">Automated Discovery Funnel</h3>
                         <p class="text-sm text-muted mb-6 max-w-3xl leading-relaxed">Understanding the funneling phase of a penetration test or bounty hunting session.</p>
 
-                        <div class="bg-black/40 border border-emerald-500/20 rounded-xl p-8 shadow-inner relative overflow-hidden">
+                        <div class="bg-glass border border-emerald-500/20 rounded-xl p-8 shadow-inner relative overflow-hidden">
                             <div class="absolute right-0 top-0 w-48 h-48 bg-emerald-500/5 rounded-bl-full pointer-events-none"></div>
                             
                             <div class="flex flex-col gap-6 relative z-10">
                                 <div class="flex items-center gap-4">
-                                    <div class="bg-surface text-primary-text font-mono text-xs px-3 py-1 rounded border border-zinc-700">10,000+</div>
+                                    <div class="bg-surface text-primary-text font-mono text-xs px-3 py-1 rounded border border-base">10,000+</div>
                                     <p class="text-sm text-primary-text"><strong>Subdomain Scraping:</strong> Tools like Amass and Subfinder pull raw, noisy permutations from public sources.</p>
                                 </div>
                                 <div class="w-0.5 h-6 bg-emerald-500/30 ml-8"></div>
@@ -151,13 +151,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-cyan-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

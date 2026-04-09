@@ -50,7 +50,7 @@
 {#snippet treeNode(node: Node, depth: number)}
 	<div class="flex flex-col">
 		<div 
-			class="flex items-center gap-2 py-1.5 px-2 hover:bg-slate-800/50 rounded-lg transition-colors group cursor-pointer"
+			class="flex items-center gap-2 py-1.5 px-2 hover:bg-surface-hover/50 rounded-lg transition-colors group cursor-pointer"
 			style="margin-left: {depth * 1.5}rem"
 		>
 			{#if Object.keys(node.children).length > 0}
@@ -59,7 +59,7 @@
 				<Globe size={14} class="text-muted group-hover:text-emerald-400" />
 			{/if}
 			
-			<span class="font-mono text-sm text-slate-300 group-hover:text-primary-text transition-colors">
+			<span class="font-mono text-sm text-secondary-text group-hover:text-primary-text transition-colors">
 				{node.name}
 			</span>
 			{#if !Object.keys(node.children).length}
@@ -67,7 +67,7 @@
 					href={`http://${node.full}`} 
 					target="_blank" 
 					rel="noopener noreferrer" 
-					class="text-[10px] text-slate-600 ml-2 hidden group-hover:inline-block font-mono hover:text-emerald-400 transition-colors"
+					class="text-[10px] text-tertiary-text ml-2 hidden group-hover:inline-block font-mono hover:text-emerald-400 transition-colors"
 					title="Open {node.full}"
 				>
 					({node.full})
@@ -76,7 +76,7 @@
 		</div>
 		
 		{#if Object.keys(node.children).length > 0}
-			<div class="relative flex flex-col border-l border-slate-700/50 ml-2 pt-1">
+			<div class="relative flex flex-col border-l border-base/50 ml-2 pt-1">
 				{#each Object.values(node.children).sort((a,b) => a.name.localeCompare(b.name)) as child}
 					{@render treeNode(child, depth + 1)}
 				{/each}
@@ -85,14 +85,14 @@
 	</div>
 {/snippet}
 
-<div class="w-full bg-background rounded-xl border border-slate-800 shadow-xl p-4 font-fira text-slate-300 overflow-x-auto">
+<div class="w-full bg-background rounded-xl border border-base shadow-xl p-4 font-fira text-secondary-text overflow-x-auto">
 	{#if data.length === 0}
 		<div class="flex items-center justify-center py-10 text-sm text-muted">
 			No tree data to parse.
 		</div>
 	{:else}
 		<div class="flex flex-col">
-			<div class="flex items-center gap-2 py-2 px-3 border-b border-slate-800/80 mb-3 bg-slate-900/50 rounded-t-lg">
+			<div class="flex items-center gap-2 py-2 px-3 border-b border-base/80 mb-3 bg-surface rounded-t-lg">
 				<Globe size={18} class="text-emerald-500" />
 				<span class="font-bold text-emerald-400 tracking-wide text-lg">{tree.name}</span>
 			</div>

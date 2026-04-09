@@ -111,7 +111,7 @@
 	<!-- Top Section: Input & Stats -->
 	<div class="grid gap-6 lg:grid-cols-12">
 		<!-- Left: Input Control -->
-		<div class="lg:col-span-8 bg-[#18181b] border border-base rounded-lg p-6 flex flex-col justify-center">
+		<div class="lg:col-span-8 bg-elevated border border-base rounded-lg p-6 flex flex-col justify-center">
 			<h2 class="text-lg font-bold text-primary-text mb-4 tracking-widest uppercase flex items-center gap-2">
 				<Search size={18} class="text-emerald-500" />
 				{m.recon_contact_target()}
@@ -131,7 +131,7 @@
 				<button 
 					onclick={performScan}
 					disabled={appState.isScanning}
-					class="px-8 py-3 rounded-lg bg-emerald-500 text-black font-bold uppercase tracking-wider hover:bg-emerald-400 focus:ring-2 focus:ring-emerald-500/50 focus:outline-none disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
+					class="px-8 py-3 rounded-lg bg-emerald-500 text-on-accent font-bold uppercase tracking-wider hover:bg-emerald-400 focus:ring-2 focus:ring-emerald-500/50 focus:outline-none disabled:opacity-50 transition-all shrink-0 flex items-center gap-2"
 				>
 					{#if appState.isScanning}
 						<ActivitySquare size={18} class="animate-pulse" />
@@ -145,7 +145,7 @@
 		</div>
 
 		<!-- Right: Quick Actions / KPI -->
-		<div class="lg:col-span-4 bg-[#18181b] border border-base rounded-lg p-6 flex flex-col items-center justify-center text-center">
+		<div class="lg:col-span-4 bg-elevated border border-base rounded-lg p-6 flex flex-col items-center justify-center text-center">
 			<Users size={32} class="text-emerald-500/50 mb-3" />
 			<h3 class="text-primary-text font-bold tracking-widest uppercase text-sm mb-1">{m.nav_contact_spy()} Mode Active</h3>
 			<p class="text-xs text-muted font-fira">OSINT techniques applied.</p>

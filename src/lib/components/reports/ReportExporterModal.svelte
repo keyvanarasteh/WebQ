@@ -48,7 +48,7 @@
 </script>
 
 {#if open}
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-overlay backdrop-blur-sm">
         <div class="bg-background border border-base rounded-xl shadow-2xl w-full max-w-md overflow-hidden relative">
             
             <div class="border-b border-base p-4 flex items-center justify-between bg-surface/50">

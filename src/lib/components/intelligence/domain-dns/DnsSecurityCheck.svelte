@@ -16,18 +16,18 @@
   let hasDmarc = $derived(txtRecords.some((r: string) => r.toLowerCase().includes('v=dmarc1')));
 </script>
 
-<div class="bg-white/5 bg-background border border-base border-base rounded-xl p-6 shadow-sm dark:shadow-md transition-all">
-  <h3 class="text-lg font-bold text-inverse text-accent mb-6">{m.dns_security_policies_title()}</h3>
+<div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all">
+  <h3 class="text-lg font-bold text-accent mb-6">{m.dns_security_policies_title()}</h3>
 
   {#if isLoading}
       <div class="space-y-4">
-          <div class="h-10 w-full bg-surface bg-surface/50 rounded-lg animate-pulse"></div>
-          <div class="h-10 w-full bg-surface bg-surface/50 rounded-lg animate-pulse"></div>
+          <div class="h-10 w-full bg-surface/50 rounded-lg animate-pulse"></div>
+          <div class="h-10 w-full bg-surface/50 rounded-lg animate-pulse"></div>
       </div>
   {:else if records}
       <div class="space-y-4">
           <!-- SPF Check -->
-          <div class="flex items-center justify-between p-3 bg-[#121214] rounded-lg border border-base">
+          <div class="flex items-center justify-between p-3 bg-sunken rounded-lg border border-base">
               <div>
                   <p class="text-sm font-bold text-primary-text">{m.dns_spf_record()}</p>
                   <p class="text-xs text-muted mt-1">{m.dns_spf_desc()}</p>
@@ -40,7 +40,7 @@
           </div>
 
           <!-- DMARC Check -->
-          <div class="flex items-center justify-between p-3 bg-[#121214] rounded-lg border border-base">
+          <div class="flex items-center justify-between p-3 bg-sunken rounded-lg border border-base">
               <div>
                   <p class="text-sm font-bold text-primary-text">{m.dns_dmarc_record()}</p>
                   <p class="text-xs text-muted mt-1">{m.dns_dmarc_desc()}</p>

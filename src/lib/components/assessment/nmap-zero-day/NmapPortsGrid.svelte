@@ -5,19 +5,19 @@
     let { ports = [] }: { ports: Array<{port: number, state: string, service: string, version: string, product?: string, cpe?: string[]}> } = $props();
 </script>
 
-<div class="border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
+<div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-primary-text">
-            <thead class="bg-white/5 border-b border-white/10 text-muted font-medium">
+            <thead class="bg-glass border-b border-glass text-muted font-medium">
                 <tr>
                     <th class="px-6 py-4">{m.sec_nmap_col_port()}</th>
                     <th class="px-6 py-4">{m.sec_nmap_col_service()}</th>
                     <th class="px-6 py-4">{m.sec_nmap_col_version()}</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-white/5">
+            <tbody class="divide-y divide-subtle">
                 {#each ports as p (p.port)}
-                    <tr class="hover:bg-white/[0.02] transition-colors group">
+                    <tr class="hover:bg-glass-hover transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-emerald-400/10 flex items-center justify-center text-emerald-400 border border-emerald-400/20">
@@ -27,7 +27,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-white/5 text-primary-text border border-white/10">
+                            <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-glass text-primary-text border border-glass">
                                 {p.service || 'unknown'}
                             </span>
                         </td>

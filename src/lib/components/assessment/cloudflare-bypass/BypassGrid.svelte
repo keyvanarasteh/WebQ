@@ -8,14 +8,14 @@
         if (conf === 'Very High') return 'text-red-400 bg-red-400/10 border-red-400/20';
         if (conf === 'High') return 'text-orange-400 bg-orange-400/10 border-orange-400/20';
         if (conf === 'Medium') return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
-        return 'text-muted bg-zinc-400/10 border-zinc-400/20';
+        return 'text-muted bg-surface/50 border-base';
     }
 </script>
 
-<div class="mt-6 border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
+<div class="mt-6 border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-primary-text">
-            <thead class="bg-white/5 border-b border-white/10 text-muted font-medium">
+            <thead class="bg-glass border-b border-glass text-muted font-medium">
                 <tr>
                     <th class="px-6 py-4">{m.sec_cfbypass_col_ip()}</th>
                     <th class="px-6 py-4">{m.sec_cfbypass_col_source()}</th>
@@ -23,9 +23,9 @@
                     <th class="px-6 py-4">{m.sec_cfbypass_col_status()}</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-white/5">
+            <tbody class="divide-y divide-subtle">
                 {#each ips as item (item.ip + item.source)}
-                    <tr class="hover:bg-white/[0.02] transition-colors group">
+                    <tr class="hover:bg-glass-hover transition-colors group">
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-red-400/10 flex items-center justify-center text-red-400 border border-red-400/20">
@@ -35,7 +35,7 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-white/5 text-primary-text border border-white/10">
+                            <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-glass text-primary-text border border-glass">
                                 {item.source}
                             </span>
                         </td>

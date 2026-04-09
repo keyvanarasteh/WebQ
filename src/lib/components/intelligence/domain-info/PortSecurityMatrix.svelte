@@ -8,15 +8,15 @@
   let { isLoading, ports, score }: PortSecurityProps = $props();
 </script>
 
-<div class="bg-white/5 bg-background border border-base border-base rounded-xl p-6 shadow-sm dark:shadow-md transition-all duration-300">
-  <h3 class="text-lg font-bold text-inverse text-accent mb-4">Security Assessment</h3>
+<div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all duration-300">
+  <h3 class="text-lg font-bold text-accent mb-4">Security Assessment</h3>
   
   {#if isLoading}
       <div class="space-y-4">
-          <div class="h-10 w-full bg-surface bg-surface/50 rounded-lg animate-pulse"></div>
+          <div class="h-10 w-full bg-surface/50 rounded-lg animate-pulse"></div>
           <div class="flex gap-2">
-              <div class="h-6 w-12 bg-surface bg-surface rounded animate-pulse"></div>
-              <div class="h-6 w-12 bg-surface bg-surface rounded animate-pulse"></div>
+              <div class="h-6 w-12 bg-surface rounded animate-pulse"></div>
+              <div class="h-6 w-12 bg-surface rounded animate-pulse"></div>
           </div>
       </div>
   {:else}

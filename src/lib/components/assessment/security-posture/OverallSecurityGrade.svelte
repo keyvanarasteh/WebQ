@@ -19,7 +19,7 @@
     );
 </script>
 
-<div class="relative overflow-hidden border border-white/5 bg-white/5 backdrop-blur-md rounded-xl p-6 sm:p-8 {isHighRisk ? 'ring-1 ring-red-500/30' : ''}">
+<div class="relative overflow-hidden border border-subtle bg-glass backdrop-blur-md rounded-xl p-6 sm:p-8 {isHighRisk ? 'ring-1 ring-red-500/30' : ''}">
     <!-- Background Glare -->
     <div class="absolute -top-32 -right-32 w-64 h-64 rounded-full blur-[100px] pointer-events-none {isHighRisk ? 'bg-red-500/10' : 'bg-emerald-500/10'}"></div>
 
@@ -37,7 +37,7 @@
         </span>
     </div>
 
-    <div class="flex flex-col items-center justify-center py-6 mb-8 border-b border-white/10">
+    <div class="flex flex-col items-center justify-center py-6 mb-8 border-b border-glass">
         <div class="text-7xl font-bold tracking-tight mb-2 flex items-baseline gap-2 {gradeColor}">
             {grade}
             <span class="text-2xl font-light text-muted">/ {score}</span>
@@ -46,12 +46,12 @@
     </div>
 
     <div>
-        <h4 class="text-sm font-medium text-slate-300 mb-4">{m.sec_posture_recommendations()}</h4>
+        <h4 class="text-sm font-medium text-secondary-text mb-4">{m.sec_posture_recommendations()}</h4>
         <div class="space-y-3">
             {#each recommendations as rec}
-                <div class="flex items-start gap-3 p-3 rounded-lg bg-white/5 border border-white/5">
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-glass border border-subtle">
                     <div class="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 shrink-0"></div>
-                    <p class="text-sm text-slate-300 leading-relaxed">{rec}</p>
+                    <p class="text-sm text-secondary-text leading-relaxed">{rec}</p>
                 </div>
             {/each}
         </div>

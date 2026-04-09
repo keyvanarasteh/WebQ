@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-violet-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-violet-500/20 rounded-xl transition-all border border-white/5 hover:border-violet-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-violet-500/20 rounded-xl transition-all border border-subtle hover:border-violet-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-violet-500/20 text-violet-300 border border-violet-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-violet-500/20 text-violet-300 border border-violet-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -95,10 +95,10 @@
                             </div>
 
                             <!-- Visual Diagram -->
-                            <div class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
+                            <div class="bg-glass border border-subtle rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
                                 <div class="flex items-center justify-between w-full mb-6 relative py-4">
                                     <div class="flex flex-col items-center z-10 w-20">
-                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-600 flex items-center justify-center text-primary-text mb-2 shadow-lg">Attacker</div>
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-base flex items-center justify-center text-primary-text mb-2 shadow-lg">Attacker</div>
                                     </div>
                                     
                                     <div class="absolute top-[35%] left-10 w-[calc(100%-5rem)] h-0 border-t-2 border-dashed border-red-500/30">
@@ -113,10 +113,10 @@
                                         <span class="text-xs text-orange-400 font-bold">WAF (Edge)</span>
                                     </div>
 
-                                    <div class="absolute top-[35%] right-10 w-1/4 h-0 border-t-2 border-dashed border-zinc-700"></div>
+                                    <div class="absolute top-[35%] right-10 w-1/4 h-0 border-t-2 border-dashed border-base"></div>
 
                                     <div class="flex flex-col items-center z-10 w-24">
-                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-700 flex items-center justify-center mb-2"><Server size={18} class="text-muted"/></div>
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-base flex items-center justify-center mb-2"><Server size={18} class="text-muted"/></div>
                                         <span class="text-xs text-muted w-full text-center">Hidden Origin<br>172.x.x.x</span>
                                     </div>
                                     
@@ -140,12 +140,12 @@
                         
                         <!-- Dashboard Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-violet-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm  flex flex-col">
-                            <div class="bg-surface/80 px-4 py-3 flex items-center justify-between border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center justify-between border-b border-subtle backdrop-blur">
                                 <div class="flex items-center gap-2">
                                     <Search size={14} class="text-violet-400" />
                                     <span class="text-muted text-xs">Censys Search Query</span>
                                 </div>
-                                <div class="bg-black/50 border border-white/5 rounded px-2 py-1 text-muted text-[10px]">
+                                <div class="bg-glass border border-subtle rounded px-2 py-1 text-muted text-[10px]">
                                     services.tls.certificates.leaf.names: "target.com"
                                 </div>
                             </div>
@@ -153,11 +153,11 @@
                             <div class="p-5 flex-1 space-y-4 text-primary-text h-64 overflow-y-auto custom-scrollbar">
                                 <p class="text-muted italic mb-2">// WAFs hide DNS, but if the Origin Server exposes HTTPS publicly on port 443 with the target.com SSL certificate, internet-wide scanners will catalog it.</p>
                                 
-                                <div class="bg-black/40 border border-white/5 rounded-lg p-3 hover:border-violet-500/30 transition-colors">
+                                <div class="bg-glass border border-subtle rounded-lg p-3 hover:border-violet-500/30 transition-colors">
                                     <div class="flex items-center justify-between mb-2">
                                         <div class="flex items-center gap-2">
                                             <Globe size={14} class="text-emerald-400" />
-                                            <span class="text-zinc-200 font-bold">142.250.xxx.xxx</span>
+                                            <span class="text-secondary-text font-bold">142.250.xxx.xxx</span>
                                         </div>
                                         <span class="text-[10px] px-1.5 py-0.5 rounded bg-surface text-muted">AWS / EC2</span>
                                     </div>
@@ -232,13 +232,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-violet-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

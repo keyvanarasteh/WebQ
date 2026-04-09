@@ -66,7 +66,7 @@
                 bind:value={domain}
                 onkeydown={(e) => e.key === 'Enter' && analyzeDomain()}
                 placeholder="example.com or 192.168.1.1"
-                class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-3.5 text-primary-text placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500/50 transition-all font-mono"
+                class="w-full bg-glass border border-glass rounded-xl px-5 py-3.5 text-primary-text placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500/50 transition-all font-mono"
                 disabled={loading}
             />
             <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -108,7 +108,7 @@
             
             <div class="flex flex-col gap-6">
                 <!-- IP Meta Data -->
-                <div class="flex items-center gap-3 bg-black/40 border border-white/5 rounded-xl p-4">
+                <div class="flex items-center gap-3 bg-glass border border-subtle rounded-xl p-4">
                     <span class="text-muted text-sm">{m.sec_nmap_ip_resolved()}:</span>
                     <span class="font-mono text-primary-text tracking-widest">{result.ip}</span>
                 </div>

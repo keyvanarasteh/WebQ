@@ -40,7 +40,7 @@
 {#if isOpen}
   <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
   <div
-    class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+    class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
     transition:fade={{ duration: 200 }}
     onclick={close}
   >
@@ -58,7 +58,7 @@
         ></div>
         <button
           onclick={close}
-          class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-orange-500/20 rounded-xl transition-all border border-white/5 hover:border-orange-500/30 font-medium"
+          class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-orange-500/20 rounded-xl transition-all border border-subtle hover:border-orange-500/30 font-medium"
           aria-label="Close guide modal"
         >
           <X size={18} />
@@ -87,7 +87,7 @@
 
           <!-- Tab Navigation -->
           <div
-            class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0"
+            class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0"
           >
             {#each tabs as tab (tab.id)}
               <button
@@ -95,7 +95,7 @@
                 class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab ===
                 tab.id
                   ? 'bg-orange-500/20 text-orange-300 border border-orange-500/20 shadow-sm'
-                  : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                  : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
               >
                 <tab.icon size={14} />
                 <span class="hidden sm:inline">{tab.label}</span>
@@ -169,7 +169,7 @@
 
               <!-- Visual Diagram -->
               <div
-                class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full overflow-hidden"
+                class="bg-glass border border-subtle rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full overflow-hidden"
               >
                 <div
                   class="absolute right-0 top-0 w-32 h-32 bg-orange-500/5 rounded-bl-full"
@@ -256,7 +256,7 @@
               class="bg-[#0d1117] rounded-xl border border-orange-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm "
             >
               <div
-                class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur"
+                class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-subtle backdrop-blur"
               >
                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -279,7 +279,7 @@
 
                 <div class="mt-4">
                   <pre
-                    class="text-emerald-300 bg-black/60 p-4 rounded-xl border border-white/5 shadow-inner">
+                    class="text-emerald-300 bg-glass p-4 rounded-xl border border-subtle shadow-inner">
 &lt;<span class="text-pink-400">script</span>&gt;
   <span class="text-blue-400">fetch</span>(<span class="text-orange-300"
                       >'https://api.target.com/v1/user/profile'</span
@@ -433,7 +433,7 @@
       >
         <div class="text-xs text-muted hidden sm:block">
           Use <kbd
-            class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono"
+            class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono"
             >Esc</kbd
           > or click outside to dismiss
         </div>
@@ -443,7 +443,7 @@
           {#if activeTab > 0}
             <button
               onclick={prevTab}
-              class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+              class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
             >
               <ChevronLeft size={16} /> Previous
             </button>

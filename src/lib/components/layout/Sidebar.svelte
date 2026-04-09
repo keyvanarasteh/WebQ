@@ -16,7 +16,7 @@
 <aside class="w-64 h-full bg-background border-r border-base p-4 flex flex-col transition-all {appState.sidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
     <div class="flex items-center gap-3 mb-8 px-2">
         <div class="h-8 w-8 rounded-md bg-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.5)]">
-            <Shield class="text-black size-5" />
+            <Shield class="text-on-accent size-5" />
         </div>
         <h2 class="text-xl font-bold tracking-widest uppercase text-primary-text shadow-cyan-400 drop-shadow-md">WebQ</h2>
     </div>

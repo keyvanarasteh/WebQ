@@ -51,7 +51,7 @@
     
     <button 
       onclick={() => showGuide = true}
-      class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 transition-colors"
+      class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-secondary-text bg-glass border border-glass rounded-lg hover:bg-glass-hover transition-colors"
     >
       <AlertCircle size={16} class="text-indigo-400" />
       {m.sec_takeover_guide_title()}
@@ -59,26 +59,26 @@
   </div>
 
   <!-- Input Form -->
-  <div class="p-6 rounded-xl border border-white/5 bg-[#14171C] space-y-4">
+  <div class="p-6 rounded-xl border border-subtle bg-[#14171C] space-y-4">
     <div class="space-y-2">
-      <label for="domainInput" class="text-sm font-medium text-slate-300">{m.val_target_domain()}</label>
+      <label for="domainInput" class="text-sm font-medium text-secondary-text">{m.val_target_domain()}</label>
       <input
         id="domainInput"
         type="text"
         bind:value={targetDomain}
         placeholder="example.com"
-        class="w-full bg-[#0F1115] border border-white/10 text-primary-text rounded-lg px-4 py-2.5 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-slate-600"
+        class="w-full bg-sunken border border-glass text-primary-text rounded-lg px-4 py-2.5 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-tertiary-text"
         disabled={isScanning}
       />
     </div>
     
     <div class="space-y-2">
-      <label for="subdomainsInput" class="text-sm font-medium text-slate-300">Subdomains List</label>
+      <label for="subdomainsInput" class="text-sm font-medium text-secondary-text">Subdomains List</label>
       <textarea
         id="subdomainsInput"
         bind:value={subdomainsRaw}
         placeholder="api.example.com&#10;dev.example.com&#10;staging.example.com..."
-        class="w-full h-40 bg-[#0F1115] border border-white/10 text-primary-text rounded-lg px-4 py-3 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-slate-600 resize-y"
+        class="w-full h-40 bg-sunken border border-glass text-primary-text rounded-lg px-4 py-3 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-tertiary-text resize-y"
         disabled={isScanning}
       ></textarea>
       <div class="text-xs text-muted flex items-center justify-between">
@@ -119,7 +119,7 @@
   {#if scanResult}
     <div class="space-y-4">
       <!-- Stats Banner -->
-      <div class="flex items-center justify-between p-4 rounded-xl border border-white/5 bg-[#14171C]">
+      <div class="flex items-center justify-between p-4 rounded-xl border border-subtle bg-[#14171C]">
         <div class="flex items-center gap-3">
           <div class="p-2 rounded-lg bg-rose-500/10 text-rose-400">
             <RefreshCw size={20} />

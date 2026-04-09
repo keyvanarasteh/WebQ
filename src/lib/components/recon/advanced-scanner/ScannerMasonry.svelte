@@ -104,7 +104,7 @@
                         <span class="inline-block px-2 py-0.5 mb-2 text-xs font-semibold rounded bg-amber-500/20 text-amber-300 border border-amber-500/20">{vuln.vuln_type}</span>
                         <p class="text-sm text-primary-text">{vuln.description}</p>
                         {#if vuln.snippet}
-                            <div class="p-2 mt-2 font-mono text-xs border rounded bg-black/40 border-base text-muted break-all">
+                            <div class="p-2 mt-2 font-mono text-xs border rounded bg-glass border-base text-muted break-all">
                                 {formatText(vuln.snippet)}
                             </div>
                         {/if}
@@ -132,7 +132,7 @@
                             <span class="px-2 py-0.5 text-xs font-semibold rounded bg-rose-500/20 text-rose-300 border border-rose-500/20">param: {ssrf.parameter}</span>
                         </div>
                         <p class="text-sm text-primary-text">{ssrf.description}</p>
-                        <div class="p-2 mt-2 font-mono text-xs border rounded bg-black/40 border-base text-muted break-all">
+                        <div class="p-2 mt-2 font-mono text-xs border rounded bg-glass border-base text-muted break-all">
                             {formatText(ssrf.vector)}
                         </div>
                         <p class="mt-2 text-xs truncate text-muted hover:text-muted" title={ssrf.url}>{ssrf.url}</p>

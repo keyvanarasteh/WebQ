@@ -56,7 +56,7 @@
 	>
 		<!-- Backdrop -->
 		<button
-			class="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-default w-full h-full border-none p-0 focus:outline-none"
+			class="absolute inset-0 bg-overlay backdrop-blur-sm cursor-default w-full h-full border-none p-0 focus:outline-none"
 			onclick={() => (isOpen = false)}
 			aria-label="Close"
 			transition:fade={{ duration: 200 }}
@@ -69,14 +69,14 @@
 			<!-- Close Button -->
 			<button
 				onclick={() => (isOpen = false)}
-				class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-[#121214] hover:bg-surface rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
+				class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-sunken hover:bg-surface rounded-full transition-colors z-10 focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
 				aria-label="Close"
 			>
 				<X class="size-4" />
 			</button>
 
 			<!-- Sidebar Navigation -->
-			<div class="w-full md:w-64 bg-[#121214] border-r border-base shrink-0 flex flex-col">
+			<div class="w-full md:w-64 bg-sunken border-r border-base shrink-0 flex flex-col">
 				<div class="p-6 border-b border-base">
 					<div class="flex items-center gap-3">
 						<div class="p-2 bg-cyan-500/10 rounded-lg">
@@ -123,7 +123,7 @@
 						</p>
 
 						<div class="grid grid-cols-1 gap-4">
-                            <div class="p-5 bg-[#121214] border border-base rounded-xl flex items-start gap-4">
+                            <div class="p-5 bg-sunken border border-base rounded-xl flex items-start gap-4">
 								<div class="p-2 bg-purple-500/10 rounded border border-purple-500/20 shrink-0">
 									<Globe class="size-5 text-purple-400" />
 								</div>
@@ -135,7 +135,7 @@
 								</div>
 							</div>
 
-							<div class="p-5 bg-[#121214] border border-base rounded-xl flex items-start gap-4">
+							<div class="p-5 bg-sunken border border-base rounded-xl flex items-start gap-4">
 								<div class="p-2 bg-red-500/10 rounded border border-red-500/20 shrink-0">
 									<AlertOctagon class="size-5 text-red-400" />
 								</div>
@@ -161,11 +161,11 @@
 						</p>
 
 						<div class="space-y-6">
-                            <div class="bg-[#121214] border border-base rounded-xl p-5">
+                            <div class="bg-sunken border border-base rounded-xl p-5">
                                 <h4 class="text-sm font-bold text-accent mb-2">1. The "Generator" Tag Disclosure</h4>
                                 <p class="text-xs text-muted mb-3">CMS platforms (WordPress, Joomla, Jekyll) often inject a generator tag indicating the exact software and version making the site.</p>
                                 <div class="bg-background border border-base rounded overflow-hidden">
-                                    <div class="bg-[#18181b] px-3 py-1.5 border-b border-base text-[10px] text-muted font-mono flex items-center justify-between">
+                                    <div class="bg-elevated px-3 py-1.5 border-b border-base text-[10px] text-muted font-mono flex items-center justify-between">
                                         HTML
                                     </div>
                                     <div class="p-3 overflow-x-auto custom-scrollbar">
@@ -181,11 +181,11 @@
                                 </div>
                             </div>
                             
-                            <div class="bg-[#121214] border border-base rounded-xl p-5">
+                            <div class="bg-sunken border border-base rounded-xl p-5">
                                 <h4 class="text-sm font-bold text-accent mb-2">2. Robots.txt & Indexing Directives</h4>
                                 <p class="text-xs text-muted mb-3"><code class="text-primary-text bg-surface px-1 py-0.5 rounded">noindex, nofollow</code> directives often exist to hide staging sites, admin portals, or internal API documentation.</p>
                                 <div class="bg-background border border-base rounded overflow-hidden">
-                                    <div class="bg-[#18181b] px-3 py-1.5 border-b border-base text-[10px] text-muted font-mono flex items-center justify-between">
+                                    <div class="bg-elevated px-3 py-1.5 border-b border-base text-[10px] text-muted font-mono flex items-center justify-between">
                                         HTML
                                     </div>
                                     <div class="p-3 overflow-x-auto custom-scrollbar">
@@ -215,9 +215,9 @@
 						</p>
 
 						<div class="grid grid-cols-1 gap-6">
-                            <div class="bg-[#121214] border border-base rounded-xl overflow-hidden p-1">
+                            <div class="bg-sunken border border-base rounded-xl overflow-hidden p-1">
                                 <div class="border border-base border-dashed rounded-lg p-6 bg-background flex flex-col items-center justify-center text-center">
-                                    <div class="p-4 bg-[#121214] rounded-full border border-base mb-4">
+                                    <div class="p-4 bg-sunken rounded-full border border-base mb-4">
                                         <Search class="size-8 text-accent/50" />
                                     </div>
                                     <h4 class="text-base font-bold text-primary-text mb-2">Corporate Identity Mapping</h4>
@@ -227,9 +227,9 @@
                                 </div>
                             </div>
                             
-                            <div class="bg-[#121214] border border-base rounded-xl overflow-hidden p-1">
+                            <div class="bg-sunken border border-base rounded-xl overflow-hidden p-1">
                                 <div class="border border-base border-dashed rounded-lg p-6 bg-background flex flex-col items-center justify-center text-center">
-                                    <div class="p-4 bg-[#121214] rounded-full border border-base mb-4">
+                                    <div class="p-4 bg-sunken rounded-full border border-base mb-4">
                                         <Code2 class="size-8 text-yellow-500/50" />
                                     </div>
                                     <h4 class="text-base font-bold text-primary-text mb-2">Sitemap Reconnaissance</h4>

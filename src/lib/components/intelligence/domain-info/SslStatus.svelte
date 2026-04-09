@@ -7,13 +7,13 @@
   let { isLoading, ssl }: SslStatusProps = $props();
 </script>
 
-<div class="bg-white/5 bg-background border border-base border-base rounded-xl p-6 shadow-sm dark:shadow-md transition-all duration-300">
-  <h3 class="text-lg font-bold text-inverse text-accent mb-4">SSL & Cryptography</h3>
+<div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all duration-300">
+  <h3 class="text-lg font-bold text-accent mb-4">SSL & Cryptography</h3>
 
   {#if isLoading}
       <div class="flex items-center justify-center h-32">
           <!-- Circular loader skeleton -->
-          <div class="w-16 h-16 border-4 border-base border-base border-t-cyan-500 rounded-full animate-spin"></div>
+          <div class="w-16 h-16 border-4 border-base border-t-cyan-500 rounded-full animate-spin"></div>
       </div>
   {:else if ssl}
       <!-- Input: ssl.days_until_expiry -->

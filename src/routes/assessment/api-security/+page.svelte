@@ -69,7 +69,7 @@
     </div>
 
     <!-- Main Scanner Input -->
-    <div class="bg-black/40 border border-white/5 rounded-2xl p-6 backdrop-blur-xl mb-6 shadow-lg">
+    <div class="bg-glass border border-subtle rounded-2xl p-6 backdrop-blur-xl mb-6 shadow-lg">
         <div class="flex flex-col md:flex-row gap-4">
             <div class="relative flex-1">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -79,7 +79,7 @@
                     type="text" 
                     bind:value={domain}
                     placeholder="https://api.target.com/v1"
-                    class="w-full bg-[#0a0a0a] border border-white/10 text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"
+                    class="w-full bg-[#0a0a0a] border border-glass text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"
                     disabled={isScanning}
                     onkeydown={(e) => e.key === 'Enter' && !isScanning && startScan()}
                 />
@@ -110,7 +110,7 @@
 
     <!-- Fuzzing Indicator (Simulated) -->
     {#if isScanning}
-        <div class="mb-6 p-6 border border-white/5 bg-black/40 rounded-xl flex flex-col items-center justify-center gap-4" transition:fade>
+        <div class="mb-6 p-6 border border-subtle bg-glass rounded-xl flex flex-col items-center justify-center gap-4" transition:fade>
             <Terminal size={32} class="text-rose-400 animate-pulse" />
             <div class="text-center">
                 <h3 class="text-lg font-medium text-primary-text mb-1">Deep Fuzzing In Progress</h3>
@@ -138,7 +138,7 @@
             <div class="lg:col-span-4 flex flex-col gap-6">
                 <!-- Summary Stats -->
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
+                    <div class="bg-glass border border-subtle rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
                         <div class="text-muted text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_endpoints_tested()}</div>
                         <div class="text-2xl font-semibold text-primary-text tracking-tight">{scanResult.endpoints_found || 0}</div>
                         <div class="absolute -bottom-2 -right-2 text-primary-text/5">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
                     
-                    <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
+                    <div class="bg-glass border border-subtle rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
                         <div class="text-muted text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_total_paths()}</div>
                         <div class="text-2xl font-semibold text-primary-text tracking-tight">{scanResult.total_fuzz_payloads || 0}</div>
                         <div class="absolute -bottom-2 -right-2 text-primary-text/5">
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     
-                    <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden backdrop-blur-md col-span-2">
+                    <div class="bg-glass border border-subtle rounded-xl p-5 relative overflow-hidden backdrop-blur-md col-span-2">
                         <div class="flex items-center justify-between">
                             <div>
                                 <div class="text-muted text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_vulns_found()}</div>
@@ -172,7 +172,7 @@
                             </div>
                         </div>
                         {#if scanResult.fuzz_time_ms}
-                            <div class="mt-4 pt-3 border-t border-white/5 text-xs text-muted flex justify-between">
+                            <div class="mt-4 pt-3 border-t border-subtle text-xs text-muted flex justify-between">
                                 <span>Execution Time</span>
                                 <span class="font-mono text-muted">{(scanResult.fuzz_time_ms / 1000).toFixed(2)}s</span>
                             </div>

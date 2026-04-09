@@ -18,7 +18,7 @@
     );
 </script>
 
-<div class="border border-white/5 bg-white/5 backdrop-blur-md rounded-xl p-6">
+<div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
     <div class="flex items-center justify-between mb-6">
         <div class="flex items-center gap-3">
             <FileLock2 class="w-5 h-5 text-accent" />
@@ -61,10 +61,10 @@
             <h4 class="text-xs font-semibold text-muted uppercase tracking-widest mb-3">Active Headers</h4>
             <div class="space-y-1">
                 {#each presentHeaders as [key, value] (key)}
-                    <div class="flex justify-between items-center py-2 border-b border-white/5 last:border-0 group">
+                    <div class="flex justify-between items-center py-2 border-b border-subtle last:border-0 group">
                         <div class="flex items-center gap-2">
                             <CheckCircle2 class="w-3.5 h-3.5 text-emerald-400" />
-                            <span class="text-xs font-mono text-slate-300">{key}</span>
+                            <span class="text-xs font-mono text-secondary-text">{key}</span>
                         </div>
                         <span class="text-xs font-mono text-cyan-300/80 truncate max-w-[150px] sm:max-w-xs group-hover:text-cyan-300 transition-colors cursor-help" title={value.value}>
                             {value.value}

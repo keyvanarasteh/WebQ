@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-blue-500/20 rounded-xl transition-all border border-white/5 hover:border-blue-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-blue-500/20 rounded-xl transition-all border border-subtle hover:border-blue-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-blue-500/20 text-blue-300 border border-blue-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-blue-500/20 text-blue-300 border border-blue-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -92,13 +92,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-black/50 border border-white/5 rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col justify-center">
+                            <div class="bg-glass border border-subtle rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col justify-center">
                                 <div class="absolute inset-0 bg-[linear-gradient(to_right,#3b82f610_1px,transparent_1px),linear-gradient(to_bottom,#3b82f610_1px,transparent_1px)] bg-size-[24px_24px]"></div>
                                 <div class="relative z-10 space-y-4">
-                                    <div class="flex items-center gap-3 bg-surface/80 p-3 rounded-lg border border-white/10 backdrop-blur">
+                                    <div class="flex items-center gap-3 bg-surface/80 p-3 rounded-lg border border-glass backdrop-blur">
                                         <div class="bg-blue-500/20 p-2 rounded text-blue-400"><Network size={16}/></div>
                                         <div>
-                                            <p class="text-sm font-bold text-zinc-200">api.target.com</p>
+                                            <p class="text-sm font-bold text-secondary-text">api.target.com</p>
                                             <p class="text-xs text-emerald-400">Active (A: 192.168.1.10)</p>
                                         </div>
                                     </div>
@@ -121,7 +121,7 @@
                         <p class="text-sm text-muted mb-6 max-w-3xl">Understanding passive vs. active enumeration tactics for identifying exposed perimeter assets.</p>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-indigo-500">
+                            <div class="bg-sunken border border-base p-5 rounded-xl border-t-2 border-t-indigo-500">
                                 <div class="flex items-center gap-2 mb-3">
                                     <Search class="size-5 text-indigo-400" />
                                     <h4 class="font-bold text-primary-text">Passive Enumeration</h4>
@@ -129,7 +129,7 @@
                                 <p class="text-xs text-muted leading-relaxed">Uses <strong>Certificate Transparency (CT)</strong> logs, search engine caches, and WHOIS data to discover subdomains without sending any traffic to the target. Completely stealth.</p>
                             </div>
                             
-                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-red-500">
+                            <div class="bg-sunken border border-base p-5 rounded-xl border-t-2 border-t-red-500">
                                 <div class="flex items-center gap-2 mb-3">
                                     <AlertTriangle class="size-5 text-red-400" />
                                     <h4 class="font-bold text-primary-text">Active Brute-Forcing</h4>
@@ -162,13 +162,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-blue-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

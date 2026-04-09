@@ -54,7 +54,7 @@
           <button 
               onclick={performScan}
               disabled={appState.isScanning}
-              class="px-6 py-2 rounded-lg bg-cyan-500 text-black font-bold uppercase tracking-wider hover:bg-cyan-400 disabled:opacity-50 transition-colors shrink-0"
+              class="px-6 py-2 rounded-lg bg-cyan-500 text-on-accent font-bold uppercase tracking-wider hover:bg-cyan-400 disabled:opacity-50 transition-colors shrink-0"
           >
               {appState.isScanning ? m.intel_dns_resolving() : m.intel_domain_info_scan_btn()}
           </button>

@@ -29,12 +29,12 @@
   let { children } = $props();
 </script>
 
-<div class="flex h-screen w-full bg-white bg-background text-black text-primary-text antialiased overflow-hidden transition-colors duration-300">
+<div class="flex h-screen w-full bg-background text-primary-text antialiased overflow-hidden transition-colors duration-300">
   <Sidebar />
   <div class="grow flex flex-col overflow-hidden relative">
     <DependencyAlert />
     <Topbar />
-    <Toaster position="top-right" richColors theme="dark" expand={false} />
+    <Toaster position="top-right" richColors theme={appState.theme} expand={false} />
     <CommandPalette />
     <main class="flex-1 overflow-y-auto p-6 relative z-0">
       {@render children()}

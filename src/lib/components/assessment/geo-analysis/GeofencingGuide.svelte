@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-cyan-500/20 rounded-xl transition-all border border-subtle hover:border-cyan-500/30 font-medium"
                     aria-label="Close geo guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -96,10 +96,10 @@
                             </div>
 
                             <!-- Visual Diagram -->
-                            <div class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
+                            <div class="bg-glass border border-subtle rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
                                 <div class="flex items-center justify-between w-full mb-6 relative py-4">
                                     <div class="flex flex-col items-center z-10 w-24">
-                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-600 flex items-center justify-center text-primary-text mb-2 overflow-hidden relative">
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-base flex items-center justify-center text-primary-text mb-2 overflow-hidden relative">
                                             <div class="absolute bottom-1 right-1 w-3 h-3 bg-red-500 rounded-full"></div>
                                             <Globe size={24} class="text-muted" />
                                         </div>
@@ -117,10 +117,10 @@
                                         <span class="text-xs text-red-400 font-bold">WAF Rule</span>
                                     </div>
 
-                                    <div class="absolute top-[40%] right-10 w-1/4 h-0 border-t-2 border-dashed border-zinc-700"></div>
+                                    <div class="absolute top-[40%] right-10 w-1/4 h-0 border-t-2 border-dashed border-base"></div>
 
                                     <div class="flex flex-col items-center z-10 w-20">
-                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-700 flex items-center justify-center mb-2"><Database size={18} class="text-zinc-600"/></div>
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-base flex items-center justify-center mb-2"><Database size={18} class="text-muted"/></div>
                                         <span class="text-xs text-muted">Origin</span>
                                     </div>
                                 </div>
@@ -137,7 +137,7 @@
                         
                         <!-- Terminal Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-cyan-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm ">
-                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-subtle backdrop-blur">
                                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
@@ -151,7 +151,7 @@
                                     <p class="text-red-400/80 text-xs mt-1"># Request originating from a blocked country (e.g. RU/CN/IR) gets dropped by WAF</p>
                                 </div>
 
-                                <div class="border-t border-white/5 pt-4">
+                                <div class="border-t border-subtle pt-4">
                                     <p class="text-emerald-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">curl</span> -I -H "X-Forwarded-For: 8.8.8.8" https://financial-portal.com</p>
                                     <p class="text-muted mt-1">HTTP/2 200 OK</p>
                                     <p class="text-muted">content-type: text/html; charset=utf-8</p>
@@ -221,13 +221,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-cyan-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

@@ -25,19 +25,19 @@
   let activeRecords = $derived(records ? (records[activeTab.toLowerCase() as keyof DnsRecordsMap] || []) : []);
 </script>
 
-<div class="bg-white/5 bg-background border border-base border-base rounded-xl p-6 shadow-sm dark:shadow-md transition-all h-full">
+<div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all h-full">
   <DnsGuide bind:isOpen={isGuideOpen} />
   
   <div class="flex items-center justify-between mb-4 border-b border-base pb-2">
       <div class="flex items-center gap-2">
-          <h3 class="text-lg font-bold text-inverse text-accent">{m.dns_records_board_title()}</h3>
+          <h3 class="text-lg font-bold text-accent">{m.dns_records_board_title()}</h3>
           <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
       </div>
   </div>
 
   {#if isLoading}
       <div class="flex items-center justify-center h-48">
-          <div class="w-12 h-12 border-4 border-base border-base border-t-cyan-500 rounded-full animate-spin"></div>
+          <div class="w-12 h-12 border-4 border-base border-t-cyan-500 rounded-full animate-spin"></div>
       </div>
   {:else if records}
       <!-- Tabs Header -->
@@ -58,24 +58,24 @@
       </div>
 
       <!-- Tab Content Area -->
-      <div class="bg-[#121214] border border-base rounded-lg p-4 min-h-[300px] overflow-y-auto max-h-[500px]">
+      <div class="bg-sunken border border-base rounded-lg p-4 min-h-[300px] overflow-y-auto max-h-[500px]">
           {#if activeRecords.length > 0}
               <div class="flex flex-col gap-2">
                   {#each activeRecords as record, i (i)}
-                      <div class="p-3 bg-white/5 dark:bg-[#18181b] border border-base rounded-md font-mono text-sm text-primary-text break-all select-all flex items-start gap-3">
+                      <div class="p-3 bg-glass border border-base rounded-md font-mono text-sm text-primary-text break-all select-all flex items-start gap-3">
                           <span class="text-cyan-600 select-none">{i + 1}.</span>
                           <span class="text-cyan-100">{record}</span>
                       </div>
                   {/each}
               </div>
           {:else}
-              <div class="flex items-center justify-center h-full text-gray-600 mt-10">
+              <div class="flex items-center justify-center h-full text-muted mt-10">
                   <p>{m.dns_records_empty({ tab: activeTab })}</p>
               </div>
           {/if}
       </div>
   {:else}
-      <div class="flex items-center justify-center h-48 text-gray-600">
+      <div class="flex items-center justify-center h-48 text-muted">
           <p>{m.dns_records_pending()}</p>
       </div>
   {/if}

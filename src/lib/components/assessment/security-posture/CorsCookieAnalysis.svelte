@@ -10,7 +10,7 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- CORS Analysis -->
-    <div class="border border-white/5 bg-white/5 backdrop-blur-md rounded-xl p-6">
+    <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <Network class="w-5 h-5 text-fuchsia-400" />
@@ -34,9 +34,9 @@
 
         <div class="space-y-1">
             {#each Object.entries(corsPolicy.headers) as [key, value] (key)}
-                <div class="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
+                <div class="flex justify-between items-center py-2 border-b border-subtle last:border-0">
                     <span class="text-xs font-mono text-muted capitalize">{key.replace(/-/g, ' ')}</span>
-                    <span class="text-xs font-mono {value === 'Not Set' ? 'text-slate-600' : 'text-fuchsia-300 truncate max-w-[200px]'}">
+                    <span class="text-xs font-mono {value === 'Not Set' ? 'text-tertiary-text' : 'text-fuchsia-300 truncate max-w-[200px]'}">
                         {value}
                     </span>
                 </div>
@@ -45,14 +45,14 @@
     </div>
 
     <!-- Cookie Security -->
-    <div class="border border-white/5 bg-white/5 backdrop-blur-md rounded-xl p-6">
+    <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <Cookie class="w-5 h-5 text-amber-400" />
                 <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_cookies()}</h3>
             </div>
             {#if cookieSecurity.cookies_present}
-                <span class="px-2.5 py-1 text-[10px] uppercase font-bold rounded-full bg-white/10 text-slate-300">
+                <span class="px-2.5 py-1 text-[10px] uppercase font-bold rounded-full bg-glass-hover text-secondary-text">
                     Score: {cookieSecurity.security_score}
                 </span>
             {/if}

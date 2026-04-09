@@ -38,8 +38,8 @@
     }
 </script>
 
-<div class="border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl h-full flex flex-col">
-    <div class="bg-white/5 px-4 py-3 border-b border-white/5 flex items-center gap-2">
+<div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl h-full flex flex-col">
+    <div class="bg-glass px-4 py-3 border-b border-subtle flex items-center gap-2">
         <Navigation size={16} class="text-muted" />
         <h3 class="text-sm font-medium text-primary-text tracking-wide uppercase">{m.sec_geo_crawler_title()}</h3>
     </div>
@@ -50,7 +50,7 @@
             {@const Icon = config.icon}
             <div class="border {config.borderColor} {config.bgColor} rounded-xl p-4 relative overflow-hidden group transition-all">
                 <div class="flex items-center gap-3 mb-3">
-                    <div class="p-2 rounded-lg bg-black/40 border border-white/5">
+                    <div class="p-2 rounded-lg bg-glass border border-subtle">
                         <Icon size={18} class={config.textColor} />
                     </div>
                     <span class="text-sm font-medium text-primary-text">{botName}</span>

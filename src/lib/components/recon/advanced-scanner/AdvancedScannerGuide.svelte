@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-teal-500/10 blur-[64px] rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-teal-500/20 rounded-xl transition-all border border-white/5 hover:border-teal-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-teal-500/20 rounded-xl transition-all border border-subtle hover:border-teal-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-teal-500/20 text-teal-300 border border-teal-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-teal-500/20 text-teal-300 border border-teal-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -102,14 +102,14 @@
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400 font-bold text-xs">CF</div>
                                         <div>
-                                            <p class="text-sm font-semibold text-zinc-200">WAF Detected</p>
+                                            <p class="text-sm font-semibold text-secondary-text">WAF Detected</p>
                                             <p class="text-xs text-muted">Cloudflare edge routing identified.</p>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-3">
                                         <div class="w-8 h-8 rounded bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-xs">PHP</div>
                                         <div>
-                                            <p class="text-sm font-semibold text-zinc-200">Backend Language</p>
+                                            <p class="text-sm font-semibold text-secondary-text">Backend Language</p>
                                             <p class="text-xs text-muted">PHP 8.1.2 (Potentially vulnerable to deserialization)</p>
                                         </div>
                                     </div>
@@ -126,7 +126,7 @@
                         
                         <!-- Terminal Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-teal-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm shadow-[0_0_30px_rgba(0,0,0,0.5)]">
-                            <div class="bg-surface/80 px-4 py-3 flex items-center justify-between border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center justify-between border-b border-subtle backdrop-blur">
                                 <div class="flex items-center gap-2">
                                     <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                     <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -139,14 +139,14 @@
                                 <p class="text-emerald-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">ffuf</span> -w /usr/share/seclists/Discovery/Web-Content/common.txt -u https://target.com/FUZZ</p>
                                 <p class="text-muted mb-4">________________________________________________</p>
                                 
-                                <div class="flex items-center gap-4 text-emerald-400"><span class="w-16">200 OK</span> <span class="text-primary-text">/about</span> <span class="text-zinc-600 text-xs">(Size: 4502)</span></div>
-                                <div class="flex items-center gap-4 text-emerald-400"><span class="w-16">200 OK</span> <span class="text-primary-text">/contact</span> <span class="text-zinc-600 text-xs">(Size: 3102)</span></div>
-                                <div class="flex items-center gap-4 text-orange-400"><span class="w-16">301 MOVD</span> <span class="text-primary-text">/admin</span> <span class="text-zinc-600 text-xs">-> /admin/login.php</span></div>
-                                <div class="flex items-center gap-4 text-orange-400"><span class="w-16">403 FORB</span> <span class="text-primary-text">/api/v1</span> <span class="text-zinc-600 text-xs">(Size: 152)</span></div>
-                                <div class="flex items-center gap-4 text-orange-400"><span class="w-16">301 MOVD</span> <span class="text-primary-text">/.git</span> <span class="text-zinc-600 text-xs bg-red-500/20 text-red-400 px-1 rounded ml-2">HIGH RISK!</span></div>
-                                <div class="flex items-center gap-4 text-emerald-400"><span class="w-16">200 OK</span> <span class="text-primary-text">/backup.zip</span> <span class="text-zinc-600 text-xs bg-red-500/20 text-red-400 px-1 rounded ml-2">SOURCE EXFILTRATION!</span></div>
+                                <div class="flex items-center gap-4 text-emerald-400"><span class="w-16">200 OK</span> <span class="text-primary-text">/about</span> <span class="text-muted text-xs">(Size: 4502)</span></div>
+                                <div class="flex items-center gap-4 text-emerald-400"><span class="w-16">200 OK</span> <span class="text-primary-text">/contact</span> <span class="text-muted text-xs">(Size: 3102)</span></div>
+                                <div class="flex items-center gap-4 text-orange-400"><span class="w-16">301 MOVD</span> <span class="text-primary-text">/admin</span> <span class="text-muted text-xs">-> /admin/login.php</span></div>
+                                <div class="flex items-center gap-4 text-orange-400"><span class="w-16">403 FORB</span> <span class="text-primary-text">/api/v1</span> <span class="text-muted text-xs">(Size: 152)</span></div>
+                                <div class="flex items-center gap-4 text-orange-400"><span class="w-16">301 MOVD</span> <span class="text-primary-text">/.git</span> <span class="text-muted text-xs bg-red-500/20 text-red-400 px-1 rounded ml-2">HIGH RISK!</span></div>
+                                <div class="flex items-center gap-4 text-emerald-400"><span class="w-16">200 OK</span> <span class="text-primary-text">/backup.zip</span> <span class="text-muted text-xs bg-red-500/20 text-red-400 px-1 rounded ml-2">SOURCE EXFILTRATION!</span></div>
                                 
-                                <p class="text-muted mt-4 border-t border-white/5 pt-2">:: Progress: [4614/4614] :: Job [1/1] :: 450 req/sec ::</p>
+                                <p class="text-muted mt-4 border-t border-subtle pt-2">:: Progress: [4614/4614] :: Job [1/1] :: 450 req/sec ::</p>
                             </div>
                         </div>
                     </div>
@@ -188,13 +188,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-teal-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

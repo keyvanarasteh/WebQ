@@ -31,7 +31,7 @@
 {#if isOpen}
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <div 
-  class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all duration-300"
+  class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-overlay backdrop-blur-sm transition-all duration-300"
   onclick={close}
 >
   <div 
@@ -39,7 +39,7 @@
       onclick={(e) => e.stopPropagation()}
   >
       <!-- HEADER -->
-      <div class="px-6 py-4 border-b border-base bg-[#121214] flex justify-between items-center sticky top-0 z-10 shrink-0">
+      <div class="px-6 py-4 border-b border-base bg-sunken flex justify-between items-center sticky top-0 z-10 shrink-0">
           <div class="flex items-center gap-3">
               {#if Icon}
                   <div class="p-2 bg-cyan-500/10 rounded-lg">
@@ -47,7 +47,7 @@
                   </div>
               {/if}
               <div>
-                  <h2 class="text-xl font-black text-gray-100 tracking-wide">{title}</h2>
+                  <h2 class="text-xl font-black text-primary-text tracking-wide">{title}</h2>
                   <p class="text-xs font-mono text-accent/70 tracking-widest uppercase">SecOps & Secure Dev Intelligence</p>
               </div>
           </div>
@@ -77,10 +77,10 @@
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--border-base);
   border-radius: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--bg-surface-hover);
 }
 </style>

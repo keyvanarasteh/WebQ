@@ -9,7 +9,7 @@
         if (level === 'High') return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
         if (level === 'Medium') return 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30';
         if (level === 'Low') return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
-        return 'bg-zinc-500/20 text-muted border-zinc-500/30';
+        return 'bg-surface/50 text-muted border-base';
     }
 
     function getSeverityLabel(level: string) {
@@ -21,19 +21,19 @@
     }
 </script>
 
-<div class="border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
+<div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-primary-text">
-            <thead class="bg-white/5 border-b border-white/10 text-muted font-medium whitespace-nowrap">
+            <thead class="bg-glass border-b border-glass text-muted font-medium whitespace-nowrap">
                 <tr>
                     <th class="px-6 py-4">{m.sec_nmap_col_cve_id()}</th>
                     <th class="px-6 py-4">{m.sec_nmap_col_severity()}</th>
                     <th class="px-6 py-4 w-full">{m.sec_nmap_col_description()}</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-white/5">
+            <tbody class="divide-y divide-subtle">
                 {#each vulns as v (v.id + v.description.slice(0, 10))}
-                    <tr class="hover:bg-white/[0.02] transition-colors group">
+                    <tr class="hover:bg-glass-hover transition-colors group">
                         <td class="px-6 py-4 align-top">
                             <div class="flex flex-col gap-2">
                                 <span class="font-mono font-medium text-primary-text group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{v.id}</span>

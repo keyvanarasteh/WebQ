@@ -27,7 +27,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -41,7 +41,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-[64px] rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-cyan-500/20 rounded-xl transition-all border border-subtle hover:border-cyan-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -59,11 +59,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -95,9 +95,9 @@
                             </div>
 
                             <!-- Terminal Mockup -->
-                            <div class="bg-[#0d1117] border border-white/5 rounded-xl p-5 shadow-inner h-full font-mono text-xs flex flex-col justify-center">
+                            <div class="bg-[#0d1117] border border-subtle rounded-xl p-5 shadow-inner h-full font-mono text-xs flex flex-col justify-center">
                                 <p class="text-emerald-400 flex items-center gap-2 mb-2 font-semibold"><span>➜</span> <span class="text-blue-400">whois</span> target.com</p>
-                                <div class="text-muted space-y-1 bg-black/50 p-3 rounded-lg border border-white/5">
+                                <div class="text-muted space-y-1 bg-glass p-3 rounded-lg border border-subtle">
                                     <p>Domain Name: TARGET.COM</p>
                                     <p>Registry Domain ID: 123456789_DOMAIN_COM-VRSN</p>
                                     <p>Registrar WHOIS Server: whois.godaddy.com</p>
@@ -119,7 +119,7 @@
                         <p class="text-sm text-muted mb-6 max-w-3xl">Certificate Transparency (CT) logs passively enumerate all subdomains ever issued a certificate. This allows attackers to discover hidden internal infrastructure without sending a single active packet to your network.</p>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-emerald-500 shadow-lg">
+                            <div class="bg-sunken border border-base p-5 rounded-xl border-t-2 border-t-emerald-500 shadow-lg">
                                 <div class="flex items-center gap-2 mb-3">
                                     <Lock class="size-5 text-emerald-400" />
                                     <h3 class="font-bold text-primary-text">SSL Vulnerabilities</h3>
@@ -127,7 +127,7 @@
                                 <p class="text-sm text-muted leading-relaxed">Expired certificates break browser trust, opening avenues for Man-in-the-Middle (MitM) attacks. Supporting outdated suites (TLS 1.0/1.1) exposes traffic to known cryptographic downgrades.</p>
                             </div>
                             
-                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-orange-500 shadow-lg">
+                            <div class="bg-sunken border border-base p-5 rounded-xl border-t-2 border-t-orange-500 shadow-lg">
                                 <div class="flex items-center gap-2 mb-3">
                                     <History class="size-5 text-orange-400" />
                                     <h3 class="font-bold text-primary-text">CT Log Leaks</h3>
@@ -156,25 +156,25 @@
                         <p class="text-sm text-muted mb-6 max-w-3xl">Open ports are direct pathways to running services. Exposing administrative protocols directly to the internet guarantees continuous brute-force attacks from global botnets.</p>
 
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <div class="bg-black/50 border border-emerald-500/30 p-4 rounded-xl text-center relative overflow-hidden group">
+                            <div class="bg-glass border border-emerald-500/30 p-4 rounded-xl text-center relative overflow-hidden group">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-emerald-500"></div>
                                 <span class="font-mono text-emerald-400 text-lg font-bold">80/443</span>
                                 <p class="text-xs text-muted mt-2 font-medium">HTTP(S)</p>
                                 <p class="text-[10px] text-muted mt-1">Expected Public</p>
                             </div>
-                            <div class="bg-black/50 border border-rose-500/50 p-4 rounded-xl text-center relative overflow-hidden">
+                            <div class="bg-glass border border-rose-500/50 p-4 rounded-xl text-center relative overflow-hidden">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-rose-500"></div>
                                 <span class="font-mono text-rose-400 text-lg font-bold">22</span>
                                 <p class="text-xs text-muted mt-2 font-medium">SSH</p>
                                 <p class="text-[10px] text-rose-500 mt-1 font-bold">High Risk</p>
                             </div>
-                            <div class="bg-black/50 border border-orange-500/50 p-4 rounded-xl text-center relative overflow-hidden">
+                            <div class="bg-glass border border-orange-500/50 p-4 rounded-xl text-center relative overflow-hidden">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-orange-500"></div>
                                 <span class="font-mono text-orange-400 text-lg font-bold">3389</span>
                                 <p class="text-xs text-muted mt-2 font-medium">RDP</p>
                                 <p class="text-[10px] text-orange-500 mt-1 font-bold">Ransomware Vector</p>
                             </div>
-                            <div class="bg-black/50 border border-rose-500/50 p-4 rounded-xl text-center relative overflow-hidden">
+                            <div class="bg-glass border border-rose-500/50 p-4 rounded-xl text-center relative overflow-hidden">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-rose-500"></div>
                                 <span class="font-mono text-rose-400 text-lg font-bold">3306</span>
                                 <p class="text-xs text-muted mt-2 font-medium">MySQL</p>
@@ -203,13 +203,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-cyan-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>

@@ -36,7 +36,7 @@
 	<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start h-full pb-8">
 		<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
 			{#each Array(2) as _, i (i)}
-				<div class="bg-[#18181b] border border-base rounded-lg p-6 animate-pulse">
+				<div class="bg-elevated border border-base rounded-lg p-6 animate-pulse">
 					<div class="h-6 w-32 bg-surface rounded mb-6"></div>
 					<div class="space-y-4">
 						{#each Array(4) as _, j (j)}
@@ -46,7 +46,7 @@
 				</div>
 			{/each}
 		</div>
-		<div class="lg:col-span-4 bg-[#18181b] border border-base rounded-lg p-6 animate-pulse w-full">
+		<div class="lg:col-span-4 bg-elevated border border-base rounded-lg p-6 animate-pulse w-full">
 			<div class="h-6 w-32 bg-surface rounded mb-6"></div>
 			<div class="space-y-4">
 				{#each Array(4) as _, j (j)}
@@ -61,7 +61,7 @@
 		<!-- Left Side: Basic OSINT (Emails & Phones) -->
 		<div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
 			<!-- Emails Card -->
-			<div class="bg-[#18181b] border border-rose-500/20 rounded-lg p-6 flex flex-col shadow-lg shadow-rose-500/5">
+			<div class="bg-elevated border border-rose-500/20 rounded-lg p-6 flex flex-col shadow-lg shadow-rose-500/5">
 				<div class="flex items-center justify-between mb-6 border-b border-rose-500/10 pb-4">
 					<div class="flex items-center gap-3">
 						<div class="bg-rose-500/10 p-2 rounded-lg">
@@ -83,7 +83,7 @@
 			</div>
 
 			<!-- Phones Card -->
-			<div class="bg-[#18181b] border border-amber-500/20 rounded-lg p-6 flex flex-col shadow-lg shadow-amber-500/5">
+			<div class="bg-elevated border border-amber-500/20 rounded-lg p-6 flex flex-col shadow-lg shadow-amber-500/5">
 				<div class="flex items-center justify-between mb-6 border-b border-amber-500/10 pb-4">
 					<div class="flex items-center gap-3">
 						<div class="bg-amber-500/10 p-2 rounded-lg">
@@ -99,7 +99,7 @@
 						{#each results.phones as phone, i (i)}
 							<li class="flex items-center gap-3 bg-background p-3 rounded-md border border-base group hover:border-amber-500/30 transition-colors shadow shadow-black/40">
 								<span class="text-xs text-muted font-mono">{String(i + 1).padStart(2, '0')}</span>
-								<span class="text-slate-300 text-sm font-mono truncate">{phone}</span>
+								<span class="text-secondary-text text-sm font-mono truncate">{phone}</span>
 							</li>
 						{/each}
 					</ul>
@@ -114,7 +114,7 @@
 
 		<!-- Right Side: Advanced OSINT (Social Profiles) -->
 		<div class="lg:col-span-4 flex flex-col gap-6 w-full">
-			<div class="bg-[#18181b] border border-indigo-500/20 rounded-lg p-6 flex flex-col shadow-lg shadow-indigo-500/5">
+			<div class="bg-elevated border border-indigo-500/20 rounded-lg p-6 flex flex-col shadow-lg shadow-indigo-500/5">
 				<div class="flex items-center justify-between mb-6 border-b border-indigo-500/10 pb-4">
 					<div class="flex items-center gap-3">
 						<div class="bg-indigo-500/10 p-2 rounded-lg">
@@ -137,7 +137,7 @@
 		</div>
 	</div>
 {:else}
-	<div class="flex flex-col items-center justify-center py-20 text-muted border border-dashed border-base rounded-lg bg-[#18181b]/50 shadow-inner">
+	<div class="flex flex-col items-center justify-center py-20 text-muted border border-dashed border-base rounded-lg bg-elevated/50 shadow-inner">
 		<Users class="size-12 mb-4 opacity-50" />
 		<h3 class="text-lg font-bold text-primary-text mb-2">{m.recon_contact_waiting()}</h3>
 		<p class="text-sm font-fira max-w-md text-center">{m.recon_contact_waiting_desc()}</p>

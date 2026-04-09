@@ -63,7 +63,7 @@
         </div>
         <button
             onclick={() => (showGuide = true)}
-            class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-slate-300 transition-colors border rounded-lg bg-slate-900/50 hover:bg-slate-800 border-white/10"
+            class="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-secondary-text transition-colors border rounded-lg bg-surface hover:bg-surface-hover border-glass"
         >
             <Info class="w-4 h-4" />
             Understanding Posture
@@ -79,7 +79,7 @@
                 bind:value={targetDomain}
                 placeholder="example.com"
                 onkeydown={(e) => e.key === 'Enter' && scanTarget()}
-                class="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-lg text-primary-text placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-shadow"
+                class="w-full pl-10 pr-4 py-2.5 bg-glass border border-glass rounded-lg text-primary-text placeholder-muted focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-shadow"
                 disabled={status === 'loading'}
             />
         </div>
@@ -107,9 +107,9 @@
 
     <!-- Empty State -->
     {#if status === 'idle'}
-        <div class="flex flex-col items-center justify-center flex-1 min-h-[300px] border border-dashed rounded-xl border-white/10 bg-white/5">
-            <Activity class="w-12 h-12 mb-4 text-slate-600" />
-            <h3 class="text-lg font-medium text-slate-300 mb-1">{m.val_waiting()}</h3>
+        <div class="flex flex-col items-center justify-center flex-1 min-h-[300px] border border-dashed rounded-xl border-glass bg-glass">
+            <Activity class="w-12 h-12 mb-4 text-tertiary-text" />
+            <h3 class="text-lg font-medium text-secondary-text mb-1">{m.val_waiting()}</h3>
             <p class="text-sm text-muted">Enter a target domain above to perform a full security grading.</p>
         </div>
     {/if}

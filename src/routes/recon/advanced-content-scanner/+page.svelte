@@ -67,7 +67,7 @@
                     type="text"
                     bind:value={targetDomain}
                     placeholder="example.com"
-                    class="block w-full p-2.5 pl-10 text-sm text-primary-text bg-black border border-base rounded-lg focus:ring-teal-500 focus:border-teal-500 outline-none transition-all placeholder-gray-600"
+                    class="block w-full p-2.5 pl-10 text-sm text-primary-text bg-sunken border border-base rounded-lg focus:ring-teal-500 focus:border-teal-500 outline-none transition-all placeholder-muted"
                     onkeydown={(e) => e.key === 'Enter' && handleScan()}
                     disabled={isScanning}
                 />
@@ -75,10 +75,10 @@
             <button
                 onclick={handleScan}
                 disabled={isScanning || !targetDomain}
-                class="min-w-[120px] flex items-center justify-center gap-2 p-2.5 ml-2 text-sm font-medium text-black bg-teal-500 rounded-lg hover:bg-teal-400 focus:ring-4 focus:outline-none focus:ring-teal-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                class="min-w-[120px] flex items-center justify-center gap-2 p-2.5 ml-2 text-sm font-medium text-on-accent bg-teal-500 rounded-lg hover:bg-teal-400 focus:ring-4 focus:outline-none focus:ring-teal-500/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
                 {#if isScanning}
-                    <Loader2 class="w-4 h-4 animate-spin text-black" />
+                    <Loader2 class="w-4 h-4 animate-spin text-on-accent" />
                     <span>Scan</span>
                 {:else}
                     <Search class="w-4 h-4" />

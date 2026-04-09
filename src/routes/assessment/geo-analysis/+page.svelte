@@ -62,7 +62,7 @@
     </div>
 
     <!-- Main Scanner Input -->
-    <div class="bg-black/40 border border-white/5 rounded-2xl p-6 backdrop-blur-xl mb-6 shadow-lg">
+    <div class="bg-glass border border-subtle rounded-2xl p-6 backdrop-blur-xl mb-6 shadow-lg">
         <div class="flex flex-col md:flex-row gap-4">
             <div class="relative flex-1">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -72,7 +72,7 @@
                     type="text" 
                     bind:value={domain}
                     placeholder="https://example.com"
-                    class="w-full bg-[#0a0a0a] border border-white/10 text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-violet-500 focus:border-violet-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"
+                    class="w-full bg-[#0a0a0a] border border-glass text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-violet-500 focus:border-violet-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"
                     disabled={isScanning}
                     onkeydown={(e) => e.key === 'Enter' && !isScanning && startScan()}
                 />
@@ -108,7 +108,7 @@
             <!-- Context Indicators column -->
             <div class="lg:col-span-4 flex flex-col gap-6">
                 <!-- Massive Score Card -->
-                <div class="bg-black/40 border border-white/5 rounded-xl p-6 relative overflow-hidden backdrop-blur-md flex flex-col items-center justify-center text-center">
+                <div class="bg-glass border border-subtle rounded-xl p-6 relative overflow-hidden backdrop-blur-md flex flex-col items-center justify-center text-center">
                     <div class="absolute -right-10 -bottom-10 opacity-5 pointer-events-none">
                         <BrainCircuit size={150} />
                     </div>
@@ -116,7 +116,7 @@
                     <h3 class="text-muted text-sm uppercase tracking-wider font-medium mb-4">{m.sec_geo_readiness_score()}</h3>
                     
                     <div class="text-7xl font-light mb-2 text-primary-text">
-                        {scanResult.geo_score}<span class="text-3xl text-zinc-600">/100</span>
+                        {scanResult.geo_score}<span class="text-3xl text-muted">/100</span>
                     </div>
 
                     <div class={`mt-4 px-4 py-1.5 rounded-full border text-sm font-bold tracking-wider ${getGradeColor(scanResult.geo_grade)}`}>
@@ -129,7 +129,7 @@
                 </div>
 
                 <!-- LLMS.txt status -->
-                <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden">
+                <div class="bg-glass border border-subtle rounded-xl p-5 relative overflow-hidden">
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="text-primary-text font-medium flex items-center gap-2">
                             <BookOpen size={16} class="text-rose-400" />
@@ -144,7 +144,7 @@
                     {#if scanResult.llms_txt.files && scanResult.llms_txt.files.length > 0}
                         <div class="space-y-2 mt-2">
                             {#each scanResult.llms_txt.files as file}
-                                <div class="px-3 py-2 bg-white/5 rounded-lg text-xs font-mono text-primary-text break-all border border-white/5">
+                                <div class="px-3 py-2 bg-glass rounded-lg text-xs font-mono text-primary-text break-all border border-subtle">
                                     {file}
                                 </div>
                             {/each}
@@ -153,7 +153,7 @@
                 </div>
 
                 <!-- WebMCP status -->
-                <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden">
+                <div class="bg-glass border border-subtle rounded-xl p-5 relative overflow-hidden">
                     <div class="flex items-center justify-between mb-4">
                         <h4 class="text-primary-text font-medium flex items-center gap-2">
                             <Fingerprint size={16} class="text-teal-400" />
@@ -173,7 +173,7 @@
                             </div>
                         {/each}
                         {#each (scanResult.webmcp.html_features || []) as f}
-                            <div class="px-3 py-2 bg-white/5 rounded-lg text-xs font-mono text-primary-text border border-white/5">
+                            <div class="px-3 py-2 bg-glass rounded-lg text-xs font-mono text-primary-text border border-subtle">
                                 [HTML] {f}
                             </div>
                         {/each}

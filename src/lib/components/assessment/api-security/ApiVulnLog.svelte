@@ -23,8 +23,8 @@
     }
 </script>
 
-<div class="border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl flex flex-col max-h-[600px]">
-    <div class="bg-white/5 px-4 py-3 border-b border-white/5 flex items-center gap-2">
+<div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl flex flex-col max-h-[600px]">
+    <div class="bg-glass px-4 py-3 border-b border-subtle flex items-center gap-2">
         <Terminal size={16} class="text-muted" />
         <h3 class="text-sm font-medium text-primary-text tracking-wide uppercase">{m.sec_api_vuln_log()}</h3>
         <div class="ml-auto flex items-center gap-2">
@@ -37,14 +37,14 @@
     
     <div class="overflow-y-auto flex-1 p-0 custom-scrollbar">
         {#if vulnerabilities.length === 0}
-            <div class="h-32 flex items-center justify-center text-muted text-sm font-mono border-b border-white/5">
+            <div class="h-32 flex items-center justify-center text-muted text-sm font-mono border-b border-subtle">
                 [ No Vulnerabilities Injected into Matrix Log ]
             </div>
         {/if}
 
-        <div class="divide-y divide-white/5">
+        <div class="divide-y divide-subtle">
             {#each vulnerabilities as v, i (v.endpoint + v.payload + i)}
-                <div class="p-4 hover:bg-white/[0.02] transition-colors group">
+                <div class="p-4 hover:bg-glass-hover transition-colors group">
                     <div class="flex flex-wrap items-start justify-between gap-4 mb-2">
                         <div class="flex items-center gap-2">
                             <span class={`px-2 py-0.5 text-[10px] font-bold tracking-wider rounded border ${getSeverityColor(v.severity)}`}>
@@ -53,13 +53,13 @@
                             <span class="text-sm font-medium text-primary-text">{v.vuln_type}</span>
                             <span class="text-xs text-muted hidden sm:inline">- {v.subtype}</span>
                         </div>
-                        <span class="text-xs font-mono text-muted px-2 py-0.5 bg-black/40 rounded border border-white/5">
+                        <span class="text-xs font-mono text-muted px-2 py-0.5 bg-glass rounded border border-subtle">
                             CONFIDENCE: {v.confidence}
                         </span>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                        <div class="bg-black/40 rounded-lg p-3 border border-white/5 relative overflow-hidden">
+                        <div class="bg-glass rounded-lg p-3 border border-subtle relative overflow-hidden">
                             <div class="flex items-center gap-2 mb-2 text-muted">
                                 <Globe size={14} />
                                 <span class="text-xs font-medium uppercase tracking-wider">{m.sec_api_vuln_endpoint()}</span>
@@ -83,7 +83,7 @@
                                 {v.payload}
                             </div>
                             <div class="mt-2 text-[10px] font-mono text-muted leading-snug border-t border-red-500/10 pt-2">
-                                <span class="text-zinc-600">EVIDENCE: </span> {v.evidence}
+                                <span class="text-muted">EVIDENCE: </span> {v.evidence}
                             </div>
                         </div>
                     </div>

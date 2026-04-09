@@ -28,7 +28,7 @@
 {#if isOpen}
     <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
     <div 
-        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md"
+        class="fixed inset-0 z-60 flex items-center justify-center p-4 sm:p-6 bg-overlay backdrop-blur-md"
         transition:fade={{ duration: 200 }}
         onclick={close}
     >
@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-purple-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-purple-500/20 rounded-xl transition-all border border-white/5 hover:border-purple-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-glass hover:bg-purple-500/20 rounded-xl transition-all border border-subtle hover:border-purple-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -60,11 +60,11 @@
                     </div>
                     
                     <!-- Tab Navigation -->
-                    <div class="flex bg-black/40 p-1 rounded-lg border border-white/5 mt-4 sm:mt-0">
+                    <div class="flex bg-glass p-1 rounded-lg border border-subtle mt-4 sm:mt-0">
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-purple-500/20 text-purple-300 border border-purple-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-purple-500/20 text-purple-300 border border-purple-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-glass border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -94,8 +94,8 @@
                             </div>
 
                             <!-- Terminal Mockup -->
-                            <div class="bg-[#0d1117] rounded-xl border border-white/5 shadow-2xl overflow-hidden font-mono text-xs ">
-                                <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                            <div class="bg-[#0d1117] rounded-xl border border-subtle shadow-2xl overflow-hidden font-mono text-xs ">
+                                <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-subtle backdrop-blur">
                                     <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                     <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                     <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
@@ -123,7 +123,7 @@
                         <p class="text-sm text-muted mb-6 max-w-3xl">A Canonical Name (`CNAME`) record creates an alias. Instead of pointing to an IP address, it points to another domain name. If mismanaged, this leads directly to Subdomain Takeovers.</p>
                         
                         <!-- Visual Chain -->
-                        <div class="bg-black/50 border border-white/5 rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col items-center justify-center py-10 mb-8">
+                        <div class="bg-glass border border-subtle rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col items-center justify-center py-10 mb-8">
                             <div class="flex items-center gap-4 w-full max-w-2xl">
                                 <div class="bg-cyan-950/40 border-2 border-cyan-500 p-4 rounded-xl flex-1 text-center shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                                     <h4 class="text-cyan-300 font-bold font-mono text-sm">support.target.com</h4>
@@ -166,7 +166,7 @@
                                     <h4 class="text-base font-semibold text-emerald-300 mb-1">Sender Policy Framework (SPF)</h4>
                                     <p class="text-xs text-emerald-100/60 leading-relaxed mb-3">A TXT record that dictates the cryptographic addresses authorized to send emails on behalf of this domain.</p>
                                     
-                                    <div class="bg-black/60 border border-white/10 p-3 rounded font-mono text-xs flex gap-2">
+                                    <div class="bg-glass border border-glass p-3 rounded font-mono text-xs flex gap-2">
                                         <span class="text-muted">target.com TXT</span>
                                         <code class="text-primary-text"><span class="text-teal-400 font-bold">v=spf1</span> include:_spf.google.com <span class="text-red-400 font-bold">~all</span></code>
                                     </div>
@@ -185,7 +185,7 @@
                                     <h4 class="text-base font-semibold text-orange-300 mb-1">Domain-based Message Authentication (DMARC)</h4>
                                     <p class="text-xs text-orange-100/60 leading-relaxed mb-3">Tells the receiving mail server precisely what to do if SPF or DKIM validation fails.</p>
                                     
-                                    <div class="bg-black/60 border border-white/10 p-3 rounded font-mono text-xs flex gap-2">
+                                    <div class="bg-glass border border-glass p-3 rounded font-mono text-xs flex gap-2">
                                         <span class="text-muted">_dmarc TXT</span>
                                         <code class="text-primary-text"><span class="text-teal-400 font-bold">v=DMARC1;</span> p=<span class="text-orange-400 font-bold">quarantine</span>; rua=mailto:admin@target.com</code>
                                     </div>
@@ -200,13 +200,13 @@
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-purple-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
                 <div class="text-xs text-muted hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                    Use <kbd class="px-2 py-1 bg-glass rounded mx-1 text-muted border border-glass font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-glass hover:bg-glass-hover text-primary-text text-sm font-medium rounded-xl border border-subtle hover:border-glass transition-all focus:ring-2 focus:ring-glass outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
