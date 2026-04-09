@@ -142,5 +142,22 @@
   "val_http_80": "HTTP:80",
   "val_https_443": "HTTPS:443",
   "val_target_state": "Hedef Durumu",
-  "val_waiting": "Hedeflerin işlenmesi bekleniyor."
+  "val_waiting": "Hedeflerin işlenmesi bekleniyor.",
+
+  "sec_posture_title": "Genel Güvenlik Postürü",
+  "sec_posture_grade": "Güvenlik Derecesi",
+  "sec_posture_score": "Bileşik Skor",
+  "sec_posture_waf": "WAF Tespiti",
+  "sec_posture_waf_detected": "{provider} Korunuyor",
+  "sec_posture_waf_none": "WAF tespit edilmedi",
+  "sec_posture_headers": "Güvenlik Başlıkları",
+  "sec_posture_headers_missing": "Eksik başlıklar",
+  "sec_posture_cors": "CORS Politikası",
+  "sec_posture_cookies": "Çerez (Cookie) Güvenliği",
+  "sec_posture_methods": "Tehlikeli HTTP Metotları",
+  "sec_posture_server_info": "Bilgi İfşası (Server Info)",
+  "sec_posture_recommendations": "Azaltma (Mitigation) Önerileri",
+  "sec_posture_risk": "Risk Seviyesi: {risk}",
+  "sec_posture_secops_context": "SecOps Bağlamı",
+  "sec_posture_secops_tip": "WAF varlığını, TLS şifrelemesini, HTTP başlıklarını, CORS yapılandırmalarını ve zafiyetleri değerlendirir. Zayıf CORS ve eksik başlıklar gibi temel zafiyetleri saldırı yüzeyi haritalamasında (EASM) tespit etmek için kullanılır."
 }

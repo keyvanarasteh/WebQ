@@ -169,13 +169,13 @@
 
 ## Faz 4: Security Assessment (Gelişmiş Güvenlik Değerlendirmesi)
 ### 4.1 Security Analysis Modülü (`security_analysis`)
-- [ ] Arka plan: Güvenlik Postür (Grade A+..F) komutunun entegrasyonu.
-- [ ] UI: Büyük, premium görünümlü "Overall Security Grade" Dashboard Kartı (LuxeCard).
-- [ ] Component: WAF (7 provider) tespiti ve durumu (Bypass edilebilir mi?) analiz paneli.
-- [ ] Component: CORS zafiyeti detayı ve Misconfiguration kod bloğu gösterimi.
-- [ ] Component: Missing Security Headers (HSTS, CSP, X-Frame) uyarısı gösteren Checklist.
-- [ ] Component: Zayıf Çerez (Cookies) Security, HttpOnly, SameSite analiz satırları.
-- [ ] Frontend: Güvenlik skoru 50'nin altındaysa sayfanın kırmızı alarm durumuna (Red State) girmesi.
+- [x] Arka plan: Güvenlik Postür (Grade A+..F) komutunun entegrasyonu.
+- [x] UI: Büyük, premium görünümlü "Overall Security Grade" Dashboard Kartı (LuxeCard).
+- [x] Component: WAF (7 provider) tespiti ve durumu (Bypass edilebilir mi?) analiz paneli.
+- [x] Component: CORS zafiyeti detayı ve Misconfiguration kod bloğu gösterimi.
+- [x] Component: Missing Security Headers (HSTS, CSP, X-Frame) uyarısı gösteren Checklist.
+- [x] Component: Zayıf Çerez (Cookies) Security, HttpOnly, SameSite analiz satırları.
+- [x] Frontend: Güvenlik skoru 50'nin altındaysa sayfanın kırmızı alarm durumuna (Red State) girmesi.
 
 ### 4.2 Subdomain Takeover Modülü (`subdomain_takeover`)
 - [ ] Arka plan: 36 Servislik Fingerprint ve Takeover veritabanını tarayan komut.

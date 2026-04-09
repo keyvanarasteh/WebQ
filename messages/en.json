@@ -142,5 +142,22 @@
   "val_http_80": "HTTP:80",
   "val_https_443": "HTTPS:443",
   "val_target_state": "Target State",
-  "val_waiting": "Waiting for targets to be processed."
+  "val_waiting": "Waiting for targets to be processed.",
+
+  "sec_posture_title": "Overall Security Posture",
+  "sec_posture_grade": "Security Grade",
+  "sec_posture_score": "Composite Score",
+  "sec_posture_waf": "WAF Detection",
+  "sec_posture_waf_detected": "Protected by {provider}",
+  "sec_posture_waf_none": "No WAF detected",
+  "sec_posture_headers": "Security Headers",
+  "sec_posture_headers_missing": "Missing headers",
+  "sec_posture_cors": "CORS Policy",
+  "sec_posture_cookies": "Cookie Security",
+  "sec_posture_methods": "Dangerous HTTP Methods",
+  "sec_posture_server_info": "Information Disclosure",
+  "sec_posture_recommendations": "Mitigation Recommendations",
+  "sec_posture_risk": "Risk Level: {risk}",
+  "sec_posture_secops_context": "SecOps Context",
+  "sec_posture_secops_tip": "Evaluates WAF presence, TLS cryptography, HTTP security headers, CORS configurations, and vulnerabilities. Used during initial attack surface mapping to identify low-hanging fruit like misconfigured cross-origin sharing."
 }
