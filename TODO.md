@@ -210,10 +210,10 @@
 - [x] Frontend: Payload'ların (Attack Vectors) tek tek denendiğini gösteren Fuzzing Speed göstergesi (Req/s).
 
 ### 4.6 Geo Analysis Modülü (`geo_analysis`)
-- [ ] Arka plan: llms.txt, AI crawler direktifleri bulucu komutu entegrasyonu.
-- [ ] UI: Geofencing verileri ve Sunucu lokasyon haritası (Map/Globe component opsiyonel).
-- [ ] Component: Sitenin AI/LLM tarayıcılarına (ChatGPT-User, GPTBot vb.) izin verip vermediğini gösteren tablo.
-- [ ] Component: WebMCP protokol uyumluluğuna dair rozet.
+- [x] Arka plan: llms.txt, AI crawler direktifleri bulucu komutu entegrasyonu.
+- [x] UI: Sunucu lokasyonu, IP haritalandırma ve servis sağlayıcı detaylarını listeleyen interaktif Geofencing Map.
+- [x] Component: LLM-Scraping Data (AI botlarına açık veri seti) sunan `GeofencingGuide.svelte` eğitim kartı.
+- [x] Frontend: AI crawler erişimlerini simgeleyen bir Radar Chart veya Map konsepti çizimi.
 
 ## Faz 5: Sistem Entegrasyonu, Olay Yönetimi ve Uygulama Ayarları
 ### 5.1 Olay Yönetimi (Event Handling)
