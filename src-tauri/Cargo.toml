@@ -26,6 +26,8 @@ tracing = "0.1"
 anyhow = "1"
 thiserror = "1"
 web-analyzer = { path = "/home/drvoid/Qix/Qicro/web-analyzer" }
+tauri-plugin-dialog = "2.7.0"
+tauri-plugin-fs = "2.5.0"
 
 [dev-dependencies]
 tempfile = "3.27.0"

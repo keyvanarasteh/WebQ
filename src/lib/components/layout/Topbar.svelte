@@ -1,9 +1,30 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
-    import { Sun, Moon, Menu } from 'lucide-svelte';
+    import { Sun, Moon, Menu, FileDown } from 'lucide-svelte';
+    import { reportStore } from '$lib/stores/ReportStore.svelte';
+    import { generateMarkdownReport } from '$lib/utils/ReportAction';
+    import { toast } from 'svelte-sonner';
+
+    async function handleExport() {
+        const domains = reportStore.getAvailableDomains();
+        if (domains.length === 0) {
+            toast.error("No reports available to export");
+            return;
+        }
+        const targetDomain = domains[domains.length - 1]; // Latest domain
+        if (!targetDomain) return;
+        const data = reportStore.getReportForDomain(targetDomain);
+        
+        try {
+            const success = await generateMarkdownReport(targetDomain, data);
+            if (success) toast.success(`Report exported successfully for ${targetDomain}`);
+        } catch (e) {
+            toast.error("Failed to export report");
+        }
+    }
 </script>
 
-<header class="h-16 w-full border-b border-[#27272a] bg-[#09090b]/80 backdrop-blur-md flex items-center justify-between px-6 z-10">
+<header class="h-16 w-full border-b border-[#27272a] bg-qix-obsidian/80 backdrop-blur-md flex items-center justify-between px-6 z-10">
     <button class="text-gray-400 hover:text-white transition-colors" onclick={() => appState.sidebarOpen = !appState.sidebarOpen}>
         <Menu class="size-5" />
     </button>
@@ -15,9 +36,14 @@
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
                 </span>
-                SCAN: {appState.activeModule?.toUpperCase()}
+                SCAN: {appState.activeModule ? appState.activeModule.toUpperCase() : ''}
             </div>
         {/if}
+
+        <button class="text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all border border-[#27272a] flex items-center gap-1" onclick={handleExport} title="Export Markdown Report">
+            <FileDown class="size-4" />
+            <span class="text-xs font-bold hidden md:inline">REPORT</span>
+        </button>
 
         <button class="text-xs font-bold text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all border border-[#27272a]" onclick={() => {
             const currentLang = localStorage.getItem('webq-lang') || 'en';

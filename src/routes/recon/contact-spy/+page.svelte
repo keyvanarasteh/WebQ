@@ -8,6 +8,7 @@
 	import ContactMasonry from '$lib/components/recon/contact-spy/ContactMasonry.svelte';
 	import CrawlingConsole, { type CrawlLog } from '$lib/components/recon/contact-spy/CrawlingConsole.svelte';
 	import ContactSpyGuide from '$lib/components/recon/guides/ContactSpyGuide.svelte';
+	import { reportStore } from '$lib/stores/ReportStore.svelte';
 
 	// Icons
 	import { Users, Search, ActivitySquare, Fingerprint, HelpCircle } from 'lucide-svelte';
@@ -63,6 +64,7 @@
 			});
 			// Limit to 25 pages by default to keep responsiveness high
 			scanResult = await invoke('scan_contacts', { domain: targetDomain, maxPages: 25 });
+			reportStore.addResult(targetDomain, "Contact Spy", scanResult);
 			logs.push({
 				id: logIdCounters++,
 				timestamp: new Date().toISOString().slice(11, 23),

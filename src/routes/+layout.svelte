@@ -3,6 +3,7 @@
   import Sidebar from "$lib/components/layout/Sidebar.svelte";
   import Topbar from "$lib/components/layout/Topbar.svelte";
   import DependencyAlert from "$lib/components/layout/DependencyAlert.svelte";
+  import CommandPalette from "$lib/components/ui/CommandPalette.svelte";
   import { setLanguageTag } from "$lib/paraglide/runtime";
   import { appState } from "$lib/stores/AppState.svelte";
   import { Toaster, toast } from 'svelte-sonner';
@@ -34,6 +35,7 @@
     <DependencyAlert />
     <Topbar />
     <Toaster position="top-right" richColors theme="dark" expand={false} />
+    <CommandPalette />
     <main class="flex-1 overflow-y-auto p-6 relative z-0">
       {@render children()}
     </main>

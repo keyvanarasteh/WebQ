@@ -7,6 +7,7 @@
 	import SubdomainTree from '$lib/components/recon/subdomain-discovery/SubdomainTree.svelte';
 	import SubdomainGrid from '$lib/components/recon/subdomain-discovery/SubdomainGrid.svelte';
 	import SubdomainGuide from '$lib/components/recon/guides/SubdomainGuide.svelte';
+	import { reportStore } from '$lib/stores/ReportStore.svelte';
 
 	// Icons
 	import { Network, Search, LayoutGrid, GitBranch, ShieldAlert, TimerReset, Filter, ActivitySquare, Globe, ShieldCheck, HelpCircle } from 'lucide-svelte';
@@ -45,6 +46,7 @@
 				domain: targetDomain 
 			});
 			scanResult = result;
+			reportStore.addResult(targetDomain, "Subdomain Discovery", scanResult);
 		} catch (err) {
 			errorMsg = err as string;
 			// Reset
@@ -132,7 +134,7 @@
 			<!-- Stats Row -->
 			<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
 				<div class="flex flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-900/50 p-4 shadow-sm relative overflow-hidden group">
-					<div class="absolute inset-0 bg-gradient-to-t from-sky-500/5 to-transparent"></div>
+					<div class="absolute inset-0 bg-linear-to-t from-sky-500/5 to-transparent"></div>
 					<ActivitySquare size={20} class="text-sky-400 mb-2 relative z-10" />
 					<span class="text-xs text-slate-500 font-fira relative z-10">{m.recon_subdomain_total_found()}</span>
 					<span class="text-2xl font-black text-slate-200 mt-1 relative z-10">
@@ -141,7 +143,7 @@
 				</div>
 				
 				<div class="flex flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-900/50 p-4 shadow-sm relative overflow-hidden group">
-					<div class="absolute inset-0 bg-gradient-to-t from-emerald-500/5 to-transparent"></div>
+					<div class="absolute inset-0 bg-linear-to-t from-emerald-500/5 to-transparent"></div>
 					<ShieldCheck size={20} class="text-emerald-400 mb-2 relative z-10" />
 					<span class="text-xs text-slate-500 font-fira relative z-10">Resolved</span>
 					<span class="text-2xl font-black text-slate-200 mt-1 relative z-10">
@@ -150,7 +152,7 @@
 				</div>
 
 				<div class="flex flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-900/50 p-4 shadow-sm relative overflow-hidden group">
-					<div class="absolute inset-0 bg-gradient-to-t from-rose-500/5 to-transparent"></div>
+					<div class="absolute inset-0 bg-linear-to-t from-rose-500/5 to-transparent"></div>
 					<Filter size={20} class="text-rose-400 mb-2 relative z-10" />
 					<span class="text-xs text-slate-500 font-fira relative z-10">{m.recon_subdomain_filtered()}</span>
 					<span class="text-2xl font-black text-slate-200 mt-1 relative z-10">
@@ -159,7 +161,7 @@
 				</div>
 
 				<div class="flex flex-col items-center justify-center rounded-xl border border-slate-700/50 bg-slate-900/50 p-4 shadow-sm relative overflow-hidden group">
-					<div class="absolute inset-0 bg-gradient-to-t from-amber-500/5 to-transparent"></div>
+					<div class="absolute inset-0 bg-linear-to-t from-amber-500/5 to-transparent"></div>
 					<TimerReset size={20} class="text-amber-400 mb-2 relative z-10" />
 					<span class="text-xs text-slate-500 font-fira relative z-10">{m.recon_subdomain_response_time()}</span>
 					<span class="text-2xl font-black text-slate-200 mt-1 relative z-10">
