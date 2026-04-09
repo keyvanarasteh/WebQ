@@ -87,6 +87,7 @@
 		</div>
 
 		<!-- Right: Quick Actions / KPI -->
+		<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 		<div class="lg:col-span-4 bg-[#18181b] border border-[#27272a] rounded-lg p-6 flex flex-col items-center justify-center text-center group cursor-pointer hover:border-emerald-500/50 transition-colors" onclick={() => showGuide = true}>
 			<Users size={32} class="text-emerald-500/50 group-hover:text-emerald-400 mb-3 transition-colors" />
 			<h3 class="text-white font-bold tracking-widest uppercase text-sm mb-1">{m.btn_educational_guide()}</h3>

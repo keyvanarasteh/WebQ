@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Mail, Phone, Share2, Search, Link2 } from 'lucide-svelte';
+	import { Mail, Phone, Share2, Search, Link2, Users } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages';
 
 	interface SocialProfile {
