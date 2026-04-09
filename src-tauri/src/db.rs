@@ -110,29 +110,30 @@ pub async fn get_scans_paginated(
     limit: i64,
     offset: i64,
 ) -> Result<Vec<ScanRow>, AppError> {
-    let rows = sqlx::query!(
+    let rows = sqlx::query(
         r#"
         SELECT id, target_domain, scan_module, status, error_message, is_favorite, duration_ms, started_at, finished_at
         FROM scans
         ORDER BY started_at DESC
         LIMIT ? OFFSET ?
-        "#,
-        limit, offset
+        "#
     )
+    .bind(limit)
+    .bind(offset)
     .fetch_all(&*pool)
     .await
-    .map_err(|e| AppError::System(e.to_string()))?;
+    .map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
 
     Ok(rows.into_iter().map(|r| ScanRow {
-        id: r.id.unwrap_or_default(),
-        target_domain: r.target_domain,
-        scan_module: r.scan_module,
-        status: r.status,
-        error_message: r.error_message,
-        is_favorite: r.is_favorite != 0,
-        duration_ms: r.duration_ms,
-        started_at: r.started_at,
-        finished_at: r.finished_at,
+        id: r.get("id"),
+        target_domain: r.get("target_domain"),
+        scan_module: r.get("scan_module"),
+        status: r.get("status"),
+        error_message: r.get("error_message"),
+        is_favorite: r.get::<i64, _>("is_favorite") != 0,
+        duration_ms: r.get("duration_ms"),
+        started_at: r.get("started_at"),
+        finished_at: r.get("finished_at"),
     }).collect())
 }
 
@@ -141,10 +142,11 @@ pub async fn delete_scan(
     pool: State<'_, SqlitePool>,
     id: String,
 ) -> Result<(), AppError> {
-    sqlx::query!("DELETE FROM scans WHERE id = ?", id)
+    sqlx::query("DELETE FROM scans WHERE id = ?")
+        .bind(id)
         .execute(&*pool)
         .await
-        .map_err(|e| AppError::System(e.to_string()))?;
+        .map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
     Ok(())
 }
 
@@ -153,20 +155,21 @@ pub async fn get_scan_blob_details(
     pool: State<'_, SqlitePool>,
     scan_id: String,
 ) -> Result<Value, AppError> {
-    let row = sqlx::query!(
+    let row = sqlx::query(
         r#"
         SELECT raw_json_blob
         FROM scan_results
         WHERE scan_id = ?
         LIMIT 1
-        "#,
-        scan_id
+        "#
     )
+    .bind(scan_id)
     .fetch_one(&*pool)
     .await
-    .map_err(|e| AppError::System(e.to_string()))?;
+    .map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
 
-    let json_val: Value = serde_json::from_str(&row.raw_json_blob)
+    let blob_str: String = row.get("raw_json_blob");
+    let json_val: Value = serde_json::from_str(&blob_str)
         .map_err(|e| AppError::System(e.to_string()))?;
 
     Ok(json_val)
@@ -191,17 +194,30 @@ pub async fn log_scan_to_db(
     let blob_str = serde_json::to_string(raw_json_blob)
         .map_err(|e| AppError::System(e.to_string()))?;
 
-    sqlx::query!(
+    sqlx::query(
         r#"INSERT INTO scans (id, target_domain, scan_module, status, error_message, duration_ms, started_at, finished_at) 
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?)"#,
-        scan_id, target_domain, scan_module, status, error_message, duration_ms, now, now
-    ).execute(pool).await.map_err(|e| AppError::System(e.to_string()))?;
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)"#
+    )
+    .bind(&scan_id)
+    .bind(target_domain)
+    .bind(scan_module)
+    .bind(status)
+    .bind(error_message)
+    .bind(duration_ms)
+    .bind(&now)
+    .bind(&now)
+    .execute(pool).await.map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
 
-    sqlx::query!(
+    sqlx::query(
         r#"INSERT INTO scan_results (id, scan_id, critical_vulns, high_vulns, raw_json_blob)
-           VALUES (?, ?, ?, ?, ?)"#,
-        result_id, scan_id, critical_vulns, high_vulns, blob_str
-    ).execute(pool).await.map_err(|e| AppError::System(e.to_string()))?;
+           VALUES (?, ?, ?, ?, ?)"#
+    )
+    .bind(&result_id)
+    .bind(&scan_id)
+    .bind(critical_vulns)
+    .bind(high_vulns)
+    .bind(blob_str)
+    .execute(pool).await.map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
 
     Ok(scan_id)
 }
