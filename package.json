@@ -15,10 +15,11 @@
   "dependencies": {
     "@tauri-apps/api": "^2.0.0",
     "@tauri-apps/plugin-opener": "^2.0.0",
+    "bits-ui": "^1.0.0-next.x",
     "clsx": "^2.1.1",
-    "tailwind-merge": "^2.3.0",
     "lucide-svelte": "^0.395.0",
-    "bits-ui": "^1.0.0-next.x"
+    "svelte-sonner": "^1.1.0",
+    "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
     "@inlang/paraglide-js": "^1.11.8",

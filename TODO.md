@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [38] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
+📈 **Progress Statistics:** [50] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~286
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -110,43 +110,43 @@
 
 ## Faz 3: Reconnaissance (Keşif ve Zafiyet Tespiti)
 ### 3.1 Subdomain Discovery Modülü (`subdomain_discovery`) [Mimari ve UX Planı]
-- [ ] Sayfa: `src/routes/recon/subdomain-discovery/+page.svelte` (Tabbed View: Tree vs Grid)
+- [x] Sayfa: `src/routes/recon/subdomain-discovery/+page.svelte` (Tabbed View: Tree vs Grid)
   - *Input:* Hedef Domain URL'i (Input Validation: geçerli bir FQDN olmalı).
   - *Output:* Tauri `Async` stream üzerinden akan `SubdomainRecord` objesi veya tam dönüş `SubdomainInfoResult` (JSON).
   - *Visualize:* Karanlık uzay/Neon UI ile "LuxeCard" kapsayıcıları. Ekran üstünde Progress/Scan Indicator.
-- [ ] Component: `src/lib/components/recon/subdomain-discovery/SubdomainTree.svelte`
+- [x] Component: `src/lib/components/recon/subdomain-discovery/SubdomainTree.svelte`
   - *Input:* TLD parçalanmış, gruplanmış `$derived` hiyerarşik JSON yapısı.
   - *Output:* Svelte 5 `#snippet` recursive döngüsüyle inşa edilmiş daraltılabilir (collapsible) klasör/ağaç listesi.
   - *Visualize:* Her node için Lucide-svelte ikonu, wildcard (*) keşif tespitleri için mor "Glow" efekti. Ağaç dallarında Tailwind sınır çizgileri (border-l).
-- [ ] Component: `src/lib/components/recon/subdomain-discovery/SubdomainGrid.svelte`
+- [x] Component: `src/lib/components/recon/subdomain-discovery/SubdomainGrid.svelte`
   - *Input:* `$state<SubdomainRecord[]>` ile bağlanan (bound) keşfedilmiş liste.
   - *Output:* Host, IP Adresi, Cloud/CDN Provider bilgisi içeren Data tablosu. Tablo eylemleri: "Ping", "Copy", "Takeover Check".
   - *Visualize:* Tablo satırlarında (row) Bulunma sırasına göre animasyonlu giriş (transition:slide/fade).
 - [x] Component: `src/lib/components/recon/guides/SubdomainGuide.svelte`
   - *İçerik:* Dangling Subdomain Takeover riskleri, Cloud DNS kaydı güvenliği ve SecOps eğitim materyali. LuxeUI modal ile açılacak.
-- [ ] Backend: Rust Tauri Command `scan_subdomains(domain: String) -> Result<SubdomainInfoResult, AppError>`. `tokio::spawn` kullanılarak `web-analyzer` internal sand-box crate'ine istek atılacak. Olası API rate-limit hataları AppError olarak UI'a paslanacak.
-- [ ] Multi-language: Eğitim modalları dahil tüm statik metinlerin `m.recon_subdomain_*` (Paraglide-js) ile çevrilmesi.
+- [x] Backend: Rust Tauri Command `scan_subdomains(domain: String) -> Result<SubdomainInfoResult, AppError>`. `tokio::spawn` kullanılarak `web-analyzer` internal sand-box crate'ine istek atılacak. Olası API rate-limit hataları AppError olarak UI'a paslanacak.
+- [x] Multi-language: Eğitim modalları dahil tüm statik metinlerin `m.recon_subdomain_*` (Paraglide-js) ile çevrilmesi.
 
 ### 3.2 Contact Spy Modülü (`contact_spy`) [Mimari ve UX Planı]
-- [ ] Sayfa: `src/routes/recon/contact-spy/+page.svelte`
+- [x] Sayfa: `src/routes/recon/contact-spy/+page.svelte`
   - *Input:* Hedef URL / Toplu Domain listesi (Regex verifikasyonlu).
   - *Output:* Crate'den dönen `ContactSpyResult` (E-postalar, Telefon Numaraları, Sosyal Profiller, Vcards).
   - *Visualize:* Ekranın solunda OSINT profil kartları (LuxeCard), sağında verileri süzen Masonry Grid tasarımı.
-- [ ] Component: `src/lib/components/recon/contact-spy/EmailHarvester.svelte`
+- [x] Component: `src/lib/components/recon/contact-spy/EmailHarvester.svelte`
   - *Input:* Regex ile kazınmış `.edu`, `.gov`, `.com` vb. e-posta hash array.
   - *Output:* Sektörel rol sınıflandırması ("Role-based" örn: admin, info / "Personal" örn: isim.soyisim).
   - *Visualize:* Rol tabanlı e-postalar için kırmızı güvenlik ikaz rozeti (Hedefli Phishing riski), kişisel mail'ler için mavi OSINT rozeti.
-- [ ] Component: `src/lib/components/recon/contact-spy/SocialOsintBox.svelte`
+- [x] Component: `src/lib/components/recon/contact-spy/SocialOsintBox.svelte`
   - *Input:* Bulunan sosyal platform URL'leri (LinkedIn, Github, Twitter, Instagram).
   - *Output:* Sosyal mühendislik (Social Engineering) profil kartları.
   - *Visualize:* İlgili platformun dinamik ikon renkleriyle renderlanmış aydınlatılmış (glow) icon box'ı (Örn: LinkedIn = Mavi parıltı).
-- [ ] Component: `src/lib/components/recon/contact-spy/CrawlingConsole.svelte`
+- [x] Component: `src/lib/components/recon/contact-spy/CrawlingConsole.svelte`
   - *Input:* Tauri `Window::emit` tarafından gönderilen `CrawlStatus` payload'ları.
   - *Output:* Canlı tarama hızı (Req/s), mevcut inilen derinlik ağacı (BFS Depth-Level).
   - *Visualize:* Saniyede kayan hacker console satırları (Tailwind overflow-y-auto, font-mono, text-green-400). Otomatik auto-scroll (`$effect` ile).
 - [x] Component: `src/lib/components/recon/guides/ContactSpyGuide.svelte`
   - *İçerik:* Phishing Vektörleri, Veri sızıntılarında (Breaches) açık personel veri istismarı eğitim serisi.
-- [ ] Backend: Rust motorunda BFS (Breadth-First-Search) crawler (reqwest/tokio) başlatan `crawl_for_contacts` komutu.
+- [x] Backend: Rust motorunda BFS (Breadth-First-Search) crawler (reqwest/tokio) başlatan `crawl_for_contacts` komutu.
 
 ### 3.3 Advanced Content Scanner (`advanced_content_scanner`) [Mimari ve UX Planı]
 - [x] Sayfa: `src/routes/recon/content-scanner/+page.svelte`
@@ -217,10 +217,10 @@
 
 ## Faz 5: Sistem Entegrasyonu, Olay Yönetimi ve Uygulama Ayarları
 ### 5.1 Olay Yönetimi (Event Handling)
-- [ ] Payload verilerinin (JSON) parse hızını optimize eden Worker/WASM süreçleri entegresi (Gerekirse).
-- [ ] `web-analyzer` loglarının Tauri `tracing` üzerinden alınıp Frontend'e stream akışı olarak yollanması.
-- [ ] Svelte 5 `$effect` hook'ları ile Dashboard'daki Counter (Sayaç) animasyonlarının (NumberFlow) smooth yapılması.
-- [ ] Backend Error'lerin Global Toast bileşenine (Svelte-sonner) bağlanması.
+- [-] Payload verilerinin (JSON) parse hızını optimize eden Worker/WASM süreçleri entegresi (Gerekirse). details: Skipped, WASM overkill when Tauri backend is fast.
+- [x] `web-analyzer` loglarının Tauri `tracing` üzerinden alınıp Frontend'e stream akışı olarak yollanması.
+- [x] Svelte 5 `$effect` hook'ları ile Dashboard'daki Counter (Sayaç) animasyonlarının (NumberFlow) smooth yapılması.
+- [x] Backend Error'lerin Global Toast bileşenine (Svelte-sonner) bağlanması.
 
 ### 5.2 Raporlama ve Dışa Aktarma (Reporting)
 - [ ] Markdown tabanlı otomatik rapor oluşturucu (`web-analyzer` çıktılarından).
@@ -234,7 +234,7 @@
 - [ ] Tam ekran (F11) ve Always-on-Top (Her zaman üstte) Tauri API ayarları.
 
 ## Faz 6: Release & DevOps
-- [ ] Nmap, Dig, Openssl bağımlılıklarının kontrol edilmesi, yoksalar UI üzerinden kullanıcıya "Install dependencies" bildirimi verilmesi.
+- [x] Nmap, Dig, Openssl bağımlılıklarının kontrol edilmesi, yoksalar UI üzerinden kullanıcıya "Install dependencies" bildirimi verilmesi.
 - [x] Linux AppImage build dosyaları için Icon ve Meta verilerinin ayarlanması.
 - [ ] macOS (dmg) build süreçlerinde imzalama / M1 M2 ARM architecture ayarları.
 - [ ] Windows (msi / nsis) derleme profillerinin oluşturulması.

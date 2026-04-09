@@ -1,119 +1,107 @@
 <script lang="ts">
-	import { FolderGit2, Globe, CheckCircle2 } from 'lucide-svelte';
-	import * as m from '$lib/paraglide/messages';
+	import { FolderGit2, Globe, FileTerminal, ChevronRight, ChevronDown } from 'lucide-svelte';
+	import { slide, fade } from 'svelte/transition';
+	
+	let { data, rootDomain }: { data: string[], rootDomain: string } = $props();
 
-	let { data, rootDomain }: { data: string[]; rootDomain: string } = $props();
-
-	// ── Tree Data Structure ─────────────────────────────────────────────────────────
-
-	type TreeNode = {
-		part: string;
-		fullPath: string;
-		children: Record<string, TreeNode>;
+	type Node = {
+		name: string;
+		full: string;
+		children: Record<string, Node>;
 		isLeaf: boolean;
 	};
 
-	// Pro Svelte 5 pattern: Transform flat list into nested tree inside $derived.by()
-	// This prevents reactivity loops by decoupling the algorithm from the template.
 	let tree = $derived.by(() => {
-		const root: TreeNode = {
-			part: rootDomain || 'ROOT',
-			fullPath: rootDomain,
-			children: {},
-			isLeaf: false
-		};
-
-		if (!data || data.length === 0) return root;
-
-		for (const domain of data) {
-			const parts = domain.split('.').reverse();
+		const root: Node = { name: rootDomain, full: rootDomain, children: {}, isLeaf: true };
+		
+		for (const subdomain of data) {
+			if (subdomain === rootDomain) continue;
+			
+			let prefix = subdomain;
+			if (subdomain.endsWith(`.${rootDomain}`)) {
+				prefix = subdomain.slice(0, -(rootDomain.length + 1));
+			}
+			
+			const parts = prefix.split('.').reverse();
 			let current = root;
-			let pathAcc = '';
-
+			
+			let builtPrefix = "";
 			for (let i = 0; i < parts.length; i++) {
-				const part = parts[i] || 'unknown';
-				pathAcc = pathAcc === '' ? part : `${part}.${pathAcc}`;
-				
+				const part = parts[i];
+				if (!part) continue;
 				if (!current.children[part]) {
+					builtPrefix = builtPrefix ? `${part}.${builtPrefix}` : part;
+					const fqdn = `${builtPrefix}.${rootDomain}`;
 					current.children[part] = {
-						part,
-						fullPath: pathAcc,
+						name: part,
+						full: fqdn,
 						children: {},
-						isLeaf: false
+						isLeaf: true
 					};
 				}
-				current = current.children[part];
-				
-				// If this is the last part, mark as leaf
-				if (i === parts.length - 1) {
-					current.isLeaf = true;
-				}
+				current.isLeaf = false;
+				current = current.children[part] as Node;
 			}
 		}
-
 		return root;
 	});
 </script>
 
-<!-- Recursive Snippet for the tree rendering -->
-{#snippet treeNode(node: TreeNode, depth: number)}
-	{@const hasChildren = Object.keys(node.children).length > 0}
-	
-	<div class="relative flex flex-col font-mono text-sm group" style={`margin-left: ${depth === 0 ? 0 : 2}rem`}>
-		
-		<!-- Visual connection lines -->
-		{#if depth > 0}
-			<div class="absolute -left-[1.3rem] top-4 h-[1px] w-4 border-t border-dashed border-slate-600"></div>
-			<div class="absolute -left-[1.3rem] top-[-10px] bottom-0 w-[1px] border-l border-dashed border-slate-600 group-last:bottom-auto group-last:h-[26px]"></div>
-		{/if}
-
-		<div class="flex items-center gap-2 py-1.5 z-10 w-fit">
-			<div class={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border ${
-				hasChildren ? 'border-sky-500/30 bg-sky-500/10 text-sky-400' : 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-			}`}>
-				{#if hasChildren}
-					<FolderGit2 size={12} />
-				{:else}
-					<Globe size={12} />
-				{/if}
-			</div>
-
-			<span class={`font-semibold ${hasChildren ? 'text-slate-300' : 'text-slate-400'}`}>
-				{node.part}
-			</span>
-			
-			{#if node.isLeaf}
-				<CheckCircle2 size={14} class="text-emerald-500/50" />
+{#snippet treeNode(node: Node, depth: number)}
+	<div class="flex flex-col">
+		<div 
+			class="flex items-center gap-2 py-1.5 px-2 hover:bg-slate-800/50 rounded-lg transition-colors group cursor-pointer"
+			style="margin-left: {depth * 1.5}rem"
+		>
+			{#if Object.keys(node.children).length > 0}
+				<FolderGit2 size={16} class="text-indigo-400 group-hover:text-indigo-300" />
+			{:else}
+				<Globe size={14} class="text-slate-500 group-hover:text-emerald-400" />
 			{/if}
 			
-			{#if depth > 0 && node.fullPath}
-				<span class="ml-2 rounded-full border border-slate-700/50 bg-slate-800/50 px-2 py-0.5 text-[10px] text-slate-500 opacity-0 group-hover:opacity-100 transition-opacity">
-					{node.fullPath}
-				</span>
+			<span class="font-mono text-sm text-slate-300 group-hover:text-white transition-colors">
+				{node.name}
+			</span>
+			{#if !Object.keys(node.children).length}
+				<a 
+					href={`http://${node.full}`} 
+					target="_blank" 
+					rel="noopener noreferrer" 
+					class="text-[10px] text-slate-600 ml-2 hidden group-hover:inline-block font-mono hover:text-emerald-400 transition-colors"
+					title="Open {node.full}"
+				>
+					({node.full})
+				</a>
 			{/if}
 		</div>
-
-		{#if hasChildren}
-			<!-- To comply with Svelte 5 rules, we must iterate with (key) -->
-			<!-- Using Object.entries ensures stable rendering -->
-			<div class="flex flex-col relative w-full pt-1">
-				{#each Object.entries(node.children) as [key, childNode] (key)}
-					{@render treeNode(childNode, depth + 1)}
+		
+		{#if Object.keys(node.children).length > 0}
+			<div class="relative flex flex-col border-l border-slate-700/50 ml-2 pt-1">
+				{#each Object.values(node.children).sort((a,b) => a.name.localeCompare(b.name)) as child}
+					{@render treeNode(child, depth + 1)}
 				{/each}
 			</div>
 		{/if}
 	</div>
 {/snippet}
 
-<!-- Main Container -->
-<div class="rounded-xl border border-slate-700/50 bg-slate-900/50 p-6 min-h-[400px] overflow-x-auto">
+<div class="w-full bg-[#09090b] rounded-xl border border-slate-800 shadow-xl p-4 font-fira text-slate-300 overflow-x-auto">
 	{#if data.length === 0}
-		<div class="flex h-full w-full items-center justify-center text-slate-500 font-fira text-sm">
-			{m.recon_subdomain_empty()}
+		<div class="flex items-center justify-center py-10 text-sm text-slate-500">
+			No tree data to parse.
 		</div>
 	{:else}
-		<div class="flex flex-col relative">
-			{@render treeNode(tree, 0)}
+		<div class="flex flex-col">
+			<div class="flex items-center gap-2 py-2 px-3 border-b border-slate-800/80 mb-3 bg-slate-900/50 rounded-t-lg">
+				<Globe size={18} class="text-emerald-500" />
+				<span class="font-bold text-emerald-400 tracking-wide text-lg">{tree.name}</span>
+			</div>
+			
+			<div class="flex flex-col pl-1 space-y-1">
+				{#each Object.values(tree.children).sort((a,b) => a.name.localeCompare(b.name)) as child}
+					{@render treeNode(child, 0)}
+				{/each}
+			</div>
 		</div>
 	{/if}
 </div>

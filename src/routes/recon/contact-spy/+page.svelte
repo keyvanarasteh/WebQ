@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { appState } from '$lib/stores/AppState.svelte';
 	import { invoke } from '@tauri-apps/api/core';
+	import { listen } from '@tauri-apps/api/event';
 	import * as m from '$lib/paraglide/messages';
 
 	// Components
 	import ContactMasonry from '$lib/components/recon/contact-spy/ContactMasonry.svelte';
+	import CrawlingConsole, { type CrawlLog } from '$lib/components/recon/contact-spy/CrawlingConsole.svelte';
 	import ContactSpyGuide from '$lib/components/recon/guides/ContactSpyGuide.svelte';
 
 	// Icons
@@ -17,6 +19,31 @@
 
 	// Strongly typed according to backend response
 	let scanResult = $state<any>(null); // ContactSpyResult
+	let logs = $state<CrawlLog[]>([]);
+
+	let logIdCounters = 0;
+	let unlistenCrawlStatus: (() => void) | null = null;
+
+	$effect(() => {
+		async function setupListener() {
+			unlistenCrawlStatus = await listen<{ url: string, status: string }>('crawl_status', (event) => {
+				const now = new Date();
+				const payload = event.payload;
+				logs.push({
+					id: logIdCounters++,
+					timestamp: now.toISOString().slice(11, 23),
+					status: 'info',
+					message: `Scraping: ${payload.url}`
+				});
+				if (logs.length > 500) logs.shift(); // Keep bounded
+			});
+		}
+		setupListener();
+
+		return () => {
+			if (unlistenCrawlStatus) unlistenCrawlStatus();
+		};
+	});
 
 	// ── Logic ─────────────────────────────────────────────────────────────────
 
@@ -24,13 +51,33 @@
 		if (!targetDomain) return;
 		appState.setScanning(true, 'CONTACT SPY');
 		scanResult = null;
+		logs = [];
 		showGuide = false; // Collapse guide when starting scan to reveal full card width
 		
 		try {
+			logs.push({
+				id: logIdCounters++,
+				timestamp: new Date().toISOString().slice(11, 23),
+				status: 'success',
+				message: `Started BFS Spider task on ${targetDomain} with MAX_DEPTH 2...`
+			});
 			// Limit to 25 pages by default to keep responsiveness high
 			scanResult = await invoke('scan_contacts', { domain: targetDomain, maxPages: 25 });
-		} catch (e) {
+			logs.push({
+				id: logIdCounters++,
+				timestamp: new Date().toISOString().slice(11, 23),
+				status: 'success',
+				message: `Successfully mapped surface contacts.`
+			});
+		} catch (e: unknown) {
 			console.error("Scan Failed", e);
+			const msg = e instanceof Error ? e.message : String(e);
+			logs.push({
+				id: logIdCounters++,
+				timestamp: new Date().toISOString().slice(11, 23),
+				status: 'error',
+				message: `Crawl aborted: ${msg}`
+			});
 		} finally {
 			appState.setScanning(false, '');
 		}
@@ -104,7 +151,10 @@
 	</div>
 
 	<!-- Results Area -->
-	<div class="flex-grow">
+	<div class="flex-grow flex flex-col gap-6">
+		{#if appState.isScanning || logs.length > 0}
+			<CrawlingConsole logs={logs} />
+		{/if}
 		<ContactMasonry results={scanResult} isLoading={appState.isScanning} />
 	</div>
 </div>

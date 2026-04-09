@@ -16,6 +16,35 @@ use web_analyzer::nmap_zero_day::NmapScanResult;
 use web_analyzer::api_security_scanner::ApiScanResult;
 use web_analyzer::geo_analysis::GeoAnalysisResult;
 
+#[derive(serde::Serialize)]
+pub struct DependencyStatus {
+    pub nmap: bool,
+    pub dig: bool,
+    pub openssl: bool,
+}
+
+#[tauri::command]
+async fn check_dependencies() -> Result<DependencyStatus, AppError> {
+    let nmap = std::process::Command::new("nmap")
+        .arg("-V")
+        .output()
+        .is_ok();
+    let dig = std::process::Command::new("dig")
+        .arg("-v")
+        .output()
+        .is_ok();
+    let openssl = std::process::Command::new("openssl")
+        .arg("version")
+        .output()
+        .is_ok();
+        
+    Ok(DependencyStatus {
+        nmap,
+        dig,
+        openssl,
+    })
+}
+
 #[tauri::command]
 fn get_system_status() -> String {
     "WebQ Target Secured".into()
@@ -111,6 +140,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
+            check_dependencies,
             get_system_status,
             scan_domain_info,
             scan_domain_dns,

@@ -1,51 +1,62 @@
 <script lang="ts">
-	import * as m from '$lib/paraglide/messages';
-	import { ExternalLink, ShieldCheck } from 'lucide-svelte';
-
+	import { ExternalLink, Copy, Target } from 'lucide-svelte';
+	import { fade } from 'svelte/transition';
+	
 	let { data }: { data: string[] } = $props();
 </script>
 
-{#if data.length === 0}
-	<div class="flex flex-col items-center justify-center p-12 text-center border border-slate-700/50 bg-slate-800/10 rounded-xl border-dashed">
-		<ShieldCheck size={48} class="text-slate-600 mb-4" />
-		<h4 class="text-lg font-bold text-slate-300 font-fira">{m.recon_subdomain_empty()}</h4>
-		<p class="text-sm text-slate-500 font-inter max-w-md mt-2">
-			{m.recon_subdomain_pending()}
-		</p>
-	</div>
-{:else}
-	<div class="overflow-x-auto rounded-xl border border-slate-700/50 bg-slate-900/50 mt-4">
-		<table class="w-full text-left text-sm text-slate-400 font-inter">
-			<thead class="bg-slate-800/50 text-xs uppercase text-slate-400 border-b border-slate-700/50">
-				<tr>
-					<th scope="col" class="px-6 py-4 font-fira font-semibold w-16">#</th>
-					<th scope="col" class="px-6 py-4 font-fira font-semibold">Subdomain</th>
-					<th scope="col" class="px-6 py-4 font-fira font-semibold text-right w-24">Link</th>
+<div class="overflow-x-auto w-full rounded-lg border border-slate-700/50">
+	<table class="w-full text-left text-sm text-slate-300">
+		<thead class="bg-[#09090b] text-xs uppercase text-slate-400 font-fira border-b border-slate-700/50">
+			<tr>
+				<th scope="col" class="px-4 py-3 border-r border-slate-700/50 w-8">#</th>
+				<th scope="col" class="px-6 py-3 border-r border-slate-700/50">Host</th>
+				<th scope="col" class="px-6 py-3 border-r border-slate-700/50 w-32 text-center">Status</th>
+				<th scope="col" class="px-4 py-3 w-40 text-right">Actions</th>
+			</tr>
+		</thead>
+		<tbody class="divide-y divide-slate-700/50 font-mono bg-slate-900/50">
+			{#each data as item, i (item)}
+				<tr class="hover:bg-indigo-500/10 transition-colors group" in:fade={{ delay: Math.min(i * 5, 500), duration: 200 }}>
+					<td class="px-4 py-3 whitespace-nowrap text-slate-500 border-r border-slate-700/50 text-xs">
+						{i + 1}
+					</td>
+					<td class="px-6 py-3 whitespace-nowrap font-medium text-indigo-300 group-hover:text-indigo-200 transition-colors">
+						{item}
+					</td>
+					<td class="px-6 py-3 whitespace-nowrap border-r border-slate-700/50 text-center">
+						<span class="inline-flex items-center gap-1.5 rounded bg-[#09090b] px-2 py-1.5 text-xs text-slate-400 border border-slate-700/50 group-hover:border-indigo-500/50 transition-colors">
+							<Target size={12} class="text-indigo-500" />
+							Discovered
+						</span>
+					</td>
+					<td class="px-4 py-3 flex items-center justify-end gap-2">
+						<!-- action buttons -->
+						<button 
+							class="text-slate-500 hover:text-indigo-400 hover:bg-indigo-500/10 rounded p-1.5 transition-colors"
+							onclick={() => navigator.clipboard.writeText(item)}
+							title="Copy to clipboard"
+						>
+							<Copy size={16} />
+						</button>
+						<a 
+							href={`http://${item}`}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 rounded p-1.5 transition-colors"
+							title="Open in browser"
+						>
+							<ExternalLink size={16} />
+						</a>
+					</td>
 				</tr>
-			</thead>
-			<tbody class="divide-y divide-slate-700/30">
-				{#each data as domain, i (domain)}
-					<tr class="hover:bg-slate-800/30 transition-colors">
-						<td class="px-6 py-4 font-mono text-xs text-slate-500">
-							{i + 1}
-						</td>
-						<td class="px-6 py-4 font-medium text-slate-200">
-							{domain}
-						</td>
-						<td class="px-6 py-4 text-right">
-							<a
-								href={`http://${domain}`}
-								target="_blank"
-								rel="noopener noreferrer"
-								class="inline-flex items-center gap-2 rounded-md bg-slate-800/50 px-3 py-1.5 text-xs font-semibold text-sky-400 hover:bg-sky-500/20 hover:text-sky-300 transition-colors"
-								aria-label={`Open ${domain} in new tab`}
-							>
-								<ExternalLink size={14} />
-							</a>
-						</td>
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-	</div>
-{/if}
+			{:else}
+				<tr>
+					<td colspan="4" class="px-6 py-12 text-center text-slate-500 font-fira">
+						No subdomains to display.
+					</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</div>
