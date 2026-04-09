@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [36] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
+📈 **Progress Statistics:** [38] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -122,7 +122,7 @@
   - *Input:* `$state<SubdomainRecord[]>` ile bağlanan (bound) keşfedilmiş liste.
   - *Output:* Host, IP Adresi, Cloud/CDN Provider bilgisi içeren Data tablosu. Tablo eylemleri: "Ping", "Copy", "Takeover Check".
   - *Visualize:* Tablo satırlarında (row) Bulunma sırasına göre animasyonlu giriş (transition:slide/fade).
-- [ ] Component: `src/lib/components/recon/guides/SubdomainGuide.svelte`
+- [x] Component: `src/lib/components/recon/guides/SubdomainGuide.svelte`
   - *İçerik:* Dangling Subdomain Takeover riskleri, Cloud DNS kaydı güvenliği ve SecOps eğitim materyali. LuxeUI modal ile açılacak.
 - [ ] Backend: Rust Tauri Command `scan_subdomains(domain: String) -> Result<SubdomainInfoResult, AppError>`. `tokio::spawn` kullanılarak `web-analyzer` internal sand-box crate'ine istek atılacak. Olası API rate-limit hataları AppError olarak UI'a paslanacak.
 - [ ] Multi-language: Eğitim modalları dahil tüm statik metinlerin `m.recon_subdomain_*` (Paraglide-js) ile çevrilmesi.
@@ -144,7 +144,7 @@
   - *Input:* Tauri `Window::emit` tarafından gönderilen `CrawlStatus` payload'ları.
   - *Output:* Canlı tarama hızı (Req/s), mevcut inilen derinlik ağacı (BFS Depth-Level).
   - *Visualize:* Saniyede kayan hacker console satırları (Tailwind overflow-y-auto, font-mono, text-green-400). Otomatik auto-scroll (`$effect` ile).
-- [ ] Component: `src/lib/components/recon/guides/ContactSpyGuide.svelte`
+- [x] Component: `src/lib/components/recon/guides/ContactSpyGuide.svelte`
   - *İçerik:* Phishing Vektörleri, Veri sızıntılarında (Breaches) açık personel veri istismarı eğitim serisi.
 - [ ] Backend: Rust motorunda BFS (Breadth-First-Search) crawler (reqwest/tokio) başlatan `crawl_for_contacts` komutu.
 

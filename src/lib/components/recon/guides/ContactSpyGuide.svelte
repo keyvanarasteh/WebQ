@@ -54,8 +54,8 @@
                             <Users size={28} class="text-indigo-400" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.recon_contact_guide_title ? m.recon_contact_guide_title() : 'Contact Intelligence (OSINT)'}</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">Harvesting employee emails, structures, and social footprints.</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.recon_contact_guide_title()}</h2>
+                            <p class="text-sm text-zinc-400 mt-1 max-w-md">{m.recon_contact_guide_desc()}</p>
                         </div>
                     </div>
                     

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { invoke } from '@tauri-apps/api/core';
     import * as m from '$lib/paraglide/messages';
-    import { Search, ShieldAlert, CheckCircle2, AlertCircle, Terminal, FileCode2, Info } from 'lucide-svelte';
+    import { Search, ShieldAlert, CheckCircle2, AlertCircle, Terminal, FileCode2, Info, Network } from 'lucide-svelte';
     import { slide, fade } from 'svelte/transition';
     import ApiFuzzerRadar from '$lib/components/assessment/api-security/ApiFuzzerRadar.svelte';
     import ApiVulnLog from '$lib/components/assessment/api-security/ApiVulnLog.svelte';
@@ -100,7 +100,7 @@
 
         {#if error}
             <div class="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3" transition:slide>
-                <AlertCircle class="text-red-400 mt-0.5 flex-shrink-0" size={18} />
+                <AlertCircle class="text-red-400 mt-0.5 shrink-0" size={18} />
                 <div class="text-sm text-red-200/80 leading-relaxed font-mono break-all">
                     {error}
                 </div>

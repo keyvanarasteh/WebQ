@@ -1,7 +1,7 @@
 <script lang="ts">
     import { invoke } from '@tauri-apps/api/core';
     import * as m from '$lib/paraglide/messages';
-    import { Search, Map as MapIcon, Compass, BrainCircuit, Globe2, BookOpen, Fingerprint } from 'lucide-svelte';
+    import { Search, Map as MapIcon, Compass, BrainCircuit, Globe2, BookOpen, Fingerprint, ShieldAlert } from 'lucide-svelte';
     import { slide, fade } from 'svelte/transition';
     import ApiBotDirectives from '$lib/components/assessment/geo-analysis/ApiBotDirectives.svelte';
     import GeofencingGuide from '$lib/components/assessment/geo-analysis/GeofencingGuide.svelte';
@@ -93,7 +93,7 @@
 
         {#if error}
             <div class="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3" transition:slide>
-                <ShieldAlert class="text-red-400 mt-0.5 flex-shrink-0" size={18} />
+                <ShieldAlert class="text-red-400 mt-0.5 shrink-0" size={18} />
                 <div class="text-sm text-red-200/80 leading-relaxed font-mono break-all">
                     {error}
                 </div>
