@@ -1,27 +1,9 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
     import { Sun, Moon, Menu, FileDown } from 'lucide-svelte';
-    import { reportStore } from '$lib/stores/ReportStore.svelte';
-    import { generateMarkdownReport } from '$lib/utils/ReportAction';
-    import { toast } from 'svelte-sonner';
+    import ReportExporterModal from '$lib/components/reports/ReportExporterModal.svelte';
 
-    async function handleExport() {
-        const domains = reportStore.getAvailableDomains();
-        if (domains.length === 0) {
-            toast.error("No reports available to export");
-            return;
-        }
-        const targetDomain = domains[domains.length - 1]; // Latest domain
-        if (!targetDomain) return;
-        const data = reportStore.getReportForDomain(targetDomain);
-        
-        try {
-            const success = await generateMarkdownReport(targetDomain, data);
-            if (success) toast.success(`Report exported successfully for ${targetDomain}`);
-        } catch (e) {
-            toast.error("Failed to export report");
-        }
-    }
+    let showExportModal = $state(false);
 </script>
 
 <header class="h-16 w-full border-b border-base bg-background/80 backdrop-blur-md flex items-center justify-between px-6 z-10">
@@ -40,7 +22,7 @@
             </div>
         {/if}
 
-        <button class="text-muted hover:text-accent p-2 rounded-md hover:bg-surface transition-all border border-base flex items-center gap-1" onclick={handleExport} title="Export Markdown Report">
+        <button class="text-muted hover:text-accent p-2 rounded-md hover:bg-surface transition-all border border-base flex items-center gap-1" onclick={() => showExportModal = true} title="Export Security Report">
             <FileDown class="size-4" />
             <span class="text-xs font-bold hidden md:inline">REPORT</span>
         </button>
@@ -63,3 +45,5 @@
         </button>
     </div>
 </header>
+
+<ReportExporterModal bind:open={showExportModal} />
