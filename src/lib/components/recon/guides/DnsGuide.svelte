@@ -236,18 +236,18 @@
 {/if}
 
 <style>
-    .custom-scrollbar::-webkit-scrollbar {
+    :global(.custom-scrollbar::-webkit-scrollbar) {
         width: 8px;
         height: 8px;
     }
-    .custom-scrollbar::-webkit-scrollbar-track {
+    :global(.custom-scrollbar::-webkit-scrollbar-track) {
         background: transparent;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
+    :global(.custom-scrollbar::-webkit-scrollbar-thumb) {
         background-color: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    :global(.custom-scrollbar::-webkit-scrollbar-thumb:hover) {
         background-color: rgba(255, 255, 255, 0.2);
     }
 </style>

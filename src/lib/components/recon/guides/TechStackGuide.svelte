@@ -201,11 +201,11 @@
 {/if}
 
 <style>
-    .custom-scrollbar::-webkit-scrollbar {
+    :global(.custom-scrollbar::-webkit-scrollbar) {
         width: 8px;
         height: 8px;
     }
-    .custom-scrollbar::-webkit-scrollbar-track {
+    :global(.custom-scrollbar::-webkit-scrollbar-track) {
         background: transparent;
     }
     :global(.custom-scrollbar::-webkit-scrollbar-thumb) {

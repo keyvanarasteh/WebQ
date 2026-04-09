@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { X, Globe, MapPin, Network, Code2, ArrowRight, ChevronRight, ChevronLeft, ShieldAlert, Navigation } from 'lucide-svelte';
+    import { X, Globe, MapPin, Network, Code2, ArrowRight, ChevronRight, ChevronLeft, ShieldAlert, Navigation, Database } from 'lucide-svelte';
     import { fade, fly } from 'svelte/transition';
     import { backOut } from 'svelte/easing';
 
