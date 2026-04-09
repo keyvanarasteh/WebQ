@@ -184,12 +184,12 @@
 - [x] Component: Takeover mitigation (çözüm yolu) önerilerini içeren Collapsible/Accordion bölümü.
 - [x] Frontend: Ele geçirilebilen bir alt alan bulunduğunda animasyonlu ve sesli (vibrational) bildirim.
 
-### 4.3 Cloudflare Bypass Modülü (`cloudflare_bypass`)
-- [ ] Arka plan: Internet geçmişi DNS'lerinden (History Lookup) orijin IP çözen özellik.
-- [ ] UI: Bulunan potansiyel Orijin IP'leri ve "Bypass Status" paneli.
-- [ ] Component: TCP Doğrulaması yapılmış ve başarılı olmuş IP adreslerini vurgulayan yeşil onay ikonu.
-- [ ] Component: Tespit edilen Private IP adreslerinin (LAN) grileşmesi/filtrelenmesi.
-- [ ] Frontend: DNS geçmiş arama animasyonu.
+### Faz 4.3 Cloudflare Bypass Modülü (`cloudflare_bypass`)
+- [x] Arka plan: Internet geçmişi DNS'lerinden (History Lookup) orijin IP çözen özellik.
+- [x] UI: Bulunan potansiyel Orijin IP'leri ve "Bypass Status" paneli.
+- [x] Component: TCP Doğrulaması yapılmış ve başarılı olmuş IP adreslerini vurgulayan yeşil onay ikonu.
+- [x] Component: Tespit edilen Private IP adreslerinin (LAN) grileşmesi/filtrelenmesi.
+- [x] Frontend: DNS geçmiş arama animasyonu.
 
 ### 4.4 Nmap Zero Day Modülü (`nmap_zero_day`)
 - [ ] Arka plan: Nmap entegrasyonu, XML çıktı okuyucu ve NVD CVE sorgusunu çalıştıran komut.
