@@ -28,7 +28,7 @@
     "targets": "all",
     "linux": {
       "deb": {
-        "depends": ["curl", "wget", "libwebkit2gtk-4.1-0", "libgtk-3-0"]
+        "depends": ["curl", "wget", "libwebkit2gtk-4.1-0", "libgtk-3-0", "nmap", "dnsutils", "openssl"]
       }
     },
     "icon": [
