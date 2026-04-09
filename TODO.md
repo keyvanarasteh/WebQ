@@ -242,11 +242,29 @@
 - [ ] Son güvenlik testleri ve 1.0.0 Release Yayını.
 
 ## Faz 7: Scan History & SQLite Database Architecture (Offline Persistence)
-### 7.1 Veritabanı Mimarisi (Backend)
-- [ ] Arkan plan: SQLite (sea-orm veya sqlx) entegrasyonu `src-tauri/src/db/` dizinine eklenecek.
-- [ ] Schema (Şema) Tasarımı: `scans` (id, domain, type, timestamp, status), `scan_results` (id, scan_id, raw_json_blob, parsed_summary) tablolarının oluşturulması.
-- [ ] Entity Mappings: Tüm zafiyet ve OSINT analiz dönütlerinin (Structlar) Serialized JSON blob (veya relational) olarak veritabanına yazılması.
-- [ ] Tauri Commands: `get_scan_history`, `get_scan_details`, `delete_scan`, `clear_history` metodlarının `main.rs` hookuna eklenmesi.
+### 7.1 Veritabanı Mimarisi & Şema Yapısı (Backend - SeaORM / Sqlx)
+- [ ] Arkan plan: SQLite veritabanı entegrasyonu `src-tauri/src/db/` dizinine eklenecek.
+- [ ] Schema 1: **`scans`** (Ana Tarama Oturum Tablosu)
+  - `id`: UUID (Primary Key)
+  - `target_domain`: String (Hedef adres e.g `example.com`)
+  - `scan_module`: Enum (`SecurityAnalysis`, `DomainDns`, `SubdomainDiscovery`, `SeoAnalysis`, `NmapZeroDay`, `WebTech`, `ContactSpy`)
+  - `status`: Enum (`Running`, `Completed`, `Failed`)
+  - `timestamp`: DateTime (Tarama tarihi)
+- [ ] Schema 2: **`scan_results`** (Detaylı Sonuç Blob Tablosu)
+  - `id`: UUID (Primary Key)
+  - `scan_id`: Foreign Key (`scans.id` ile cascade)
+  - `security_score_cache`: i32 (Grid'de hızlı renk ayrımı için)
+  - `critical_findings_count`: i32 (Zero-day veya WAF bypass adedi tespiti)
+  - `raw_json_blob`: JSONB. Bu bloba doğrudan Serialize edilecek `web-analyzer` struct'ları:
+    - **`SecurityAnalysisResult`**: (İçerisinde `WafMatch`, `HeaderAnalysis`, `SslAnalysisResult`, `CorsPolicyResult`, `VulnScanResult` node'ları var)
+    - **`DomainDnsResult`**: (İçerisinde `DnsRecords` A, AAAA, MX, NS arrayleri)
+    - **`SubdomainDiscoveryResult`**: (`host`, `ips`, `cdn_provider` listeleri)
+    - **`SeoAnalysisResult`**: (`BasicSeoResult`, `TechnicalSeoResult`, `SocialMediaResult`, `HeadingInfo`)
+    - **`WebTechResult`**: (`SecurityHeaderInfo`, `WordPressAnalysis`, `WpUser`, `CookieSecurityInfo`)
+    - **`NmapScanResult`**: (`PortInfo`, `VulnerabilityInfo`, `SeverityInfo` - Zafiyet ağacı)
+    - **`CloudflareBypassResult`**: (`FoundIp` array)
+    - **`ContactSpyResult`**: (Emails, `SocialMedia` node'ları)
+- [ ] Tauri Commands: `get_global_scan_history`, `get_scan_blob_details(id)`, `delete_scan(id)`, `export_scan_json(id)` hooklarının `main.rs` içine implementasyonu.
 
 ### 7.2 History Dashboard & Widgets (Frontend)
 - [ ] Ana Sayfa (Main Dashboard) Widget: `src/routes/+page.svelte` içine "Recent Scans" veri tablosu mini-widget'ının (Son 5 tarama) eklenmesi.
