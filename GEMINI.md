@@ -17,6 +17,7 @@ Gelecek implementasyonlarda derleme (build) aşamasında çıkan Svelte hatalar�
 - **Paraglide-js Types Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/paraglide_language_types.md` (localStorage veya env verisinden gelen raw string'in Paraglide sistemine uygun literllere cast edilmesi).
 - **`@const` Invalid Placement Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/const_invalid_placement.md` (Svelte 5'te `@const` etiketinin div vb. generic elementler içerisine değil, doğrudan {#each} altına veya `<script>` içerisinde `$derived` ile tanımlanması gereklidir).
 - **`$app/paths` Module Not Found Hatası:** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/sveltekit_tsconfig_paths.md` (Vite / SvelteKit projelerinde `tsconfig.json` içerisinde `"paths"` override edilmemeli, path alias'lar `svelte.config.js` üzerinden `kit.alias` bloğunda tanımlanmalıdır).
+- **Phase 3 Svelte 5 İpuçları (Recursive indexing, Lucide icons vs.):** `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/phase3-fixes.md` (Ağaç veri yapısı veya ikon isimlendirmelerinden kaynaklanan derleme hatalarını önleme).
 
 ## 3. Rust, Tauri v2 & `web-analyzer` (Backend)
 - **Güvenlik ve Analiz Motoru:** Bütün altyapı DrVoid (Keyvan Arasteh) tarıfından geliştirilen açık kaynaklı `web-analyzer` Crate'i üzerine bina edilecek. Kullanılacak potansiyel feature flagler: `domain-info`, `subdomain-discovery`, `security-analysis`, `nmap-zero-day` vb. 

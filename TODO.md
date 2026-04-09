@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [21] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
+📈 **Progress Statistics:** [31] done, [0] ongoing, [0] implemented, [0] skipped. Toplam Görev: ~286
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -149,23 +149,23 @@
 - [ ] Backend: Rust motorunda BFS (Breadth-First-Search) crawler (reqwest/tokio) başlatan `crawl_for_contacts` komutu.
 
 ### 3.3 Advanced Content Scanner (`advanced_content_scanner`) [Mimari ve UX Planı]
-- [ ] Sayfa: `src/routes/recon/content-scanner/+page.svelte`
+- [x] Sayfa: `src/routes/recon/content-scanner/+page.svelte`
   - *Input:* Hedef URL, Tarama (Scan) Derinliği ve Wordlist profili seçimi (Small, Medium, Huge).
   - *Output:* `ContentScanSummary` modeli (Secret keys, Exposed dosyalar, JS bazlı API key tespitleri).
   - *Visualize:* Genişletilmiş terminal görünümü içeren rapor dashboard'u.
-- [ ] Component: `src/lib/components/recon/content-scanner/SensitiveFilesAlert.svelte`
+- [x] Component: `src/lib/components/recon/content-scanner/SensitiveFilesAlert.svelte`
   - *Input:* Tarayıcıdan tespit edilen kritik varyantlar (`.env`, `.git`, `config.php`, `docker-compose.yml`).
   - *Output:* Dinamik uyarılara sahip Critical Alert Box render'ı.
   - *Visualize:* Kalp atışı (animate-pulse) animasyonu ile acil eylem gerektiren dosyaların vurgulanması ve CVSS tahmini (10.0 Critical).
-- [ ] Component: `src/lib/components/recon/content-scanner/VulnerabilityLogTable.svelte`
+- [x] Component: `src/lib/components/recon/content-scanner/VulnerabilityLogTable.svelte`
   - *Input:* `$state` log history dizisi (SSRF, JS key sızıntıları).
   - *Output:* Zafiyet tipine ve skoruna göre renklendirilmiş (Kritik: Kırmızı, Medium: Sarı) güvenlik log veri gridi.
   - *Visualize:* Tabloda Dropdown (Bits UI dropdown) filtreleme opsiyonları (Örn: Sadece High severity göster).
-- [ ] Component: `src/lib/components/recon/guides/ContentScannerGuide.svelte`
+- [x] Component: `src/lib/components/recon/guides/ContentScannerGuide.svelte`
   - *İçerik:* Google Dorks, Exposed Environment Variables riskleri, kaynak kodda sızan AWS key'lerinin istismarı hakkında SecOps notları.
-- [ ] Backend: Kritik 24 Secret paterni (Regex listesi) ve dizin tarayıcı (Directory Busting) altyapısı için `scan_content` Tauri Async fonksiyonu.
-- [ ] İhracat: Zafiyetleri PDF/JSON/CSV formatında sistem diskine export eden `export_scan_report` Rust hook'u.
-- [ ] Multi-language: Tüm statik UI bileşenlerinin ve eğitim kılavuzlarının `m.*` dil registry'si ile entegrasyonu.
+- [x] Backend: Kritik 24 Secret paterni (Regex listesi) ve dizin tarayıcı (Directory Busting) altyapısı için `scan_content` Tauri Async fonksiyonu.
+- [x] İhracat: Zafiyetleri PDF/JSON/CSV formatında sistem diskine export eden `export_scan_report` Rust hook'u.
+- [x] Multi-language: Tüm statik UI bileşenlerinin ve eğitim kılavuzlarının `m.*` dil registry'si ile entegrasyonu.
 
 ## Faz 4: Security Assessment (Gelişmiş Güvenlik Değerlendirmesi)
 ### 4.1 Security Analysis Modülü (`security_analysis`)

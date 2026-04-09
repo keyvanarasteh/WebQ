@@ -35,6 +35,7 @@
     <rule id="FE-07" severity="required">Avoid module resolution errors: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/sveltekit_tsconfig_paths.md` for tsconfig alias handling constraints.</rule>
     <rule id="FE-08" severity="required">Avoid missing script tags: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/script_tags_missing.md` to prevent massive parsing failures during build.</rule>
     <rule id="FE-09" severity="required">Type assertions for Paraglide-js: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/paraglide_language_types.md` when bridging generic string APIs to i18n literal enums.</rule>
+    <rule id="FE-10" severity="required">Phase 3 UI/UX Checkup Fixes: Refer to `file:///home/drvoid/ISU/WebQ/.agents/rules/svelte/phase3-fixes.md` to prevent massive TypeScript/Lucide layout and routing parsing errors.</rule>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════
