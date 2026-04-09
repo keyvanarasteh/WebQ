@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="bg-[#09090b] border border-[#27272a] rounded-lg overflow-hidden flex flex-col w-full shadow-inner shadow-black/80 font-mono" style="min-height: 250px;">
+<div class="bg-qix-obsidian border border-[#27272a] rounded-lg overflow-hidden flex flex-col w-full shadow-inner shadow-black/80 font-mono" style="min-height: 250px;">
 	<div class="bg-[#18181b] border-b border-[#27272a] p-2.5 flex items-center justify-between shadow-sm z-10 px-4 shrink-0">
 		<div class="flex items-center gap-2">
 			<TerminalSquare size={16} class="text-emerald-500" />
@@ -46,14 +46,14 @@
 
 	<div 
 		bind:this={containerNode}
-		class="p-4 overflow-y-auto space-y-2 text-[11px] leading-relaxed flex-grow scroll-smooth"
+		class="p-4 overflow-y-auto space-y-2 text-[11px] leading-relaxed grow scroll-smooth"
 		style="max-height: 400px;"
 	>
 		{#each logs as log (log.id)}
 			<div class="flex items-start gap-3 group" in:fade={{duration:150}}>
 				<span class="text-slate-600 shrink-0">[{log.timestamp}]</span>
 				<span class="shrink-0 font-bold uppercase w-14 {getStatusColor(log.status)}">{log.status}</span>
-				<span class="text-slate-300 break-words group-hover:text-white transition-colors">{log.message}</span>
+				<span class="text-slate-300 wrap-break-word group-hover:text-white transition-colors">{log.message}</span>
 			</div>
 		{:else}
 			<div class="h-full flex items-center justify-center text-slate-600 py-10 opacity-50 text-[10px] tracking-widest uppercase">

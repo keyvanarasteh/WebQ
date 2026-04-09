@@ -97,7 +97,7 @@
 				{#if results.phones.length > 0}
 					<ul class="space-y-3">
 						{#each results.phones as phone, i (i)}
-							<li class="flex items-center gap-3 bg-[#09090b] p-3 rounded-md border border-[#27272a] group hover:border-amber-500/30 transition-colors shadow shadow-black/40">
+							<li class="flex items-center gap-3 bg-qix-obsidian p-3 rounded-md border border-[#27272a] group hover:border-amber-500/30 transition-colors shadow shadow-black/40">
 								<span class="text-xs text-slate-500 font-mono">{String(i + 1).padStart(2, '0')}</span>
 								<span class="text-slate-300 text-sm font-mono truncate">{phone}</span>
 							</li>

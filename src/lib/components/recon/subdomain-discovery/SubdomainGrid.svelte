@@ -7,7 +7,7 @@
 
 <div class="overflow-x-auto w-full rounded-lg border border-slate-700/50">
 	<table class="w-full text-left text-sm text-slate-300">
-		<thead class="bg-[#09090b] text-xs uppercase text-slate-400 font-fira border-b border-slate-700/50">
+		<thead class="bg-qix-obsidian text-xs uppercase text-slate-400 font-fira border-b border-slate-700/50">
 			<tr>
 				<th scope="col" class="px-4 py-3 border-r border-slate-700/50 w-8">#</th>
 				<th scope="col" class="px-6 py-3 border-r border-slate-700/50">Host</th>
@@ -25,7 +25,7 @@
 						{item}
 					</td>
 					<td class="px-6 py-3 whitespace-nowrap border-r border-slate-700/50 text-center">
-						<span class="inline-flex items-center gap-1.5 rounded bg-[#09090b] px-2 py-1.5 text-xs text-slate-400 border border-slate-700/50 group-hover:border-indigo-500/50 transition-colors">
+						<span class="inline-flex items-center gap-1.5 rounded bg-qix-obsidian px-2 py-1.5 text-xs text-slate-400 border border-slate-700/50 group-hover:border-indigo-500/50 transition-colors">
 							<Target size={12} class="text-indigo-500" />
 							Discovered
 						</span>

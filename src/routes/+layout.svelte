@@ -30,7 +30,7 @@
 
 <div class="flex h-screen w-full bg-white dark:bg-qix-obsidian text-black dark:text-white antialiased overflow-hidden transition-colors duration-300">
   <Sidebar />
-  <div class="flex-grow flex flex-col overflow-hidden relative">
+  <div class="grow flex flex-col overflow-hidden relative">
     <DependencyAlert />
     <Topbar />
     <Toaster position="top-right" richColors theme="dark" expand={false} />

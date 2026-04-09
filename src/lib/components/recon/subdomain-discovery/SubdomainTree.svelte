@@ -85,7 +85,7 @@
 	</div>
 {/snippet}
 
-<div class="w-full bg-[#09090b] rounded-xl border border-slate-800 shadow-xl p-4 font-fira text-slate-300 overflow-x-auto">
+<div class="w-full bg-qix-obsidian rounded-xl border border-slate-800 shadow-xl p-4 font-fira text-slate-300 overflow-x-auto">
 	{#if data.length === 0}
 		<div class="flex items-center justify-center py-10 text-sm text-slate-500">
 			No tree data to parse.

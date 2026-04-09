@@ -35,7 +35,7 @@
 						href={profile.url} 
 						target="_blank" 
 						rel="noopener noreferrer"
-						class="flex flex-col bg-[#09090b] p-4 rounded-lg border focus:outline-none hover:scale-[1.02] transition-transform duration-200 cursor-pointer shadow-xl {theme}"
+						class="flex flex-col bg-qix-obsidian p-4 rounded-lg border focus:outline-none hover:scale-[1.02] transition-transform duration-200 cursor-pointer shadow-xl {theme}"
 					>
 						<div class="flex justify-between items-start gap-4">
 							<div class="flex flex-col overflow-hidden">

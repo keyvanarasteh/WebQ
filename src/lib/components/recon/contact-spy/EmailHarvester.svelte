@@ -26,7 +26,7 @@
 
 <ul class="space-y-3">
 	{#each categorizedEmails as item, i (item.email)}
-		<li class="flex flex-col gap-2 bg-[#09090b] p-3 rounded-lg border border-[#27272a] hover:border-slate-600 transition-colors">
+		<li class="flex flex-col gap-2 bg-qix-obsidian p-3 rounded-lg border border-[#27272a] hover:border-slate-600 transition-colors">
 			<div class="flex justify-between items-center w-full">
 				<div class="flex items-center gap-3 overflow-hidden">
 					<span class="text-xs text-slate-500 font-mono shrink-0">{String(i + 1).padStart(2, '0')}</span>

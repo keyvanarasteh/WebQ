@@ -121,7 +121,7 @@
 						type="text" 
 						bind:value={targetDomain} 
 						placeholder="Enter target domain..."
-						class="w-full bg-[#09090b] border border-[#27272a] rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono text-sm"
+						class="w-full bg-qix-obsidian border border-[#27272a] rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono text-sm"
 						onkeydown={(e) => e.key === 'Enter' && performScan()}
 						disabled={appState.isScanning}
 					/>
@@ -151,7 +151,7 @@
 	</div>
 
 	<!-- Results Area -->
-	<div class="flex-grow flex flex-col gap-6">
+	<div class="grow flex flex-col gap-6">
 		{#if appState.isScanning || logs.length > 0}
 			<CrawlingConsole logs={logs} />
 		{/if}
