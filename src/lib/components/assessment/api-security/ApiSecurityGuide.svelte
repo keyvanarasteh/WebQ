@@ -98,6 +98,8 @@
                 </div>
             </div>
             
+            </div>
+            
             <!-- Footer -->
             <div class="bg-black/40 p-4 border-t border-white/5 flex justify-end">
                 <button 

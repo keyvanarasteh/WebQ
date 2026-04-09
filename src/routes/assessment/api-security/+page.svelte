@@ -196,7 +196,7 @@
 </div>
 
 <!-- Modal Guide -->
-<ApiSecurityGuide bind:show={showGuide} />
+<ApiSecurityGuide bind:isOpen={showGuide} />
 
 <style>
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }

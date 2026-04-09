@@ -191,7 +191,7 @@
 </div>
 
 <!-- Modal Guide -->
-<GeofencingGuide bind:show={showGuide} />
+<GeofencingGuide bind:isOpen={showGuide} />
 
 <style>
     .custom-scrollbar::-webkit-scrollbar { width: 6px; }

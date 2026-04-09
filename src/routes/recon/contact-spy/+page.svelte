@@ -8,7 +8,7 @@
 	import ContactSpyGuide from '$lib/components/recon/guides/ContactSpyGuide.svelte';
 
 	// Icons
-	import { Users, Search, ActivitySquare, Fingerprint } from 'lucide-svelte';
+	import { Users, Search, ActivitySquare, Fingerprint, HelpCircle } from 'lucide-svelte';
 
 	// ── State ─────────────────────────────────────────────────────────────────
 	
@@ -44,7 +44,16 @@
 				<Fingerprint class="text-emerald-400 size-5" />
 			</div>
 			<div>
-				<h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.nav_contact_spy()}</h1>
+				<div class="flex items-center gap-3">
+					<h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.nav_contact_spy()}</h1>
+					<button 
+						class="text-slate-500 hover:text-emerald-400 transition-colors"
+						onclick={() => showGuide = true}
+						aria-label="View Educational Guide"
+					>
+						<HelpCircle class="w-5 h-5" />
+					</button>
+				</div>
 				<p class="text-gray-400 mt-2">Comprehensive extraction of organizational surface contacts via OSINT harvesting.</p>
 			</div>
 		</div>
@@ -87,11 +96,10 @@
 		</div>
 
 		<!-- Right: Quick Actions / KPI -->
-		<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-		<div class="lg:col-span-4 bg-[#18181b] border border-[#27272a] rounded-lg p-6 flex flex-col items-center justify-center text-center group cursor-pointer hover:border-emerald-500/50 transition-colors" onclick={() => showGuide = true}>
-			<Users size={32} class="text-emerald-500/50 group-hover:text-emerald-400 mb-3 transition-colors" />
-			<h3 class="text-white font-bold tracking-widest uppercase text-sm mb-1">{m.btn_educational_guide()}</h3>
-			<p class="text-xs text-slate-500 font-fira">Click to view OSINT techniques behind Contact Spying.</p>
+		<div class="lg:col-span-4 bg-[#18181b] border border-[#27272a] rounded-lg p-6 flex flex-col items-center justify-center text-center">
+			<Users size={32} class="text-emerald-500/50 mb-3" />
+			<h3 class="text-white font-bold tracking-widest uppercase text-sm mb-1">{m.nav_contact_spy()} Mode Active</h3>
+			<p class="text-xs text-slate-500 font-fira">OSINT techniques applied.</p>
 		</div>
 	</div>
 
@@ -102,12 +110,4 @@
 </div>
 
 <!-- Slide-over Educational Guide -->
-{#if showGuide}
-	<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-	<div class="fixed inset-0 z-50 flex justify-end">
-		<div class="fixed inset-0 bg-black/60 backdrop-blur-sm" onclick={() => showGuide = false}></div>
-		<div class="relative z-50 h-full max-w-sm w-full animate-in slide-in-from-right-full duration-300">
-			<ContactSpyGuide onClose={() => showGuide = false} />
-		</div>
-	</div>
-{/if}
+<ContactSpyGuide bind:isOpen={showGuide} />

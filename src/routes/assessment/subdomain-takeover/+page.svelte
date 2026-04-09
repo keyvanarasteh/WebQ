@@ -142,4 +142,4 @@
   {/if}
 </div>
 
-<TakeoverGuide bind:open={showGuide} />
+<TakeoverGuide bind:isOpen={showGuide} />
