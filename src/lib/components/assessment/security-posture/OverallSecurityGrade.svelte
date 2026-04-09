@@ -24,7 +24,7 @@
     <div class="absolute -top-32 -right-32 w-64 h-64 rounded-full blur-[100px] pointer-events-none {isHighRisk ? 'bg-red-500/10' : 'bg-emerald-500/10'}"></div>
 
     <div class="flex items-center justify-between mb-8">
-        <h3 class="text-xl font-medium tracking-tight text-white flex items-center gap-2">
+        <h3 class="text-xl font-medium tracking-tight text-primary-text flex items-center gap-2">
             {#if isHighRisk}
                 <ShieldAlert class="w-6 h-6 text-red-400" />
             {:else}
@@ -40,9 +40,9 @@
     <div class="flex flex-col items-center justify-center py-6 mb-8 border-b border-white/10">
         <div class="text-7xl font-bold tracking-tight mb-2 flex items-baseline gap-2 {gradeColor}">
             {grade}
-            <span class="text-2xl font-light text-slate-400">/ {score}</span>
+            <span class="text-2xl font-light text-muted">/ {score}</span>
         </div>
-        <p class="text-sm font-medium text-slate-400 uppercase tracking-widest">{m.sec_posture_score()}</p>
+        <p class="text-sm font-medium text-muted uppercase tracking-widest">{m.sec_posture_score()}</p>
     </div>
 
     <div>

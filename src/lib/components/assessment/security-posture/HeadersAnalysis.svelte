@@ -21,8 +21,8 @@
 <div class="border border-white/5 bg-white/5 backdrop-blur-md rounded-xl p-6">
     <div class="flex items-center justify-between mb-6">
         <div class="flex items-center gap-3">
-            <FileLock2 class="w-5 h-5 text-cyan-400" />
-            <h3 class="text-lg font-medium text-white">{m.sec_posture_headers()}</h3>
+            <FileLock2 class="w-5 h-5 text-accent" />
+            <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_headers()}</h3>
         </div>
         <div class="flex gap-2">
             {#if headersAnalysis.missing_critical.length > 0}
@@ -40,7 +40,7 @@
 
     {#if headersAnalysis.missing_critical.length > 0 || headersAnalysis.missing_high.length > 0}
         <div class="mb-6 space-y-2">
-            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">Missing Headers</h4>
+            <h4 class="text-xs font-semibold text-muted uppercase tracking-widest mb-3">Missing Headers</h4>
             {#each headersAnalysis.missing_critical as missing}
                 <div class="flex items-center gap-2 p-2.5 rounded text-sm bg-red-500/10 border border-red-500/20 text-red-300 font-mono">
                     <AlertCircle class="w-4 h-4 shrink-0" />
@@ -58,7 +58,7 @@
 
     {#if presentHeaders.length > 0}
         <div>
-            <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-3">Active Headers</h4>
+            <h4 class="text-xs font-semibold text-muted uppercase tracking-widest mb-3">Active Headers</h4>
             <div class="space-y-1">
                 {#each presentHeaders as [key, value] (key)}
                     <div class="flex justify-between items-center py-2 border-b border-white/5 last:border-0 group">

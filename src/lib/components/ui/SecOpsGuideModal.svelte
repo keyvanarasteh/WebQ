@@ -35,26 +35,26 @@
   onclick={close}
 >
   <div 
-      class="bg-[#09090b] border flex flex-col border-[#27272a] rounded-xl shadow-[0_0_50px_rgba(34,211,238,0.05)] w-full max-w-4xl max-h-[85vh] overflow-hidden"
+      class="bg-background border flex flex-col border-base rounded-xl shadow-[0_0_50px_rgba(34,211,238,0.05)] w-full max-w-4xl max-h-[85vh] overflow-hidden"
       onclick={(e) => e.stopPropagation()}
   >
       <!-- HEADER -->
-      <div class="px-6 py-4 border-b border-[#27272a] bg-[#121214] flex justify-between items-center sticky top-0 z-10 shrink-0">
+      <div class="px-6 py-4 border-b border-base bg-[#121214] flex justify-between items-center sticky top-0 z-10 shrink-0">
           <div class="flex items-center gap-3">
               {#if Icon}
                   <div class="p-2 bg-cyan-500/10 rounded-lg">
-                      <Icon class="size-5 text-cyan-400" />
+                      <Icon class="size-5 text-accent" />
                   </div>
               {/if}
               <div>
                   <h2 class="text-xl font-black text-gray-100 tracking-wide">{title}</h2>
-                  <p class="text-xs font-mono text-cyan-500/70 tracking-widest uppercase">SecOps & Secure Dev Intelligence</p>
+                  <p class="text-xs font-mono text-accent/70 tracking-widest uppercase">SecOps & Secure Dev Intelligence</p>
               </div>
           </div>
           
           <button 
               onclick={close}
-              class="p-2 text-gray-500 hover:text-gray-300 hover:bg-[#27272a] rounded-lg transition-colors cursor-pointer"
+              class="p-2 text-muted hover:text-primary-text hover:bg-surface rounded-lg transition-colors cursor-pointer"
           >
               <XIcon class="size-5" />
           </button>

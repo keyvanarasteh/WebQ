@@ -8,14 +8,14 @@
         if (conf === 'Very High') return 'text-red-400 bg-red-400/10 border-red-400/20';
         if (conf === 'High') return 'text-orange-400 bg-orange-400/10 border-orange-400/20';
         if (conf === 'Medium') return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
-        return 'text-zinc-400 bg-zinc-400/10 border-zinc-400/20';
+        return 'text-muted bg-zinc-400/10 border-zinc-400/20';
     }
 </script>
 
 <div class="mt-6 border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
     <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm text-zinc-300">
-            <thead class="bg-white/5 border-b border-white/10 text-zinc-400 font-medium">
+        <table class="w-full text-left text-sm text-primary-text">
+            <thead class="bg-white/5 border-b border-white/10 text-muted font-medium">
                 <tr>
                     <th class="px-6 py-4">{m.sec_cfbypass_col_ip()}</th>
                     <th class="px-6 py-4">{m.sec_cfbypass_col_source()}</th>
@@ -31,11 +31,11 @@
                                 <div class="w-8 h-8 rounded-lg bg-red-400/10 flex items-center justify-center text-red-400 border border-red-400/20">
                                     <ShieldAlert size={16} />
                                 </div>
-                                <span class="font-mono text-white group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{item.ip}</span>
+                                <span class="font-mono text-primary-text group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{item.ip}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-white/5 text-zinc-300 border border-white/10">
+                            <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-white/5 text-primary-text border border-white/10">
                                 {item.source}
                             </span>
                         </td>
@@ -56,7 +56,7 @@
                                     <span class="font-medium">{m.sec_cfbypass_status_inactive()}</span>
                                 </div>
                             {:else}
-                                <div class="flex items-center gap-2 text-zinc-500">
+                                <div class="flex items-center gap-2 text-muted">
                                     <HelpCircle size={16} />
                                     <span class="font-medium">{m.sec_cfbypass_status_unverified()}</span>
                                 </div>
@@ -66,7 +66,7 @@
                 {/each}
                 {#if ips.length === 0}
                     <tr>
-                        <td colspan="4" class="px-6 py-12 text-center text-zinc-500">
+                        <td colspan="4" class="px-6 py-12 text-center text-muted">
                             No unproxied origin IPs detected.
                         </td>
                     </tr>

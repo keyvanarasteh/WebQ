@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -51,11 +51,11 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-linear-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
-                            <Layers size={28} class="text-cyan-400" />
+                            <Layers size={28} class="text-accent" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.recon_tech_title ? m.recon_tech_title() : 'Web Technologies & Fingerprinting'}</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">Identifying frameworks, servers, CMS, and analytics platforms.</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-primary-text">{m.recon_tech_title ? m.recon_tech_title() : 'Web Technologies & Fingerprinting'}</h2>
+                            <p class="text-sm text-muted mt-1 max-w-md">Identifying frameworks, servers, CMS, and analytics platforms.</p>
                         </div>
                     </div>
                     
@@ -64,7 +64,7 @@
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -79,25 +79,25 @@
                 {#if activeTab === 0}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-cyan-300 mb-4">The First Step</h3>
-                        <p class="text-sm text-zinc-400 mb-8 max-w-3xl">
-                            Identifying the exact <strong class="text-white">technology stack</strong> (frameworks, servers, CMS, analytics) of a target is Step 1 in performing a vulnerability assessment. If you know the version, you know the exploits.
+                        <p class="text-sm text-muted mb-8 max-w-3xl">
+                            Identifying the exact <strong class="text-primary-text">technology stack</strong> (frameworks, servers, CMS, analytics) of a target is Step 1 in performing a vulnerability assessment. If you know the version, you know the exploits.
                         </p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="bg-[#121214] border border-[#27272a] p-6 rounded-xl border-t-2 border-t-cyan-500 shadow-lg">
+                            <div class="bg-[#121214] border border-base p-6 rounded-xl border-t-2 border-t-cyan-500 shadow-lg">
                                 <div class="flex items-center gap-2 mb-4">
-                                    <Fingerprint class="size-6 text-cyan-400" />
-                                    <h3 class="font-bold text-gray-200 text-lg">Passive Fingerprinting</h3>
+                                    <Fingerprint class="size-6 text-accent" />
+                                    <h3 class="font-bold text-primary-text text-lg">Passive Fingerprinting</h3>
                                 </div>
-                                <p class="text-sm text-gray-400 leading-relaxed">Analyzing the raw DOM, standard headers, and JavaScript global objects (e.g. <code>window.React</code> or Wappalyzer signatures) to detect tech without ringing alarms.</p>
+                                <p class="text-sm text-muted leading-relaxed">Analyzing the raw DOM, standard headers, and JavaScript global objects (e.g. <code>window.React</code> or Wappalyzer signatures) to detect tech without ringing alarms.</p>
                             </div>
                             
-                            <div class="bg-[#121214] border border-[#27272a] p-6 rounded-xl border-t-2 border-t-red-500 shadow-lg">
+                            <div class="bg-[#121214] border border-base p-6 rounded-xl border-t-2 border-t-red-500 shadow-lg">
                                 <div class="flex items-center gap-2 mb-4">
                                     <Shield class="size-6 text-red-400" />
-                                    <h3 class="font-bold text-gray-200 text-lg">Active Probing</h3>
+                                    <h3 class="font-bold text-primary-text text-lg">Active Probing</h3>
                                 </div>
-                                <p class="text-sm text-gray-400 leading-relaxed">Sending deliberate requests to known API endpoints (e.g., <code>/wp-json/wp/v2/users</code> or <code>.env</code> paths) to forcibly extract sensitive data, exact version numbers, and plugin hashes.</p>
+                                <p class="text-sm text-muted leading-relaxed">Sending deliberate requests to known API endpoints (e.g., <code>/wp-json/wp/v2/users</code> or <code>.env</code> paths) to forcibly extract sensitive data, exact version numbers, and plugin hashes.</p>
                             </div>
                         </div>
                     </div>
@@ -114,8 +114,8 @@
                                         <CheckCircle2 class="size-5 text-blue-400 shrink-0" />
                                     </div>
                                     <div>
-                                        <p class="text-base font-bold text-gray-200">User Enumeration via REST API</p>
-                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">By default, WordPress allows unauthenticated access to the user endpoint. Attackers scrape usernames and perform targeted brute-force attacks on the <code>/wp-login.php</code> portal.</p>
+                                        <p class="text-base font-bold text-primary-text">User Enumeration via REST API</p>
+                                        <p class="text-sm text-muted mt-2 leading-relaxed">By default, WordPress allows unauthenticated access to the user endpoint. Attackers scrape usernames and perform targeted brute-force attacks on the <code>/wp-login.php</code> portal.</p>
                                     </div>
                                 </li>
                                 <li class="flex items-start gap-4">
@@ -123,8 +123,8 @@
                                         <Shield class="size-5 text-red-400 shrink-0" />
                                     </div>
                                     <div>
-                                        <p class="text-base font-bold text-gray-200">Vulnerable Plugin Sprawl</p>
-                                        <p class="text-sm text-gray-400 mt-2 leading-relaxed">90% of WP hacks occur via outdated 3rd-party plugins. Fingerprinting which plugins exist is a gold mine for Remote Code Execution (RCE) mapping against CVE databases.</p>
+                                        <p class="text-base font-bold text-primary-text">Vulnerable Plugin Sprawl</p>
+                                        <p class="text-sm text-muted mt-2 leading-relaxed">90% of WP hacks occur via outdated 3rd-party plugins. Fingerprinting which plugins exist is a gold mine for Remote Code Execution (RCE) mapping against CVE databases.</p>
                                     </div>
                                 </li>
                             </ul>
@@ -133,13 +133,13 @@
                 {:else if activeTab === 2}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-emerald-400 mb-4">Secure Developer Protocols</h3>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Implementing defensive measures to limit fingerprinting effectively mitigates active and passive probes.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Implementing defensive measures to limit fingerprinting effectively mitigates active and passive probes.</p>
 
                         <div class="bg-[#0A0C10] border-l-4 border-emerald-500 p-6 rounded-r-xl border-y border-r  shadow-lg">
                             <h4 class="font-bold text-emerald-400 mb-4 flex items-center gap-2">
                                 <Lock size={18} /> Remediation Steps
                             </h4>
-                            <ul class="space-y-4 text-sm text-gray-300">
+                            <ul class="space-y-4 text-sm text-primary-text">
                                 <li class="flex items-start gap-2">
                                     <ChevronRight size={16} class="text-emerald-500 mt-0.5"/>
                                     <span>Always disable <code>X-Powered-By</code> headers in Node.js, PHP, and other frameworks to obscure the backend language.</span>
@@ -164,14 +164,14 @@
 
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-cyan-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
-                <div class="text-xs text-zinc-500 hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                <div class="text-xs text-muted hidden sm:block">
+                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
@@ -182,7 +182,7 @@
                     {#if activeTab < tabs.length - 1}
                         <button 
                             onclick={nextTab}
-                            class="flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-cyan-500/50 outline-none"
+                            class="flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-cyan-500/50 outline-none"
                         >
                             Continue <ChevronRight size={16} />
                         </button>

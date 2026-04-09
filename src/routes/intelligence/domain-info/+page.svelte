@@ -30,15 +30,15 @@
 
 <div class="space-y-6 max-w-7xl mx-auto w-full">
   <!-- Header & Input Area -->
-  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-base pb-6">
       <div class="flex items-center gap-3">
           <div>
-              <h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.intel_domain_info_title()}</h1>
-              <p class="text-gray-400 mt-2">{m.intel_domain_info_desc()}</p>
+              <h1 class="text-3xl font-black text-primary-text tracking-widest uppercase">{m.intel_domain_info_title()}</h1>
+              <p class="text-muted mt-2">{m.intel_domain_info_desc()}</p>
           </div>
           <button
               onclick={() => showGuide = true}
-              class="p-2 ml-2 transition-colors border rounded-lg bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
+              class="p-2 ml-2 transition-colors border rounded-lg bg-surface border-base text-muted hover:text-primary-text"
               title="View SecOps Guide"
           >
               <HelpCircle class="w-4 h-4" />
@@ -47,12 +47,12 @@
 
       <div class="flex items-center gap-2 w-full md:w-96">
           <div class="relative w-full">
-              <Search class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-cyan-500" />
+              <Search class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-accent" />
               <input 
                   type="text" 
                   bind:value={targetDomain} 
                   placeholder="Enter domain (e.g. example.com)"
-                  class="w-full bg-[#09090b] border border-[#27272a] rounded-lg py-2 pl-10 pr-4 text-white focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-sm"
+                  class="w-full bg-background border border-base rounded-lg py-2 pl-10 pr-4 text-primary-text focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-sm"
               />
           </div>
           <button 

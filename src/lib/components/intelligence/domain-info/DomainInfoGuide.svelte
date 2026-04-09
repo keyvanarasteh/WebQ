@@ -41,7 +41,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-[64px] rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -50,11 +50,11 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
-                            <Globe size={28} class="text-cyan-400" />
+                            <Globe size={28} class="text-accent" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">Domain Intelligence</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">Infrastructure Profiling & WHOIS Reconnaissance</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-primary-text">Domain Intelligence</h2>
+                            <p class="text-sm text-muted mt-1 max-w-md">Infrastructure Profiling & WHOIS Reconnaissance</p>
                         </div>
                     </div>
                     
@@ -63,7 +63,7 @@
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -81,15 +81,15 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="space-y-4">
-                                <p class="text-zinc-300 text-sm leading-relaxed">
+                                <p class="text-primary-text text-sm leading-relaxed">
                                     Domain Intelligence is the first step in any penetration test. By querying WHOIS databases, analysts extract the ownership, registration dates, and infrastructure blueprints.
                                 </p>
                                 <div class="bg-cyan-950/20 border border-cyan-500/10 rounded-xl p-4">
-                                    <h4 class="text-cyan-400 font-medium mb-3 flex items-center gap-2"><Fingerprint size={16}/> Essential Indicators</h4>
-                                    <ul class="space-y-3 text-sm text-zinc-400">
-                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-cyan-500 mt-1 shrink-0"/> <span><strong>Burner Domains:</strong> Domains registered less than 30 days ago are highly suspicious (often phishing or C2 infrastructure).</span></li>
-                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-cyan-500 mt-1 shrink-0"/> <span><strong>Registrar Choice:</strong> Attackers favor specific bulletproof registrars that ignore DMCA/Abuse reports.</span></li>
-                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-cyan-500 mt-1 shrink-0"/> <span><strong>Name Servers:</strong> Revealing NS records immediately maps the hosting/CDN provider (e.g., Cloudflare, AWS Route53).</span></li>
+                                    <h4 class="text-accent font-medium mb-3 flex items-center gap-2"><Fingerprint size={16}/> Essential Indicators</h4>
+                                    <ul class="space-y-3 text-sm text-muted">
+                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-accent mt-1 shrink-0"/> <span><strong>Burner Domains:</strong> Domains registered less than 30 days ago are highly suspicious (often phishing or C2 infrastructure).</span></li>
+                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-accent mt-1 shrink-0"/> <span><strong>Registrar Choice:</strong> Attackers favor specific bulletproof registrars that ignore DMCA/Abuse reports.</span></li>
+                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-accent mt-1 shrink-0"/> <span><strong>Name Servers:</strong> Revealing NS records immediately maps the hosting/CDN provider (e.g., Cloudflare, AWS Route53).</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -97,7 +97,7 @@
                             <!-- Terminal Mockup -->
                             <div class="bg-[#0d1117] border border-white/5 rounded-xl p-5 shadow-inner h-full font-mono text-xs flex flex-col justify-center">
                                 <p class="text-emerald-400 flex items-center gap-2 mb-2 font-semibold"><span>➜</span> <span class="text-blue-400">whois</span> target.com</p>
-                                <div class="text-zinc-400 space-y-1 bg-black/50 p-3 rounded-lg border border-white/5">
+                                <div class="text-muted space-y-1 bg-black/50 p-3 rounded-lg border border-white/5">
                                     <p>Domain Name: TARGET.COM</p>
                                     <p>Registry Domain ID: 123456789_DOMAIN_COM-VRSN</p>
                                     <p>Registrar WHOIS Server: whois.godaddy.com</p>
@@ -116,34 +116,34 @@
                         <div class="flex items-center gap-3 mb-4">
                             <h3 class="text-lg font-semibold text-cyan-300">SSL & Certificate Transparency</h3>
                         </div>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Certificate Transparency (CT) logs passively enumerate all subdomains ever issued a certificate. This allows attackers to discover hidden internal infrastructure without sending a single active packet to your network.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Certificate Transparency (CT) logs passively enumerate all subdomains ever issued a certificate. This allows attackers to discover hidden internal infrastructure without sending a single active packet to your network.</p>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                            <div class="bg-[#121214] border border-[#27272a] p-5 rounded-xl border-t-2 border-t-emerald-500 shadow-lg">
+                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-emerald-500 shadow-lg">
                                 <div class="flex items-center gap-2 mb-3">
                                     <Lock class="size-5 text-emerald-400" />
-                                    <h3 class="font-bold text-gray-200">SSL Vulnerabilities</h3>
+                                    <h3 class="font-bold text-primary-text">SSL Vulnerabilities</h3>
                                 </div>
-                                <p class="text-sm text-gray-400 leading-relaxed">Expired certificates break browser trust, opening avenues for Man-in-the-Middle (MitM) attacks. Supporting outdated suites (TLS 1.0/1.1) exposes traffic to known cryptographic downgrades.</p>
+                                <p class="text-sm text-muted leading-relaxed">Expired certificates break browser trust, opening avenues for Man-in-the-Middle (MitM) attacks. Supporting outdated suites (TLS 1.0/1.1) exposes traffic to known cryptographic downgrades.</p>
                             </div>
                             
-                            <div class="bg-[#121214] border border-[#27272a] p-5 rounded-xl border-t-2 border-t-orange-500 shadow-lg">
+                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-orange-500 shadow-lg">
                                 <div class="flex items-center gap-2 mb-3">
                                     <History class="size-5 text-orange-400" />
-                                    <h3 class="font-bold text-gray-200">CT Log Leaks</h3>
+                                    <h3 class="font-bold text-primary-text">CT Log Leaks</h3>
                                 </div>
-                                <p class="text-sm text-gray-400 leading-relaxed">Whenever Let's Encrypt or DigiCert issues a wildcard or specific cert (e.g., `dev-db-01.target.com`), it's permanently logged. Tools like `crt.sh` query this public ledger instantly.</p>
+                                <p class="text-sm text-muted leading-relaxed">Whenever Let's Encrypt or DigiCert issues a wildcard or specific cert (e.g., `dev-db-01.target.com`), it's permanently logged. Tools like `crt.sh` query this public ledger instantly.</p>
                             </div>
                         </div>
 
                         <!-- Code Example -->
                         <div class="relative bg-[#0d1117] rounded-xl border border-cyan-500/30 overflow-hidden font-mono text-sm shadow-[0_0_20px_rgba(6,182,212,0.1)]">
-                            <div class="absolute top-0 right-0 bg-cyan-500/10 text-cyan-400 px-4 py-1.5 rounded-bl-xl text-xs font-bold border-b border-l border-cyan-500/30">crt.sh Automation</div>
-                            <div class="p-6 overflow-x-auto pt-10 text-zinc-400 custom-scrollbar">
+                            <div class="absolute top-0 right-0 bg-cyan-500/10 text-accent px-4 py-1.5 rounded-bl-xl text-xs font-bold border-b border-l border-cyan-500/30">crt.sh Automation</div>
+                            <div class="p-6 overflow-x-auto pt-10 text-muted custom-scrollbar">
                                 <p class="text-emerald-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">curl</span> -s "https://crt.sh/?q=%25.target.com&output=json" | jq -r '.[].name_value' | sort -u</p>
                                 <div class="mt-2 text-rose-300">
                                     <p>api.target.com</p>
-                                    <p>dev-staging-auth.target.com <span class="text-zinc-500 italic">&lt;-- Hidden environment found!</span></p>
+                                    <p>dev-staging-auth.target.com <span class="text-muted italic">&lt;-- Hidden environment found!</span></p>
                                     <p>vpn.target.com</p>
                                     <p>wiki.internal.target.com</p>
                                 </div>
@@ -153,31 +153,31 @@
                 {:else if activeTab === 2}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-rose-400 mb-4">Port Security Matrix</h3>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Open ports are direct pathways to running services. Exposing administrative protocols directly to the internet guarantees continuous brute-force attacks from global botnets.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Open ports are direct pathways to running services. Exposing administrative protocols directly to the internet guarantees continuous brute-force attacks from global botnets.</p>
 
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                             <div class="bg-black/50 border border-emerald-500/30 p-4 rounded-xl text-center relative overflow-hidden group">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-emerald-500"></div>
                                 <span class="font-mono text-emerald-400 text-lg font-bold">80/443</span>
-                                <p class="text-xs text-zinc-400 mt-2 font-medium">HTTP(S)</p>
-                                <p class="text-[10px] text-zinc-500 mt-1">Expected Public</p>
+                                <p class="text-xs text-muted mt-2 font-medium">HTTP(S)</p>
+                                <p class="text-[10px] text-muted mt-1">Expected Public</p>
                             </div>
                             <div class="bg-black/50 border border-rose-500/50 p-4 rounded-xl text-center relative overflow-hidden">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-rose-500"></div>
                                 <span class="font-mono text-rose-400 text-lg font-bold">22</span>
-                                <p class="text-xs text-zinc-400 mt-2 font-medium">SSH</p>
+                                <p class="text-xs text-muted mt-2 font-medium">SSH</p>
                                 <p class="text-[10px] text-rose-500 mt-1 font-bold">High Risk</p>
                             </div>
                             <div class="bg-black/50 border border-orange-500/50 p-4 rounded-xl text-center relative overflow-hidden">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-orange-500"></div>
                                 <span class="font-mono text-orange-400 text-lg font-bold">3389</span>
-                                <p class="text-xs text-zinc-400 mt-2 font-medium">RDP</p>
+                                <p class="text-xs text-muted mt-2 font-medium">RDP</p>
                                 <p class="text-[10px] text-orange-500 mt-1 font-bold">Ransomware Vector</p>
                             </div>
                             <div class="bg-black/50 border border-rose-500/50 p-4 rounded-xl text-center relative overflow-hidden">
                                 <div class="absolute inset-x-0 bottom-0 h-1 bg-rose-500"></div>
                                 <span class="font-mono text-rose-400 text-lg font-bold">3306</span>
-                                <p class="text-xs text-zinc-400 mt-2 font-medium">MySQL</p>
+                                <p class="text-xs text-muted mt-2 font-medium">MySQL</p>
                                 <p class="text-[10px] text-rose-500 mt-1 font-bold">Data Exfil Risk</p>
                             </div>
                         </div>
@@ -202,14 +202,14 @@
 
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-cyan-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
-                <div class="text-xs text-zinc-500 hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                <div class="text-xs text-muted hidden sm:block">
+                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
@@ -220,7 +220,7 @@
                     {#if activeTab < tabs.length - 1}
                         <button 
                             onclick={nextTab}
-                            class="flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-cyan-500/50 outline-none"
+                            class="flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-cyan-500/50 outline-none"
                         >
                             Continue <ChevronRight size={16} />
                         </button>

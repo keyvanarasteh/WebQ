@@ -87,23 +87,23 @@
 </script>
 
 <div class="flex h-full flex-col gap-6 p-6 overflow-y-auto">
-	<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
+	<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-base pb-6">
 		<div class="flex items-center gap-4">
 			<div class="h-10 w-10 shrink-0 rounded-lg bg-emerald-500/20 flex items-center justify-center border border-emerald-500/30">
 				<Fingerprint class="text-emerald-400 size-5" />
 			</div>
 			<div>
 				<div class="flex items-center gap-3">
-					<h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.nav_contact_spy()}</h1>
+					<h1 class="text-3xl font-black text-primary-text tracking-widest uppercase">{m.nav_contact_spy()}</h1>
 					<button 
-						class="text-slate-500 hover:text-emerald-400 transition-colors"
+						class="text-muted hover:text-emerald-400 transition-colors"
 						onclick={() => showGuide = true}
 						aria-label="View Educational Guide"
 					>
 						<HelpCircle class="w-5 h-5" />
 					</button>
 				</div>
-				<p class="text-gray-400 mt-2">Comprehensive extraction of organizational surface contacts via OSINT harvesting.</p>
+				<p class="text-muted mt-2">Comprehensive extraction of organizational surface contacts via OSINT harvesting.</p>
 			</div>
 		</div>
 	</div>
@@ -111,8 +111,8 @@
 	<!-- Top Section: Input & Stats -->
 	<div class="grid gap-6 lg:grid-cols-12">
 		<!-- Left: Input Control -->
-		<div class="lg:col-span-8 bg-[#18181b] border border-[#27272a] rounded-lg p-6 flex flex-col justify-center">
-			<h2 class="text-lg font-bold text-white mb-4 tracking-widest uppercase flex items-center gap-2">
+		<div class="lg:col-span-8 bg-[#18181b] border border-base rounded-lg p-6 flex flex-col justify-center">
+			<h2 class="text-lg font-bold text-primary-text mb-4 tracking-widest uppercase flex items-center gap-2">
 				<Search size={18} class="text-emerald-500" />
 				{m.recon_contact_target()}
 			</h2>
@@ -123,7 +123,7 @@
 						type="text" 
 						bind:value={targetDomain} 
 						placeholder="Enter target domain..."
-						class="w-full bg-qix-obsidian border border-[#27272a] rounded-lg py-3 pl-10 pr-4 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono text-sm"
+						class="w-full bg-background border border-base rounded-lg py-3 pl-10 pr-4 text-primary-text focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono text-sm"
 						onkeydown={(e) => e.key === 'Enter' && performScan()}
 						disabled={appState.isScanning}
 					/>
@@ -145,10 +145,10 @@
 		</div>
 
 		<!-- Right: Quick Actions / KPI -->
-		<div class="lg:col-span-4 bg-[#18181b] border border-[#27272a] rounded-lg p-6 flex flex-col items-center justify-center text-center">
+		<div class="lg:col-span-4 bg-[#18181b] border border-base rounded-lg p-6 flex flex-col items-center justify-center text-center">
 			<Users size={32} class="text-emerald-500/50 mb-3" />
-			<h3 class="text-white font-bold tracking-widest uppercase text-sm mb-1">{m.nav_contact_spy()} Mode Active</h3>
-			<p class="text-xs text-slate-500 font-fira">OSINT techniques applied.</p>
+			<h3 class="text-primary-text font-bold tracking-widest uppercase text-sm mb-1">{m.nav_contact_spy()} Mode Active</h3>
+			<p class="text-xs text-muted font-fira">OSINT techniques applied.</p>
 		</div>
 	</div>
 

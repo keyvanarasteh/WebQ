@@ -13,16 +13,16 @@
   let isGuideOpen = $state(false);
 </script>
 
-<div class="col-span-full bg-gray-50/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm mt-6">
+<div class="col-span-full bg-background/5 bg-background border border-base border-base rounded-xl p-6 shadow-sm mt-6">
   <SecurityHeadersGuide bind:isOpen={isGuideOpen} />
   
   <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400">{m.sec_headers_assessment()}</h3>
-      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-cyan-500 transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
+      <h3 class="text-lg font-bold text-inverse text-accent">{m.sec_headers_assessment()}</h3>
+      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
   </div>
   
   {#if isLoading}
-    <div class="h-24 bg-gray-200 dark:bg-[#27272a] rounded animate-pulse"></div>
+    <div class="h-24 bg-surface bg-surface rounded animate-pulse"></div>
   {:else if data}
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
         {#each [
@@ -31,10 +31,10 @@
             { name: m.sec_header_xcto(), val: data.x_content_type_options, desc: m.sec_header_xcto_desc() },
             { name: m.sec_header_csp(), val: data.content_security_policy, desc: m.sec_header_csp_desc() },
         ] as header (header.name)}
-            <div class="p-4 bg-gray-50 dark:bg-[#121214] border border-gray-200 dark:border-[#27272a] hover:border-gray-300 dark:hover:border-[#3f3f46] transition-colors rounded-lg flex flex-col justify-between h-full">
+            <div class="p-4 bg-background dark:bg-[#121214] border border-base border-base hover:border-gray-300 dark:hover:border-[#3f3f46] transition-colors rounded-lg flex flex-col justify-between h-full">
                 <div class="mb-4">
-                    <h4 class="text-sm font-bold text-gray-900 dark:text-gray-200 mb-1">{header.name}</h4>
-                    <p class="text-xs text-gray-500 leading-relaxed">{header.desc}</p>
+                    <h4 class="text-sm font-bold text-inverse text-primary-text mb-1">{header.name}</h4>
+                    <p class="text-xs text-muted leading-relaxed">{header.desc}</p>
                 </div>
                 <div>
                     {#if header.val}
@@ -47,6 +47,6 @@
         {/each}
     </div>
   {:else}
-      <div class="text-gray-500 text-sm py-4">{m.tech_awaiting()}</div>
+      <div class="text-muted text-sm py-4">{m.tech_awaiting()}</div>
   {/if}
 </div>

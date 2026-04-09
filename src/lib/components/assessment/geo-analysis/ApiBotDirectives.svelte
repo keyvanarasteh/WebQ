@@ -40,8 +40,8 @@
 
 <div class="border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl h-full flex flex-col">
     <div class="bg-white/5 px-4 py-3 border-b border-white/5 flex items-center gap-2">
-        <Navigation size={16} class="text-zinc-400" />
-        <h3 class="text-sm font-medium text-zinc-300 tracking-wide uppercase">{m.sec_geo_crawler_title()}</h3>
+        <Navigation size={16} class="text-muted" />
+        <h3 class="text-sm font-medium text-primary-text tracking-wide uppercase">{m.sec_geo_crawler_title()}</h3>
     </div>
     
     <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 overflow-y-auto custom-scrollbar flex-1">
@@ -53,7 +53,7 @@
                     <div class="p-2 rounded-lg bg-black/40 border border-white/5">
                         <Icon size={18} class={config.textColor} />
                     </div>
-                    <span class="text-sm font-medium text-white">{botName}</span>
+                    <span class="text-sm font-medium text-primary-text">{botName}</span>
                 </div>
                 
                 <div class="flex items-center gap-2">
@@ -66,7 +66,7 @@
         {/each}
 
         {#if botEntries.length === 0}
-            <div class="col-span-full h-32 flex items-center justify-center text-zinc-500 text-sm font-mono">
+            <div class="col-span-full h-32 flex items-center justify-center text-muted text-sm font-mono">
                 [ Waiting for Scan Results ]
             </div>
         {/if}

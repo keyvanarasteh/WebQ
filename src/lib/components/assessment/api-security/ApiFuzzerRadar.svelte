@@ -30,7 +30,7 @@
 </script>
 
 <div class="border border-white/5 bg-black/40 p-6 rounded-xl backdrop-blur-xl h-full flex flex-col justify-center">
-    <h3 class="text-white font-medium mb-6 flex items-center gap-2">
+    <h3 class="text-primary-text font-medium mb-6 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         Vulnerability Distribution
     </h3>
@@ -39,8 +39,8 @@
         {#each categories as c}
             <div>
                 <div class="flex justify-between items-center mb-2">
-                    <span class="text-sm font-medium {c.count > 0 ? (c.critical > 0 ? 'text-red-400' : 'text-rose-400') : 'text-zinc-500'} transition-colors">{c.name}</span>
-                    <span class="text-xs font-mono {c.count > 0 ? 'text-white' : 'text-zinc-600'}">{c.count} Found</span>
+                    <span class="text-sm font-medium {c.count > 0 ? (c.critical > 0 ? 'text-red-400' : 'text-rose-400') : 'text-muted'} transition-colors">{c.name}</span>
+                    <span class="text-xs font-mono {c.count > 0 ? 'text-primary-text' : 'text-zinc-600'}">{c.count} Found</span>
                 </div>
                 <div class="h-2.5 w-full bg-white/5 rounded-full overflow-hidden shadow-inner">
                     <div 
@@ -51,7 +51,7 @@
             </div>
         {/each}
         {#if totalVulns === 0}
-            <div class="pt-4 text-center text-zinc-500 text-sm">
+            <div class="pt-4 text-center text-muted text-sm">
                 Awaiting active scan sequence.
             </div>
         {/if}

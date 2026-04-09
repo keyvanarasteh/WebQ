@@ -24,14 +24,14 @@
     }
 </script>
 
-<header class="h-16 w-full border-b border-[#27272a] bg-qix-obsidian/80 backdrop-blur-md flex items-center justify-between px-6 z-10">
-    <button class="text-gray-400 hover:text-white transition-colors" onclick={() => appState.sidebarOpen = !appState.sidebarOpen}>
+<header class="h-16 w-full border-b border-base bg-background/80 backdrop-blur-md flex items-center justify-between px-6 z-10">
+    <button class="text-muted hover:text-primary-text transition-colors" onclick={() => appState.sidebarOpen = !appState.sidebarOpen}>
         <Menu class="size-5" />
     </button>
 
     <div class="flex items-center gap-4">
         {#if appState.isScanning}
-            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold tracking-wide">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-accent text-xs font-semibold tracking-wide">
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
@@ -40,12 +40,12 @@
             </div>
         {/if}
 
-        <button class="text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all border border-[#27272a] flex items-center gap-1" onclick={handleExport} title="Export Markdown Report">
+        <button class="text-muted hover:text-accent p-2 rounded-md hover:bg-surface transition-all border border-base flex items-center gap-1" onclick={handleExport} title="Export Markdown Report">
             <FileDown class="size-4" />
             <span class="text-xs font-bold hidden md:inline">REPORT</span>
         </button>
 
-        <button class="text-xs font-bold text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all border border-[#27272a]" onclick={() => {
+        <button class="text-xs font-bold text-muted hover:text-accent p-2 rounded-md hover:bg-surface transition-all border border-base" onclick={() => {
             const currentLang = localStorage.getItem('webq-lang') || 'en';
             const nextLang = currentLang === 'en' ? 'tr' : 'en';
             localStorage.setItem('webq-lang', nextLang);
@@ -54,7 +54,7 @@
             {typeof localStorage !== 'undefined' && localStorage.getItem('webq-lang') === 'tr' ? 'TR' : 'EN'}
         </button>
 
-        <button class="text-gray-400 hover:text-cyan-400 p-2 rounded-md hover:bg-[#27272a] transition-all" onclick={() => appState.toggleTheme()}>
+        <button class="text-muted hover:text-accent p-2 rounded-md hover:bg-surface transition-all" onclick={() => appState.toggleTheme()}>
             {#if appState.theme === 'dark'}
                 <Sun class="size-5" />
             {:else}

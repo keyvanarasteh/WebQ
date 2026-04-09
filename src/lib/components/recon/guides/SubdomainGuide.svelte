@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-blue-500/20 rounded-xl transition-all border border-white/5 hover:border-blue-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-blue-500/20 rounded-xl transition-all border border-white/5 hover:border-blue-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -54,8 +54,8 @@
                             <Network size={28} class="text-blue-400" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.recon_subdomain_guide_title()}</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">{m.recon_subdomain_guide_desc()}</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-primary-text">{m.recon_subdomain_guide_title()}</h2>
+                            <p class="text-sm text-muted mt-1 max-w-md">{m.recon_subdomain_guide_desc()}</p>
                         </div>
                     </div>
                     
@@ -64,7 +64,7 @@
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-blue-500/20 text-blue-300 border border-blue-500/20 shadow-sm' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-blue-500/20 text-blue-300 border border-blue-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -81,12 +81,12 @@
                         <h3 class="text-lg font-semibold text-blue-300 mb-4">Infrastructure Surface Mapping</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="space-y-4">
-                                <p class="text-zinc-300 text-sm leading-relaxed">
+                                <p class="text-primary-text text-sm leading-relaxed">
                                     Subdomain discovery leverages high-speed passive reconnaissance to map a target's infrastructure surface. Filtered domains remove common false positives (e.g., Azure or Google CDN noise).
                                 </p>
                                 <div class="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
                                     <h3 class="text-sm font-bold text-red-400 mb-2 tracking-widest uppercase">Subdomain Takeover Risk</h3>
-                                    <p class="text-xs text-gray-400 mb-4">If a subdomain has a CNAME record pointing to an unclaimed external service (e.g., <code>staging.target.com &rarr; app.herokuapps.com</code>), attackers can register the endpoint and serve malicious content.</p>
+                                    <p class="text-xs text-muted mb-4">If a subdomain has a CNAME record pointing to an unclaimed external service (e.g., <code>staging.target.com &rarr; app.herokuapps.com</code>), attackers can register the endpoint and serve malicious content.</p>
                                     <div class="text-xs border-l-2 border-red-500 pl-3 text-red-300">
                                         <strong>SecOps:</strong> Regularly audit all CNAME records. Monitor for dangling DNS pointers.
                                     </div>
@@ -95,14 +95,14 @@
                             <div class="bg-black/50 border border-white/5 rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col justify-center">
                                 <div class="absolute inset-0 bg-[linear-gradient(to_right,#3b82f610_1px,transparent_1px),linear-gradient(to_bottom,#3b82f610_1px,transparent_1px)] bg-size-[24px_24px]"></div>
                                 <div class="relative z-10 space-y-4">
-                                    <div class="flex items-center gap-3 bg-zinc-900/80 p-3 rounded-lg border border-white/10 backdrop-blur">
+                                    <div class="flex items-center gap-3 bg-surface/80 p-3 rounded-lg border border-white/10 backdrop-blur">
                                         <div class="bg-blue-500/20 p-2 rounded text-blue-400"><Network size={16}/></div>
                                         <div>
                                             <p class="text-sm font-bold text-zinc-200">api.target.com</p>
                                             <p class="text-xs text-emerald-400">Active (A: 192.168.1.10)</p>
                                         </div>
                                     </div>
-                                    <div class="flex items-center gap-3 bg-zinc-900/80 p-3 rounded-lg border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.15)] backdrop-blur ml-6">
+                                    <div class="flex items-center gap-3 bg-surface/80 p-3 rounded-lg border border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.15)] backdrop-blur ml-6">
                                         <div class="bg-red-500/20 p-2 rounded text-red-400"><AlertTriangle size={16}/></div>
                                         <div>
                                             <p class="text-sm font-bold text-red-300">staging.target.com</p>
@@ -118,23 +118,23 @@
                         <div class="flex items-center gap-3 mb-4">
                             <h3 class="text-lg font-semibold text-blue-300">Discovery Techniques</h3>
                         </div>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Understanding passive vs. active enumeration tactics for identifying exposed perimeter assets.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Understanding passive vs. active enumeration tactics for identifying exposed perimeter assets.</p>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                            <div class="bg-[#121214] border border-[#27272a] p-5 rounded-xl border-t-2 border-t-indigo-500">
+                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-indigo-500">
                                 <div class="flex items-center gap-2 mb-3">
                                     <Search class="size-5 text-indigo-400" />
-                                    <h4 class="font-bold text-gray-200">Passive Enumeration</h4>
+                                    <h4 class="font-bold text-primary-text">Passive Enumeration</h4>
                                 </div>
-                                <p class="text-xs text-gray-400 leading-relaxed">Uses <strong>Certificate Transparency (CT)</strong> logs, search engine caches, and WHOIS data to discover subdomains without sending any traffic to the target. Completely stealth.</p>
+                                <p class="text-xs text-muted leading-relaxed">Uses <strong>Certificate Transparency (CT)</strong> logs, search engine caches, and WHOIS data to discover subdomains without sending any traffic to the target. Completely stealth.</p>
                             </div>
                             
-                            <div class="bg-[#121214] border border-[#27272a] p-5 rounded-xl border-t-2 border-t-red-500">
+                            <div class="bg-[#121214] border border-base p-5 rounded-xl border-t-2 border-t-red-500">
                                 <div class="flex items-center gap-2 mb-3">
                                     <AlertTriangle class="size-5 text-red-400" />
-                                    <h4 class="font-bold text-gray-200">Active Brute-Forcing</h4>
+                                    <h4 class="font-bold text-primary-text">Active Brute-Forcing</h4>
                                 </div>
-                                <p class="text-xs text-gray-400 leading-relaxed">DNS resolution brute-force against wordlists (e.g., SecLists). Noisy but discovers internal-only subdomains not indexed in public CT logs or search engines.</p>
+                                <p class="text-xs text-muted leading-relaxed">DNS resolution brute-force against wordlists (e.g., SecLists). Noisy but discovers internal-only subdomains not indexed in public CT logs or search engines.</p>
                             </div>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                                 <h4 class="font-bold text-emerald-300 mb-2 flex items-center gap-2">
                                     <ShieldCheck class="size-5" /> Secure Developer Protocols
                                 </h4>
-                                <ul class="space-y-3 text-xs text-gray-400 mt-4 pl-2">
+                                <ul class="space-y-3 text-xs text-muted mt-4 pl-2">
                                     <li class="flex items-start gap-2"><ArrowRight size={14} class="text-emerald-500 shrink-0"/> Implement wildcard DNS monitoring to alert on new unapproved subdomains.</li>
                                     <li class="flex items-start gap-2"><ArrowRight size={14} class="text-emerald-500 shrink-0"/> Use tools like <code>can-i-take-over-xyz</code> to audit CNAME records continuously.</li>
                                     <li class="flex items-start gap-2"><ArrowRight size={14} class="text-emerald-500 shrink-0"/> Restrict zone transfers (AXFR) on your authoritative DNS servers to prevent complete zone leaking.</li>
@@ -161,14 +161,14 @@
 
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-blue-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
-                <div class="text-xs text-zinc-500 hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                <div class="text-xs text-muted hidden sm:block">
+                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
@@ -179,7 +179,7 @@
                     {#if activeTab < tabs.length - 1}
                         <button 
                             onclick={nextTab}
-                            class="flex items-center gap-1.5 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500/50 outline-none"
+                            class="flex items-center gap-1.5 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-blue-500/50 outline-none"
                         >
                             Continue <ChevronRight size={16} />
                         </button>

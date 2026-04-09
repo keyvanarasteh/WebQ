@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-rose-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-rose-500/20 rounded-xl transition-all border border-white/5 hover:border-rose-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-rose-500/20 rounded-xl transition-all border border-white/5 hover:border-rose-500/30 font-medium"
                     aria-label="Close API guide modal"
                 >
                     <X size={18} />
@@ -54,8 +54,8 @@
                             <Braces size={28} class="text-rose-400" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.sec_api_guide_title()}</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">{m.sec_api_guide_mechanics()}</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-primary-text">{m.sec_api_guide_title()}</h2>
+                            <p class="text-sm text-muted mt-1 max-w-md">{m.sec_api_guide_mechanics()}</p>
                         </div>
                     </div>
                     
@@ -64,7 +64,7 @@
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-rose-500/20 text-rose-300 border border-rose-500/20 shadow-sm' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-rose-500/20 text-rose-300 border border-rose-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -82,12 +82,12 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="space-y-4">
-                                <p class="text-zinc-300 text-sm leading-relaxed">
+                                <p class="text-primary-text text-sm leading-relaxed">
                                     Modern applications rely on APIs as their backbone. While they enable rich frontend experiences, they also expose direct access controls, internal endpoints, and sensitive data structures if not explicitly protected.
                                 </p>
                                 <div class="bg-rose-950/20 border border-rose-500/10 rounded-xl p-4">
                                     <h4 class="text-rose-400 font-medium mb-3 flex items-center gap-2"><Network size={16}/> The Common Attack Surface</h4>
-                                    <ul class="space-y-3 text-sm text-zinc-400">
+                                    <ul class="space-y-3 text-sm text-muted">
                                         <li class="flex items-start gap-2"><ArrowRight size={14} class="text-rose-500 mt-1 shrink-0"/> <span><strong>BOLA (Broken Object Level Auth):</strong> Accessing `/api/user/10` when logged in as User `2`.</span></li>
                                         <li class="flex items-start gap-2"><ArrowRight size={14} class="text-rose-500 mt-1 shrink-0"/> <span><strong>Mass Assignment:</strong> Sending `&#123;"role":"admin"&#125;` in a profile update payload.</span></li>
                                         <li class="flex items-start gap-2"><ArrowRight size={14} class="text-rose-500 mt-1 shrink-0"/> <span><strong>Excessive Data Exposure:</strong> Returning full DB records when only name/email is needed.</span></li>
@@ -99,7 +99,7 @@
                             <div class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
                                 <div class="flex items-center justify-between w-full mb-6 relative py-4">
                                     <div class="flex flex-col items-center z-10 w-20">
-                                        <div class="w-12 h-12 rounded-full bg-zinc-800 border-2 border-zinc-600 flex items-center justify-center text-zinc-300 mb-2 shadow-lg">User</div>
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-600 flex items-center justify-center text-primary-text mb-2 shadow-lg">User</div>
                                     </div>
                                     
                                     <div class="absolute top-[40%] left-10 w-[calc(100%-5rem)] h-0 border-t-2 border-dashed border-rose-500/30">
@@ -126,26 +126,26 @@
                             <h3 class="text-lg font-semibold text-rose-300">Simulated BOLA Fuzzing</h3>
                             <span class="px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-bold uppercase tracking-wider border border-rose-500/30">Live Trace</span>
                         </div>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Attackers use automation tools to iterate through ID sequences, looking for HTTP 200 OK responses on resources they shouldn't own.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Attackers use automation tools to iterate through ID sequences, looking for HTTP 200 OK responses on resources they shouldn't own.</p>
                         
                         <!-- Terminal Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-rose-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm ">
-                            <div class="bg-zinc-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
                                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                                <span class="ml-2 text-zinc-500 text-xs tracking-wider">attacker@kali:~/recon</span>
+                                <span class="ml-2 text-muted text-xs tracking-wider">attacker@kali:~/recon</span>
                             </div>
-                            <div class="p-5 space-y-3 text-zinc-300 h-72 overflow-y-auto custom-scrollbar">
+                            <div class="p-5 space-y-3 text-primary-text h-72 overflow-y-auto custom-scrollbar">
                                 <p class="text-emerald-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">ffuf</span> -w ids.txt -u "https://api.target.com/v1/invoices/FUZZ" -H "Authorization: Bearer attacker_token"</p>
-                                <p class="text-zinc-500">Starting fuzzing sequence (threads: 10)</p>
+                                <p class="text-muted">Starting fuzzing sequence (threads: 10)</p>
                                 <div class="pl-4 space-y-1.5 opacity-80">
-                                    <p class="text-zinc-400">... testing ID: 9400 <span class="text-red-400">[403 Forbidden]</span></p>
-                                    <p class="text-zinc-400">... testing ID: 9401 <span class="text-red-400">[403 Forbidden]</span></p>
+                                    <p class="text-muted">... testing ID: 9400 <span class="text-red-400">[403 Forbidden]</span></p>
+                                    <p class="text-muted">... testing ID: 9401 <span class="text-red-400">[403 Forbidden]</span></p>
                                     <p class="text-green-400 font-bold bg-green-500/10 px-3 py-1.5 rounded-md w-fit border border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.15)] flex gap-2 items-center">
                                         <ShieldCheck size={14}/><span>... testing ID: 9402 [200 OK] (Size: 1.4KB) - BOUNTY!</span>
                                     </p>
-                                    <p class="text-zinc-400">... testing ID: 9403 <span class="text-red-400">[403 Forbidden]</span></p>
+                                    <p class="text-muted">... testing ID: 9403 <span class="text-red-400">[403 Forbidden]</span></p>
                                 </div>
                                 <p class="text-emerald-400 flex items-center gap-2 mt-6 font-semibold border-t border-white/5 pt-4"><span>➜</span> <span class="text-blue-400">curl</span> -H "Authorization: Bearer attacker_token" https://api.target.com/v1/invoices/9402 | jq</p>
                                 <div class="pl-4 mt-2">
@@ -164,30 +164,30 @@
                 {:else if activeTab === 2}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-emerald-400 mb-4">Defense & Remediation</h3>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Never trust client-provided IDs. Always extract the user's identity from a cryptographically signed JWT, and assert ownership in the database layer.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Never trust client-provided IDs. Always extract the user's identity from a cryptographically signed JWT, and assert ownership in the database layer.</p>
 
                         <!-- Code Example -->
                         <div class="relative bg-[#0d1117] rounded-xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.1)] overflow-hidden font-mono text-sm mb-6">
                             <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 px-4 py-1.5 rounded-bl-xl text-xs font-bold border-b border-l border-emerald-500/30 tracking-widest uppercase">Rust (Axum)</div>
                             <div class="p-6 overflow-x-auto pt-10 custom-scrollbar">
-                                <pre class="text-zinc-300 leading-relaxed">
+                                <pre class="text-primary-text leading-relaxed">
 <span class="text-purple-400">pub async fn</span> <span class="text-blue-400">get_invoice</span>(
     State(db): State&lt;DbPool&gt;,
     Path(invoice_id): Path&lt;<span class="text-teal-400">i32</span>&gt;,
-    Extension(claims): Extension&lt;Claims&gt; <span class="text-zinc-500 italic">// JWT Middleware sets this accurately</span>
+    Extension(claims): Extension&lt;Claims&gt; <span class="text-muted italic">// JWT Middleware sets this accurately</span>
 ) -> <span class="text-teal-400">Result</span>&lt;Json&lt;Invoice&gt;, AppError&gt; &#123;
-    <span class="text-zinc-400 italic">// ✅ GOOD: Check ownership explicitly in query</span>
+    <span class="text-muted italic">// ✅ GOOD: Check ownership explicitly in query</span>
     <span class="text-purple-400">let</span> invoice = sqlx::query!(
         <span class="text-green-300">"SELECT * FROM invoices WHERE id = $1 AND owner_id = $2"</span>,
         invoice_id,
-        claims.user_id <span class="text-zinc-400 italic">// Trusted server-side value extracted from token</span>
+        claims.user_id <span class="text-muted italic">// Trusted server-side value extracted from token</span>
     )
     .fetch_optional(&db)
     .<span class="text-purple-400">await</span>?;
 
     <span class="text-purple-400">match</span> invoice &#123;
         <span class="text-teal-400">Some</span>(inv) => <span class="text-teal-400">Ok</span>(Json(inv)),
-        <span class="text-teal-400">None</span> => <span class="text-teal-400">Err</span>(AppError::NotFound) <span class="text-zinc-400 italic">// Safely hide existence from attackers</span>
+        <span class="text-teal-400">None</span> => <span class="text-teal-400">Err</span>(AppError::NotFound) <span class="text-muted italic">// Safely hide existence from attackers</span>
     &#125;
 &#125;</pre>
                             </div>
@@ -220,14 +220,14 @@
 
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-rose-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
-                <div class="text-xs text-zinc-500 hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                <div class="text-xs text-muted hidden sm:block">
+                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
@@ -238,7 +238,7 @@
                     {#if activeTab < tabs.length - 1}
                         <button 
                             onclick={nextTab}
-                            class="flex items-center gap-1.5 px-6 py-2.5 bg-rose-500 hover:bg-rose-400 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(225,29,72,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-rose-500/50 outline-none"
+                            class="flex items-center gap-1.5 px-6 py-2.5 bg-rose-500 hover:bg-rose-400 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(225,29,72,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-rose-500/50 outline-none"
                         >
                             Continue <ChevronRight size={16} />
                         </button>

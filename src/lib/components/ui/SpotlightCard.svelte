@@ -22,7 +22,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div 
-    class="relative overflow-hidden rounded-xl bg-qix-obsidian/30 border border-[#27272a] transition-all duration-300 hover:border-cyan-500/20 group {className}"
+    class="relative overflow-hidden rounded-xl bg-background/30 border border-base transition-all duration-300 hover:border-cyan-500/20 group {className}"
     onmousemove={onMouseMove}
     onmouseenter={() => isHovered = true}
     onmouseleave={() => isHovered = false}

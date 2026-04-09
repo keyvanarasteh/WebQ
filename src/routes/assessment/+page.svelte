@@ -13,4 +13,4 @@
 </script>
 
 <!-- Keep layout dark while bridging -->
-<div class="h-full w-full bg-qix-obsidian"></div>
+<div class="h-full w-full bg-background"></div>

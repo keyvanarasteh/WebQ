@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-purple-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-purple-500/20 rounded-xl transition-all border border-white/5 hover:border-purple-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-purple-500/20 rounded-xl transition-all border border-white/5 hover:border-purple-500/30 font-medium"
                     aria-label="Close guide modal"
                 >
                     <X size={18} />
@@ -54,8 +54,8 @@
                             <Network size={28} class="text-purple-400" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.dns_guide_title ? m.dns_guide_title() : 'DNS Intelligence Recon'}</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">Analyzing Address Maps, CNAME Vulnerabilities, & Org Email Boundaries.</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-primary-text">{m.dns_guide_title ? m.dns_guide_title() : 'DNS Intelligence Recon'}</h2>
+                            <p class="text-sm text-muted mt-1 max-w-md">Analyzing Address Maps, CNAME Vulnerabilities, & Org Email Boundaries.</p>
                         </div>
                     </div>
                     
@@ -64,7 +64,7 @@
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-purple-500/20 text-purple-300 border border-purple-500/20 shadow-sm' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-purple-500/20 text-purple-300 border border-purple-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -79,13 +79,13 @@
                 {#if activeTab === 0}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-purple-300 mb-4">Direct Address Resolution (A/AAAA)</h3>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">The Domain Name System (DNS) is the phonebook of the internet. Analyzing standard records maps the physical infrastructure underneath a company's web presence.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">The Domain Name System (DNS) is the phonebook of the internet. Analyzing standard records maps the physical infrastructure underneath a company's web presence.</p>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="space-y-4">
                                 <div class="bg-purple-950/20 border border-purple-500/10 rounded-xl p-4 h-full">
                                     <h4 class="text-purple-400 font-medium mb-3 flex items-center gap-2"><Globe size={16}/> Resolution Mechanics</h4>
-                                    <ul class="space-y-3 text-sm text-zinc-400">
+                                    <ul class="space-y-3 text-sm text-muted">
                                         <li class="flex items-start gap-2"><ArrowRight size={14} class="text-purple-500 mt-1 shrink-0"/> <span><strong>A Records:</strong> Translates a hostname (e.g., `api.target.com`) into its corresponding 32-bit IPv4 address (e.g., `192.0.2.1`).</span></li>
                                         <li class="flex items-start gap-2"><ArrowRight size={14} class="text-purple-500 mt-1 shrink-0"/> <span><strong>AAAA Records:</strong> The exact same mechanism, but uses 128-bit IPv6 addresses.</span></li>
                                         <li class="flex items-start gap-2"><ArrowRight size={14} class="text-purple-500 mt-1 shrink-0"/> <span><strong>Exposure Risk:</strong> These records reveal exactly where the server is hosted (AWS, Azure, DigitalOcean).</span></li>
@@ -95,17 +95,17 @@
 
                             <!-- Terminal Mockup -->
                             <div class="bg-[#0d1117] rounded-xl border border-white/5 shadow-2xl overflow-hidden font-mono text-xs ">
-                                <div class="bg-zinc-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                                <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
                                     <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                     <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                     <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                                    <span class="ml-2 text-zinc-500 tracking-wider">attacker@kali:~</span>
+                                    <span class="ml-2 text-muted tracking-wider">attacker@kali:~</span>
                                 </div>
-                                <div class="p-5 space-y-3 text-zinc-300">
+                                <div class="p-5 space-y-3 text-primary-text">
                                     <p class="text-emerald-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">dig</span> +short A target.com</p>
                                     <div class="pl-4">
-                                        <p class="text-orange-300">104.21.5.15 <span class="text-zinc-500 italic ml-2">&lt;-- Cloudflare Proxy (Shielded)</span></p>
-                                        <p class="text-orange-300">172.67.10.15 <span class="text-zinc-500 italic ml-2">&lt;-- Cloudflare Proxy (Shielded)</span></p>
+                                        <p class="text-orange-300">104.21.5.15 <span class="text-muted italic ml-2">&lt;-- Cloudflare Proxy (Shielded)</span></p>
+                                        <p class="text-orange-300">172.67.10.15 <span class="text-muted italic ml-2">&lt;-- Cloudflare Proxy (Shielded)</span></p>
                                     </div>
                                     <p class="text-emerald-400 flex items-center gap-2 font-semibold mt-4"><span>➜</span> <span class="text-blue-400">dig</span> +short A dev-api.target.com</p>
                                     <div class="pl-4">
@@ -120,39 +120,39 @@
                         <div class="flex items-center gap-3 mb-4">
                             <h3 class="text-lg font-semibold text-cyan-300">Canonical Names (CNAME) & Hijacking</h3>
                         </div>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">A Canonical Name (`CNAME`) record creates an alias. Instead of pointing to an IP address, it points to another domain name. If mismanaged, this leads directly to Subdomain Takeovers.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">A Canonical Name (`CNAME`) record creates an alias. Instead of pointing to an IP address, it points to another domain name. If mismanaged, this leads directly to Subdomain Takeovers.</p>
                         
                         <!-- Visual Chain -->
                         <div class="bg-black/50 border border-white/5 rounded-xl p-6 relative overflow-hidden shadow-inner h-full flex flex-col items-center justify-center py-10 mb-8">
                             <div class="flex items-center gap-4 w-full max-w-2xl">
                                 <div class="bg-cyan-950/40 border-2 border-cyan-500 p-4 rounded-xl flex-1 text-center shadow-[0_0_20px_rgba(6,182,212,0.3)]">
                                     <h4 class="text-cyan-300 font-bold font-mono text-sm">support.target.com</h4>
-                                    <p class="text-xs text-zinc-500 mt-1">Target's Subdomain</p>
+                                    <p class="text-xs text-muted mt-1">Target's Subdomain</p>
                                 </div>
                                 <div class="flex flex-col items-center justify-center shrink-0">
-                                    <span class="text-[10px] text-cyan-400 font-bold font-mono uppercase tracking-widest mb-1">CNAME Maps To</span>
-                                    <ArrowRight class="text-cyan-500" size={24} />
+                                    <span class="text-[10px] text-accent font-bold font-mono uppercase tracking-widest mb-1">CNAME Maps To</span>
+                                    <ArrowRight class="text-accent" size={24} />
                                 </div>
                                 <div class="bg-red-950/40 border-2 border-red-500 p-4 rounded-xl flex-1 text-center shadow-[0_0_20px_rgba(239,68,68,0.3)] border-dashed relative group">
                                     <h4 class="text-red-300 font-bold font-mono text-sm">target-help.zendesk.com</h4>
                                     <p class="text-xs text-red-500 mt-1 font-bold">UNREGISTERED (404)</p>
                                     
                                     <!-- Hacker Claim -->
-                                    <div class="absolute -bottom-14 left-1/2 -translate-x-1/2 w-48 bg-red-600 text-white text-xs p-2 rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity font-bold uppercase tracking-widest border border-red-400">
+                                    <div class="absolute -bottom-14 left-1/2 -translate-x-1/2 w-48 bg-red-600 text-primary-text text-xs p-2 rounded shadow-xl opacity-0 group-hover:opacity-100 transition-opacity font-bold uppercase tracking-widest border border-red-400">
                                         Attacker Claims the bucket!
                                     </div>
                                 </div>
                             </div>
                             <div class="text-center mt-6">
-                                <p class="text-sm text-zinc-300 font-medium">The Dangling Record Vulnerability</p>
-                                <p class="text-xs text-zinc-500 mt-2 max-w-md">If the target cancels their Zendesk subscription but forgets to remove the CNAME record, an attacker can register `target-help.zendesk.com` and instantly control `support.target.com`.</p>
+                                <p class="text-sm text-primary-text font-medium">The Dangling Record Vulnerability</p>
+                                <p class="text-xs text-muted mt-2 max-w-md">If the target cancels their Zendesk subscription but forgets to remove the CNAME record, an attacker can register `target-help.zendesk.com` and instantly control `support.target.com`.</p>
                             </div>
                         </div>
                     </div>
                 {:else if activeTab === 2}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-emerald-400 mb-4">Organizational Email Security</h3>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Email spoofing relies on missing DNS validation records. Identifying a lack of SPF/DMARC policies allows attackers to send phishing emails that appear genuinely from your executive team.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Email spoofing relies on missing DNS validation records. Identifying a lack of SPF/DMARC policies allows attackers to send phishing emails that appear genuinely from your executive team.</p>
 
                         <div class="space-y-6 mb-8">
                             <!-- SPF -->
@@ -167,10 +167,10 @@
                                     <p class="text-xs text-emerald-100/60 leading-relaxed mb-3">A TXT record that dictates the cryptographic addresses authorized to send emails on behalf of this domain.</p>
                                     
                                     <div class="bg-black/60 border border-white/10 p-3 rounded font-mono text-xs flex gap-2">
-                                        <span class="text-zinc-500">target.com TXT</span>
-                                        <code class="text-zinc-300"><span class="text-teal-400 font-bold">v=spf1</span> include:_spf.google.com <span class="text-red-400 font-bold">~all</span></code>
+                                        <span class="text-muted">target.com TXT</span>
+                                        <code class="text-primary-text"><span class="text-teal-400 font-bold">v=spf1</span> include:_spf.google.com <span class="text-red-400 font-bold">~all</span></code>
                                     </div>
-                                    <p class="text-[10px] text-zinc-500 mt-2"><strong class="text-emerald-500">SecOps Review:</strong> `~all` (Soft Fail) is weak. Production servers must leverage `-all` (Hard Fail) to completely reject spoofed origins.</p>
+                                    <p class="text-[10px] text-muted mt-2"><strong class="text-emerald-500">SecOps Review:</strong> `~all` (Soft Fail) is weak. Production servers must leverage `-all` (Hard Fail) to completely reject spoofed origins.</p>
                                 </div>
                             </div>
                             
@@ -186,10 +186,10 @@
                                     <p class="text-xs text-orange-100/60 leading-relaxed mb-3">Tells the receiving mail server precisely what to do if SPF or DKIM validation fails.</p>
                                     
                                     <div class="bg-black/60 border border-white/10 p-3 rounded font-mono text-xs flex gap-2">
-                                        <span class="text-zinc-500">_dmarc TXT</span>
-                                        <code class="text-zinc-300"><span class="text-teal-400 font-bold">v=DMARC1;</span> p=<span class="text-orange-400 font-bold">quarantine</span>; rua=mailto:admin@target.com</code>
+                                        <span class="text-muted">_dmarc TXT</span>
+                                        <code class="text-primary-text"><span class="text-teal-400 font-bold">v=DMARC1;</span> p=<span class="text-orange-400 font-bold">quarantine</span>; rua=mailto:admin@target.com</code>
                                     </div>
-                                    <p class="text-[10px] text-zinc-500 mt-2"><strong class="text-emerald-500">SecOps Review:</strong> Move policy (`p=`) from `none` -> `quarantine` -> `reject` automatically dropping spoofed external traffic.</p>
+                                    <p class="text-[10px] text-muted mt-2"><strong class="text-emerald-500">SecOps Review:</strong> Move policy (`p=`) from `none` -> `quarantine` -> `reject` automatically dropping spoofed external traffic.</p>
                                 </div>
                             </div>
                         </div>
@@ -199,14 +199,14 @@
 
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-purple-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
-                <div class="text-xs text-zinc-500 hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                <div class="text-xs text-muted hidden sm:block">
+                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
@@ -217,7 +217,7 @@
                     {#if activeTab < tabs.length - 1}
                         <button 
                             onclick={nextTab}
-                            class="flex items-center gap-1.5 px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-purple-500/50 outline-none"
+                            class="flex items-center gap-1.5 px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-purple-500/50 outline-none"
                         >
                             Continue <ChevronRight size={16} />
                         </button>

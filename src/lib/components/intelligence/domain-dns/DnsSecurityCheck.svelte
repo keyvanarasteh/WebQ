@@ -16,21 +16,21 @@
   let hasDmarc = $derived(txtRecords.some((r: string) => r.toLowerCase().includes('v=dmarc1')));
 </script>
 
-<div class="bg-white/5 dark:bg-[#09090b] border border-gray-200 dark:border-[#27272a] rounded-xl p-6 shadow-sm dark:shadow-md transition-all">
-  <h3 class="text-lg font-bold text-gray-900 dark:text-cyan-400 mb-6">{m.dns_security_policies_title()}</h3>
+<div class="bg-white/5 bg-background border border-base border-base rounded-xl p-6 shadow-sm dark:shadow-md transition-all">
+  <h3 class="text-lg font-bold text-inverse text-accent mb-6">{m.dns_security_policies_title()}</h3>
 
   {#if isLoading}
       <div class="space-y-4">
-          <div class="h-10 w-full bg-gray-200 dark:bg-gray-800/50 rounded-lg animate-pulse"></div>
-          <div class="h-10 w-full bg-gray-200 dark:bg-gray-800/50 rounded-lg animate-pulse"></div>
+          <div class="h-10 w-full bg-surface bg-surface/50 rounded-lg animate-pulse"></div>
+          <div class="h-10 w-full bg-surface bg-surface/50 rounded-lg animate-pulse"></div>
       </div>
   {:else if records}
       <div class="space-y-4">
           <!-- SPF Check -->
-          <div class="flex items-center justify-between p-3 bg-[#121214] rounded-lg border border-[#27272a]">
+          <div class="flex items-center justify-between p-3 bg-[#121214] rounded-lg border border-base">
               <div>
-                  <p class="text-sm font-bold text-white">{m.dns_spf_record()}</p>
-                  <p class="text-xs text-gray-500 mt-1">{m.dns_spf_desc()}</p>
+                  <p class="text-sm font-bold text-primary-text">{m.dns_spf_record()}</p>
+                  <p class="text-xs text-muted mt-1">{m.dns_spf_desc()}</p>
               </div>
               {#if hasSpf}
                   <span class="px-2 py-1 bg-green-500/10 text-green-400 rounded-md border border-green-500/30 text-xs font-bold tracking-widest">{m.dns_detected()}</span>
@@ -40,10 +40,10 @@
           </div>
 
           <!-- DMARC Check -->
-          <div class="flex items-center justify-between p-3 bg-[#121214] rounded-lg border border-[#27272a]">
+          <div class="flex items-center justify-between p-3 bg-[#121214] rounded-lg border border-base">
               <div>
-                  <p class="text-sm font-bold text-white">{m.dns_dmarc_record()}</p>
-                  <p class="text-xs text-gray-500 mt-1">{m.dns_dmarc_desc()}</p>
+                  <p class="text-sm font-bold text-primary-text">{m.dns_dmarc_record()}</p>
+                  <p class="text-xs text-muted mt-1">{m.dns_dmarc_desc()}</p>
               </div>
               {#if hasDmarc}
                   <span class="px-2 py-1 bg-green-500/10 text-green-400 rounded-md border border-green-500/30 text-xs font-bold tracking-widest">{m.dns_detected()}</span>
@@ -53,7 +53,7 @@
           </div>
       </div>
   {:else}
-      <div class="text-sm text-gray-500 text-center py-6">
+      <div class="text-sm text-muted text-center py-6">
           {m.dns_awaiting_data()}
       </div>
   {/if}

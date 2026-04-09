@@ -41,19 +41,19 @@
                 <div class="p-2 border rounded-lg bg-teal-500/10 border-teal-500/20 text-teal-400">
                     <FileSearch class="w-5 h-5" />
                 </div>
-                <h1 class="text-2xl font-semibold tracking-tight text-white">
+                <h1 class="text-2xl font-semibold tracking-tight text-primary-text">
                     {m.recon_scanner_title()}
                 </h1>
                 
                 <button
                     onclick={() => isGuideOpen = true}
-                    class="p-2 ml-2 transition-colors border rounded-lg bg-gray-900 border-gray-800 text-gray-400 hover:text-white"
+                    class="p-2 ml-2 transition-colors border rounded-lg bg-surface border-base text-muted hover:text-primary-text"
                     title="View Module Guide"
                 >
                     <HelpCircle class="w-4 h-4" />
                 </button>
             </div>
-            <p class="text-sm text-gray-400">
+            <p class="text-sm text-muted">
                 {m.recon_scanner_subtitle()}
             </p>
         </div>
@@ -61,13 +61,13 @@
         <div class="flex items-center w-full sm:w-auto">
             <div class="relative w-full sm:w-80 group">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <Globe class="w-4 h-4 text-gray-500 group-focus-within:text-teal-500 transition-colors" />
+                    <Globe class="w-4 h-4 text-muted group-focus-within:text-teal-500 transition-colors" />
                 </div>
                 <input
                     type="text"
                     bind:value={targetDomain}
                     placeholder="example.com"
-                    class="block w-full p-2.5 pl-10 text-sm text-white bg-black border border-gray-800 rounded-lg focus:ring-teal-500 focus:border-teal-500 outline-none transition-all placeholder-gray-600"
+                    class="block w-full p-2.5 pl-10 text-sm text-primary-text bg-black border border-base rounded-lg focus:ring-teal-500 focus:border-teal-500 outline-none transition-all placeholder-gray-600"
                     onkeydown={(e) => e.key === 'Enter' && handleScan()}
                     disabled={isScanning}
                 />
@@ -103,10 +103,10 @@
     {#if isScanning}
         <div class="flex flex-col items-center justify-center p-12 py-20 mt-8 border border-dashed rounded-xl border-teal-500/30 bg-teal-500/5">
             <Loader2 class="w-10 h-10 text-teal-500 animate-spin mb-4" />
-            <h3 class="font-medium text-white mb-2">{m.recon_scanner_loading()}</h3>
-            <p class="text-xs text-gray-400 max-w-md text-center">{m.recon_scanner_info()}</p>
+            <h3 class="font-medium text-primary-text mb-2">{m.recon_scanner_loading()}</h3>
+            <p class="text-xs text-muted max-w-md text-center">{m.recon_scanner_info()}</p>
             
-            <div class="w-64 h-1.5 mt-8 bg-gray-900 rounded-full overflow-hidden">
+            <div class="w-64 h-1.5 mt-8 bg-surface rounded-full overflow-hidden">
                 <div class="h-full bg-teal-500 rounded-full w-2/3 animate-pulse"></div>
             </div>
         </div>

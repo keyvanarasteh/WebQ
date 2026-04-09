@@ -14,7 +14,7 @@
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <Network class="w-5 h-5 text-fuchsia-400" />
-                <h3 class="text-lg font-medium text-white">{m.sec_posture_cors()}</h3>
+                <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_cors()}</h3>
             </div>
             <span class="px-2.5 py-1 text-[10px] uppercase tracking-wider font-bold rounded-full {corsPolicy.security_level === 'High' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-yellow-500/20 text-yellow-300'}">
                 {corsPolicy.security_level}
@@ -35,7 +35,7 @@
         <div class="space-y-1">
             {#each Object.entries(corsPolicy.headers) as [key, value] (key)}
                 <div class="flex justify-between items-center py-2 border-b border-white/5 last:border-0">
-                    <span class="text-xs font-mono text-slate-400 capitalize">{key.replace(/-/g, ' ')}</span>
+                    <span class="text-xs font-mono text-muted capitalize">{key.replace(/-/g, ' ')}</span>
                     <span class="text-xs font-mono {value === 'Not Set' ? 'text-slate-600' : 'text-fuchsia-300 truncate max-w-[200px]'}">
                         {value}
                     </span>
@@ -49,7 +49,7 @@
         <div class="flex items-center justify-between mb-4">
             <div class="flex items-center gap-3">
                 <Cookie class="w-5 h-5 text-amber-400" />
-                <h3 class="text-lg font-medium text-white">{m.sec_posture_cookies()}</h3>
+                <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_cookies()}</h3>
             </div>
             {#if cookieSecurity.cookies_present}
                 <span class="px-2.5 py-1 text-[10px] uppercase font-bold rounded-full bg-white/10 text-slate-300">
@@ -75,7 +75,7 @@
                 </div>
             {/if}
         {:else}
-            <div class="py-8 text-center text-sm text-slate-500 italic">
+            <div class="py-8 text-center text-sm text-muted italic">
                 No Set-Cookie headers detected on target.
             </div>
         {/if}

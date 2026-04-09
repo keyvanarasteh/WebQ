@@ -40,11 +40,11 @@
   <!-- Header -->
   <div class="flex items-center justify-between">
     <div>
-      <h1 class="text-2xl font-semibold text-white tracking-tight flex items-center gap-2">
+      <h1 class="text-2xl font-semibold text-primary-text tracking-tight flex items-center gap-2">
         <ShieldAlert size={24} class="text-rose-500" />
         {m.sec_takeover_title()}
       </h1>
-      <p class="text-slate-400 text-sm mt-1">
+      <p class="text-muted text-sm mt-1">
         {m.sec_takeover_desc()}
       </p>
     </div>
@@ -67,7 +67,7 @@
         type="text"
         bind:value={targetDomain}
         placeholder="example.com"
-        class="w-full bg-[#0F1115] border border-white/10 text-white rounded-lg px-4 py-2.5 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-slate-600"
+        class="w-full bg-[#0F1115] border border-white/10 text-primary-text rounded-lg px-4 py-2.5 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-slate-600"
         disabled={isScanning}
       />
     </div>
@@ -78,10 +78,10 @@
         id="subdomainsInput"
         bind:value={subdomainsRaw}
         placeholder="api.example.com&#10;dev.example.com&#10;staging.example.com..."
-        class="w-full h-40 bg-[#0F1115] border border-white/10 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-slate-600 resize-y"
+        class="w-full h-40 bg-[#0F1115] border border-white/10 text-primary-text rounded-lg px-4 py-3 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-slate-600 resize-y"
         disabled={isScanning}
       ></textarea>
-      <div class="text-xs text-slate-500 flex items-center justify-between">
+      <div class="text-xs text-muted flex items-center justify-between">
         <span>Paste one subdomain per line.</span>
         <span>{subdomainsRaw.split('\n').filter(s => s.trim().length > 0).length} subdomains detected</span>
       </div>
@@ -91,7 +91,7 @@
       <button
         onclick={startScan}
         disabled={isScanning || !targetDomain || !subdomainsRaw.trim()}
-        class="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        class="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-rose-600 hover:bg-rose-500 text-primary-text font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {#if isScanning}
           <Loader2 size={18} class="animate-spin" />
@@ -125,10 +125,10 @@
             <RefreshCw size={20} />
           </div>
           <div>
-            <div class="text-white font-medium">Scan Complete</div>
-            <div class="text-sm text-slate-400">
+            <div class="text-primary-text font-medium">Scan Complete</div>
+            <div class="text-sm text-muted">
               {m.sec_takeover_stats({ count: scanResult.statistics.subdomains_scanned, vuln: scanResult.statistics.vulnerable_count })}
-              <span class="ml-2 text-slate-500">
+              <span class="ml-2 text-muted">
                 (Time: {scanResult.statistics.scan_time_secs.toFixed(2)}s)
               </span>
             </div>

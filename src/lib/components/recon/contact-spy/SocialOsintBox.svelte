@@ -26,8 +26,8 @@
 	{#each Object.entries(profiles) as [platform, profileList] (platform)}
 		{@const theme = getPlatformColor(platform)}
 		<div>
-			<h4 class="text-xs font-black text-slate-400 tracking-widest uppercase mb-3 px-1 border-b border-[#27272a] inline-block pb-1">
-				{platform} <span class="bg-[#27272a] text-xs px-2 py-0.5 rounded-full ml-2 text-white">{profileList.length}</span>
+			<h4 class="text-xs font-black text-muted tracking-widest uppercase mb-3 px-1 border-b border-base inline-block pb-1">
+				{platform} <span class="bg-surface text-xs px-2 py-0.5 rounded-full ml-2 text-primary-text">{profileList.length}</span>
 			</h4>
 			<div class="grid gap-3 select-none">
 				{#each profileList as profile, i (i + profile.url)}
@@ -35,13 +35,13 @@
 						href={profile.url} 
 						target="_blank" 
 						rel="noopener noreferrer"
-						class="flex flex-col bg-qix-obsidian p-4 rounded-lg border focus:outline-none hover:scale-[1.02] transition-transform duration-200 cursor-pointer shadow-xl {theme}"
+						class="flex flex-col bg-background p-4 rounded-lg border focus:outline-none hover:scale-[1.02] transition-transform duration-200 cursor-pointer shadow-xl {theme}"
 					>
 						<div class="flex justify-between items-start gap-4">
 							<div class="flex flex-col overflow-hidden">
 								<span class="text-sm font-bold truncate tracking-wide">{profile.username}</span>
 								{#if profile.found_on}
-									<span class="text-[10px] text-slate-500 truncate mt-1.5 break-all flex items-center gap-1.5 group-hover:text-slate-400 transition-colors">
+									<span class="text-[10px] text-muted truncate mt-1.5 break-all flex items-center gap-1.5 group-hover:text-muted transition-colors">
 										<Link2 size={12} class="shrink-0" /> {profile.found_on}
 									</span>
 								{/if}

@@ -44,8 +44,8 @@
             <Crosshair class="text-rose-400" size={24} />
         </div>
         <div>
-            <h1 class="text-2xl font-bold text-white tracking-tight">{m.sec_nmap_title()}</h1>
-            <p class="text-zinc-400 text-sm mt-1 max-w-2xl">
+            <h1 class="text-2xl font-bold text-primary-text tracking-tight">{m.sec_nmap_title()}</h1>
+            <p class="text-muted text-sm mt-1 max-w-2xl">
                 {m.sec_nmap_desc()}
             </p>
         </div>
@@ -66,7 +66,7 @@
                 bind:value={domain}
                 onkeydown={(e) => e.key === 'Enter' && analyzeDomain()}
                 placeholder="example.com or 192.168.1.1"
-                class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-3.5 text-white placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500/50 transition-all font-mono"
+                class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-3.5 text-primary-text placeholder:text-zinc-600 focus:outline-none focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500/50 transition-all font-mono"
                 disabled={loading}
             />
             <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none">
@@ -77,7 +77,7 @@
         <button
             onclick={analyzeDomain}
             disabled={loading || !domain.trim()}
-            class="bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white px-8 py-3.5 rounded-xl font-medium flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(244,63,94,0.2)]"
+            class="bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-primary-text px-8 py-3.5 rounded-xl font-medium flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(244,63,94,0.2)]"
         >
             {#if loading}
                 <Loader2 size={18} class="animate-spin" />
@@ -109,13 +109,13 @@
             <div class="flex flex-col gap-6">
                 <!-- IP Meta Data -->
                 <div class="flex items-center gap-3 bg-black/40 border border-white/5 rounded-xl p-4">
-                    <span class="text-zinc-400 text-sm">{m.sec_nmap_ip_resolved()}:</span>
-                    <span class="font-mono text-white tracking-widest">{result.ip}</span>
+                    <span class="text-muted text-sm">{m.sec_nmap_ip_resolved()}:</span>
+                    <span class="font-mono text-primary-text tracking-widest">{result.ip}</span>
                 </div>
 
                 <!-- Ports Configuration -->
                 <div class="flex flex-col gap-3">
-                    <h2 class="text-lg font-medium text-white flex items-center gap-2">
+                    <h2 class="text-lg font-medium text-primary-text flex items-center gap-2">
                         <Server size={18} class="text-rose-400" />
                         {m.sec_nmap_open_ports()}
                         <span class="bg-rose-500/20 text-rose-400 text-xs py-0.5 px-2 rounded-full border border-rose-500/30">
@@ -128,7 +128,7 @@
 
             <!-- Vulnerability Grid -->
             <div class="flex flex-col gap-3">
-                <h2 class="text-lg font-medium text-white flex items-center gap-2">
+                <h2 class="text-lg font-medium text-primary-text flex items-center gap-2">
                     <Bug size={18} class="text-rose-400" />
                     {m.sec_nmap_vulnerabilities()}
                     {#if result.vulnerabilities.length > 0}

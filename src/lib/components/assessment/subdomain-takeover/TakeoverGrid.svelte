@@ -18,11 +18,11 @@
 
 <div class="rounded-xl border border-white/5 bg-[#14171C] overflow-hidden">
   <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between">
-    <div class="flex items-center gap-2 text-white">
+    <div class="flex items-center gap-2 text-primary-text">
       <ShieldAlert size={16} class="text-rose-500"/>
       <h3 class="font-medium text-sm">Identified Vulnerabilities</h3>
     </div>
-    <div class="text-xs text-slate-400 bg-white/5 px-2 py-1 rounded-md">
+    <div class="text-xs text-muted bg-white/5 px-2 py-1 rounded-md">
       {vulnerableSubdomains.length} Found
     </div>
   </div>
@@ -30,7 +30,7 @@
   <div class="overflow-x-auto">
     <table class="w-full text-left text-sm border-collapse">
       <thead>
-        <tr class="bg-white/[0.02] border-b border-white/5 text-slate-400">
+        <tr class="bg-white/[0.02] border-b border-white/5 text-muted">
           <th class="px-6 py-3 font-medium">{m.sec_takeover_col_subdomain()}</th>
           <th class="px-6 py-3 font-medium">{m.sec_takeover_col_service()}</th>
           <th class="px-6 py-3 font-medium">{m.sec_takeover_col_type()}</th>
@@ -41,10 +41,10 @@
       <tbody class="divide-y divide-white/5">
         {#each vulnerableSubdomains as vuln (vuln.subdomain)}
           <tr class="hover:bg-white/[0.02] transition-colors">
-            <td class="px-6 py-3 font-medium text-white break-all flex flex-col justify-center">
+            <td class="px-6 py-3 font-medium text-primary-text break-all flex flex-col justify-center">
               {vuln.subdomain}
               {#if vuln.cname}
-                <div class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+                <div class="text-xs text-muted mt-1 flex items-center gap-1">
                    <span class="text-indigo-400 px-1 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20">CNAME</span> 
                    {vuln.cname}
                 </div>
@@ -52,8 +52,8 @@
             </td>
             <td class="px-6 py-3">
               <div class="flex items-center gap-2">
-                <Server size={14} class="text-slate-400" />
-                <span class={vuln.service === 'Unknown' ? 'text-slate-400 bg-slate-500/10 px-1.5 py-0.5 rounded' : 'text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded'}>{vuln.service}</span>
+                <Server size={14} class="text-muted" />
+                <span class={vuln.service === 'Unknown' ? 'text-muted bg-slate-500/10 px-1.5 py-0.5 rounded' : 'text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded'}>{vuln.service}</span>
               </div>
             </td>
             <td class="px-6 py-3 text-slate-300">
@@ -64,7 +64,7 @@
             </td>
             <td class="px-6 py-3">
                <button 
-                  class="p-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                  class="p-1.5 rounded-lg bg-white/5 text-muted hover:text-primary-text hover:bg-white/10 transition-colors"
                   onclick={() => copyText(vuln.subdomain)}
                   title="Copy Subdomain"
                >
@@ -79,7 +79,7 @@
         {/each}
         {#if vulnerableSubdomains.length === 0}
           <tr>
-            <td colspan="5" class="px-6 py-12 text-center text-slate-400">
+            <td colspan="5" class="px-6 py-12 text-center text-muted">
               No vulnerable subdomains found. Your assets are secure.
             </td>
           </tr>

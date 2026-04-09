@@ -42,7 +42,7 @@
                 <div class="absolute -right-20 -top-20 w-64 h-64 bg-cyan-500/10 blur-3xl rounded-full pointer-events-none"></div>
                 <button 
                     onclick={close}
-                    class="absolute top-4 right-4 p-2 text-zinc-400 hover:text-white bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
+                    class="absolute top-4 right-4 p-2 text-muted hover:text-primary-text bg-white/5 hover:bg-cyan-500/20 rounded-xl transition-all border border-white/5 hover:border-cyan-500/30 font-medium"
                     aria-label="Close geo guide modal"
                 >
                     <X size={18} />
@@ -51,11 +51,11 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div class="flex items-center gap-4">
                         <div class="w-14 h-14 rounded-2xl bg-linear-to-br from-cyan-500/20 to-blue-600/10 flex items-center justify-center border border-cyan-500/30 shadow-inner">
-                            <MapPin size={28} class="text-cyan-400" />
+                            <MapPin size={28} class="text-accent" />
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold tracking-tight text-white">{m.sec_geo_guide_title ? m.sec_geo_guide_title() : 'Geofencing & Geo-IP Analysis'}</h2>
-                            <p class="text-sm text-zinc-400 mt-1 max-w-md">{m.sec_geo_guide_mechanics ? m.sec_geo_guide_mechanics() : 'Understanding regional restrictions, WAF bypassing, and IP spoofing mechanics.'}</p>
+                            <h2 class="text-2xl font-bold tracking-tight text-primary-text">{m.sec_geo_guide_title ? m.sec_geo_guide_title() : 'Geofencing & Geo-IP Analysis'}</h2>
+                            <p class="text-sm text-muted mt-1 max-w-md">{m.sec_geo_guide_mechanics ? m.sec_geo_guide_mechanics() : 'Understanding regional restrictions, WAF bypassing, and IP spoofing mechanics.'}</p>
                         </div>
                     </div>
                     
@@ -64,7 +64,7 @@
                         {#each tabs as tab (tab.id)}
                             <button
                                 onclick={() => activeTab = tab.id}
-                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/5 border border-transparent'}"
+                                class="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all {activeTab === tab.id ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/20 shadow-sm' : 'text-muted hover:text-primary-text hover:bg-white/5 border border-transparent'}"
                             >
                                 <tab.icon size={14} />
                                 <span class="hidden sm:inline">{tab.label}</span>
@@ -82,15 +82,15 @@
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="space-y-4">
-                                <p class="text-zinc-300 text-sm leading-relaxed">
+                                <p class="text-primary-text text-sm leading-relaxed">
                                     Geofencing involves restricting or allowing access to services based on the geographical location derived from an IP address. Security teams often block entire countries to mitigate high-volume credential stuffing and DDoS attacks.
                                 </p>
                                 <div class="bg-cyan-950/20 border border-cyan-500/10 rounded-xl p-4">
-                                    <h4 class="text-cyan-400 font-medium mb-3 flex items-center gap-2"><Globe size={16}/> The Mechanisms</h4>
-                                    <ul class="space-y-3 text-sm text-zinc-400">
-                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-cyan-500 mt-1 shrink-0"/> <span><strong>MaxMind/MaxCDN databases:</strong> Standard mapping of IP blocks to geographical coordinates and ASNs.</span></li>
-                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-cyan-500 mt-1 shrink-0"/> <span><strong>Cloud WAFs (Cloudflare/AWS):</strong> Native rules filtering requests before they reach the origin server based on <code>CF-IPCountry</code>.</span></li>
-                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-cyan-500 mt-1 shrink-0"/> <span><strong>Regulatory Compliance:</strong> Used for GDPR, embargoed nations (OFAC), or regional licensing.</span></li>
+                                    <h4 class="text-accent font-medium mb-3 flex items-center gap-2"><Globe size={16}/> The Mechanisms</h4>
+                                    <ul class="space-y-3 text-sm text-muted">
+                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-accent mt-1 shrink-0"/> <span><strong>MaxMind/MaxCDN databases:</strong> Standard mapping of IP blocks to geographical coordinates and ASNs.</span></li>
+                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-accent mt-1 shrink-0"/> <span><strong>Cloud WAFs (Cloudflare/AWS):</strong> Native rules filtering requests before they reach the origin server based on <code>CF-IPCountry</code>.</span></li>
+                                        <li class="flex items-start gap-2"><ArrowRight size={14} class="text-accent mt-1 shrink-0"/> <span><strong>Regulatory Compliance:</strong> Used for GDPR, embargoed nations (OFAC), or regional licensing.</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -99,11 +99,11 @@
                             <div class="bg-black/50 border border-white/5 rounded-xl p-6 flex flex-col items-center justify-center relative shadow-inner h-full">
                                 <div class="flex items-center justify-between w-full mb-6 relative py-4">
                                     <div class="flex flex-col items-center z-10 w-24">
-                                        <div class="w-12 h-12 rounded-full bg-zinc-800 border-2 border-zinc-600 flex items-center justify-center text-zinc-300 mb-2 overflow-hidden relative">
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-600 flex items-center justify-center text-primary-text mb-2 overflow-hidden relative">
                                             <div class="absolute bottom-1 right-1 w-3 h-3 bg-red-500 rounded-full"></div>
-                                            <Globe size={24} class="text-zinc-400" />
+                                            <Globe size={24} class="text-muted" />
                                         </div>
-                                        <span class="text-xs text-zinc-400">Blocked Region</span>
+                                        <span class="text-xs text-muted">Blocked Region</span>
                                     </div>
                                     
                                     <div class="absolute top-[40%] left-14 w-[calc(100%-7rem)] h-0 border-t-2 border-dashed border-red-500/30">
@@ -120,11 +120,11 @@
                                     <div class="absolute top-[40%] right-10 w-1/4 h-0 border-t-2 border-dashed border-zinc-700"></div>
 
                                     <div class="flex flex-col items-center z-10 w-20">
-                                        <div class="w-12 h-12 rounded-full bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center mb-2"><Database size={18} class="text-zinc-600"/></div>
-                                        <span class="text-xs text-zinc-500">Origin</span>
+                                        <div class="w-12 h-12 rounded-full bg-surface border-2 border-zinc-700 flex items-center justify-center mb-2"><Database size={18} class="text-zinc-600"/></div>
+                                        <span class="text-xs text-muted">Origin</span>
                                     </div>
                                 </div>
-                                <div class="text-center text-xs text-cyan-400 mt-4 bg-cyan-500/10 px-4 py-2 rounded-full border border-cyan-500/30 font-medium tracking-wide">Threat vectors from restricted IP ranges dropped at the Edge</div>
+                                <div class="text-center text-xs text-accent mt-4 bg-cyan-500/10 px-4 py-2 rounded-full border border-cyan-500/30 font-medium tracking-wide">Threat vectors from restricted IP ranges dropped at the Edge</div>
                             </div>
                         </div>
                     </div>
@@ -133,36 +133,36 @@
                         <div class="flex items-center gap-3 mb-4">
                             <h3 class="text-lg font-semibold text-cyan-300">Bypassing Geofences</h3>
                         </div>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Attackers manipulate HTTP headers or utilize distributed infrastructure to spoof their perceived location and bypass WAF-enforced geographical blocks.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Attackers manipulate HTTP headers or utilize distributed infrastructure to spoof their perceived location and bypass WAF-enforced geographical blocks.</p>
                         
                         <!-- Terminal Mockup -->
                         <div class="bg-[#0d1117] rounded-xl border border-cyan-500/10 shadow-2xl overflow-hidden font-mono text-xs sm:text-sm ">
-                            <div class="bg-zinc-900/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
+                            <div class="bg-surface/80 px-4 py-3 flex items-center gap-2 border-b border-white/5 backdrop-blur">
                                 <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
                                 <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
-                                <span class="ml-2 text-zinc-500 text-xs tracking-wider">attacker@kali:~/recon</span>
+                                <span class="ml-2 text-muted text-xs tracking-wider">attacker@kali:~/recon</span>
                             </div>
-                            <div class="p-5 space-y-3 text-zinc-300 h-72 overflow-y-auto custom-scrollbar">
+                            <div class="p-5 space-y-3 text-primary-text h-72 overflow-y-auto custom-scrollbar">
                                 <div class="opacity-70 mb-4">
                                     <p class="text-red-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">curl</span> -I https://financial-portal.com</p>
-                                    <p class="text-zinc-400">HTTP/2 403 Forbidden</p>
-                                    <p class="text-zinc-400">cf-ray: 8...-AMS</p>
+                                    <p class="text-muted">HTTP/2 403 Forbidden</p>
+                                    <p class="text-muted">cf-ray: 8...-AMS</p>
                                     <p class="text-red-400/80 text-xs mt-1"># Request originating from a blocked country (e.g. RU/CN/IR) gets dropped by WAF</p>
                                 </div>
 
                                 <div class="border-t border-white/5 pt-4">
                                     <p class="text-emerald-400 flex items-center gap-2 font-semibold"><span>➜</span> <span class="text-blue-400">curl</span> -I -H "X-Forwarded-For: 8.8.8.8" https://financial-portal.com</p>
-                                    <p class="text-zinc-400 mt-1">HTTP/2 200 OK</p>
-                                    <p class="text-zinc-400">content-type: text/html; charset=utf-8</p>
-                                    <p class="text-cyan-400/80 text-xs mt-2 border-l-2 border-cyan-500/50 pl-2"># If the origin server misconfigures IP validation, trusting the X-Forwarded-For header blindly, it registers the IP as 8.8.8.8 (USA).</p>
+                                    <p class="text-muted mt-1">HTTP/2 200 OK</p>
+                                    <p class="text-muted">content-type: text/html; charset=utf-8</p>
+                                    <p class="text-accent/80 text-xs mt-2 border-l-2 border-cyan-500/50 pl-2"># If the origin server misconfigures IP validation, trusting the X-Forwarded-For header blindly, it registers the IP as 8.8.8.8 (USA).</p>
                                 </div>
                                 
                                 <div class="mt-4 bg-blue-900/10 p-3 rounded-lg border border-blue-500/20">
                                     <p class="text-blue-300 font-bold mb-1 flex items-center gap-2"><Navigation size={14}/> Common Header Exploits</p>
-                                    <p class="text-zinc-400">- X-Forwarded-For: 12.34.56.78</p>
-                                    <p class="text-zinc-400">- X-Originating-IP: 12.34.56.78</p>
-                                    <p class="text-zinc-400">- True-Client-IP: 12.34.56.78</p>
+                                    <p class="text-muted">- X-Forwarded-For: 12.34.56.78</p>
+                                    <p class="text-muted">- X-Originating-IP: 12.34.56.78</p>
+                                    <p class="text-muted">- True-Client-IP: 12.34.56.78</p>
                                 </div>
                             </div>
                         </div>
@@ -170,23 +170,23 @@
                 {:else if activeTab === 2}
                     <div transition:fade={{duration: 200}}>
                         <h3 class="text-lg font-semibold text-emerald-400 mb-4">Hardening Configurations</h3>
-                        <p class="text-sm text-zinc-400 mb-6 max-w-3xl">Mitigating geofencing bypass involves dropping untrusted HTTP headers, explicitly trusting only known Edge endpoints, and mapping routing logic carefully.</p>
+                        <p class="text-sm text-muted mb-6 max-w-3xl">Mitigating geofencing bypass involves dropping untrusted HTTP headers, explicitly trusting only known Edge endpoints, and mapping routing logic carefully.</p>
 
                         <!-- Code Example -->
                         <div class="relative bg-[#0d1117] rounded-xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.1)] overflow-hidden font-mono text-sm mb-6">
                             <div class="absolute top-0 right-0 bg-emerald-500/10 text-emerald-400 px-4 py-1.5 rounded-bl-xl text-xs font-bold border-b border-l border-emerald-500/30 tracking-widest uppercase">Nginx Configuration</div>
                             <div class="p-6 overflow-x-auto pt-10 custom-scrollbar">
-                                <pre class="text-zinc-300 leading-relaxed">
-<span class="text-zinc-500 italic"># ❌ VULNERABLE: Blindly trusting X-Forwarded-For from any source</span>
+                                <pre class="text-primary-text leading-relaxed">
+<span class="text-muted italic"># ❌ VULNERABLE: Blindly trusting X-Forwarded-For from any source</span>
 <span class="text-red-400 line-through">set_real_ip_from 0.0.0.0/0;</span>
 <span class="text-red-400 line-through">real_ip_header X-Forwarded-For;</span>
 
-<span class="text-zinc-500 italic"># ✅ SECURE: Only trust the IP address populated by Cloudflare</span>
-<span class="text-purple-400">set_real_ip_from</span> <span class="text-green-300">173.245.48.0/20</span>;  <span class="text-zinc-500 italic"># Cloudflare IP Ranges</span>
+<span class="text-muted italic"># ✅ SECURE: Only trust the IP address populated by Cloudflare</span>
+<span class="text-purple-400">set_real_ip_from</span> <span class="text-green-300">173.245.48.0/20</span>;  <span class="text-muted italic"># Cloudflare IP Ranges</span>
 <span class="text-purple-400">set_real_ip_from</span> <span class="text-green-300">103.21.244.0/22</span>;
 <span class="text-purple-400">real_ip_header</span>   <span class="text-blue-400">CF-Connecting-IP</span>;
 
-<span class="text-zinc-500 italic"># Restrict Origin Access to only allow Edge Network IPs</span>
+<span class="text-muted italic"># Restrict Origin Access to only allow Edge Network IPs</span>
 <span class="text-purple-400">allow</span> <span class="text-green-300">173.245.48.0/20</span>;
 <span class="text-purple-400">deny</span>  <span class="text-red-300">all</span>;
 </pre>
@@ -220,14 +220,14 @@
 
             <!-- Footer Area -->
             <div class="bg-[#0A0C10] p-4 border-t border-cyan-500/10 flex items-center justify-between shrink-0 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.5)] z-20">
-                <div class="text-xs text-zinc-500 hidden sm:block">
-                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-zinc-400 border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
+                <div class="text-xs text-muted hidden sm:block">
+                    Use <kbd class="px-2 py-1 bg-white/5 rounded mx-1 text-muted border border-white/10 font-mono">Esc</kbd> or click outside to dismiss
                 </div>
                 <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
                     {#if activeTab > 0}
                         <button 
                             onclick={prevTab}
-                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-300 text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
+                            class="flex items-center gap-1.5 px-5 py-2.5 bg-white/5 hover:bg-white/10 text-primary-text text-sm font-medium rounded-xl border border-white/5 hover:border-white/10 transition-all focus:ring-2 focus:ring-white/10 outline-none"
                         >
                             <ChevronLeft size={16} /> Previous
                         </button>
@@ -238,7 +238,7 @@
                     {#if activeTab < tabs.length - 1}
                         <button 
                             onclick={nextTab}
-                            class="flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-cyan-500/50 outline-none"
+                            class="flex items-center gap-1.5 px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-primary-text text-sm font-semibold rounded-xl shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all transform hover:scale-105 active:scale-95 focus:ring-2 focus:ring-cyan-500/50 outline-none"
                         >
                             Continue <ChevronRight size={16} />
                         </button>

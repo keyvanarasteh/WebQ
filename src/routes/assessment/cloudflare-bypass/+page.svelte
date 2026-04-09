@@ -41,11 +41,11 @@
 
 <div class="max-w-6xl mx-auto space-y-6">
     <div class="mb-8">
-        <h1 class="text-3xl font-light text-white tracking-tight flex items-center gap-3">
+        <h1 class="text-3xl font-light text-primary-text tracking-tight flex items-center gap-3">
             <ShieldQuestion class="text-teal-400" size={32} />
             {m.sec_cfbypass_title()}
         </h1>
-        <p class="text-zinc-400 mt-2 text-lg">{m.sec_cfbypass_desc()}</p>
+        <p class="text-muted mt-2 text-lg">{m.sec_cfbypass_desc()}</p>
         <button
             onclick={() => showGuide = true}
             class="mt-3 flex items-center gap-2 px-4 py-2 bg-teal-500/10 hover:bg-teal-500/20 text-teal-400 text-sm font-medium rounded-lg border border-teal-500/20 transition-colors"
@@ -59,13 +59,13 @@
         <div class="grid grid-cols-1 gap-6">
             <div class="space-y-4">
                 <div class="space-y-2">
-                    <label for="domain" class="text-sm font-medium text-zinc-300">Target Domain</label>
+                    <label for="domain" class="text-sm font-medium text-primary-text">Target Domain</label>
                     <input
                         id="domain"
                         type="text"
                         bind:value={targetDomain}
                         placeholder="e.g. example.com"
-                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all font-mono text-sm"
+                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-primary-text placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-teal-500/50 transition-all font-mono text-sm"
                         disabled={isScanning}
                         onkeydown={(e) => e.key === 'Enter' && runScan()}
                     />
@@ -82,7 +82,7 @@
                     <button
                         onclick={runScan}
                         disabled={isScanning || !targetDomain}
-                        class="bg-white text-black hover:bg-zinc-200 disabled:bg-white/10 disabled:text-white/30 disabled:cursor-not-allowed px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
+                        class="bg-white text-black hover:bg-zinc-200 disabled:bg-white/10 disabled:text-primary-text/30 disabled:cursor-not-allowed px-6 py-3 rounded-xl font-medium transition-all flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,255,255,0.2)]"
                     >
                         {#if isScanning}
                             <Loader2 size={18} class="animate-spin" />
@@ -102,10 +102,10 @@
     {#if scanResult}
         <div transition:slide class="pt-4">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-xl font-medium text-white flex items-center gap-2">
+                <h3 class="text-xl font-medium text-primary-text flex items-center gap-2">
                     Evaluation Results
                 </h3>
-                <div class="text-sm text-zinc-400">
+                <div class="text-sm text-muted">
                     {m.sec_cfbypass_stats({ count: scanResult.found_ips.length })}
                     <span class="mx-2 opacity-30">|</span>
                     Scan time: {scanResult.scan_time_ms}ms

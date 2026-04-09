@@ -9,7 +9,7 @@
         if (level === 'High') return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
         if (level === 'Medium') return 'bg-yellow-500/20 text-yellow-500 border-yellow-500/30';
         if (level === 'Low') return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30';
-        return 'bg-zinc-500/20 text-zinc-400 border-zinc-500/30';
+        return 'bg-zinc-500/20 text-muted border-zinc-500/30';
     }
 
     function getSeverityLabel(level: string) {
@@ -23,8 +23,8 @@
 
 <div class="border border-white/5 bg-black/40 rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
     <div class="overflow-x-auto">
-        <table class="w-full text-left text-sm text-zinc-300">
-            <thead class="bg-white/5 border-b border-white/10 text-zinc-400 font-medium whitespace-nowrap">
+        <table class="w-full text-left text-sm text-primary-text">
+            <thead class="bg-white/5 border-b border-white/10 text-muted font-medium whitespace-nowrap">
                 <tr>
                     <th class="px-6 py-4">{m.sec_nmap_col_cve_id()}</th>
                     <th class="px-6 py-4">{m.sec_nmap_col_severity()}</th>
@@ -36,8 +36,8 @@
                     <tr class="hover:bg-white/[0.02] transition-colors group">
                         <td class="px-6 py-4 align-top">
                             <div class="flex flex-col gap-2">
-                                <span class="font-mono font-medium text-white group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{v.id}</span>
-                                <span class="text-[10px] uppercase font-bold tracking-wider text-zinc-500">{v.source}</span>
+                                <span class="font-mono font-medium text-primary-text group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{v.id}</span>
+                                <span class="text-[10px] uppercase font-bold tracking-wider text-muted">{v.source}</span>
                             </div>
                         </td>
                         <td class="px-6 py-4 align-top">
@@ -46,11 +46,11 @@
                                     {getSeverityLabel(v.severity.level)}
                                 </span>
                                 {#if v.severity.score > 0}
-                                    <span class="text-xs font-mono text-zinc-400 pl-1">CVSS: {v.severity.score}</span>
+                                    <span class="text-xs font-mono text-muted pl-1">CVSS: {v.severity.score}</span>
                                 {/if}
                             </div>
                         </td>
-                        <td class="px-6 py-4 align-top text-zinc-400 text-sm leading-relaxed max-w-xl">
+                        <td class="px-6 py-4 align-top text-muted text-sm leading-relaxed max-w-xl">
                             {v.description}
                             {#if v.id !== 'N/A' && v.source === 'NVD'}
                                 <div class="mt-2 text-xs">
@@ -64,7 +64,7 @@
                 {/each}
                 {#if vulns.length === 0}
                     <tr>
-                        <td colspan="3" class="px-6 py-12 text-center text-zinc-500">
+                        <td colspan="3" class="px-6 py-12 text-center text-muted">
                             <div class="flex flex-col items-center justify-center gap-2">
                                 <Bug size={32} class="opacity-20" />
                                 No zero-day vulnerabilities detected on exposed versions.

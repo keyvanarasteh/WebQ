@@ -29,7 +29,7 @@
   let { children } = $props();
 </script>
 
-<div class="flex h-screen w-full bg-white dark:bg-qix-obsidian text-black dark:text-white antialiased overflow-hidden transition-colors duration-300">
+<div class="flex h-screen w-full bg-white bg-background text-black text-primary-text antialiased overflow-hidden transition-colors duration-300">
   <Sidebar />
   <div class="grow flex flex-col overflow-hidden relative">
     <DependencyAlert />

@@ -56,10 +56,10 @@
 			{#if Object.keys(node.children).length > 0}
 				<FolderGit2 size={16} class="text-indigo-400 group-hover:text-indigo-300" />
 			{:else}
-				<Globe size={14} class="text-slate-500 group-hover:text-emerald-400" />
+				<Globe size={14} class="text-muted group-hover:text-emerald-400" />
 			{/if}
 			
-			<span class="font-mono text-sm text-slate-300 group-hover:text-white transition-colors">
+			<span class="font-mono text-sm text-slate-300 group-hover:text-primary-text transition-colors">
 				{node.name}
 			</span>
 			{#if !Object.keys(node.children).length}
@@ -85,9 +85,9 @@
 	</div>
 {/snippet}
 
-<div class="w-full bg-qix-obsidian rounded-xl border border-slate-800 shadow-xl p-4 font-fira text-slate-300 overflow-x-auto">
+<div class="w-full bg-background rounded-xl border border-slate-800 shadow-xl p-4 font-fira text-slate-300 overflow-x-auto">
 	{#if data.length === 0}
-		<div class="flex items-center justify-center py-10 text-sm text-slate-500">
+		<div class="flex items-center justify-center py-10 text-sm text-muted">
 			No tree data to parse.
 		</div>
 	{:else}

@@ -55,11 +55,11 @@
     <!-- Header -->
     <header class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h1 class="text-2xl font-semibold tracking-tight text-white flex items-center gap-2">
+            <h1 class="text-2xl font-semibold tracking-tight text-primary-text flex items-center gap-2">
                 <Activity class="w-6 h-6 text-orange-400" />
                 {m.sec_posture_title()}
             </h1>
-            <p class="text-sm text-slate-400 mt-1">Audit target HTTP security structures, TLS layers, and WAF presence.</p>
+            <p class="text-sm text-muted mt-1">Audit target HTTP security structures, TLS layers, and WAF presence.</p>
         </div>
         <button
             onclick={() => (showGuide = true)}
@@ -73,20 +73,20 @@
     <!-- Scan Input -->
     <div class="flex gap-3 mb-8">
         <div class="relative flex-1">
-            <Globe class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Globe class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input 
                 type="text" 
                 bind:value={targetDomain}
                 placeholder="example.com"
                 onkeydown={(e) => e.key === 'Enter' && scanTarget()}
-                class="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-shadow"
+                class="w-full pl-10 pr-4 py-2.5 bg-black/20 border border-white/10 rounded-lg text-primary-text placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-shadow"
                 disabled={status === 'loading'}
             />
         </div>
         <button 
             onclick={scanTarget}
             disabled={status === 'loading' || !targetDomain}
-            class="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+            class="px-6 py-2.5 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-primary-text font-medium rounded-lg transition-colors flex items-center gap-2"
         >
             {#if status === 'loading'}
                 <div class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
@@ -110,7 +110,7 @@
         <div class="flex flex-col items-center justify-center flex-1 min-h-[300px] border border-dashed rounded-xl border-white/10 bg-white/5">
             <Activity class="w-12 h-12 mb-4 text-slate-600" />
             <h3 class="text-lg font-medium text-slate-300 mb-1">{m.val_waiting()}</h3>
-            <p class="text-sm text-slate-500">Enter a target domain above to perform a full security grading.</p>
+            <p class="text-sm text-muted">Enter a target domain above to perform a full security grading.</p>
         </div>
     {/if}
 

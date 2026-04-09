@@ -4,4 +4,47 @@
 @theme {
   --color-qix-obsidian: #09090b;
   --color-qix-neon: #22d3ee;
+
+  /* Semantic Color Tokens */
+  --color-background: var(--bg-background);
+  --color-surface: var(--bg-surface);
+  --color-surface-hover: var(--bg-surface-hover);
+  
+  --color-primary-text: var(--text-primary);
+  --color-muted: var(--text-muted);
+  --color-inverse: var(--text-inverse);
+  
+  --color-base: var(--border-base);
+  --color-accent: var(--color-qix-neon); /* Fixed to qix-neon for now, since it doesn't need to change between light and dark per original design */
+}
+
+:root {
+  /* Light Mode Equivalents */
+  --bg-background: #f4f4f5; /* zinc-100 */
+  --bg-surface: #ffffff; /* white */
+  --bg-surface-hover: #e4e4e7; /* zinc-200 */
+  
+  --text-primary: #18181b; /* zinc-900 */
+  --text-muted: #52525b; /* zinc-600 */
+  --text-inverse: #ffffff; /* white */
+  
+  --border-base: #e4e4e7; /* zinc-200 */
+}
+
+.dark {
+  /* Dark Mode Equivalents (Obsidian) */
+  --bg-background: #09090b; /* zinc-950 */
+  --bg-surface: #27272a; /* zinc-800 mostly used in old code, or #18181b */
+  --bg-surface-hover: #3f3f46; /* zinc-700 */
+  
+  --text-primary: #fafafa; /* zinc-50 */
+  --text-muted: #a1a1aa; /* zinc-400 */
+  --text-inverse: #09090b; /* zinc-950 */
+  
+  --border-base: #27272a; /* zinc-800 */
+}
+
+/* Fallbacks to force dark mode styles implicitly if class isn't toggled yet, though svelte layout should handle it */
+body {
+  @apply bg-background text-primary-text;
 }

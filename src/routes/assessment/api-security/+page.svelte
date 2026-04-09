@@ -53,8 +53,8 @@
                 <FileCode2 class="text-rose-400" size={20} />
             </div>
             <div>
-                <h1 class="text-2xl font-semibold text-white tracking-tight">{m.sec_api_title()}</h1>
-                <p class="text-sm text-zinc-400 mt-1">{m.sec_api_desc()}</p>
+                <h1 class="text-2xl font-semibold text-primary-text tracking-tight">{m.sec_api_title()}</h1>
+                <p class="text-sm text-muted mt-1">{m.sec_api_desc()}</p>
             </div>
             <div class="ml-auto">
                 <button 
@@ -73,13 +73,13 @@
         <div class="flex flex-col md:flex-row gap-4">
             <div class="relative flex-1">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Search class="text-zinc-500" size={18} />
+                    <Search class="text-muted" size={18} />
                 </div>
                 <input 
                     type="text" 
                     bind:value={domain}
                     placeholder="https://api.target.com/v1"
-                    class="w-full bg-[#0a0a0a] border border-white/10 text-white text-sm rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"
+                    class="w-full bg-[#0a0a0a] border border-white/10 text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"
                     disabled={isScanning}
                     onkeydown={(e) => e.key === 'Enter' && !isScanning && startScan()}
                 />
@@ -87,7 +87,7 @@
             <button 
                 onclick={startScan}
                 disabled={isScanning}
-                class="bg-rose-600 hover:bg-rose-500 disabled:bg-zinc-800 disabled:text-zinc-500 text-white px-8 py-3.5 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-rose-900/20 disabled:shadow-none min-w-[200px]"
+                class="bg-rose-600 hover:bg-rose-500 disabled:bg-surface disabled:text-muted text-primary-text px-8 py-3.5 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-rose-900/20 disabled:shadow-none min-w-[200px]"
             >
                 {#if isScanning}
                     <div class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
@@ -113,18 +113,18 @@
         <div class="mb-6 p-6 border border-white/5 bg-black/40 rounded-xl flex flex-col items-center justify-center gap-4" transition:fade>
             <Terminal size={32} class="text-rose-400 animate-pulse" />
             <div class="text-center">
-                <h3 class="text-lg font-medium text-white mb-1">Deep Fuzzing In Progress</h3>
-                <p class="text-sm text-zinc-400">Injecting destructive payloads and probing structural weaknesses.</p>
+                <h3 class="text-lg font-medium text-primary-text mb-1">Deep Fuzzing In Progress</h3>
+                <p class="text-sm text-muted">Injecting destructive payloads and probing structural weaknesses.</p>
             </div>
             
             <div class="mt-4 flex gap-8">
                 <div class="text-center">
                     <div class="text-2xl font-mono text-emerald-400">{currentReqs}</div>
-                    <div class="text-xs text-zinc-500 uppercase tracking-wider mt-1">Req/s (Speed)</div>
+                    <div class="text-xs text-muted uppercase tracking-wider mt-1">Req/s (Speed)</div>
                 </div>
                 <div class="text-center">
                     <div class="text-2xl font-mono text-rose-400 animate-pulse">9</div>
-                    <div class="text-xs text-zinc-500 uppercase tracking-wider mt-1">Suites Active</div>
+                    <div class="text-xs text-muted uppercase tracking-wider mt-1">Suites Active</div>
                 </div>
             </div>
         </div>
@@ -139,17 +139,17 @@
                 <!-- Summary Stats -->
                 <div class="grid grid-cols-2 gap-4">
                     <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
-                        <div class="text-zinc-500 text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_endpoints_tested()}</div>
-                        <div class="text-2xl font-semibold text-white tracking-tight">{scanResult.endpoints_found || 0}</div>
-                        <div class="absolute -bottom-2 -right-2 text-white/5">
+                        <div class="text-muted text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_endpoints_tested()}</div>
+                        <div class="text-2xl font-semibold text-primary-text tracking-tight">{scanResult.endpoints_found || 0}</div>
+                        <div class="absolute -bottom-2 -right-2 text-primary-text/5">
                             <Network size={64} />
                         </div>
                     </div>
                     
                     <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden backdrop-blur-md">
-                        <div class="text-zinc-500 text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_total_paths()}</div>
-                        <div class="text-2xl font-semibold text-white tracking-tight">{scanResult.total_fuzz_payloads || 0}</div>
-                        <div class="absolute -bottom-2 -right-2 text-white/5">
+                        <div class="text-muted text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_total_paths()}</div>
+                        <div class="text-2xl font-semibold text-primary-text tracking-tight">{scanResult.total_fuzz_payloads || 0}</div>
+                        <div class="absolute -bottom-2 -right-2 text-primary-text/5">
                             <Terminal size={64} />
                         </div>
                     </div>
@@ -157,7 +157,7 @@
                     <div class="bg-black/40 border border-white/5 rounded-xl p-5 relative overflow-hidden backdrop-blur-md col-span-2">
                         <div class="flex items-center justify-between">
                             <div>
-                                <div class="text-zinc-500 text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_vulns_found()}</div>
+                                <div class="text-muted text-xs font-medium uppercase tracking-wider mb-2">{m.sec_api_vulns_found()}</div>
                                 <div class="text-3xl font-semibold {scanResult.vulnerabilities?.length > 0 ? 'text-red-400' : 'text-emerald-400'} tracking-tight">
                                     {scanResult.vulnerabilities?.length || 0}
                                 </div>
@@ -172,9 +172,9 @@
                             </div>
                         </div>
                         {#if scanResult.fuzz_time_ms}
-                            <div class="mt-4 pt-3 border-t border-white/5 text-xs text-zinc-500 flex justify-between">
+                            <div class="mt-4 pt-3 border-t border-white/5 text-xs text-muted flex justify-between">
                                 <span>Execution Time</span>
-                                <span class="font-mono text-zinc-400">{(scanResult.fuzz_time_ms / 1000).toFixed(2)}s</span>
+                                <span class="font-mono text-muted">{(scanResult.fuzz_time_ms / 1000).toFixed(2)}s</span>
                             </div>
                         {/if}
                     </div>
