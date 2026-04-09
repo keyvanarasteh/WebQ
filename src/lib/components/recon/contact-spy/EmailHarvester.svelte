@@ -34,12 +34,12 @@
 				</div>
 				<div class="shrink-0 ml-2 border-l border-base pl-3">
 					{#if item.roleBased}
-						<span class="inline-flex items-center gap-1.5 bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2 py-1 rounded tracking-widest uppercase items-center shadow-lg shadow-rose-500/10 border border-rose-500/20">
+						<span class="inline-flex items-center gap-1.5 bg-rose-500/10 text-rose-400 text-[10px] font-bold px-2 py-1 rounded tracking-widest uppercase shadow-lg shadow-rose-500/10 border border-rose-500/20">
 							<ShieldAlert size={12} />
 							Role
 						</span>
 					{:else}
-						<span class="inline-flex items-center gap-1.5 bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-1 rounded tracking-widest uppercase items-center shadow-lg shadow-blue-500/10 border border-blue-500/20">
+						<span class="inline-flex items-center gap-1.5 bg-blue-500/10 text-blue-400 text-[10px] font-bold px-2 py-1 rounded tracking-widest uppercase shadow-lg shadow-blue-500/10 border border-blue-500/20">
 							<User size={12} />
 							Personal
 						</span>
