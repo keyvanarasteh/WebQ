@@ -236,9 +236,9 @@
 ## Faz 6: Release & DevOps
 - [x] Nmap, Dig, Openssl bağımlılıklarının kontrol edilmesi, yoksalar UI üzerinden kullanıcıya "Install dependencies" bildirimi verilmesi.
 - [x] Linux AppImage build dosyaları için Icon ve Meta verilerinin ayarlanması.
-- [ ] macOS (dmg) build süreçlerinde imzalama / M1 M2 ARM architecture ayarları.
-- [ ] Windows (msi / nsis) derleme profillerinin oluşturulması.
-- [ ] Github Actions (CI/CD) Workflow `release.yml` oluşturulması.
+- [x] macOS (dmg) build süreçlerinde imzalama / M1 M2 ARM architecture ayarları.
+- [x] Windows (msi / nsis) derleme profillerinin oluşturulması.
+- [x] Github Actions (CI/CD) Workflow `release.yml` oluşturulması.
 - [ ] Son güvenlik testleri ve 1.0.0 Release Yayını.
 
 ## Faz 7: Scan History & SQLite Database Architecture (Offline Persistence)
