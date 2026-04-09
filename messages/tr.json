@@ -237,5 +237,33 @@
   "sec_geo_guide_desc": "2023 öncesinde veriler sadece klasik HTML analizleriyle (Parsing) kazınırdı. Bugün ise gelişmiş AI botları direk `.well-known/llms.txt` arayarak ve WebMCP arayüzlerine bağlanarak sitenizden optimize edilmiş saf bir şekilde sömürebilecekleri devasa veri lokmalarını tek seferde çıkartırlar.",
   "sec_geo_guide_secops": "Zararlı Kazıma (Scraping) Kontrolü",
   "sec_geo_guide_secops_desc": "Sistemlerinizin dev diller modelları tarafından eğitilme verisi olmasını istemiyorsanız, `robots.txt` üzerinden `GPTBot`, `ClaudeBot` gibi katı Yapay Zeka Ajan kısıtlamaları (Disallow) eklemelisiniz. Bu Ajanların serbest kalması sunucu hat kotalarınızı (Bandwidth) feci şekilde eritecektir.",
-  "sec_takeover_mitigate": "Çözüm (Mitigate)"
+  "sec_takeover_mitigate": "Çözüm (Mitigate)",
+
+  "intel_domain_info_title": "Alan Adı İstihbaratı",
+  "intel_domain_info_desc": "Kapsamlı WHOIS, DNS, SSL ve temel güvenlik ayak izi analizi.",
+  "intel_domain_info_scan_btn": "Tara",
+  "intel_domain_info_scanning": "Taranıyor...",
+
+  "intel_dns_title": "DNS İstihbaratı",
+  "intel_dns_desc": "Kapsamlı DNS kayıt numaralandırma ve güvenlik kontrolleri.",
+  "intel_dns_resolving": "Çözümleniyor...",
+
+  "intel_seo_title": "SEO Analizi",
+  "intel_seo_desc": "13 kategorili SEO tarayıcı ve optimizasyon teşhisleri.",
+  "intel_seo_auditing": "Denetleniyor...",
+  "intel_seo_audit_btn": "Denetle",
+
+  "recon_tech_title": "Teknoloji Parmak İzi",
+  "recon_tech_desc": "Framework, CMS tanımlama ve zafiyet tespiti (Wappalyzer tarzı).",
+  "recon_tech_detecting": "Tespit ediliyor...",
+  "recon_tech_detect_btn": "Tespit Et",
+
+  "recon_validator_title": "Alan Adı Doğrulayıcı",
+  "recon_validator_desc": "Alan adı listesi için yüksek hızlı eşzamanlı tarama.",
+  "recon_validator_running": "Çalışıyor...",
+  "recon_validator_btn": "Doğrula",
+
+  "guide_btn_label": "SecOps Rehberi",
+  "guide_btn_title": "SecOps Rehberini Görüntüle",
+  "dns_guide_title": "DNS Güvenliği ve İstihbarat"
 }

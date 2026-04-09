@@ -1,5 +1,6 @@
 <script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
+  import * as m from '$lib/paraglide/messages';
   import { Search, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import DnsRecordsBoard from '$lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte';
@@ -28,8 +29,8 @@
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
       <div class="flex items-center gap-3">
           <div>
-              <h1 class="text-3xl font-black text-white tracking-widest uppercase">DNS Intelligence</h1>
-              <p class="text-gray-400 mt-2">Comprehensive DNS record enumeration and security checks.</p>
+              <h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.intel_dns_title()}</h1>
+              <p class="text-gray-400 mt-2">{m.intel_dns_desc()}</p>
           </div>
           <button
               onclick={() => showGuide = true}
@@ -55,7 +56,7 @@
               disabled={appState.isScanning}
               class="px-6 py-2 rounded-lg bg-cyan-500 text-black font-bold uppercase tracking-wider hover:bg-cyan-400 disabled:opacity-50 transition-colors shrink-0"
           >
-              {appState.isScanning ? 'Resolving...' : 'Scan'}
+              {appState.isScanning ? m.intel_dns_resolving() : m.intel_domain_info_scan_btn()}
           </button>
       </div>
   </div>

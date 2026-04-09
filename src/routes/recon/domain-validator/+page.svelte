@@ -1,5 +1,6 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
+  import * as m from '$lib/paraglide/messages';
   import { Search, UploadCloud, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import ValidationStatsBar from '$lib/components/recon/domain-validator/ValidationStatsBar.svelte';
@@ -29,8 +30,8 @@
   <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-[#27272a] pb-6">
       <div class="flex items-center gap-3">
           <div>
-              <h1 class="text-3xl font-black text-white tracking-widest uppercase">Domain Validator</h1>
-              <p class="text-gray-400 mt-2">High-speed concurrent scanning for list of domains.</p>
+              <h1 class="text-3xl font-black text-white tracking-widest uppercase">{m.recon_validator_title()}</h1>
+              <p class="text-gray-400 mt-2">{m.recon_validator_desc()}</p>
           </div>
           <button
               onclick={() => showGuide = true}
@@ -56,7 +57,7 @@
               disabled={appState.isScanning}
               class="px-6 py-2 rounded-lg bg-cyan-500 text-black font-bold uppercase tracking-wider hover:bg-cyan-400 disabled:opacity-50 transition-colors shrink-0"
           >
-              {appState.isScanning ? 'Running...' : 'Validate'}
+              {appState.isScanning ? m.recon_validator_running() : m.recon_validator_btn()}
           </button>
       </div>
   </div>

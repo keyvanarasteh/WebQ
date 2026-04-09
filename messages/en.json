@@ -237,5 +237,33 @@
   "sec_geo_guide_secops_desc": "You must implement strict `robots.txt` directives targeting modern AI user agents like `GPTBot`, `ClaudeBot`, and `Applebot-Extended`. Leaving them implicitly 'Allowed' exposes massive data pipelines perfectly structured for unregulated AI ingestion.",
   "sec_takeover_guide_title": "Takeover Mechanics",
   "sec_takeover_guide_desc": "Dangling CNAMEs pointing to expired Elastic Beanstalk applications, AWS S3 buckets or unauthorized GitHub Pages can be easily registered by attackers to intercept traffic, bypass CORS, or host malicious content under a trusted domain.",
-  "sec_takeover_mitigate": "Mitigate"
+  "sec_takeover_mitigate": "Mitigate",
+
+  "intel_domain_info_title": "Domain Intelligence",
+  "intel_domain_info_desc": "Comprehensive WHOIS, DNS, SSL, and basic security footprinting.",
+  "intel_domain_info_scan_btn": "Scan",
+  "intel_domain_info_scanning": "Scanning...",
+
+  "intel_dns_title": "DNS Intelligence",
+  "intel_dns_desc": "Comprehensive DNS record enumeration and security checks.",
+  "intel_dns_resolving": "Resolving...",
+
+  "intel_seo_title": "SEO Analysis",
+  "intel_seo_desc": "13-category SEO scanner & optimization diagnostics.",
+  "intel_seo_auditing": "Auditing...",
+  "intel_seo_audit_btn": "Audit",
+
+  "recon_tech_title": "Tech Stack Fingerprint",
+  "recon_tech_desc": "Identify frameworks, CMS, and detect vulnerabilities (Wappalyzer style).",
+  "recon_tech_detecting": "Fingerprinting...",
+  "recon_tech_detect_btn": "Detect",
+
+  "recon_validator_title": "Domain Validator",
+  "recon_validator_desc": "High-speed concurrent scanning for list of domains.",
+  "recon_validator_running": "Running...",
+  "recon_validator_btn": "Validate",
+
+  "guide_btn_label": "SecOps Guide",
+  "guide_btn_title": "View SecOps Guide",
+  "dns_guide_title": "DNS Security & Intelligence"
 }
