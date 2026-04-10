@@ -13,11 +13,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-22.04, windows-latest]
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest'
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
 
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@v2
@@ -26,6 +36,8 @@ jobs:
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Install Linux dependencies
         if: matrix.platform == 'ubuntu-22.04'
@@ -36,13 +48,60 @@ jobs:
       - name: Install frontend dependencies
         run: bun install
 
+      - name: Generate changelog
+        id: changelog
+        shell: bash
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            COMMITS=$(git log --oneline --no-decorate -20)
+          else
+            COMMITS=$(git log --oneline --no-decorate "$PREV_TAG"..HEAD)
+          fi
+
+          # Build the release body
+          cat > release_body.md << 'HEADER'
+          ## 🔐 WebQ — Web Intelligence & Security Platform
+
+          Cross-platform security analysis and intelligence gathering utility powered by Tauri v2, Svelte 5, and the web-analyzer Rust crate.
+
+          ### 📦 Platform Downloads
+
+          | Platform | Architecture | File |
+          |----------|-------------|------|
+          | 🐧 Linux | x86_64 | `.deb`, `.rpm`, `.AppImage` |
+          | 🪟 Windows | x86_64 | `.exe` (NSIS), `.msi` |
+          | 🍎 macOS | Apple Silicon (M1+) | `.dmg` |
+          | 🍎 macOS | Intel (x86_64) | `.dmg` |
+
+          ### 🔧 Installation
+
+          - **Linux**: Download `.AppImage` (universal) or `.deb`/`.rpm` for your distro
+          - **Windows**: Download `.exe` installer or `.msi` package
+          - **macOS**: Download the `.dmg` for your architecture (Apple Silicon or Intel)
+
+          > ⚠️ macOS builds are unsigned. Right-click → Open to bypass Gatekeeper on first launch.
+
+          HEADER
+
+          echo "### 📋 Changelog" >> release_body.md
+          echo "" >> release_body.md
+          echo "$COMMITS" | while IFS= read -r line; do
+            echo "- $line" >> release_body.md
+          done
+
+          # Set multiline output
+          {
+            echo "body<<RELEASE_EOF"
+            cat release_body.md
+            echo "RELEASE_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Build and Release Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Commented out Apple secrets to prevent macOS 'failed codesign application: failed to resolve signing identity' 
-          # due to empty GitHub Secrets evaluating as blank strings and crashing the tauri builder.
-          # Uncomment these when you have populated your Github repository Apple Developer secrets.
+          # Apple signing secrets — uncomment when Apple Developer secrets are configured in GitHub
           # APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           # APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           # APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
@@ -52,6 +111,7 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: 'WebQ v__VERSION__'
-          releaseBody: 'See the attached assets for the newly built WebQ security platform binaries.'
-          releaseDraft: true
+          releaseBody: ${{ steps.changelog.outputs.body }}
+          releaseDraft: false
           prerelease: false
+          args: ${{ matrix.args }}
