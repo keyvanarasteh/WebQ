@@ -1,6 +1,6 @@
 [package]
 name = "webq-app"
-version = "0.2.0"
+version = "0.2.1"
 description = "WebQ Security Platform Backend"
 authors = ["drvoid"]
 edition = "2021"
