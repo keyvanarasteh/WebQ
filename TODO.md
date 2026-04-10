@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [50] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~286
+📈 **Progress Statistics:** [52] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~288
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -239,6 +239,8 @@
 - [x] macOS (dmg) build süreçlerinde imzalama / M1 M2 ARM architecture ayarları.
 - [x] Windows (msi / nsis) derleme profillerinin oluşturulması.
 - [x] Github Actions (CI/CD) Workflow `release.yml` oluşturulması.
+- [x] **[CI FIX] macOS Code Signing Failure:** Github Actions'ta `APPLE_CERTIFICATE` boş olmasına rağmen tauri-action'ın imzalamaya çalışıp çökmesini önlemek için release.yml içindeki Apple ortam değişkenleri yorum satırına alındı.
+- [x] **[DEPS] Wildcard Versioning:** `web-analyzer` dependency wildcard (`*`) versiyonuna (Issue #5) doğru şekilde güncellendi.
 - [ ] Son güvenlik testleri ve 1.0.0 Release Yayını.
 
 ## Faz 7: Scan History & SQLite Database Architecture (Offline Persistence)
