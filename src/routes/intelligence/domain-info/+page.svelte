@@ -101,19 +101,17 @@
       </div>
   {/if}
 
-  <!-- Grid always visible when scanning or finished; components display skeletal preloaders natively when scanResult is null -->
-  {#if appState.isScanning || scanResult}
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in mt-6 {appState.isScanning ? 'opacity-70 pointer-events-none grayscale-[0.2]' : ''}">
-          <div class="lg:col-span-2">
-              <DomainOverview isLoading={appState.isScanning} result={scanResult} />
-          </div>
-          <div class="lg:col-span-1 space-y-6">
-              <SslStatus isLoading={appState.isScanning} ssl={scanResult?.ssl ?? null} domain={targetDomain} />
-              <SecurityDetails isLoading={appState.isScanning} security={scanResult?.security ?? null} score={scanResult?.security_score} domain={targetDomain} />
-              <PortSecurityMatrix isLoading={appState.isScanning} ports={scanResult?.open_ports} score={scanResult?.security_score} domain={targetDomain} />
-          </div>
+  <!-- Grid always visible -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in mt-6">
+      <div class="lg:col-span-2">
+          <DomainOverview isLoading={appState.isScanning} result={scanResult} domain={targetDomain} />
       </div>
-  {/if}
+      <div class="lg:col-span-1 space-y-6">
+          <SslStatus isLoading={appState.isScanning} ssl={scanResult?.ssl ?? null} domain={targetDomain} />
+          <SecurityDetails isLoading={appState.isScanning} security={scanResult?.security ?? null} score={scanResult?.security_score} domain={targetDomain} />
+          <PortSecurityMatrix isLoading={appState.isScanning} ports={scanResult?.open_ports} score={scanResult?.security_score} domain={targetDomain} />
+      </div>
+  </div>
 </div>
 
 <DomainInfoGuide bind:isOpen={showGuide} />

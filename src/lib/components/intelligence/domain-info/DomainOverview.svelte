@@ -8,9 +8,10 @@
   type Props = {
       isLoading: boolean;
       result: DomainInfoResult | null;
+      domain: string;
   };
 
-  let { isLoading, result }: Props = $props();
+  let { isLoading, result, domain }: Props = $props();
   let copiedField = $state<string | null>(null);
   let guideOpen = $state(false);
 
@@ -26,41 +27,47 @@
   let isRefreshingWhois = $state(false);
 
   async function refreshNetwork() {
-      if (!localResult?.domain) return;
+      if (!domain) return;
       isRefreshingNetwork = true;
       try {
-          const ipInfo = await invoke<any>('scan_ip_resolution', { domain: localResult.domain });
+          const ipInfo = await invoke<any>('scan_ip_resolution', { domain });
           if (localResult) {
               localResult.ipv4 = ipInfo.ipv4;
               localResult.ipv6 = ipInfo.ipv6;
               localResult.all_ipv4 = ipInfo.all_ipv4;
               localResult.reverse_dns = ipInfo.reverse_dns;
+          } else {
+              localResult = { domain, ipv4: ipInfo.ipv4, ipv6: ipInfo.ipv6, all_ipv4: ipInfo.all_ipv4, reverse_dns: ipInfo.reverse_dns } as DomainInfoResult;
           }
       } catch(e) { console.error(e); }
       isRefreshingNetwork = false;
   }
 
   async function refreshServer() {
-      if (!localResult?.domain) return;
+      if (!domain) return;
       isRefreshingServer = true;
       try {
-          const httpInfo = await invoke<any>('scan_http_status', { domain: localResult.domain });
+          const httpInfo = await invoke<any>('scan_http_status', { domain });
           if (localResult) {
               localResult.http_status = httpInfo.status;
               localResult.web_server = httpInfo.server;
               localResult.response_time_ms = httpInfo.response_time_ms;
+          } else {
+              localResult = { domain, http_status: httpInfo.status, web_server: httpInfo.server, response_time_ms: httpInfo.response_time_ms } as DomainInfoResult;
           }
       } catch(e) { console.error(e); }
       isRefreshingServer = false;
   }
 
   async function refreshWhois() {
-      if (!localResult?.domain) return;
+      if (!domain) return;
       isRefreshingWhois = true;
       try {
-          const whoisInfo = await invoke<any>('scan_whois', { domain: localResult.domain });
+          const whoisInfo = await invoke<any>('scan_whois', { domain });
           if (localResult) {
               localResult.whois = whoisInfo;
+          } else {
+              localResult = { domain, whois: whoisInfo } as DomainInfoResult;
           }
       } catch(e) { console.error(e); }
       isRefreshingWhois = false;
@@ -254,9 +261,22 @@
               <Globe class="size-5" />
               Infrastructure Overview
           </h3>
-          <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
-              <HelpCircle class="size-4" />
-          </button>
+          <div class="flex items-center gap-1">
+              {#if !isLoading && domain}
+                  <button onclick={refreshNetwork} disabled={isRefreshingNetwork || isRefreshingServer || isRefreshingWhois} class="px-2 py-1 flex items-center gap-1.5 text-xs font-bold rounded-lg bg-surface border border-base text-muted hover:text-cyan-400 hover:border-cyan-500/30 transition-all disabled:opacity-50">
+                      <RefreshCw class="size-3 {isRefreshingNetwork ? 'animate-spin text-cyan-400' : ''}" /> Network
+                  </button>
+                  <button onclick={refreshServer} disabled={isRefreshingNetwork || isRefreshingServer || isRefreshingWhois} class="px-2 py-1 flex items-center gap-1.5 text-xs font-bold rounded-lg bg-surface border border-base text-muted hover:text-cyan-400 hover:border-cyan-500/30 transition-all disabled:opacity-50">
+                      <RefreshCw class="size-3 {isRefreshingServer ? 'animate-spin text-cyan-400' : ''}" /> Server
+                  </button>
+                  <button onclick={refreshWhois} disabled={isRefreshingNetwork || isRefreshingServer || isRefreshingWhois} class="px-2 py-1 flex items-center gap-1.5 text-xs font-bold rounded-lg bg-surface border border-base text-muted hover:text-cyan-400 hover:border-cyan-500/30 transition-all disabled:opacity-50">
+                      <RefreshCw class="size-3 {isRefreshingWhois ? 'animate-spin text-cyan-400' : ''}" /> WHOIS
+                  </button>
+              {/if}
+              <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
+                  <HelpCircle class="size-4" />
+              </button>
+          </div>
       </div>
       <div class="border-2 border-dashed border-base rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[200px]">
           <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
