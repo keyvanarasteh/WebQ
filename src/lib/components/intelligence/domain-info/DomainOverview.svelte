@@ -216,6 +216,7 @@
                   <RefreshCw class="size-3.5 {isRefreshingWhois ? 'animate-spin' : ''}" />
               </button>
           </div>
+          {#if localResult.whois}
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               <div class="p-3 rounded-lg bg-surface border border-base">
                   <p class="text-xs text-muted uppercase font-semibold">Registrar</p>
@@ -264,6 +265,7 @@
                       {/each}
                   </div>
               </div>
+          {/if}
           {/if}
       </div>
   {:else}
