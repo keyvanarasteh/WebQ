@@ -24,20 +24,22 @@ apps:
       - home
 
 parts:
-  node-deps:
-    plugin: npm
-    source: .
-    npm-include-node: true
-    npm-node-version: "20.10.0"
-
   webq-gui:
-    after: [node-deps]
     plugin: rust
-    source: src-tauri
+    source: .
     override-build: |
-      npm run tauri build
+      # Install Bun for the frontend build
+      curl -fsSL https://bun.sh/install | bash
+      export PATH="$HOME/.bun/bin:$PATH"
+      bun install
+      
+      # Build Tauri application
+      cargo install tauri-cli --version "^2.0.0"
+      cargo tauri build
+      
+      # Copy final executable
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
-      cp target/release/webq $CRAFT_PART_INSTALL/usr/bin/webq
+      cp src-tauri/target/release/webq-app $CRAFT_PART_INSTALL/usr/bin/webq
     build-packages:
       - libwebkit2gtk-4.1-dev
       - build-essential
@@ -48,3 +50,9 @@ parts:
       - libssl-dev
       - libayatana-appindicator3-dev
       - librsvg2-dev
+    stage-packages:
+      - libwebkit2gtk-4.1-0
+      - libgtk-3-0
+      - nmap
+      - dnsutils
+      - openssl
