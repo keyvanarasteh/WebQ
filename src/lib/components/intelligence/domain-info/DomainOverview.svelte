@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { DomainInfoResult } from '$lib/types/intelligence';
-  import { Globe, Server, Shield, Clock, Copy, Check, HelpCircle, RefreshCw } from 'lucide-svelte';
+  import { Globe, Server, Shield, Clock, Copy, Check, HelpCircle, RefreshCw, Play } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import * as m from '$lib/paraglide/messages';
   import DomainOverviewGuide from './DomainOverviewGuide.svelte';
@@ -25,6 +25,13 @@
   let isRefreshingNetwork = $state(false);
   let isRefreshingServer = $state(false);
   let isRefreshingWhois = $state(false);
+  let isRescanningAll = $derived(isRefreshingNetwork || isRefreshingServer || isRefreshingWhois);
+  let isValidDomain = $derived(/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain));
+
+  async function handleRescanAll() {
+      if (!isValidDomain) return;
+      await Promise.all([refreshNetwork(), refreshServer(), refreshWhois()]);
+  }
 
   async function refreshNetwork() {
       if (!domain) return;
@@ -98,9 +105,14 @@
               <Globe class="size-5" />
               Infrastructure Overview
           </h3>
-          <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
-              <HelpCircle class="size-4" />
-          </button>
+          <div class="flex items-center gap-1">
+              <button onclick={handleRescanAll} disabled={isRescanningAll || isLoading || !isValidDomain} class="p-1.5 rounded-lg {isRescanningAll ? 'text-cyan-400' : 'text-muted'} hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed" title="Refresh Dashboard Overview">
+                  <RefreshCw class="size-4 {isRescanningAll ? 'animate-spin' : ''}" />
+              </button>
+              <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
+                  <HelpCircle class="size-4" />
+              </button>
+          </div>
       </div>
 
       <!-- Network Section -->
@@ -262,17 +274,9 @@
               Infrastructure Overview
           </h3>
           <div class="flex items-center gap-1">
-              {#if !isLoading && domain}
-                  <button onclick={refreshNetwork} disabled={isRefreshingNetwork || isRefreshingServer || isRefreshingWhois} class="px-2 py-1 flex items-center gap-1.5 text-xs font-bold rounded-lg bg-surface border border-base text-muted hover:text-cyan-400 hover:border-cyan-500/30 transition-all disabled:opacity-50">
-                      <RefreshCw class="size-3 {isRefreshingNetwork ? 'animate-spin text-cyan-400' : ''}" /> Network
-                  </button>
-                  <button onclick={refreshServer} disabled={isRefreshingNetwork || isRefreshingServer || isRefreshingWhois} class="px-2 py-1 flex items-center gap-1.5 text-xs font-bold rounded-lg bg-surface border border-base text-muted hover:text-cyan-400 hover:border-cyan-500/30 transition-all disabled:opacity-50">
-                      <RefreshCw class="size-3 {isRefreshingServer ? 'animate-spin text-cyan-400' : ''}" /> Server
-                  </button>
-                  <button onclick={refreshWhois} disabled={isRefreshingNetwork || isRefreshingServer || isRefreshingWhois} class="px-2 py-1 flex items-center gap-1.5 text-xs font-bold rounded-lg bg-surface border border-base text-muted hover:text-cyan-400 hover:border-cyan-500/30 transition-all disabled:opacity-50">
-                      <RefreshCw class="size-3 {isRefreshingWhois ? 'animate-spin text-cyan-400' : ''}" /> WHOIS
-                  </button>
-              {/if}
+              <button onclick={handleRescanAll} disabled={isRescanningAll || isLoading || !isValidDomain} class="p-1.5 rounded-lg {isRescanningAll ? 'text-cyan-400' : 'text-muted'} hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed" title="Run Dashboard Overview">
+                  <Play class="size-4" />
+              </button>
               <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
                   <HelpCircle class="size-4" />
               </button>

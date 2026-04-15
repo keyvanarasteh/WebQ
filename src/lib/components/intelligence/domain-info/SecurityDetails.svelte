@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SecurityInfo } from '$lib/types/intelligence';
-  import { ShieldCheck, ShieldX, ArrowRight, HelpCircle, RefreshCw } from 'lucide-svelte';
+  import { ShieldCheck, ShieldX, ArrowRight, HelpCircle, RefreshCw, Play } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import * as m from '$lib/paraglide/messages';
   import SecurityDetailsGuide from './SecurityDetailsGuide.svelte';
@@ -36,6 +36,7 @@
   }
 
   let finalLoading = $derived(isLoading || isRescanning);
+  let isValidDomain = $derived(/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain));
 
   const HEADER_LABELS: Record<string, string> = {
       'strict-transport-security': 'HSTS',
@@ -57,11 +58,13 @@
           Security Assessment
       </h3>
       <div class="flex items-center gap-1">
-          {#if !isLoading && domain}
-              <button onclick={handleRescan} disabled={isRescanning} class="p-1.5 rounded-lg text-muted hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50" title="Independent Security Rescan">
+          <button onclick={handleRescan} disabled={isRescanning || isLoading || !isValidDomain} class="p-1.5 rounded-lg {isRescanning ? 'text-cyan-400' : 'text-muted'} hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed" title={localSecurity ? "Refresh Security Scan" : "Run Security Scan"}>
+              {#if localSecurity}
                   <RefreshCw class="size-4 {isRescanning ? 'animate-spin' : ''}" />
-              </button>
-          {/if}
+              {:else}
+                  <Play class="size-4" />
+              {/if}
+          </button>
           <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_security_headers_title()}>
               <HelpCircle class="size-4" />
           </button>

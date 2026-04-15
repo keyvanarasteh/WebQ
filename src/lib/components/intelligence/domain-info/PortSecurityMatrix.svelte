@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { HelpCircle, Server, RefreshCw } from 'lucide-svelte';
+  import { HelpCircle, Server, RefreshCw, Play } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import * as m from '$lib/paraglide/messages';
   import PortSecurityGuide from './PortSecurityGuide.svelte';
@@ -41,6 +41,7 @@
   }
 
   let finalLoading = $derived(isLoading || isRescanning);
+  let isValidDomain = $derived(/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(domain));
 </script>
 
 <PortSecurityGuide bind:isOpen={guideOpen} />
@@ -49,11 +50,13 @@
   <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-accent">Port Security</h3>
       <div class="flex items-center gap-1">
-          {#if !isLoading && domain}
-              <button onclick={handleRescan} disabled={isRescanning} class="p-1.5 rounded-lg text-muted hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50" title="Independent Ports Rescan">
+          <button onclick={handleRescan} disabled={isRescanning || isLoading || !isValidDomain} class="p-1.5 rounded-lg {isRescanning ? 'text-cyan-400' : 'text-muted'} hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed" title={localPorts != null ? "Refresh Ports Scan" : "Run Ports Scan"}>
+              {#if localPorts != null}
                   <RefreshCw class="size-4 {isRescanning ? 'animate-spin' : ''}" />
-              </button>
-          {/if}
+              {:else}
+                  <Play class="size-4" />
+              {/if}
+          </button>
           <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_ports_title()}>
               <HelpCircle class="size-4" />
           </button>
