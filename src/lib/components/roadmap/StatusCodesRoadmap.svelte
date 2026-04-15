@@ -114,9 +114,10 @@
 
   <div class="space-y-12 border-t border-base pt-10">
     {#each statusCategories as category}
+      {@const Icon = category.icon}
       <div class="flex flex-col gap-4">
         <h3 class="text-xl font-black text-secondary-text tracking-widest uppercase flex items-center gap-3">
-          <svelte:component this={category.icon} class={`size-6 ${category.colorClasses.split(' ')[0]}`} />
+          <Icon class={`size-6 ${category.colorClasses.split(' ')[0]}`} />
           {category.title}
         </h3>
         
