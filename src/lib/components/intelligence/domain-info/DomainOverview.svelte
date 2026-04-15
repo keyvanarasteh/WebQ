@@ -65,7 +65,7 @@
                   <div class="p-3 rounded-lg bg-surface border border-base">
                       <p class="text-xs text-muted uppercase font-semibold">All IPv4</p>
                       <div class="flex flex-wrap gap-1 mt-1">
-                          {#each result.all_ipv4 as ip (ip)}
+                          {#each result.all_ipv4 as ip, i (i)}
                               <span class="text-xs font-mono text-accent bg-cyan-500/10 px-1.5 py-0.5 rounded">{ip}</span>
                           {/each}
                       </div>
@@ -77,7 +77,7 @@
                   <div class="p-3 rounded-lg bg-surface border border-base col-span-1 md:col-span-2">
                       <p class="text-xs text-muted uppercase font-semibold">IPv6</p>
                       <div class="flex flex-col gap-1 mt-1">
-                          {#each result.ipv6 as ip (ip)}
+                          {#each result.ipv6 as ip, i (i)}
                               <span class="text-xs font-mono text-primary-text break-all">{ip}</span>
                           {/each}
                       </div>
@@ -158,7 +158,7 @@
               <div class="p-3 rounded-lg bg-surface border border-base col-span-1 md:col-span-2">
                   <p class="text-xs text-muted uppercase font-semibold">Domain Status</p>
                   <div class="flex flex-wrap gap-1.5 mt-1.5">
-                      {#each result.whois.domain_status as status (status)}
+                      {#each result.whois.domain_status as status, i (i)}
                           <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-accent border border-cyan-500/20">{status}</span>
                       {/each}
                   </div>
@@ -170,7 +170,7 @@
               <div class="mt-3 p-3 rounded-lg bg-surface border border-base">
                   <p class="text-xs text-muted uppercase font-semibold mb-2">Name Servers</p>
                   <div class="flex flex-wrap gap-2">
-                      {#each result.whois.name_servers as ns (ns)}
+                      {#each result.whois.name_servers as ns, i (i)}
                           <span class="text-xs font-mono text-primary-text bg-surface border border-base px-2 py-1 rounded">{ns}</span>
                       {/each}
                   </div>

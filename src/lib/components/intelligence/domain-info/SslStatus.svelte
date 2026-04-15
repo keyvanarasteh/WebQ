@@ -98,7 +98,7 @@
           <div class="mt-4 p-3 bg-sunken rounded-lg border border-base">
               <p class="text-xs text-muted font-semibold uppercase mb-2">Subject Alt Names ({ssl.alternative_names.length})</p>
               <div class="flex flex-wrap gap-1.5">
-                  {#each ssl.alternative_names as san (san)}
+                  {#each ssl.alternative_names as san, i (i)}
                       <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-accent border border-cyan-500/20">{san}</span>
                   {/each}
               </div>

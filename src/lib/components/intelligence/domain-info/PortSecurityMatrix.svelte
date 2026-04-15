@@ -43,7 +43,7 @@
           <p class="text-xs text-muted uppercase tracking-widest mb-3">Open Ports</p>
           <div class="flex flex-wrap gap-2">
               {#if ports && ports.length > 0}
-                  {#each ports as port (port)}
+                  {#each ports as port, i (i)}
                       {@const isDanger = port.startsWith('21') || port.startsWith('22') || port.startsWith('3306')}
                       <span class="px-2 py-1 text-xs font-mono rounded-md border
                           {isDanger ? 'bg-red-500/10 border-red-500/50 text-red-400' : 'bg-cyan-500/10 border-cyan-500/30 text-accent'}">
