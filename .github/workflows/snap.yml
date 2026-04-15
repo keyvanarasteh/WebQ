@@ -1,0 +1,38 @@
+name: Publish multi-arch Snap
+on:
+  push:
+    tags:
+      - 'v*' # Trigger build on version tags (e.g., v1.0.0)
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        # Define the architectures you want GitHub to build
+        architecture: [amd64, arm64]
+    
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      # Setup QEMU for ARM64 builds on standard GitHub Runners
+      - name: Set up QEMU
+        if: matrix.architecture == 'arm64'
+        uses: docker/setup-qemu-action@v3
+        
+      - name: Build Snap
+        uses: snapcore/action-build@v1
+        id: snapBuild
+        with:
+          build-info: true
+          snapcraft-args: --target-arch=${{ matrix.architecture }}
+
+      - name: Publish to Snap Store
+        uses: snapcore/action-publish@v1
+        env:
+          # Injected from the GitHub Secret
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+        with:
+          snap: ${{ steps.snapBuild.outputs.snap }}
+          release: edge
