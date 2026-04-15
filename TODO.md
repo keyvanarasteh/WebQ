@@ -291,5 +291,5 @@
 
 ### 7.3 Mevcut Sayfa Modifikasyonları
 - [ ] Zafiyet Raporlaması: Mevcut Recon ve Intelligence sayfalarında, sonuçlar ekrana basılırken arka planda asenkron olarak SQLite'a kaydolduğuna dair "Saved to DB" Svelte-Sonner onayı.
-- [ ] Ayarlar (Settings) Modifikasyonu: Veritabanını yedekleme (Export SQLite), veritabanı boyutunu görme ve komple sıfırlama (Nuke History) fonksiyonları için tehlike (Danger) butonları.
+- [x] Ayarlar (Settings) Modifikasyonu: Veritabanını yedekleme (Export SQLite), veritabanı boyutunu görme ve komple sıfırlama (Nuke History) fonksiyonları için tehlike (Danger) butonları.
 

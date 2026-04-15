@@ -77,12 +77,12 @@
   }
 </script>
 
-<div class="space-y-6 max-w-5xl mx-auto pb-10">
+<div class="space-y-6">
   <div class="border-b border-base pb-4">
-      <h1 class="text-3xl font-black tracking-widest text-primary-text uppercase shadow-cyan-400 drop-shadow-sm flex items-center gap-3">
-          <Shield class="w-8 h-8 text-cyan-500" /> Scanner Engine Status
-      </h1>
-      <p class="mt-2 text-muted">Real-time health telemetry for underlying system reconnaissance tools.</p>
+      <h2 class="text-xl font-bold tracking-widest text-primary-text uppercase shadow-cyan-400 drop-shadow-sm flex items-center gap-3">
+          <Shield class="w-6 h-6 text-cyan-500" /> Scanner Engine Status
+      </h2>
+      <p class="mt-2 text-sm text-muted">Real-time health telemetry for underlying system reconnaissance tools.</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
@@ -137,7 +137,7 @@
       {/each}
   </div>
 
-  <!-- Built-in Mini Fix Dialog (Fallback if Bits UI dialog isn't wired perfectly inline) -->
+  <!-- Built-in Mini Fix Dialog -->
   {#if selectedTool}
       <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div class="bg-background border border-base rounded-2xl w-full max-w-lg shadow-2xl p-6 overflow-hidden relative">

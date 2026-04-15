@@ -4,15 +4,15 @@
     import { resolve } from '$app/paths';
     // @ts-expect-error Same for stores
     import { page } from '$app/stores';
-    import { Shield, Target, Search, Settings, Network, Activity } from 'lucide-svelte';
+    import { Shield, Target, Search, Settings, Network, Info } from 'lucide-svelte';
 
     const menuItems = [
         { name: 'Dashboard', path: '/', icon: Shield },
         { name: 'Intelligence', path: '/intelligence/domain-info', icon: Search },
         { name: 'Reconnaissance', path: '/recon', icon: Target },
         { name: 'Security Assessment', path: '/assessment/security-posture', icon: Network },
-        { name: 'Engine Health', path: '/settings/dependencies', icon: Activity },
         { name: 'Settings', path: '/settings', icon: Settings },
+        { name: 'About & Feedback', path: '/about', icon: Info },
     ];
 </script>
 
