@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { DomainInfoResult } from '$lib/types/intelligence';
-  import { Globe, Server, Shield, Clock, Copy, Check } from 'lucide-svelte';
+  import { Globe, Server, Shield, Clock, Copy, Check, HelpCircle } from 'lucide-svelte';
   import * as m from '$lib/paraglide/messages';
+  import DomainOverviewGuide from './DomainOverviewGuide.svelte';
 
   type Props = {
       isLoading: boolean;
@@ -10,6 +11,7 @@
 
   let { isLoading, result }: Props = $props();
   let copiedField = $state<string | null>(null);
+  let guideOpen = $state(false);
 
   function copyToClipboard(value: string, fieldId: string) {
       navigator.clipboard.writeText(value);
@@ -17,6 +19,8 @@
       setTimeout(() => copiedField = null, 1500);
   }
 </script>
+
+<DomainOverviewGuide bind:isOpen={guideOpen} />
 
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm h-full relative overflow-hidden transition-all duration-300">
   {#if isLoading}
@@ -29,10 +33,15 @@
           </div>
       </div>
   {:else if result}
-      <h3 class="text-lg font-bold text-accent mb-5 flex items-center gap-2">
-          <Globe class="size-5" />
-          Infrastructure Overview
-      </h3>
+      <div class="flex items-center justify-between mb-5">
+          <h3 class="text-lg font-bold text-accent flex items-center gap-2">
+              <Globe class="size-5" />
+              Infrastructure Overview
+          </h3>
+          <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
+              <HelpCircle class="size-4" />
+          </button>
+      </div>
 
       <!-- Network Section -->
       <div class="mb-5">
