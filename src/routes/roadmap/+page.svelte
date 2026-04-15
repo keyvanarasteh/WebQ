@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { ShieldPlus, Network, Globe } from 'lucide-svelte';
+  import { ShieldPlus, Network, Globe, BookOpenCheck } from 'lucide-svelte';
   import DomainsRoadmap from '$lib/components/roadmap/DomainsRoadmap.svelte';
   import PortsRoadmap from '$lib/components/roadmap/PortsRoadmap.svelte';
+  import HeadersRoadmap from '$lib/components/roadmap/HeadersRoadmap.svelte';
 
-  let activeTab = $state<'domains' | 'ports'>('domains');
+  let activeTab = $state<'domains' | 'ports' | 'headers'>('domains');
 </script>
 
 <svelte:head>
@@ -23,28 +24,37 @@
   </div>
 
   <!-- Segmented Tabs -->
-  <div class="inline-flex bg-base/50 p-1 rounded-xl border border-base backdrop-blur-sm shadow-xl">
+  <div class="inline-flex bg-base/50 p-1 rounded-xl border border-base backdrop-blur-sm shadow-xl flex-wrap">
       <button 
           onclick={() => activeTab = 'domains'}
-          class="px-8 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all {activeTab === 'domains' ? 'bg-cyan-500/20 text-primary-text border border-cyan-500/30' : 'text-muted hover:text-primary-text hover:bg-surface'}"
+          class="px-5 sm:px-8 py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all {activeTab === 'domains' ? 'bg-cyan-500/20 text-primary-text border border-cyan-500/30' : 'text-muted hover:text-primary-text hover:bg-surface'}"
       >
           <Globe class="size-4" />
           WHOIS TLD Matrix
       </button>
       <button 
           onclick={() => activeTab = 'ports'}
-          class="px-8 py-2.5 rounded-lg text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all {activeTab === 'ports' ? 'bg-magenta-500/20 text-primary-text border border-magenta-500/30' : 'text-muted hover:text-primary-text hover:bg-surface'}"
+          class="px-5 sm:px-8 py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all {activeTab === 'ports' ? 'bg-magenta-500/20 text-primary-text border border-magenta-500/30' : 'text-muted hover:text-primary-text hover:bg-surface'}"
       >
           <Network class="size-4" />
           OSINT Port Matrix
+      </button>
+      <button 
+          onclick={() => activeTab = 'headers'}
+          class="px-5 sm:px-8 py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all {activeTab === 'headers' ? 'bg-green-500/20 text-primary-text border border-green-500/30' : 'text-muted hover:text-primary-text hover:bg-surface'}"
+      >
+          <BookOpenCheck class="size-4" />
+          Security Headers Matrix
       </button>
   </div>
 
   <div class="relative w-full">
       {#if activeTab === 'domains'}
           <DomainsRoadmap />
-      {:else}
+      {:else if activeTab === 'ports'}
           <PortsRoadmap />
+      {:else}
+          <HeadersRoadmap />
       {/if}
   </div>
 </div>
