@@ -85,6 +85,7 @@
       <input
         id="domainInput"
         type="text"
+        list="historic-domains"
         bind:value={targetDomain}
         placeholder="example.com"
         class="w-full bg-sunken border border-glass text-primary-text rounded-lg px-4 py-2.5 focus:outline-none focus:border-rose-500/50 focus:ring-1 focus:ring-rose-500/50 transition-all font-mono text-sm placeholder:text-tertiary-text"

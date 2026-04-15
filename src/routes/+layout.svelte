@@ -10,6 +10,7 @@
   import { Toaster, toast } from 'svelte-sonner';
   import { Minus, Square, X, Monitor } from 'lucide-svelte';
   import { getCurrentWindow } from '@tauri-apps/api/window';
+  import { onMount } from 'svelte';
 
   // Global error handler for unhandled backend/Tauri exceptions
   if (typeof window !== "undefined") {
@@ -51,6 +52,10 @@
           sessionStorage.setItem('webq-booted', 'true');
       }
   }
+
+  onMount(() => {
+      appState.fetchScannedDomains();
+  });
 </script>
 
 {#if !isBooted}
@@ -96,6 +101,11 @@
     <DependencyAlert />
     <Topbar />
     <Toaster position="top-right" richColors theme={appState.theme} expand={false} />
+    <datalist id="historic-domains">
+      {#each appState.historicDomains as domain (domain)}
+        <option value={domain}></option>
+      {/each}
+    </datalist>
     <CommandPalette />
     <main class="flex-1 scroll-optimized p-6 relative z-0">
       {@render children()}

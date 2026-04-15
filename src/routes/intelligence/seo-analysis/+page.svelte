@@ -81,6 +81,7 @@
               <Search class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-accent" />
               <input 
                   type="text" 
+                  list="historic-domains"
                   bind:value={targetDomain} 
                   onkeydown={(e) => e.key === 'Enter' && performScan()}
                   placeholder="Enter URL (e.g. https://example.com)"

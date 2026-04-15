@@ -279,3 +279,17 @@ pub async fn nuke_history(pool: State<'_, SqlitePool>) -> Result<(), AppError> {
 
     Ok(())
 }
+
+#[tauri::command]
+pub async fn get_unique_scanned_domains(
+    pool: State<'_, SqlitePool>,
+) -> Result<Vec<String>, AppError> {
+    let rows = sqlx::query(
+        "SELECT target_domain FROM scans GROUP BY target_domain ORDER BY MAX(started_at) DESC LIMIT 50"
+    )
+    .fetch_all(&*pool)
+    .await
+    .map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
+
+    Ok(rows.into_iter().map(|r| r.get("target_domain")).collect())
+}

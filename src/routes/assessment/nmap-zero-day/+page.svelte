@@ -84,6 +84,7 @@
         <div class="relative flex-1">
             <input
                 type="text"
+                list="historic-domains"
                 bind:value={domain}
                 onkeydown={(e) => e.key === 'Enter' && analyzeDomain()}
                 placeholder="example.com or 192.168.1.1"

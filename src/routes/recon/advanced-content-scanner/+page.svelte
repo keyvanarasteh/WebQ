@@ -65,6 +65,7 @@
                 </div>
                 <input
                     type="text"
+                    list="historic-domains"
                     bind:value={targetDomain}
                     placeholder="example.com"
                     class="block w-full p-2.5 pl-10 text-sm text-primary-text bg-sunken border border-base rounded-lg focus:ring-teal-500 focus:border-teal-500 outline-none transition-all placeholder-muted"

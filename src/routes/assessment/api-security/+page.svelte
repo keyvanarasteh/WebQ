@@ -83,6 +83,7 @@
                 </div>
                 <input 
                     type="text" 
+                    list="historic-domains"
                     bind:value={domain}
                     placeholder="https://api.target.com/v1"
                     class="w-full bg-[#0a0a0a] border border-glass text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"

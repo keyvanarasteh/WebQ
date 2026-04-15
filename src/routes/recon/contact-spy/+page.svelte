@@ -121,6 +121,7 @@
 					<Search class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-emerald-500" />
 					<input 
 						type="text" 
+						list="historic-domains"
 						bind:value={targetDomain} 
 						placeholder="Enter target domain..."
 						class="w-full bg-background border border-base rounded-lg py-3 pl-10 pr-4 text-primary-text focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all font-mono text-sm"

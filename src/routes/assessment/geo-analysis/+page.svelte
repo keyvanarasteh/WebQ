@@ -87,6 +87,7 @@
                 </div>
                 <input 
                     type="text" 
+                    list="historic-domains"
                     bind:value={domain}
                     placeholder="https://example.com"
                     class="w-full bg-[#0a0a0a] border border-glass text-primary-text text-sm rounded-xl focus:ring-1 focus:ring-violet-500 focus:border-violet-500 block pl-11 pr-4 py-3.5 transition-all outline-none shadow-inner"

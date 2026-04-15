@@ -47,6 +47,7 @@
               <UploadCloud class="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-accent" />
               <input 
                   type="text" 
+                  list="historic-domains"
                   bind:value={targetDomains} 
                   placeholder="example.com, example2.com"
                   class="w-full bg-background border border-base rounded-lg py-2 pl-10 pr-4 text-primary-text focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-sm"

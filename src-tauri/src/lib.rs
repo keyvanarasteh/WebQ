@@ -349,7 +349,8 @@ pub fn run() {
             scan_ports,
             scan_http_status,
             scan_security_headers,
-            scan_dns_records
+            scan_dns_records,
+            db::get_unique_scanned_domains
         ])
         .run(tauri::generate_context!())
         .expect("error while running WebQ application");

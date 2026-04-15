@@ -96,6 +96,7 @@
 							<input
 								id="domain-input"
 								type="text"
+								list="historic-domains"
 								bind:value={targetDomain}
 								disabled={isScanning}
 								placeholder="e.g. example.com"
