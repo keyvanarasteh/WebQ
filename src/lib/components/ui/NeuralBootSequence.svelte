@@ -8,17 +8,13 @@
 	let show = $state(true);
 
 	onMount(() => {
-		// Timing sequence based on cinematic 3D loading overlay
 		const timers = [
 			setTimeout(() => {
 				splashClass = 'split';
 			}, 1800),
 			setTimeout(() => {
-				splashClass = 'split explode';
-			}, 2500),
-			setTimeout(() => {
-				splashClass = 'split explode fade-out';
-			}, 3000),
+				splashClass = 'split fade-out';
+			}, 2800),
 			setTimeout(() => {
 				show = false;
 				onComplete();

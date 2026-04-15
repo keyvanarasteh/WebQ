@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [54] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~288
+📈 **Progress Statistics:** [55] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~289
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -228,6 +228,7 @@
 - [x] Yöneticiler / C-Level için PDF biçiminde Minimalist Rapor üretimi.
 
 ### 5.3 UX Cila ve Mikro-Etkileşimler
+- [x] Active page highlighting in Sidebar component (SvelteKit `$page.url.pathname`) and animation cuts for NeuralBootSequence (skip explode).
 - [ ] Hover Spotlight efektleri ve LuxeCard component optimizasyonu.
 - [ ] Input (Hedef Domain) kısmına Validasyon (RegEx) eklenmesi.
 - [ ] Klavye kısayolları (Ctrl+K Arama, Ctrl+Enter Tarama başlat) entegrasyonu.
