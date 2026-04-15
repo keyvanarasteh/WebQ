@@ -1,26 +1,46 @@
 <script lang="ts">
   import { Database, Trash2, Download, AlertTriangle } from 'lucide-svelte';
+  import { invoke } from '@tauri-apps/api/core';
+  import { onMount } from 'svelte';
+  import { toast } from 'svelte-sonner';
   
   let showConfirmModal = $state(false);
   let cleaning = $state(false);
   
-  // Simulated stats for database
-  let dbSize = $state("42.8 MB");
-  let totalScans = $state(143);
+  let dbSize = $state("0.00 MB");
+  let totalScans = $state(0);
 
-  function handleBackup() {
-      // Backup mock logic
-      console.log("Backing up database...");
+  async function loadStats() {
+      try {
+          const stats = await invoke<{ size_string: string, total_scans: number }>('get_db_stats');
+          dbSize = stats.size_string;
+          totalScans = stats.total_scans;
+      } catch (err) {
+          console.error("Failed to load DB Stats:", err);
+      }
   }
 
-  function handleClean() {
+  onMount(() => {
+      loadStats();
+  });
+
+  function handleBackup() {
+      // Backup logic reserved
+      toast.info("Database Export", { description: "Coming soon." });
+  }
+
+  async function handleClean() {
       cleaning = true;
-      setTimeout(() => {
+      try {
+          await invoke('nuke_history');
+          toast.success("Database Erased", { description: "All historical scan records destroyed." });
+          await loadStats();
+      } catch (err) {
+          toast.error("Database Wipe Failed", { description: String(err) });
+      } finally {
           cleaning = false;
           showConfirmModal = false;
-          dbSize = "0.1 MB";
-          totalScans = 0;
-      }, 1500);
+      }
   }
 </script>
 

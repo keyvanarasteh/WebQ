@@ -94,13 +94,16 @@
       </div>
   {/if}
 
+  <!-- Terminal stream (only when scanning) -->
   {#if appState.isScanning}
       <div class="mt-8 animate-fade-in">
           <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
       </div>
-  {:else}
-      <!-- Grid always visible; components show placeholder when no data -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
+  {/if}
+
+  <!-- Grid always visible when scanning or finished; components show placeholder when no data / scanning -->
+  {#if appState.isScanning || scanResult}
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in {appState.isScanning ? 'mt-6 opacity-70 pointer-events-none' : ''}">
           <div class="lg:col-span-2">
               <DomainOverview isLoading={appState.isScanning} result={scanResult} />
           </div>

@@ -214,6 +214,8 @@ pub fn run() {
             db::get_scans_paginated,
             db::delete_scan,
             db::get_scan_blob_details,
+            db::get_db_stats,
+            db::nuke_history,
             check_dependencies,
             system_health::check_dependency,
             get_system_status,

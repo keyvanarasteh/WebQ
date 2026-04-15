@@ -221,3 +221,52 @@ pub async fn log_scan_to_db(
 
     Ok(scan_id)
 }
+
+#[derive(Serialize)]
+pub struct DbStats {
+    pub size_string: String,
+    pub total_scans: i64,
+}
+
+#[tauri::command]
+pub async fn get_db_stats(
+    pool: State<'_, SqlitePool>,
+    app_handle: AppHandle
+) -> Result<DbStats, AppError> {
+    let row: (i64,) = sqlx::query_as("SELECT COUNT(*) FROM scans")
+        .fetch_one(&*pool)
+        .await
+        .unwrap_or((0,));
+        
+    let app_dir = app_handle
+        .path()
+        .app_data_dir()
+        .unwrap_or_else(|_| std::path::PathBuf::from("."));
+    let db_path = app_dir.join("webq_telemetry.db");
+    
+    let size_bytes = if db_path.exists() {
+        std::fs::metadata(&db_path).map(|m| m.len()).unwrap_or(0)
+    } else {
+        0
+    };
+    
+    let size_mb = size_bytes as f64 / 1_048_576.0;
+    
+    Ok(DbStats {
+        size_string: format!("{:.2} MB", size_mb),
+        total_scans: row.0,
+    })
+}
+
+#[tauri::command]
+pub async fn nuke_history(pool: State<'_, SqlitePool>) -> Result<(), AppError> {
+    sqlx::query("DELETE FROM scans")
+        .execute(&*pool)
+        .await
+        .map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
+    
+    // Optional: Vacuum to reclaim disk space immediately
+    let _ = sqlx::query("VACUUM;").execute(&*pool).await;
+
+    Ok(())
+}
