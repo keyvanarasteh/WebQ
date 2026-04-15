@@ -177,5 +177,21 @@
               </div>
           {/if}
       </div>
+  {:else}
+      <!-- Pending / placeholder state -->
+      <div class="flex items-center justify-between mb-5">
+          <h3 class="text-lg font-bold text-accent flex items-center gap-2">
+              <Globe class="size-5" />
+              Infrastructure Overview
+          </h3>
+          <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_domain_overview_title()}>
+              <HelpCircle class="size-4" />
+          </button>
+      </div>
+      <div class="border-2 border-dashed border-base rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[200px]">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <Globe class="size-10 text-muted/30" />
+          <p class="text-sm text-muted">{m.intel_pending_msg()}</p>
+      </div>
   {/if}
 </div>

@@ -104,7 +104,7 @@
       <div class="mt-8 animate-fade-in">
           <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
       </div>
-  {:else if scanResult}
+  {:else}
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
           <div class="lg:col-span-2">
               <DnsRecordsBoard records={scanResult?.records} isLoading={appState.isScanning} />

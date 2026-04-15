@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Info } from 'lucide-svelte';
-  import SeoGuide from '$lib/components/recon/guides/SeoGuide.svelte';
+  import { HelpCircle } from 'lucide-svelte';
+  import BasicSeoGuide from './BasicSeoGuide.svelte';
   import * as m from '$lib/paraglide/messages';
   import type { BasicSeoResult } from '$lib/types/intelligence';
 
@@ -10,7 +10,7 @@
   };
 
   let { data, isLoading }: Props = $props();
-  let isGuideOpen = $state(false);
+  let guideOpen = $state(false);
 
   function statusBadge(status: string): string {
       if (status === 'Good') return 'bg-green-500/10 text-green-400 border-green-500/30';
@@ -19,12 +19,12 @@
   }
 </script>
 
+<BasicSeoGuide bind:isOpen={guideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm h-full">
-  <SeoGuide bind:isOpen={isGuideOpen} />
-  
   <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-accent">{m.seo_basic_meta_data()}</h3>
-      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_basic_seo_title()}><HelpCircle class="size-4" /></button>
   </div>
   
   {#if isLoading}
@@ -79,6 +79,9 @@
         </div>
     </div>
   {:else}
-      <div class="text-muted text-sm py-4">{m.seo_no_data()}</div>
+      <div class="border-2 border-dashed border-base rounded-xl p-6 flex flex-col items-center justify-center gap-3 text-center">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <p class="text-sm text-muted">{m.intel_pending_msg()}</p>
+      </div>
   {/if}
 </div>

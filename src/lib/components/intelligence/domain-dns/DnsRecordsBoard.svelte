@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Info } from 'lucide-svelte';
-  import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
+  import { HelpCircle } from 'lucide-svelte';
+  import DnsRecordsBoardGuide from './DnsRecordsBoardGuide.svelte';
   import * as m from '$lib/paraglide/messages';
   type DnsRecordsMap = {
       a: string[];
@@ -25,14 +25,12 @@
   let activeRecords = $derived(records ? (records[activeTab.toLowerCase() as keyof DnsRecordsMap] || []) : []);
 </script>
 
+<DnsRecordsBoardGuide bind:isOpen={isGuideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all h-full">
-  <DnsGuide bind:isOpen={isGuideOpen} />
-  
   <div class="flex items-center justify-between mb-4 border-b border-base pb-2">
-      <div class="flex items-center gap-2">
-          <h3 class="text-lg font-bold text-accent">{m.dns_records_board_title()}</h3>
-          <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
-      </div>
+      <h3 class="text-lg font-bold text-accent">{m.dns_records_board_title()}</h3>
+      <button onclick={() => isGuideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_dns_records_title()}><HelpCircle class="size-4" /></button>
   </div>
 
   {#if isLoading}

@@ -1,5 +1,7 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages';
+  import { HelpCircle } from 'lucide-svelte';
+  import DnsSecurityCheckGuide from './DnsSecurityCheckGuide.svelte';
   type DnsRecordsMap = {
       txt: string[];
   };
@@ -10,14 +12,22 @@
   };
 
   let { records, isLoading }: Props = $props();
+  let guideOpen = $state(false);
 
   let txtRecords = $derived(records?.txt || []);
   let hasSpf = $derived(txtRecords.some((r: string) => r.toLowerCase().includes('v=spf1')));
   let hasDmarc = $derived(txtRecords.some((r: string) => r.toLowerCase().includes('v=dmarc1')));
 </script>
 
+<DnsSecurityCheckGuide bind:isOpen={guideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all">
-  <h3 class="text-lg font-bold text-accent mb-6">{m.dns_security_policies_title()}</h3>
+  <div class="flex items-center justify-between mb-6">
+      <h3 class="text-lg font-bold text-accent">{m.dns_security_policies_title()}</h3>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_dns_security_title()}>
+          <HelpCircle class="size-4" />
+      </button>
+  </div>
 
   {#if isLoading}
       <div class="space-y-4">

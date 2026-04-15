@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { SecurityInfo } from '$lib/types/intelligence';
-  import { ShieldCheck, ShieldX, ArrowRight } from 'lucide-svelte';
+  import { ShieldCheck, ShieldX, ArrowRight, HelpCircle } from 'lucide-svelte';
+  import * as m from '$lib/paraglide/messages';
+  import SecurityDetailsGuide from './SecurityDetailsGuide.svelte';
 
   type Props = {
       isLoading: boolean;
@@ -9,6 +11,7 @@
   };
 
   let { isLoading, security, score }: Props = $props();
+  let guideOpen = $state(false);
 
   const HEADER_LABELS: Record<string, string> = {
       'strict-transport-security': 'HSTS',
@@ -21,11 +24,18 @@
   const ALL_HEADERS = ['strict-transport-security', 'x-frame-options', 'x-content-type-options', 'x-xss-protection', 'content-security-policy'];
 </script>
 
+<SecurityDetailsGuide bind:isOpen={guideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all duration-300">
-  <h3 class="text-lg font-bold text-accent mb-4 flex items-center gap-2">
-      <ShieldCheck class="size-5" />
-      Security Assessment
-  </h3>
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-accent flex items-center gap-2">
+          <ShieldCheck class="size-5" />
+          Security Assessment
+      </h3>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_security_headers_title()}>
+          <HelpCircle class="size-4" />
+      </button>
+  </div>
 
   {#if isLoading}
       <div class="space-y-3 animate-pulse">
@@ -76,6 +86,12 @@
                   </div>
               {/each}
           </div>
+      </div>
+  {:else}
+      <div class="border-2 border-dashed border-base rounded-xl p-6 flex flex-col items-center justify-center gap-3 text-center">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <ShieldCheck class="size-8 text-muted/30" />
+          <p class="text-sm text-muted">{m.intel_pending_msg()}</p>
       </div>
   {/if}
 </div>

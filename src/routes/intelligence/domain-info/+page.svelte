@@ -98,8 +98,8 @@
       <div class="mt-8 animate-fade-in">
           <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
       </div>
-  {:else if scanResult}
-      <!-- Adaptive Grid Layout -->
+  {:else}
+      <!-- Grid always visible; components show placeholder when no data -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
           <div class="lg:col-span-2">
               <DomainOverview isLoading={appState.isScanning} result={scanResult} />

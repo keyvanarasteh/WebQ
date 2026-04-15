@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { SslInfo } from '$lib/types/intelligence';
-  import { ShieldCheck, ShieldAlert, ShieldX, Lock } from 'lucide-svelte';
+  import { ShieldCheck, ShieldAlert, ShieldX, Lock, HelpCircle } from 'lucide-svelte';
+  import * as m from '$lib/paraglide/messages';
+  import SslStatusGuide from './SslStatusGuide.svelte';
 
   type Props = {
       isLoading: boolean;
@@ -8,6 +10,7 @@
   };
 
   let { isLoading, ssl }: Props = $props();
+  let guideOpen = $state(false);
 
   let statusColor = $derived(
       ssl?.status === 'Valid' ? 'text-green-400 border-green-500' :
@@ -22,11 +25,18 @@
   );
 </script>
 
+<SslStatusGuide bind:isOpen={guideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all duration-300">
-  <h3 class="text-lg font-bold text-accent mb-4 flex items-center gap-2">
-      <Lock class="size-5" />
-      SSL & Cryptography
-  </h3>
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-accent flex items-center gap-2">
+          <Lock class="size-5" />
+          SSL & Cryptography
+      </h3>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_ssl_title()}>
+          <HelpCircle class="size-4" />
+      </button>
+  </div>
 
   {#if isLoading}
       <div class="space-y-4 animate-pulse">
@@ -94,5 +104,11 @@
               </div>
           </div>
       {/if}
+  {:else}
+      <div class="border-2 border-dashed border-base rounded-xl p-6 flex flex-col items-center justify-center gap-3 text-center">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <Lock class="size-8 text-muted/30" />
+          <p class="text-sm text-muted">{m.intel_pending_msg()}</p>
+      </div>
   {/if}
 </div>
