@@ -11,7 +11,7 @@
         { name: 'Intelligence', path: '/intelligence/domain-info', icon: Search },
         { name: 'Reconnaissance', path: '/recon', icon: Target },
         { name: 'Security Assessment', path: '/assessment/security-posture', icon: Network },
-        { name: 'WHOIS Roadmap', path: '/roadmap', icon: Database },
+        { name: 'Roadmap', path: '/roadmap', icon: Database },
         { name: 'Settings', path: '/settings', icon: Settings },
         { name: 'About & Feedback', path: '/about', icon: Info },
     ];
