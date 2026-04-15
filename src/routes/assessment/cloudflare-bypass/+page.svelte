@@ -125,13 +125,19 @@
 
     {#if scanResult}
         <div transition:slide class="pt-4">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-2">
                 <h3 class="text-xl font-medium text-primary-text flex items-center gap-2">
                     Evaluation Results
                 </h3>
-                <div class="text-sm text-muted">
+                <div class="text-sm text-muted flex items-center flex-wrap gap-2">
+                    {#if scanResult.cloudflare_protected}
+                        <span class="text-xs uppercase font-bold tracking-wider text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded">Behind Cloudflare</span>
+                    {:else}
+                        <span class="text-xs uppercase font-bold tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">No WAF Detected</span>
+                    {/if}
+                    <span class="px-1 text-subtle">|</span>
                     {m.sec_cfbypass_stats({ count: scanResult.found_ips.length })}
-                    <span class="mx-2 opacity-30">|</span>
+                    <span class="px-1 text-subtle">|</span>
                     Scan time: {scanResult.scan_time_ms}ms
                 </div>
             </div>

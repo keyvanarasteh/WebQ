@@ -139,21 +139,41 @@
   {#if scanResult}
     <div class="space-y-4">
       <!-- Stats Banner -->
-      <div class="flex items-center justify-between p-4 rounded-xl border border-subtle bg-[#14171C]">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-xl border border-subtle bg-[#14171C] gap-4">
         <div class="flex items-center gap-3">
           <div class="p-2 rounded-lg bg-rose-500/10 text-rose-400">
             <RefreshCw size={20} />
           </div>
           <div>
-            <div class="text-primary-text font-medium">Scan Complete</div>
-            <div class="text-sm text-muted">
+            <div class="text-primary-text font-medium text-sm sm:text-base">Scan Complete</div>
+            <div class="text-xs sm:text-sm text-muted mt-1 flex flex-wrap items-center gap-2">
               {m.sec_takeover_stats({ count: scanResult.statistics.subdomains_scanned, vuln: scanResult.statistics.vulnerable_count })}
-              <span class="ml-2 text-muted">
-                (Time: {scanResult.statistics.scan_time_secs.toFixed(2)}s)
-              </span>
+              <span class="text-subtle">|</span>
+              <span class="text-indigo-400">{scanResult.statistics.services_checked} Services Checked</span>
+              <span class="text-subtle">|</span>
+              <span>{scanResult.statistics.scan_time_secs.toFixed(2)}s</span>
             </div>
           </div>
         </div>
+        {#if scanResult.statistics.vulnerable_count > 0}
+            <div class="flex items-center gap-2">
+              {#if scanResult.statistics.high_confidence > 0}
+                  <div class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded border border-rose-500/20 bg-rose-500/10 text-rose-400">
+                      {scanResult.statistics.high_confidence} High
+                  </div>
+              {/if}
+              {#if scanResult.statistics.medium_confidence > 0}
+                  <div class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded border border-orange-500/20 bg-orange-500/10 text-orange-400">
+                      {scanResult.statistics.medium_confidence} Med
+                  </div>
+              {/if}
+              {#if scanResult.statistics.low_confidence > 0}
+                  <div class="px-2.5 py-1 text-xs font-bold uppercase tracking-wider rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                      {scanResult.statistics.low_confidence} Low
+                  </div>
+              {/if}
+            </div>
+        {/if}
       </div>
 
       <!-- Takeover Grid -->

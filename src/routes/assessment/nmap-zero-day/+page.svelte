@@ -6,6 +6,7 @@
     import NmapPortsGrid from '$lib/components/assessment/nmap-zero-day/NmapPortsGrid.svelte';
     import NmapVulnGrid from '$lib/components/assessment/nmap-zero-day/NmapVulnGrid.svelte';
     import NmapGuide from '$lib/components/assessment/nmap-zero-day/NmapGuide.svelte';
+    import DnsInfoGrid from '$lib/components/assessment/nmap-zero-day/DnsInfoGrid.svelte';
     import { HelpCircle } from 'lucide-svelte';
     import { fade } from 'svelte/transition';
     import { listen, type UnlistenFn } from '@tauri-apps/api/event';
@@ -122,16 +123,40 @@
         </div>
     {/if}
 
+    <!-- Empty/Loading State -->
+    {#if !result && !error}
+        {#if loading}
+            <ScanTerminal 
+                logs={logs} 
+                progressPercent={progressPercent}
+            />
+        {:else}
+            <div class="flex flex-col items-center justify-center flex-1 min-h-[400px] border border-dashed rounded-xl border-glass bg-glass">
+                <Crosshair class="w-16 h-16 mb-6 text-tertiary-text" />
+                <h3 class="text-xl font-medium text-secondary-text mb-2">{m.val_waiting()}</h3>
+                <p class="text-muted text-center max-w-sm">Enter a target domain or IP address above to perform advanced Nmap mapping.</p>
+            </div>
+        {/if}
+    {/if}
+
     <!-- Result Layout -->
     {#if result}
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
             
             <div class="flex flex-col gap-6">
-                <!-- IP Meta Data -->
-                <div class="flex items-center gap-3 bg-glass border border-subtle rounded-xl p-4">
-                    <span class="text-muted text-sm">{m.sec_nmap_ip_resolved()}:</span>
-                    <span class="font-mono text-primary-text tracking-widest">{result.ip}</span>
+                <!-- IP Meta Data & Timing -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex flex-col gap-1 bg-glass border border-subtle rounded-xl p-4">
+                        <span class="text-muted text-xs uppercase tracking-wider">{m.sec_nmap_ip_resolved()}</span>
+                        <span class="font-mono text-primary-text tracking-widest">{result.ip}</span>
+                    </div>
+                    <div class="flex flex-col gap-1 bg-glass border border-subtle rounded-xl p-4">
+                        <span class="text-muted text-xs uppercase tracking-wider">Scan Duration</span>
+                        <span class="font-mono text-emerald-400 tracking-widest">{result.scan_time_secs.toFixed(2)}s</span>
+                    </div>
                 </div>
+
+                <DnsInfoGrid dnsInfo={result.dns_info} />
 
                 <!-- Ports Configuration -->
                 <div class="flex flex-col gap-3">

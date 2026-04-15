@@ -9,6 +9,10 @@
     import CorsCookieAnalysis from '$lib/components/assessment/security-posture/CorsCookieAnalysis.svelte';
     import HeadersAnalysis from '$lib/components/assessment/security-posture/HeadersAnalysis.svelte';
     import SecurityPostureGuide from '$lib/components/assessment/security-posture/SecurityPostureGuide.svelte';
+    import SslAnalysisGrade from '$lib/components/assessment/security-posture/SslAnalysisGrade.svelte';
+    import HttpMethodsInfo from '$lib/components/assessment/security-posture/HttpMethodsInfo.svelte';
+    import ServerInfoGrid from '$lib/components/assessment/security-posture/ServerInfoGrid.svelte';
+    import VulnScanLog from '$lib/components/assessment/security-posture/VulnScanLog.svelte';
     import { fade } from 'svelte/transition';
     import { listen, type UnlistenFn } from '@tauri-apps/api/event';
     import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
@@ -17,11 +21,15 @@
     type SecurityAnalysisResult = {
         domain: string;
         https_available: boolean;
+        https_redirect: boolean;
         waf_detection: any;
         security_headers: any;
         ssl_analysis: any;
         cors_policy: any;
         cookie_security: any;
+        http_methods: any;
+        server_information: any;
+        vulnerability_scan: any;
         security_score: any;
         recommendations: string[];
     };
@@ -144,19 +152,25 @@
                     grade={results.security_score.grade}
                     riskLevel={results.security_score.risk_level}
                     recommendations={results.recommendations}
+                    httpsAvailable={results.https_available}
+                    httpsRedirect={results.https_redirect}
                 />
                 <WafBypassStatus wafResult={results.waf_detection} />
             </div>
 
             <!-- Right Column: Micro Analysis -->
             <div class="space-y-6 lg:col-span-2">
+                <SslAnalysisGrade ssl={results.ssl_analysis} />
+                <ServerInfoGrid serverInfo={results.server_information} />
                 <CorsCookieAnalysis 
                     corsPolicy={results.cors_policy}
                     cookieSecurity={results.cookie_security}
                 />
+                <HttpMethodsInfo methods={results.http_methods} />
                 <HeadersAnalysis 
                     headersAnalysis={results.security_headers}
                 />
+                <VulnScanLog vulnScan={results.vulnerability_scan} />
             </div>
         </div>
     {/if}

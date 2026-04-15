@@ -51,6 +51,9 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 align-top text-muted text-sm leading-relaxed max-w-xl">
+                            <div class="mb-2">
+                                <span class="px-2 py-0.5 text-[9px] uppercase tracking-wider border border-subtle text-primary-text rounded bg-surface/50">TYPE: {v.vuln_type}</span>
+                            </div>
                             {v.description}
                             {#if v.id !== 'N/A' && v.source === 'NVD'}
                                 <div class="mt-2 text-xs">

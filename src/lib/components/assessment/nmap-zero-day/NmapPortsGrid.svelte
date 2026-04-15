@@ -11,8 +11,9 @@
             <thead class="bg-glass border-b border-glass text-muted font-medium">
                 <tr>
                     <th class="px-6 py-4">{m.sec_nmap_col_port()}</th>
+                    <th class="px-6 py-4">State</th>
                     <th class="px-6 py-4">{m.sec_nmap_col_service()}</th>
-                    <th class="px-6 py-4">{m.sec_nmap_col_version()}</th>
+                    <th class="px-6 py-4">{m.sec_nmap_col_version()} & CPE</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-subtle">
@@ -27,21 +28,37 @@
                             </div>
                         </td>
                         <td class="px-6 py-4">
+                            <span class={`px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider rounded ${p.state === 'open' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30'}`}>
+                                {p.state}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
                             <span class="px-2.5 py-1 text-xs font-mono rounded-md bg-glass text-primary-text border border-glass">
                                 {p.service || 'unknown'}
                             </span>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex items-center gap-2 text-muted">
-                                <TerminalSquare size={14} />
-                                <span>{p.product || 'N/A'} {p.version}</span>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-2 text-muted">
+                                    <TerminalSquare size={14} />
+                                    <span>{p.product || 'N/A'} {p.version}</span>
+                                </div>
+                                {#if p.cpe && p.cpe.length > 0}
+                                    <div class="flex flex-wrap gap-1">
+                                        {#each p.cpe as cp}
+                                            <span class="text-[9px] font-mono text-indigo-300 bg-indigo-500/10 px-1.5 py-[1px] rounded border border-indigo-500/20">
+                                                {cp}
+                                            </span>
+                                        {/each}
+                                    </div>
+                                {/if}
                             </div>
                         </td>
                     </tr>
                 {/each}
                 {#if ports.length === 0}
                     <tr>
-                        <td colspan="3" class="px-6 py-12 text-center text-muted">
+                        <td colspan="4" class="px-6 py-12 text-center text-muted">
                             No open ports discovered. The server might be blocking ping or heavily firewalled.
                         </td>
                     </tr>

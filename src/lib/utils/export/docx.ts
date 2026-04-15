@@ -46,7 +46,9 @@ export async function exportToDocx(domain: string, reportData: Record<string, un
                 
                 if (Array.isArray(moduleData)) {
                     if (moduleData.length === 0) {
-                        children.push(new Paragraph({ text: "No data found.", color: "666666" }));
+                        children.push(new Paragraph({ 
+                            children: [ new TextRun({ text: "No data found.", color: "666666" }) ]
+                        }));
                     } else if (typeof moduleData[0] === 'object' && moduleData[0] !== null) {
                         const keys = Object.keys(moduleData[0]);
                         

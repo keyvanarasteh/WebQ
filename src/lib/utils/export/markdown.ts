@@ -51,7 +51,10 @@ function generateMarkdown(domain: string, data: Record<string, unknown>): string
 }
 
 function generateTable(items: Record<string, unknown>[]): string {
-    const keys = Object.keys(items[0]);
+    if (!items || items.length === 0) return '';
+    const firstItem = items[0];
+    if (!firstItem) return '';
+    const keys = Object.keys(firstItem);
     let md = `| ${keys.join(' | ')} |\n`;
     md += `| ${keys.map(() => '---').join(' | ')} |\n`;
     for (const item of items) {

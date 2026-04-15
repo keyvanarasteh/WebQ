@@ -2,11 +2,13 @@
     import * as m from '$lib/paraglide/messages';
     import { Shield, ShieldAlert, ShieldCheck } from 'lucide-svelte';
 
-    let { score, grade, riskLevel, recommendations }: {
+    let { score, grade, riskLevel, recommendations, httpsAvailable, httpsRedirect }: {
         score: number,
         grade: string,
         riskLevel: string,
-        recommendations: string[]
+        recommendations: string[],
+        httpsAvailable: boolean,
+        httpsRedirect: boolean
     } = $props();
 
     let isHighRisk = $derived(score < 50);
@@ -32,9 +34,29 @@
             {/if}
             {m.sec_posture_grade()}
         </h3>
-        <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full {isHighRisk ? 'bg-red-500/20 text-red-300' : 'bg-emerald-500/20 text-emerald-300'}">
-            {m.sec_posture_risk({ risk: riskLevel })}
-        </span>
+        <div class="flex items-center gap-2">
+            {#if httpsAvailable}
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                    HTTPS
+                </span>
+            {:else}
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-red-500/20 bg-red-500/10 text-red-400">
+                    NO HTTPS
+                </span>
+            {/if}
+            {#if httpsRedirect}
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
+                    HSTS
+                </span>
+            {:else}
+                <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-yellow-500/20 bg-yellow-500/10 text-yellow-400">
+                    NO REDIRECT
+                </span>
+            {/if}
+            <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-full {isHighRisk ? 'bg-red-500/20 text-red-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                {m.sec_posture_risk({ risk: riskLevel })}
+            </span>
+        </div>
     </div>
 
     <div class="flex flex-col items-center justify-center py-6 mb-8 border-b border-glass">

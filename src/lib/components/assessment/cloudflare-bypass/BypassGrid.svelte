@@ -27,11 +27,18 @@
                 {#each ips as item (item.ip + item.source)}
                     <tr class="hover:bg-glass-hover transition-colors group">
                         <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-red-400/10 flex items-center justify-center text-red-400 border border-red-400/20">
-                                    <ShieldAlert size={16} />
+                            <div class="flex flex-col gap-1.5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-red-400/10 flex items-center justify-center text-red-400 border border-red-400/20">
+                                        <ShieldAlert size={16} />
+                                    </div>
+                                    <span class="font-mono text-primary-text group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{item.ip}</span>
                                 </div>
-                                <span class="font-mono text-primary-text group-hover:text-red-400 transition-colors drop-shadow-[0_0_8px_rgba(248,113,113,0.3)]">{item.ip}</span>
+                                {#if item.description}
+                                    <div class="text-[11px] text-muted pl-11">
+                                        {item.description}
+                                    </div>
+                                {/if}
                             </div>
                         </td>
                         <td class="px-6 py-4">

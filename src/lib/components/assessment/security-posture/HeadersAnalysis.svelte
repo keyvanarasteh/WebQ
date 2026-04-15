@@ -61,14 +61,24 @@
             <h4 class="text-xs font-semibold text-muted uppercase tracking-widest mb-3">Active Headers</h4>
             <div class="space-y-1">
                 {#each presentHeaders as [key, value] (key)}
-                    <div class="flex justify-between items-center py-2 border-b border-subtle last:border-0 group">
-                        <div class="flex items-center gap-2">
-                            <CheckCircle2 class="w-3.5 h-3.5 text-emerald-400" />
-                            <span class="text-xs font-mono text-secondary-text">{key}</span>
+                    <div class="flex flex-col gap-2 py-3 border-b border-subtle last:border-0 group">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <CheckCircle2 class="w-3.5 h-3.5 text-emerald-400" />
+                                <span class="text-xs font-mono font-medium text-primary-text">{key}</span>
+                            </div>
+                            <span class="text-xs font-mono text-cyan-300/80 truncate max-w-[150px] sm:max-w-xs group-hover:text-cyan-300 transition-colors cursor-help" title={value.value}>
+                                {value.value}
+                            </span>
                         </div>
-                        <span class="text-xs font-mono text-cyan-300/80 truncate max-w-[150px] sm:max-w-xs group-hover:text-cyan-300 transition-colors cursor-help" title={value.value}>
-                            {value.value}
-                        </span>
+                        <div class="flex justify-end gap-2 pr-2">
+                            <span class="px-2 py-[2px] rounded text-[9px] uppercase tracking-wider font-bold border border-surface bg-surface/50 text-muted">
+                                {value.importance}
+                            </span>
+                            <span class={`px-2 py-[2px] rounded text-[9px] uppercase tracking-wider font-bold border ${value.security_level === 'High' ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400' : 'border-indigo-500/20 bg-indigo-500/10 text-indigo-400'}`}>
+                                {value.security_level} Posture
+                            </span>
+                        </div>
                     </div>
                 {/each}
             </div>
