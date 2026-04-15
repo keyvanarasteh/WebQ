@@ -4,6 +4,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>WebQ Platform</title>
+    <style>
+      .q-error-toast { position: fixed; top: 10px; right: 10px; background: rgba(220, 38, 38, 0.9); color: white; padding: 15px; z-index: 999999; font-family: monospace; font-size: 11px; max-width: 400px; word-break: break-all; border-radius: 8px; border: 1px solid #fca5a5; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5); }
+    </style>
+    <script>
+      function showWebQError(source, msg) {
+        let div = document.createElement('div');
+        div.className = 'q-error-toast';
+        div.innerHTML = '<b>' + source + '</b><br>' + msg;
+        document.body.appendChild(div);
+      }
+      window.onerror = function(msg, url, line, col, error) {
+        showWebQError('FATAL JS ERROR', msg + '<br>L:' + line + ':' + col);
+      };
+      window.addEventListener('unhandledrejection', function(event) {
+        showWebQError('UNHANDLED REJECTION', event.reason);
+      });
+      const originalError = console.error;
+      console.error = function() {
+        originalError.apply(console, arguments);
+        let msg = Array.from(arguments).map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+        if (msg.includes('ScanProgressEvent') || msg.includes('vite')) return;
+        showWebQError('CONSOLE ERROR', msg);
+      };
+    </script>
     %sveltekit.head%
   </head>
   <body class="bg-[#09090b] text-white min-h-screen antialiased">
