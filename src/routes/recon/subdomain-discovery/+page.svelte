@@ -255,9 +255,23 @@
 
 		<!-- Content Area -->
 		<div class="flex-1 p-4 overflow-y-auto min-h-[350px]">
-			<div in:fade>
-				<SubdomainGrid data={scanResult?.subdomains ?? null} isPending={!scanResult} />
-			</div>
+			<svelte:boundary>
+				{#snippet failed(error, reset)}
+					{@const e = error as Error}
+					<div class="p-8 border border-rose-500/50 bg-rose-500/10 rounded-xl flex flex-col items-start gap-4">
+						<h3 class="text-rose-400 font-bold uppercase tracking-widest text-sm">Grid Rendering Fatal Error</h3>
+						<code class="text-xs text-rose-300 font-mono bg-background p-4 w-full overflow-x-auto rounded">
+							{e.message}
+							{e.stack}
+						</code>
+						<button onclick={reset} class="px-4 py-2 bg-rose-500 hover:bg-rose-400 text-white rounded font-bold text-xs uppercase">Retry Rendering</button>
+					</div>
+				{/snippet}
+
+				<div in:fade>
+					<SubdomainGrid data={scanResult?.subdomains ?? null} isPending={!scanResult} />
+				</div>
+			</svelte:boundary>
 		</div>
 	</div>
 </div>
