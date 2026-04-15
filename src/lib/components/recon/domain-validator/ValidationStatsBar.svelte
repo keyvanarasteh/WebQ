@@ -1,5 +1,7 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages';
+  import { Info } from 'lucide-svelte';
+  import ValidatorGuide from '$lib/components/recon/guides/ValidatorGuide.svelte';
   type ValidationStats = {
       total: number;
       valid: number;
@@ -8,16 +10,22 @@
   };
   
   let { stats, isLoading } = $props<{ stats: ValidationStats | undefined, isLoading: boolean }>();
+  let isGuideOpen = $state(false);
   
   let validPercent = $derived(stats && stats.total > 0 ? (stats.valid / stats.total) * 100 : 0);
   let invalidPercent = $derived(stats && stats.total > 0 ? (stats.invalid / stats.total) * 100 : 0);
 </script>
 
+<ValidatorGuide bind:isOpen={isGuideOpen} />
+
 <div class="bg-background/5 bg-background border border-base rounded-xl p-6 shadow-sm mb-6">
   <div class="flex justify-between items-center mb-6 border-b border-base pb-4">
-      <h3 class="text-lg font-bold text-accent">{m.val_diagnostics_title()}</h3>
+      <div class="flex items-center gap-2">
+          <h3 class="text-lg font-bold text-accent">{m.val_diagnostics_title()}</h3>
+          <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
+      </div>
       {#if isLoading}
-          <span class="text-xs text-accent text-accent animate-pulse font-mono font-bold tracking-widest">{m.val_running()}</span>
+          <span class="text-xs text-accent animate-pulse font-mono font-bold tracking-widest">{m.val_running()}</span>
       {/if}
   </div>
 
@@ -48,8 +56,9 @@
           <div class="h-full bg-red-500 transition-all duration-1000" style="width: {invalidPercent}%"></div>
       </div>
   {:else}
-      <div class="text-muted text-sm font-mono text-center py-4 bg-background border border-base rounded-lg">
-          {m.val_prompt()}
+      <div class="flex flex-col items-center justify-center py-8 text-muted border border-dashed border-base rounded-lg bg-background/50">
+          <p class="text-sm font-fira tracking-widest uppercase font-bold text-base-text mb-1">Stats Waiting</p>
+          <p class="text-xs text-center max-w-[250px]">{m.val_prompt()}</p>
       </div>
   {/if}
 </div>

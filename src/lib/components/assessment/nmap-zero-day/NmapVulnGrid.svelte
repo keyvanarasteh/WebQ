@@ -1,8 +1,11 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { Bug, ExternalLink } from 'lucide-svelte';
+    import { Bug, ExternalLink, HelpCircle } from 'lucide-svelte';
+    import NmapVulnGridGuide from './NmapVulnGridGuide.svelte';
 
     let { vulns = [] }: { vulns: Array<{id: string, source: string, vuln_type: string, description: string, severity: {level: string, score: number}}> } = $props();
+
+    let guideOpen = $state(false);
 
     function getSeverityStyles(level: string) {
         if (level === 'Critical') return 'bg-red-500/20 text-red-400 border-red-500/30';
@@ -21,7 +24,17 @@
     }
 </script>
 
+<NmapVulnGridGuide bind:isOpen={guideOpen} />
 <div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
+    <div class="px-4 py-3 border-b border-subtle flex items-center justify-between bg-glass">
+        <div class="flex items-center gap-2">
+            <Bug size={16} class="text-red-400" />
+            <span class="text-sm font-medium text-primary-text tracking-wide uppercase">CVE Correlations</span>
+        </div>
+        <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all" title="How this works">
+            <HelpCircle class="size-4" />
+        </button>
+    </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-primary-text">
             <thead class="bg-glass border-b border-glass text-muted font-medium whitespace-nowrap">

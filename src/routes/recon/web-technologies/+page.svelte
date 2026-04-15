@@ -62,15 +62,13 @@
       </div>
   </div>
 
-  {#if scanResult || appState.isScanning}
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <TechStackGrid data={scanResult} isLoading={appState.isScanning} />
-          <WordPressScanner data={scanResult?.wp_analysis} isLoading={appState.isScanning} />
-          
-          <!-- SecurityHeadersList already has col-span-full in its container -->
-          <SecurityHeadersList data={scanResult?.security_headers} isLoading={appState.isScanning} />
-      </div>
-  {/if}
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <TechStackGrid data={scanResult ?? undefined} isLoading={appState.isScanning} />
+      <WordPressScanner data={scanResult?.wp_analysis ?? undefined} isLoading={appState.isScanning} />
+      
+      <!-- SecurityHeadersList already has col-span-full in its container -->
+      <SecurityHeadersList data={scanResult?.security_headers ?? undefined} isLoading={appState.isScanning} />
+  </div>
 </div>
 
 <TechStackGuide bind:isOpen={showGuide} />

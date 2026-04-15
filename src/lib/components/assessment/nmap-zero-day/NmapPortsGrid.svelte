@@ -1,11 +1,24 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { ServerCog, TerminalSquare } from 'lucide-svelte';
+    import { ServerCog, TerminalSquare, HelpCircle } from 'lucide-svelte';
+    import NmapPortsGridGuide from './NmapPortsGridGuide.svelte';
 
     let { ports = [] }: { ports: Array<{port: number, state: string, service: string, version: string, product?: string, cpe?: string[]}> } = $props();
+
+    let guideOpen = $state(false);
 </script>
 
+<NmapPortsGridGuide bind:isOpen={guideOpen} />
 <div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
+    <div class="px-4 py-3 border-b border-subtle flex items-center justify-between bg-glass">
+        <div class="flex items-center gap-2">
+            <ServerCog size={16} class="text-red-400" />
+            <span class="text-sm font-medium text-primary-text tracking-wide uppercase">Open Ports & Services</span>
+        </div>
+        <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all" title="How this works">
+            <HelpCircle class="size-4" />
+        </button>
+    </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-primary-text">
             <thead class="bg-glass border-b border-glass text-muted font-medium">

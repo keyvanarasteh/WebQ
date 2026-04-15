@@ -62,12 +62,10 @@
       </div>
   </div>
 
-  {#if scanResult || appState.isScanning}
-      <div class="space-y-6">
-          <ValidationStatsBar stats={scanResult?.stats} isLoading={appState.isScanning} />
-          <ValidationDataGrid results={scanResult?.results} isLoading={appState.isScanning} />
-      </div>
-  {/if}
+  <div class="space-y-6">
+      <ValidationStatsBar stats={scanResult?.stats} isLoading={appState.isScanning} />
+      <ValidationDataGrid results={scanResult?.results} isLoading={appState.isScanning} />
+  </div>
 </div>
 
 <ValidatorGuide bind:isOpen={showGuide} />

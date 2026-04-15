@@ -1,15 +1,24 @@
 <script lang="ts">
-    import { Network } from 'lucide-svelte';
+    import { Network, HelpCircle } from 'lucide-svelte';
+    import DnsInfoGridGuide from './DnsInfoGridGuide.svelte';
 
     let { dnsInfo }: { dnsInfo: { ipv4?: string, ipv6?: string } } = $props();
+
+    let guideOpen = $state(false);
 </script>
 
 {#if dnsInfo.ipv4 || dnsInfo.ipv6}
+    <DnsInfoGridGuide bind:isOpen={guideOpen} />
     <div class="flex flex-col gap-3">
-        <h2 class="text-lg font-medium text-primary-text flex items-center gap-2">
-            <Network size={18} class="text-rose-400" />
-            DNS Resolution
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-medium text-primary-text flex items-center gap-2">
+                <Network size={18} class="text-rose-400" />
+                DNS Resolution
+            </h2>
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-red-400 hover:bg-red-500/10 border border-transparent hover:border-red-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
+        </div>
         <div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl p-4">
             <div class="space-y-3">
                 {#if dnsInfo.ipv4}

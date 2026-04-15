@@ -1,8 +1,11 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
     import { CheckCircle2, XCircle, HelpCircle, ShieldAlert } from 'lucide-svelte';
+    import BypassGridGuide from './BypassGridGuide.svelte';
 
     let { ips = [] }: { ips: Array<{ip: string, source: string, confidence: string, description?: string, status?: string}> } = $props();
+
+    let guideOpen = $state(false);
 
     function getConfidenceColor(conf: string) {
         if (conf === 'Very High') return 'text-red-400 bg-red-400/10 border-red-400/20';
@@ -12,7 +15,21 @@
     }
 </script>
 
+<BypassGridGuide bind:isOpen={guideOpen} />
 <div class="mt-6 border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl shadow-2xl">
+    <div class="px-4 py-3 border-b border-subtle flex items-center justify-between bg-glass">
+        <div class="flex items-center gap-2">
+            <ShieldAlert size={16} class="text-violet-400" />
+            <span class="text-sm font-medium text-primary-text tracking-wide uppercase">Origin IP Leak Candidates</span>
+        </div>
+        <button
+            onclick={() => guideOpen = true}
+            class="p-1.5 rounded-lg text-muted hover:text-violet-400 hover:bg-violet-500/10 border border-transparent hover:border-violet-500/20 transition-all"
+            title="How this works"
+        >
+            <HelpCircle class="size-4" />
+        </button>
+    </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left text-sm text-primary-text">
             <thead class="bg-glass border-b border-glass text-muted font-medium">

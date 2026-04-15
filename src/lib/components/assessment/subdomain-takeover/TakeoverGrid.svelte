@@ -1,10 +1,12 @@
 <script lang="ts">
   import TakeoverRiskBadges from './TakeoverRiskBadges.svelte';
+  import TakeoverGridGuide from './TakeoverGridGuide.svelte';
   import * as m from '$lib/paraglide/messages';
-  import { ShieldAlert, Server, Copy, Check, ChevronDown, ChevronRight, Info, AlertTriangle, Network } from 'lucide-svelte';
+  import { ShieldAlert, Server, Copy, Check, ChevronDown, ChevronRight, Info, AlertTriangle, Network, HelpCircle } from 'lucide-svelte';
   
   let { vulnerableSubdomains }: { vulnerableSubdomains: any[] } = $props();
   
+  let guideOpen = $state(false);
   let copiedText = $state<string | null>(null);
   let expandedRows = $state<Set<string>>(new Set());
 
@@ -28,14 +30,20 @@
   }
 </script>
 
+<TakeoverGridGuide bind:isOpen={guideOpen} />
 <div class="rounded-xl border border-subtle bg-[#14171C] overflow-hidden">
   <div class="px-6 py-4 border-b border-subtle flex items-center justify-between">
     <div class="flex items-center gap-2 text-primary-text">
       <ShieldAlert size={16} class="text-rose-500"/>
       <h3 class="font-medium text-sm">Identified Vulnerabilities</h3>
     </div>
-    <div class="text-xs text-muted bg-glass px-2 py-1 rounded-md">
-      {vulnerableSubdomains.length} Found
+    <div class="flex items-center gap-2">
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-amber-400 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20 transition-all" title="How this works">
+        <HelpCircle class="size-4" />
+      </button>
+      <div class="text-xs text-muted bg-glass px-2 py-1 rounded-md">
+        {vulnerableSubdomains.length} Found
+      </div>
     </div>
   </div>
 

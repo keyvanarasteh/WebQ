@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { KeyRound, ShieldAlert, Code, Link2 } from 'lucide-svelte';
+    import { KeyRound, ShieldAlert, Code, Link2, HelpCircle } from 'lucide-svelte';
+    import AdvancedScannerGuide from '$lib/components/recon/advanced-scanner/AdvancedScannerGuide.svelte';
 
     export interface SecretFinding {
         pattern_name: string;
@@ -32,7 +33,13 @@
         summary: { scans_completed: number; total_findings: number };
     }
 
-    let { result }: { result: ScannerResult | null } = $props();
+    interface Props {
+        result: ScannerResult | null;
+        isLoading?: boolean;
+    }
+
+    let { result, isLoading = false }: Props = $props();
+    let isGuideOpen = $state(false);
 
     function formatText(t: string) {
         if (!t) return "";
@@ -49,30 +56,29 @@
     );
 </script>
 
-{#if !result}
-    <div class="flex items-center justify-center p-12 mt-8 border border-dashed rounded-xl border-base text-muted">
-        <p class="text-sm">Initiate a scan to discover advanced content vectors</p>
-    </div>
-{:else if totalEmpty}
-    <div class="flex items-center justify-center p-12 mt-8 border border-dashed rounded-xl border-emerald-900/30 bg-emerald-500/5">
-        <div class="text-center">
-            <ShieldAlert class="w-8 h-8 mx-auto mb-3 text-emerald-500" />
-            <h3 class="font-medium text-emerald-400">{m.recon_scanner_empty()}</h3>
-        </div>
-    </div>
-{:else}
-    <div class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
-        <!-- 1. Secrets Column -->
-        <div class="space-y-4">
-            <div class="flex items-center gap-2 mb-4">
-                <KeyRound class="w-5 h-5 text-fuchsia-400" />
-                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_secrets()} ({result.secrets.length})</h3>
-            </div>
-            
-            {#if result.secrets.length === 0}
-                <p class="text-sm italic text-muted">No secrets found.</p>
-            {/if}
+<AdvancedScannerGuide bind:isOpen={isGuideOpen} />
 
+<div class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2">
+    <!-- 1. Secrets Column -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-fuchsia-500/10">
+            <div class="flex items-center gap-2">
+                <KeyRound class="w-5 h-5 text-fuchsia-400" />
+                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_secrets()} ({result?.secrets.length || 0})</h3>
+            </div>
+            <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-fuchsia-500/10 rounded-full text-fuchsia-400 transition-colors" title="Guide">
+                <HelpCircle class="size-4" />
+            </button>
+        </div>
+        
+        {#if !result}
+            <div class="flex flex-col items-center justify-center py-8 text-muted border border-dashed border-base rounded-lg bg-background/50">
+                <p class="text-sm font-fira tracking-widest uppercase font-bold text-base-text mb-1">Secrets Waiting</p>
+                <p class="text-xs text-center max-w-[200px]">Initiate advanced scan</p>
+            </div>
+        {:else if result.secrets.length === 0}
+            <p class="text-sm italic text-muted">No secrets found.</p>
+        {:else}
             <div class="flex flex-col gap-3">
                 {#each result.secrets as sec (sec.pattern_name + sec.matched_content.substring(0, 10))}
                     <div class="p-4 border border-fuchsia-500/20 bg-fuchsia-500/5 rounded-xl">
@@ -85,19 +91,29 @@
                     </div>
                 {/each}
             </div>
-        </div>
+        {/if}
+    </div>
 
-        <!-- 2. JS Vulnerabilities -->
-        <div class="space-y-4">
-            <div class="flex items-center gap-2 mb-4">
+    <!-- 2. JS Vulnerabilities -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-amber-500/10">
+            <div class="flex items-center gap-2">
                 <Code class="w-5 h-5 text-amber-400" />
-                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_js()} ({result.js_vulnerabilities.length})</h3>
+                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_js()} ({result?.js_vulnerabilities.length || 0})</h3>
             </div>
-            
-            {#if result.js_vulnerabilities.length === 0}
-                <p class="text-sm italic text-muted">No JS vulnerabilities found.</p>
-            {/if}
-
+            <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-amber-500/10 rounded-full text-amber-400 transition-colors" title="Guide">
+                <HelpCircle class="size-4" />
+            </button>
+        </div>
+        
+        {#if !result}
+            <div class="flex flex-col items-center justify-center py-8 text-muted border border-dashed border-base rounded-lg bg-background/50">
+                <p class="text-sm font-fira tracking-widest uppercase font-bold text-base-text mb-1">JS Vectors Waiting</p>
+                <p class="text-xs text-center max-w-[200px]">Initiate advanced scan</p>
+            </div>
+        {:else if result.js_vulnerabilities.length === 0}
+            <p class="text-sm italic text-muted">No JS vulnerabilities found.</p>
+        {:else}
             <div class="flex flex-col gap-3">
                 {#each result.js_vulnerabilities as vuln (vuln.vuln_type + vuln.snippet.substring(0, 10))}
                     <div class="p-4 border border-amber-500/20 bg-amber-500/5 rounded-xl">
@@ -112,19 +128,29 @@
                     </div>
                 {/each}
             </div>
-        </div>
+        {/if}
+    </div>
 
-        <!-- 3. SSRF Findings -->
-        <div class="space-y-4">
-            <div class="flex items-center gap-2 mb-4">
+    <!-- 3. SSRF Findings -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-rose-500/10">
+            <div class="flex items-center gap-2">
                 <ShieldAlert class="w-5 h-5 text-rose-400" />
-                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_ssrf()} ({result.ssrf_vulnerabilities.length})</h3>
+                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_ssrf()} ({result?.ssrf_vulnerabilities.length || 0})</h3>
             </div>
-            
-            {#if result.ssrf_vulnerabilities.length === 0}
-                <p class="text-sm italic text-muted">No SSRF vectors found.</p>
-            {/if}
-
+            <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-rose-500/10 rounded-full text-rose-400 transition-colors" title="Guide">
+                <HelpCircle class="size-4" />
+            </button>
+        </div>
+        
+        {#if !result}
+            <div class="flex flex-col items-center justify-center py-8 text-muted border border-dashed border-base rounded-lg bg-background/50">
+                <p class="text-sm font-fira tracking-widest uppercase font-bold text-base-text mb-1">SSRF Waiting</p>
+                <p class="text-xs text-center max-w-[200px]">Initiate advanced scan</p>
+            </div>
+        {:else if result.ssrf_vulnerabilities.length === 0}
+            <p class="text-sm italic text-muted">No SSRF vectors found.</p>
+        {:else}
             <div class="flex flex-col gap-3">
                 {#each result.ssrf_vulnerabilities as ssrf (ssrf.parameter + ssrf.url)}
                     <div class="p-4 border border-rose-500/20 bg-rose-500/5 rounded-xl">
@@ -139,19 +165,29 @@
                     </div>
                 {/each}
             </div>
-        </div>
+        {/if}
+    </div>
 
-        <!-- 4. API Endpoints -->
-        <div class="space-y-4">
-            <div class="flex items-center gap-2 mb-4">
+    <!-- 4. API Endpoints -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between mb-4 pb-2 border-b border-sky-500/10">
+            <div class="flex items-center gap-2">
                 <Link2 class="w-5 h-5 text-sky-400" />
-                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_apis()} ({result.api_endpoints_discovered.length})</h3>
+                <h3 class="font-medium text-primary-text">{m.recon_scanner_badge_apis()} ({result?.api_endpoints_discovered.length || 0})</h3>
             </div>
-            
-            {#if result.api_endpoints_discovered.length === 0}
-                <p class="text-sm italic text-muted">No API endpoints discovered.</p>
-            {/if}
-
+            <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-sky-500/10 rounded-full text-sky-400 transition-colors" title="Guide">
+                <HelpCircle class="size-4" />
+            </button>
+        </div>
+        
+        {#if !result}
+            <div class="flex flex-col items-center justify-center py-8 text-muted border border-dashed border-base rounded-lg bg-background/50">
+                <p class="text-sm font-fira tracking-widest uppercase font-bold text-base-text mb-1">APIs Waiting</p>
+                <p class="text-xs text-center max-w-[200px]">Initiate advanced scan</p>
+            </div>
+        {:else if result.api_endpoints_discovered.length === 0}
+            <p class="text-sm italic text-muted">No API endpoints discovered.</p>
+        {:else}
             <div class="flex flex-col gap-3">
                 <div class="p-4 border bg-surface/50 border-base rounded-xl">
                     <ul class="space-y-2">
@@ -164,6 +200,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        {/if}
     </div>
-{/if}
+</div>

@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { FolderGit2, Globe, FileTerminal, ChevronRight, ChevronDown } from 'lucide-svelte';
+	import { FolderGit2, Globe, FileTerminal, ChevronRight, ChevronDown, HelpCircle, Network } from 'lucide-svelte';
 	import { slide, fade } from 'svelte/transition';
+	import * as m from '$lib/paraglide/messages';
+	import SubdomainTreeGuide from './SubdomainTreeGuide.svelte';
 	
-	let { data, rootDomain }: { data: string[], rootDomain: string } = $props();
+	let { data, rootDomain, isPending = false }: { data: string[] | null, rootDomain: string, isPending?: boolean } = $props();
+	let guideOpen = $state(false);
 
 	type Node = {
 		name: string;
@@ -13,6 +16,7 @@
 
 	let tree = $derived.by(() => {
 		const root: Node = { name: rootDomain, full: rootDomain, children: {}, isLeaf: true };
+		if (!data) return root;
 		
 		for (const subdomain of data) {
 			if (subdomain === rootDomain) continue;
@@ -46,6 +50,8 @@
 		return root;
 	});
 </script>
+
+<SubdomainTreeGuide bind:isOpen={guideOpen} />
 
 {#snippet treeNode(node: Node, depth: number)}
 	<div class="flex flex-col">
@@ -85,14 +91,26 @@
 	</div>
 {/snippet}
 
-<div class="w-full bg-background rounded-xl border border-base shadow-xl p-4 font-fira text-secondary-text overflow-x-auto">
-	{#if data.length === 0}
-		<div class="flex items-center justify-center py-10 text-sm text-muted">
+<div class="w-full bg-background rounded-xl border border-base shadow-xl p-4 font-fira text-secondary-text overflow-x-auto relative min-h-[300px]">
+	<div class="absolute top-3 right-3 z-10">
+		<button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title="View Guide">
+			<HelpCircle class="size-4" />
+		</button>
+	</div>
+
+	{#if isPending || !data}
+		<div class="flex h-full flex-col items-center justify-center gap-3 text-center min-h-[250px] mt-4">
+			<span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+			<FolderGit2 class="size-10 text-muted/30" />
+			<p class="text-sm text-muted">{m.recon_subdomain_pending()}</p>
+		</div>
+	{:else if data.length === 0}
+		<div class="flex items-center justify-center py-10 text-sm text-muted min-h-[250px]">
 			No tree data to parse.
 		</div>
 	{:else}
-		<div class="flex flex-col">
-			<div class="flex items-center gap-2 py-2 px-3 border-b border-base/80 mb-3 bg-surface rounded-t-lg">
+		<div class="flex flex-col mt-2">
+			<div class="flex items-center gap-2 py-2 px-3 border-b border-base/80 mb-3 bg-surface rounded-t-lg w-max min-w-full">
 				<Globe size={18} class="text-emerald-500" />
 				<span class="font-bold text-emerald-400 tracking-wide text-lg">{tree.name}</span>
 			</div>

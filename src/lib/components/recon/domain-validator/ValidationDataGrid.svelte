@@ -81,13 +81,16 @@
                            </td>
                        </tr>
                    {/each}
-               {:else}
-                   <tr>
-                       <td colspan="5" class="p-12 text-center text-muted text-sm font-mono tracking-wide">
-                           Waiting for targets to be processed.
-                       </td>
-                   </tr>
-               {/if}
+                {:else}
+                    <tr>
+                        <td colspan="5" class="p-12 text-center text-muted text-sm font-mono tracking-wide">
+                            <div class="flex flex-col items-center justify-center py-8 border border-dashed border-base rounded-lg bg-background/50">
+                                <span class="font-bold tracking-widest uppercase mb-1">Grid Waiting</span>
+                                <span class="text-xs text-muted max-w-[200px] text-center">Awaiting targets for validation ledger processing.</span>
+                            </div>
+                        </td>
+                    </tr>
+                {/if}
            </tbody>
        </table>
    </div>

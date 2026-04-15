@@ -13,12 +13,12 @@
   let isGuideOpen = $state(false);
 </script>
 
-<div class="bg-background/5 bg-background border border-base rounded-xl p-6 shadow-sm">
+<div class="bg-background/5 bg-background border border-base rounded-xl p-6 shadow-sm min-h-[250px]">
   <TechStackGuide bind:isOpen={isGuideOpen} />
   
   <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-accent">{m.tech_core_stack_title()}</h3>
-      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-full text-accent transition-colors" title={m.secops_guide_title()}><Info class="size-4" /></button>
+      <button onclick={() => isGuideOpen = true} class="p-1 hover:bg-cyan-500/10 rounded-lg text-muted hover:text-accent border border-transparent hover:border-cyan-500/20 transition-all" title={m.secops_guide_title()}><Info class="size-4" /></button>
   </div>
   
   {#if isLoading}
@@ -46,6 +46,9 @@
         {/if}
     </div>
   {:else}
-      <div class="text-muted text-sm py-4">{m.tech_awaiting()}</div>
+      <div class="border-2 border-dashed border-base rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[150px] mt-2">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <p class="text-sm text-muted">{m.tech_awaiting()}</p>
+      </div>
   {/if}
 </div>

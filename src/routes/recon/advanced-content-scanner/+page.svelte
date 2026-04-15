@@ -99,20 +99,7 @@
         </div>
     {/if}
 
-    <!-- Scanning State Indicator -->
-    {#if isScanning}
-        <div class="flex flex-col items-center justify-center p-12 py-20 mt-8 border border-dashed rounded-xl border-teal-500/30 bg-teal-500/5">
-            <Loader2 class="w-10 h-10 text-teal-500 animate-spin mb-4" />
-            <h3 class="font-medium text-primary-text mb-2">{m.recon_scanner_loading()}</h3>
-            <p class="text-xs text-muted max-w-md text-center">{m.recon_scanner_info()}</p>
-            
-            <div class="w-64 h-1.5 mt-8 bg-surface rounded-full overflow-hidden">
-                <div class="h-full bg-teal-500 rounded-full w-2/3 animate-pulse"></div>
-            </div>
-        </div>
-    {:else}
-        <ScannerMasonry result={scanResult} />
-    {/if}
+    <ScannerMasonry result={scanResult} isLoading={isScanning} />
 
     <AdvancedScannerGuide bind:isOpen={isGuideOpen} />
 </div>

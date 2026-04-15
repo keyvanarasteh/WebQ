@@ -1,19 +1,22 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { AlertTriangle, Terminal, Code2, Globe } from 'lucide-svelte';
+    import { AlertTriangle, Terminal, Code2, Globe, HelpCircle } from 'lucide-svelte';
+    import ApiVulnLogGuide from './ApiVulnLogGuide.svelte';
 
-    let { vulnerabilities = [] }: { 
+    let { vulnerabilities = [] }: {
         vulnerabilities: Array<{
-            vuln_type: string, 
-            subtype: string, 
-            endpoint: string, 
-            parameter: string, 
-            payload: string, 
-            severity: string, 
-            confidence: string, 
+            vuln_type: string,
+            subtype: string,
+            endpoint: string,
+            parameter: string,
+            payload: string,
+            severity: string,
+            confidence: string,
             evidence: string
-        }> 
+        }>
     } = $props();
+
+    let guideOpen = $state(false);
 
     function getSeverityColor(sev: string) {
         if (sev === 'CRITICAL') return 'text-red-400 bg-red-400/10 border-red-400/20';
@@ -23,11 +26,19 @@
     }
 </script>
 
+<ApiVulnLogGuide bind:isOpen={guideOpen} />
 <div class="border border-subtle bg-glass rounded-xl overflow-hidden backdrop-blur-xl flex flex-col max-h-[600px]">
     <div class="bg-glass px-4 py-3 border-b border-subtle flex items-center gap-2">
         <Terminal size={16} class="text-muted" />
         <h3 class="text-sm font-medium text-primary-text tracking-wide uppercase">{m.sec_api_vuln_log()}</h3>
         <div class="ml-auto flex items-center gap-2">
+            <button
+                onclick={() => guideOpen = true}
+                class="p-1.5 rounded-lg text-muted hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all"
+                title="How this works"
+            >
+                <HelpCircle class="size-4" />
+            </button>
             <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-500/10 border border-red-500/20">
                 <div class="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></div>
                 <span class="text-[10px] font-mono text-red-400">LIVE FEED</span>

@@ -1,5 +1,8 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages';
+  import { HelpCircle } from 'lucide-svelte';
+  import WordPressGuide from '$lib/components/recon/guides/WordPressGuide.svelte';
+  
   type WpUser = { id: number, name: string, slug: string };
   type WordPressAnalysis = {
       is_wordpress: boolean;
@@ -10,14 +13,22 @@
   };
   
   let { data, isLoading } = $props<{ data: WordPressAnalysis | undefined, isLoading: boolean }>();
+  let guideOpen = $state(false);
 </script>
 
-<div class="bg-background/5 bg-background border border-base rounded-xl p-6 shadow-sm">
+<WordPressGuide bind:isOpen={guideOpen} />
+
+<div class="bg-background/5 bg-background border border-base rounded-xl p-6 shadow-sm min-h-[250px] relative">
   <div class="flex items-center justify-between mb-4">
-      <h3 class="text-lg font-bold text-accent">{m.wp_cms_fingerprinting()}</h3>
-      {#if data?.is_wordpress}
-          <span class="px-2 py-1 bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md text-[10px] font-black tracking-widest animate-pulse">{m.wp_detected()}</span>
-      {/if}
+      <div class="flex items-center gap-3">
+          <h3 class="text-lg font-bold text-accent">{m.wp_cms_fingerprinting()}</h3>
+          {#if data?.is_wordpress}
+              <span class="px-2 py-1 bg-blue-500/10 text-blue-500 border border-blue-500/30 rounded-md text-[10px] font-black tracking-widest animate-pulse">{m.wp_detected()}</span>
+          {/if}
+      </div>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title="View Guide">
+          <HelpCircle class="size-4" />
+      </button>
   </div>
   
   {#if isLoading}
@@ -49,6 +60,9 @@
           </div>
       {/if}
   {:else}
-      <div class="text-muted text-sm py-4">{m.tech_awaiting()}</div>
+      <div class="border-2 border-dashed border-base rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[150px] mt-2">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <p class="text-sm text-muted">{m.tech_awaiting()}</p>
+      </div>
   {/if}
 </div>

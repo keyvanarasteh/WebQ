@@ -1,7 +1,11 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
+    import { HelpCircle } from 'lucide-svelte';
+    import ApiFuzzerRadarGuide from './ApiFuzzerRadarGuide.svelte';
 
     let { vulnerabilities = [] }: { vulnerabilities: Array<{vuln_type: string, severity: string}> } = $props();
+
+    let guideOpen = $state(false);
 
     // Using Svelte 5 derived state to map categories.
     let categories = $derived.by(() => {
@@ -30,10 +34,20 @@
 </script>
 
 <div class="border border-subtle bg-glass p-6 rounded-xl backdrop-blur-xl h-full flex flex-col justify-center">
-    <h3 class="text-primary-text font-medium mb-6 flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        Vulnerability Distribution
-    </h3>
+    <ApiFuzzerRadarGuide bind:isOpen={guideOpen} />
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="text-primary-text font-medium flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Vulnerability Distribution
+        </h3>
+        <button
+            onclick={() => guideOpen = true}
+            class="p-1.5 rounded-lg text-muted hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all"
+            title="How this works"
+        >
+            <HelpCircle class="size-4" />
+        </button>
+    </div>
     
     <div class="space-y-5">
         {#each categories as c}

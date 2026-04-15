@@ -211,21 +211,14 @@
 		</div>
 
 		<!-- Content Area -->
-		<div class="flex-1 p-4 overflow-y-auto">
-			{#if scanResult}
-				{#if activeTab === 'tree'}
-					<div in:fade>
-						<SubdomainTree data={scanResult.subdomains} rootDomain={scanResult.domain} />
-					</div>
-				{:else}
-					<div in:fade>
-						<SubdomainGrid data={scanResult.subdomains} />
-					</div>
-				{/if}
+		<div class="flex-1 p-4 overflow-y-auto min-h-[350px]">
+			{#if activeTab === 'tree'}
+				<div in:fade>
+					<SubdomainTree data={scanResult?.subdomains ?? null} rootDomain={scanResult?.domain ?? (targetDomain || 'target.com')} isPending={!scanResult} />
+				</div>
 			{:else}
-				<div class="flex h-full min-h-[300px] w-full flex-col items-center justify-center text-muted font-fira" in:fade>
-					<Network size={48} class="text-muted/50 mb-4" />
-					<p>{m.recon_subdomain_pending()}</p>
+				<div in:fade>
+					<SubdomainGrid data={scanResult?.subdomains ?? null} isPending={!scanResult} />
 				</div>
 			{/if}
 		</div>
