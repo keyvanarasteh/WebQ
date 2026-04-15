@@ -8,18 +8,47 @@
   import SecurityDetails from '$lib/components/intelligence/domain-info/SecurityDetails.svelte';
   import DomainInfoGuide from '$lib/components/intelligence/domain-info/DomainInfoGuide.svelte';
   import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
-  import { Search, HelpCircle } from 'lucide-svelte';
+  import { Search, HelpCircle, HardDriveDownload } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+  import { formatRelativeTime } from '$lib/utils/time';
+
+  interface HistoricalScanHydration<T> {
+      started_at: string;
+      duration_ms: number;
+      raw_json_blob: T;
+  }
 
   let targetDomain = $state('');
   let scanResult = $state<DomainInfoResult | null>(null);
   let scanError = $state<string | null>(null);
   let showGuide = $state(false);
+  let localHydration = $state<HistoricalScanHydration<DomainInfoResult> | null>(null);
 
   let scanLogs = $state<ScanProgressEvent[]>([]);
   let scanProgress = $state(0);
   let unlistenProgress: UnlistenFn | null = null;
+  
+  async function checkLocalHistory() {
+      if (!targetDomain || targetDomain.length < 3) return;
+      try {
+          const history = await invoke<HistoricalScanHydration<DomainInfoResult> | null>('get_latest_domain_intel', {
+              domain: targetDomain.trim(),
+              scanModule: 'DomainInfo'
+          });
+          
+          if (history) {
+              localHydration = history;
+              scanResult = history.raw_json_blob;
+              scanError = null;
+          } else {
+              localHydration = null;
+              scanResult = null; // Reset only if no history found manually
+          }
+      } catch (e) {
+          console.error("Failed history check", e);
+      }
+  }
   
   async function performScan() {
       if (!targetDomain) return;
@@ -27,6 +56,7 @@
       scanError = null;
       scanLogs = [];
       scanProgress = 0;
+      localHydration = null;
       
       unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
           scanLogs.push(event.payload);
@@ -74,6 +104,7 @@
                   list="historic-domains"
                   bind:value={targetDomain} 
                   onkeydown={(e) => e.key === 'Enter' && performScan()}
+                  onchange={() => checkLocalHistory()}
                   placeholder="Enter domain (e.g. example.com)"
                   class="w-full bg-background border border-base rounded-lg py-2 pl-10 pr-4 text-primary-text focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-sm"
               />
@@ -87,6 +118,15 @@
           </button>
       </div>
   </div>
+
+  {#if localHydration && !appState.isScanning}
+      <div class="flex items-center gap-2 justify-end -mt-2 animate-fade-in pr-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 text-cyan-400 rounded-full text-[10px] font-mono border border-cyan-500/20 uppercase tracking-widest">
+              <HardDriveDownload class="size-3 shrink-0" />
+              Restored Scan from {formatRelativeTime(localHydration.started_at)} ({localHydration.duration_ms}ms)
+          </span>
+      </div>
+  {/if}
 
   <!-- Error State -->
   {#if scanError}

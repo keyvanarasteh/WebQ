@@ -23,6 +23,13 @@ pub struct ScanRow {
     pub finished_at: Option<String>,
 }
 
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct HistoricalScanHydration {
+    pub started_at: String,
+    pub duration_ms: i64,
+    pub raw_json_blob: Value,
+}
+
 pub async fn init_db(app_handle: &AppHandle) -> Result<(), AppError> {
     let app_dir = app_handle
         .path()
@@ -135,6 +142,42 @@ pub async fn get_scans_paginated(
         started_at: r.get("started_at"),
         finished_at: r.get("finished_at"),
     }).collect())
+}
+
+#[tauri::command]
+pub async fn get_latest_domain_intel(
+    pool: State<'_, SqlitePool>,
+    domain: String,
+    scan_module: String,
+) -> Result<Option<HistoricalScanHydration>, AppError> {
+    let row_opt = sqlx::query(
+        r#"
+        SELECT s.started_at, s.duration_ms, sr.raw_json_blob
+        FROM scans s
+        JOIN scan_results sr ON sr.scan_id = s.id
+        WHERE s.target_domain = ? AND s.scan_module = ? AND s.status = 'Completed'
+        ORDER BY s.started_at DESC
+        LIMIT 1
+        "#
+    )
+    .bind(domain)
+    .bind(scan_module)
+    .fetch_optional(&*pool)
+    .await
+    .map_err(|e: sqlx::Error| AppError::System(e.to_string()))?;
+
+    if let Some(row) = row_opt {
+        let blob_str: String = row.get("raw_json_blob");
+        if let Ok(json_val) = serde_json::from_str(&blob_str) {
+            return Ok(Some(HistoricalScanHydration {
+                started_at: row.get("started_at"),
+                duration_ms: row.get("duration_ms"),
+                raw_json_blob: json_val,
+            }));
+        }
+    }
+    
+    Ok(None)
 }
 
 #[tauri::command]

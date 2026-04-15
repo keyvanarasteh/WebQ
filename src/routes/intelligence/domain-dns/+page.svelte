@@ -9,15 +9,44 @@
   import DnsSecurityCheck from '$lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte';
   import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
   import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+  import { formatRelativeTime } from '$lib/utils/time';
+
+  interface HistoricalScanHydration<T> {
+      started_at: string;
+      duration_ms: number;
+      raw_json_blob: T;
+  }
 
   let targetDomain = $state('');
   let scanResult = $state<DomainDnsResult | null>(null);
   let scanError = $state<string | null>(null);
   let showGuide = $state(false);
+  let localHydration = $state<HistoricalScanHydration<DomainDnsResult> | null>(null);
 
   let scanLogs = $state<ScanProgressEvent[]>([]);
   let scanProgress = $state(0);
   let unlistenProgress: UnlistenFn | null = null;
+  
+  async function checkLocalHistory() {
+      if (!targetDomain || targetDomain.length < 3) return;
+      try {
+          const history = await invoke<HistoricalScanHydration<DomainDnsResult> | null>('get_latest_domain_intel', {
+              domain: targetDomain.trim(),
+              scanModule: 'DomainDns'
+          });
+          
+          if (history) {
+              localHydration = history;
+              scanResult = history.raw_json_blob;
+              scanError = null;
+          } else {
+              localHydration = null;
+              scanResult = null;
+          }
+      } catch (e) {
+          console.error("Failed history check", e);
+      }
+  }
   
   async function performScan() {
       if (!targetDomain) return;
@@ -25,6 +54,7 @@
       scanError = null;
       scanLogs = [];
       scanProgress = 0;
+      localHydration = null;
       
       unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
           scanLogs.push(event.payload);
@@ -71,6 +101,7 @@
                   list="historic-domains"
                   bind:value={targetDomain} 
                   onkeydown={(e) => e.key === 'Enter' && performScan()}
+                  onchange={() => checkLocalHistory()}
                   placeholder="Enter domain (e.g. example.com)"
                   class="w-full bg-background border border-base rounded-lg py-2 pl-10 pr-4 text-primary-text focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-sm"
               />
@@ -87,10 +118,20 @@
 
   <!-- Scan Metadata -->
   {#if scanResult && !appState.isScanning}
-      <div class="flex items-center gap-4 text-xs text-muted font-mono">
-          <span>Domain: <span class="text-accent">{scanResult.domain}</span></span>
-          <span class="flex items-center gap-1"><Clock class="size-3" /> {scanResult.response_time_ms} ms</span>
-          <span>@ {new Date(scanResult.timestamp).toLocaleString()}</span>
+      <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-4 text-xs text-muted font-mono">
+              <span>Domain: <span class="text-accent">{scanResult.domain}</span></span>
+              <span class="flex items-center gap-1"><Clock class="size-3" /> {scanResult.response_time_ms} ms</span>
+              <span>@ {new Date(scanResult.timestamp).toLocaleString()}</span>
+          </div>
+          
+          {#if localHydration}
+              <div class="flex items-center animate-fade-in">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 text-cyan-400 rounded-full text-[10px] font-mono border border-cyan-500/20 uppercase tracking-widest shrink-0">
+                      Restored Scan from {formatRelativeTime(localHydration.started_at)} ({localHydration.duration_ms}ms)
+                  </span>
+              </div>
+          {/if}
       </div>
   {/if}
 
