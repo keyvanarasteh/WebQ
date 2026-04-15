@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { Crosshair, ShieldAlert } from 'lucide-svelte';
+    import { Crosshair, ShieldAlert, HelpCircle } from 'lucide-svelte';
+    import VulnScanLogGuide from './VulnScanLogGuide.svelte';
 
     let { vulnScan }: {
         vulnScan: {
@@ -9,7 +10,10 @@
         }
     } = $props();
 
+    let guideOpen = $state(false);
 </script>
+
+<VulnScanLogGuide bind:isOpen={guideOpen} />
 
 <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6 relative overflow-hidden group">
     <div class="absolute -left-10 -bottom-10 opacity-[0.03] group-hover:opacity-10 transition-opacity pointer-events-none">
@@ -21,15 +25,20 @@
             <ShieldAlert class="w-5 h-5 text-rose-500" />
             <h3 class="text-lg font-medium text-primary-text">Static Vulnerabilities</h3>
         </div>
-        {#if vulnScan.vulnerabilities_found > 0}
-            <div class="px-2.5 py-1 text-xs uppercase font-bold rounded-md bg-rose-500/20 border border-rose-500/30 text-rose-400">
-                {vulnScan.vulnerabilities_found} Critical Weaknesses
-            </div>
-        {:else}
-            <div class="px-2.5 py-1 text-xs uppercase font-bold rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                Clean
-            </div>
-        {/if}
+        <div class="flex items-center gap-2">
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
+            {#if vulnScan.vulnerabilities_found > 0}
+                <div class="px-2.5 py-1 text-xs uppercase font-bold rounded-md bg-rose-500/20 border border-rose-500/30 text-rose-400">
+                    {vulnScan.vulnerabilities_found} Critical Weaknesses
+                </div>
+            {:else}
+                <div class="px-2.5 py-1 text-xs uppercase font-bold rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                    Clean
+                </div>
+            {/if}
+        </div>
     </div>
 
     {#if vulnScan.vulnerabilities_found > 0}

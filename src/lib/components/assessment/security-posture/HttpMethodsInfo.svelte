@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { GitMerge, Activity, AlertOctagon } from 'lucide-svelte';
+    import { GitMerge, Activity, AlertOctagon, HelpCircle } from 'lucide-svelte';
+    import HttpMethodsInfoGuide from './HttpMethodsInfoGuide.svelte';
 
     let { methods }: {
         methods: {
@@ -15,7 +16,11 @@
         if (risk === 'Medium') return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
         return 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20';
     }
+
+    let guideOpen = $state(false);
 </script>
+
+<HttpMethodsInfoGuide bind:isOpen={guideOpen} />
 
 <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
     <div class="flex items-center justify-between mb-6">
@@ -23,8 +28,13 @@
             <GitMerge class="w-5 h-5 text-violet-400" />
             <h3 class="text-lg font-medium text-primary-text">HTTP Methods</h3>
         </div>
-        <div class={`px-2.5 py-1 text-xs uppercase font-bold rounded-md border ${getRiskColor(methods.security_risk)}`}>
-            {methods.security_risk} Risk
+        <div class="flex items-center gap-2">
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
+            <div class={`px-2.5 py-1 text-xs uppercase font-bold rounded-md border ${getRiskColor(methods.security_risk)}`}>
+                {methods.security_risk} Risk
+            </div>
         </div>
     </div>
 

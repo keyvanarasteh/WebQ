@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { Lock, LockOpen, Server, ShieldCheck, ShieldAlert } from 'lucide-svelte';
+    import { Lock, LockOpen, Server, ShieldCheck, ShieldAlert, HelpCircle } from 'lucide-svelte';
+    import SslAnalysisGradeGuide from './SslAnalysisGradeGuide.svelte';
 
     let { ssl }: {
         ssl: {
@@ -20,7 +21,11 @@
         if (grade.startsWith('C')) return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20';
         return 'text-red-400 bg-red-500/10 border-red-500/20';
     }
+
+    let guideOpen = $state(false);
 </script>
+
+<SslAnalysisGradeGuide bind:isOpen={guideOpen} />
 
 <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6 relative overflow-hidden group">
     <div class="absolute -right-10 -top-10 opacity-[0.03] group-hover:opacity-10 transition-opacity pointer-events-none">
@@ -38,11 +43,16 @@
             </div>
             <h3 class="text-lg font-medium text-primary-text">SSL / TLS Configuration</h3>
         </div>
-        {#if ssl.ssl_available}
-            <div class={`px-3 py-1 rounded-full border font-bold text-sm ${getGradeColor(ssl.overall_grade)}`}>
-                Grade {ssl.overall_grade}
-            </div>
-        {/if}
+        <div class="flex items-center gap-2">
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
+            {#if ssl.ssl_available}
+                <div class={`px-3 py-1 rounded-full border font-bold text-sm ${getGradeColor(ssl.overall_grade)}`}>
+                    Grade {ssl.overall_grade}
+                </div>
+            {/if}
+        </div>
     </div>
 
     {#if ssl.ssl_available}

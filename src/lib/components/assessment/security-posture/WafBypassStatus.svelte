@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { Server, ShieldBan, Shield } from 'lucide-svelte';
+    import { Server, ShieldBan, Shield, HelpCircle } from 'lucide-svelte';
+    import WafBypassStatusGuide from './WafBypassStatusGuide.svelte';
 
     let { wafResult }: {
         wafResult: {
@@ -9,12 +10,21 @@
             all_detected: { provider: string, confidence: string, detection_methods: string[] }[]
         }
     } = $props();
+
+    let guideOpen = $state(false);
 </script>
 
+<WafBypassStatusGuide bind:isOpen={guideOpen} />
+
 <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
-    <div class="flex items-center gap-3 mb-6">
-        <Server class="w-5 h-5 text-indigo-400" />
-        <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_waf()}</h3>
+    <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+            <Server class="w-5 h-5 text-indigo-400" />
+            <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_waf()}</h3>
+        </div>
+        <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+            <HelpCircle class="size-4" />
+        </button>
     </div>
 
     {#if wafResult.detected && wafResult.primary_waf}

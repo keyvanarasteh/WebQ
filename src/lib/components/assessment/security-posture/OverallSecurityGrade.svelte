@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { Shield, ShieldAlert, ShieldCheck } from 'lucide-svelte';
+    import { Shield, ShieldAlert, ShieldCheck, HelpCircle } from 'lucide-svelte';
+    import OverallSecurityGradeGuide from './OverallSecurityGradeGuide.svelte';
 
     let { score, grade, riskLevel, recommendations, httpsAvailable, httpsRedirect }: {
         score: number,
@@ -19,7 +20,11 @@
         grade.startsWith('C') ? 'text-yellow-400' :
         'text-red-400'
     );
+
+    let guideOpen = $state(false);
 </script>
+
+<OverallSecurityGradeGuide bind:isOpen={guideOpen} />
 
 <div class="relative overflow-hidden border border-subtle bg-glass backdrop-blur-md rounded-xl p-6 sm:p-8 {isHighRisk ? 'ring-1 ring-red-500/30' : ''}">
     <!-- Background Glare -->
@@ -35,6 +40,9 @@
             {m.sec_posture_grade()}
         </h3>
         <div class="flex items-center gap-2">
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
             {#if httpsAvailable}
                 <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
                     HTTPS

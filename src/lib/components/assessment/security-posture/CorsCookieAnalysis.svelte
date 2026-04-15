@@ -1,14 +1,26 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { Cookie, Network, AlertTriangle, Shield } from 'lucide-svelte';
+    import { Cookie, Network, AlertTriangle, Shield, HelpCircle } from 'lucide-svelte';
+    import CorsCookieAnalysisGuide from './CorsCookieAnalysisGuide.svelte';
 
     let { corsPolicy, cookieSecurity }: {
         corsPolicy: { configured: boolean, headers: Record<string, string>, issues: string[], security_level: string },
         cookieSecurity: { cookies_present: boolean, security_issues: string[], security_score: number }
     } = $props();
+
+    let guideOpen = $state(false);
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<CorsCookieAnalysisGuide bind:isOpen={guideOpen} />
+
+<div class="flex flex-col gap-2">
+    <div class="flex items-center justify-between px-1">
+        <span class="text-xs font-semibold text-muted uppercase tracking-widest">CORS & Cookie Policies</span>
+        <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+            <HelpCircle class="size-4" />
+        </button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- CORS Analysis -->
     <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
         <div class="flex items-center justify-between mb-4">
@@ -79,5 +91,6 @@
                 No Set-Cookie headers detected on target.
             </div>
         {/if}
+    </div>
     </div>
 </div>

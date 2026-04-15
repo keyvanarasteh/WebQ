@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as m from '$lib/paraglide/messages';
-    import { FileLock2, AlertCircle, CheckCircle2 } from 'lucide-svelte';
+    import { FileLock2, AlertCircle, CheckCircle2, HelpCircle } from 'lucide-svelte';
+    import HeadersAnalysisGuide from './HeadersAnalysisGuide.svelte';
 
     let { headersAnalysis }: {
         headersAnalysis: {
@@ -16,7 +17,11 @@
         Object.entries(headersAnalysis.headers)
             .filter(([_, data]) => data.present)
     );
+
+    let guideOpen = $state(false);
 </script>
+
+<HeadersAnalysisGuide bind:isOpen={guideOpen} />
 
 <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
     <div class="flex items-center justify-between mb-6">
@@ -25,6 +30,9 @@
             <h3 class="text-lg font-medium text-primary-text">{m.sec_posture_headers()}</h3>
         </div>
         <div class="flex gap-2">
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
             {#if headersAnalysis.missing_critical.length > 0}
                 <span class="px-2.5 py-1 text-[10px] uppercase font-bold rounded-full bg-red-500/20 text-red-300">
                     {headersAnalysis.missing_critical.length} Critical Missing

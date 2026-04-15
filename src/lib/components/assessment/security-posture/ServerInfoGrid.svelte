@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { ServerCrash, AlertCircle } from 'lucide-svelte';
+    import { ServerCrash, AlertCircle, HelpCircle } from 'lucide-svelte';
+    import ServerInfoGridGuide from './ServerInfoGridGuide.svelte';
 
     let { serverInfo }: {
         serverInfo: {
@@ -15,7 +16,11 @@
         if (lvl === 'Medium' || lvl === 'Fair') return 'text-yellow-400 border-yellow-400/20 bg-yellow-400/10';
         return 'text-emerald-400 border-emerald-400/20 bg-emerald-400/10';
     }
+
+    let guideOpen = $state(false);
 </script>
+
+<ServerInfoGridGuide bind:isOpen={guideOpen} />
 
 <div class="border border-subtle bg-glass backdrop-blur-md rounded-xl p-6">
     <div class="flex items-center justify-between mb-6">
@@ -23,8 +28,13 @@
             <ServerCrash class="w-5 h-5 text-indigo-400" />
             <h3 class="text-lg font-medium text-primary-text">Server Imprint</h3>
         </div>
-        <div class={`px-2.5 py-1 text-xs uppercase font-bold rounded-md border ${getLevelColor(serverInfo.security_level)}`}>
-            {serverInfo.security_level} Posture
+        <div class="flex items-center gap-2">
+            <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-orange-400 hover:bg-orange-500/10 border border-transparent hover:border-orange-500/20 transition-all" title="How this works">
+                <HelpCircle class="size-4" />
+            </button>
+            <div class={`px-2.5 py-1 text-xs uppercase font-bold rounded-md border ${getLevelColor(serverInfo.security_level)}`}>
+                {serverInfo.security_level} Posture
+            </div>
         </div>
     </div>
 
