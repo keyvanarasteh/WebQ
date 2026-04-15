@@ -1,17 +1,25 @@
 <script lang="ts">
   import * as m from '$lib/paraglide/messages';
   import type { SocialMediaResult } from '$lib/types/intelligence';
+  import { HelpCircle, Share2 } from 'lucide-svelte';
+  import SocialMediaGuide from './SocialMediaGuide.svelte';
 
   type Props = {
       data: SocialMediaResult | undefined;
       isLoading: boolean;
   };
-  
+
   let { data, isLoading }: Props = $props();
+  let guideOpen = $state(false);
 </script>
 
+<SocialMediaGuide bind:isOpen={guideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm">
-  <h3 class="text-lg font-bold text-accent mb-4">{m.seo_social_title()}</h3>
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-accent flex items-center gap-2"><Share2 class="size-5" /> {m.seo_social_title()}</h3>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_social_media_title()}><HelpCircle class="size-4" /></button>
+  </div>
   
   {#if isLoading}
     <div class="h-32 bg-surface rounded animate-pulse"></div>
@@ -44,6 +52,10 @@
         </div>
     </div>
   {:else}
-      <div class="text-muted text-sm py-4">{m.seo_no_data()}</div>
+      <div class="border-2 border-dashed border-base rounded-xl p-6 flex flex-col items-center justify-center gap-3 text-center">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <Share2 class="size-8 text-muted/30" />
+          <p class="text-sm text-muted">{m.intel_pending_msg()}</p>
+      </div>
   {/if}
 </div>

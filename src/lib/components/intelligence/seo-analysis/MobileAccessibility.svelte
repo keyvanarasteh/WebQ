@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { MobileAccessibilityResult } from '$lib/types/intelligence';
   import * as m from '$lib/paraglide/messages';
-  import { Smartphone, Check, X } from 'lucide-svelte';
+  import { Smartphone, Check, X, HelpCircle } from 'lucide-svelte';
+  import MobileGuide from './MobileGuide.svelte';
 
   type Props = {
       data: MobileAccessibilityResult | undefined;
@@ -9,12 +10,16 @@
   };
 
   let { data, isLoading }: Props = $props();
+  let guideOpen = $state(false);
 </script>
 
+<MobileGuide bind:isOpen={guideOpen} />
+
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm">
-  <h3 class="text-lg font-bold text-accent mb-4 flex items-center gap-2">
-      <Smartphone class="size-5" /> {m.seo_mobile_title()}
-  </h3>
+  <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-bold text-accent flex items-center gap-2"><Smartphone class="size-5" /> {m.seo_mobile_title()}</h3>
+      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_mobile_title()}><HelpCircle class="size-4" /></button>
+  </div>
 
   {#if isLoading}
     <div class="space-y-3 animate-pulse"><div class="h-20 bg-surface rounded"></div></div>
@@ -48,5 +53,11 @@
         <span class="text-sm text-primary-text">ARIA Labels</span>
         <span class="text-sm font-mono text-accent">{data.aria_labels}</span>
     </div>
+  {:else}
+      <div class="border-2 border-dashed border-base rounded-xl p-6 flex flex-col items-center justify-center gap-3 text-center">
+          <span class="text-xs font-bold tracking-widest px-3 py-1 bg-surface border border-base rounded-full text-muted">{m.intel_pending_badge()}</span>
+          <Smartphone class="size-8 text-muted/30" />
+          <p class="text-sm text-muted">{m.intel_pending_msg()}</p>
+      </div>
   {/if}
 </div>
