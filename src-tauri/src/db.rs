@@ -242,15 +242,24 @@ pub async fn get_db_stats(
         .path()
         .app_data_dir()
         .unwrap_or_else(|_| std::path::PathBuf::from("."));
+    
     let db_path = app_dir.join("webq_telemetry.db");
+    let wal_path = app_dir.join("webq_telemetry.db-wal");
+    let shm_path = app_dir.join("webq_telemetry.db-shm");
     
-    let size_bytes = if db_path.exists() {
-        std::fs::metadata(&db_path).map(|m| m.len()).unwrap_or(0)
-    } else {
-        0
-    };
+    let mut total_bytes = 0;
     
-    let size_mb = size_bytes as f64 / 1_048_576.0;
+    if db_path.exists() {
+        total_bytes += std::fs::metadata(&db_path).map(|m| m.len()).unwrap_or(0);
+    }
+    if wal_path.exists() {
+        total_bytes += std::fs::metadata(&wal_path).map(|m| m.len()).unwrap_or(0);
+    }
+    if shm_path.exists() {
+        total_bytes += std::fs::metadata(&shm_path).map(|m| m.len()).unwrap_or(0);
+    }
+    
+    let size_mb = total_bytes as f64 / 1_048_576.0;
     
     Ok(DbStats {
         size_string: format!("{:.2} MB", size_mb),
