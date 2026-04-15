@@ -7,7 +7,6 @@
 	import { formatRelativeTime } from '$lib/utils/time';
 
 	// Components
-	import SubdomainTree from '$lib/components/recon/subdomain-discovery/SubdomainTree.svelte';
 	import SubdomainGrid from '$lib/components/recon/subdomain-discovery/SubdomainGrid.svelte';
 	import SubdomainGuide from '$lib/components/recon/guides/SubdomainGuide.svelte';
     import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
@@ -21,7 +20,6 @@
 	let targetDomain = $state('');
 	let isScanning = $state(false);
 	let errorMsg = $state<string | null>(null);
-	let activeTab = $state<'tree' | 'grid'>('tree');
 	
 	// Defined data structure matching Rust
 	type SubdomainDetail = {
@@ -253,45 +251,13 @@
 				<Network size={16} class="text-indigo-400" />
 				{m.recon_subdomain_board_title()}
 			</h3>
-			
-			<div class="flex items-center gap-1 rounded-lg bg-slate-900/80 p-1 border border-base/50">
-				<!-- Using Svelte 5 event handlers onclick -->
-				<button
-					onclick={() => activeTab = 'tree'}
-					class={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-						activeTab === 'tree'
-							? 'bg-indigo-500/20 text-indigo-400'
-							: 'text-muted hover:text-secondary-text'
-					}`}
-				>
-					<GitBranch size={14} />
-					Tree
-				</button>
-				<button
-					onclick={() => activeTab = 'grid'}
-					class={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs font-semibold transition-colors ${
-						activeTab === 'grid'
-							? 'bg-indigo-500/20 text-indigo-400'
-							: 'text-muted hover:text-secondary-text'
-					}`}
-				>
-					<LayoutGrid size={14} />
-					Grid
-				</button>
-			</div>
 		</div>
 
 		<!-- Content Area -->
 		<div class="flex-1 p-4 overflow-y-auto min-h-[350px]">
-			{#if activeTab === 'tree'}
-				<div in:fade>
-					<SubdomainTree data={scanResult?.subdomains ?? null} rootDomain={scanResult?.domain ?? (targetDomain || 'target.com')} isPending={!scanResult} />
-				</div>
-			{:else}
-				<div in:fade>
-					<SubdomainGrid data={scanResult?.subdomains ?? null} isPending={!scanResult} />
-				</div>
-			{/if}
+			<div in:fade>
+				<SubdomainGrid data={scanResult?.subdomains ?? null} isPending={!scanResult} />
+			</div>
 		</div>
 	</div>
 </div>
