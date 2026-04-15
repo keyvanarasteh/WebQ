@@ -40,13 +40,13 @@
 				</tr>
 			</thead>
 			<tbody class="divide-y divide-slate-700/50 font-mono bg-surface">
-				{#each data as item, i (typeof item === 'string' ? item : item.host)}
+				{#each data as item, i (typeof item === 'string' ? item : (item?.host ?? i.toString()))}
 					<tr class="hover:bg-indigo-500/10 transition-colors group" in:fade={{ delay: Math.min(i * 5, 500), duration: 200 }}>
 						<td class="px-4 py-3 whitespace-nowrap text-muted border-r border-base/50 text-xs text-center">
 							{i + 1}
 						</td>
 						<td class="px-6 py-3 whitespace-nowrap font-medium text-indigo-300 group-hover:text-indigo-200 transition-colors">
-							{typeof item === 'string' ? item : item.host}
+							{typeof item === 'string' ? item : (item?.host || 'Unknown Endpoint')}
 						</td>
 						<td class="px-6 py-3 whitespace-nowrap border-r border-base/50 text-center">
 							{#if typeof item === 'string'}
@@ -75,7 +75,7 @@
 									Active ({item.status})
 								</span>
 					{:else}
-								<span class="inline-flex items-center gap-1.5 rounded bg-rose-500/10 px-2 py-1.5 text-xs text-rose-400 border border-rose-500/20 cursor-help" title={(item as any).resolution_error || "Resolution timeout"}>
+								<span class="inline-flex items-center gap-1.5 rounded bg-rose-500/10 px-2 py-1.5 text-xs text-rose-400 border border-rose-500/20 cursor-help" title={(item as any)?.resolution_error || "Resolution timeout"}>
 									<Target size={12} class="text-rose-500" />
 									Offline
 								</span>
@@ -84,13 +84,13 @@
 						<td class="px-4 py-3 flex items-center justify-end gap-2 pr-12">
 							<button 
 								class="text-muted hover:text-indigo-400 hover:bg-indigo-500/10 rounded p-1.5 transition-colors"
-								onclick={() => navigator.clipboard.writeText(typeof item === 'string' ? item : item.host)}
+								onclick={() => navigator.clipboard.writeText(typeof item === 'string' ? item : (item?.host || ''))}
 								title="Copy to clipboard"
 							>
 								<Copy size={16} />
 							</button>
 							<a 
-								href={`http://${typeof item === 'string' ? item : item.host}`}
+								href={`http://${typeof item === 'string' ? item : (item?.host || '')}`}
 								target="_blank"
 								rel="noopener noreferrer"
 								class="text-muted hover:text-emerald-400 hover:bg-emerald-500/10 rounded p-1.5 transition-colors"
