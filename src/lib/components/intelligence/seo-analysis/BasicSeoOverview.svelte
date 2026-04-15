@@ -2,16 +2,21 @@
   import { Info } from 'lucide-svelte';
   import SeoGuide from '$lib/components/recon/guides/SeoGuide.svelte';
   import * as m from '$lib/paraglide/messages';
-  type BasicSeoResult = {
-      title: string;
-      description: string;
-      keywords: string;
-      h1_count: number;
-      heading_structure: boolean;
+  import type { BasicSeoResult } from '$lib/types/intelligence';
+
+  type Props = {
+      data: BasicSeoResult | undefined;
+      isLoading: boolean;
   };
 
-  let { data, isLoading } = $props<{ data: BasicSeoResult | undefined, isLoading: boolean }>();
+  let { data, isLoading }: Props = $props();
   let isGuideOpen = $state(false);
+
+  function statusBadge(status: string): string {
+      if (status === 'Good') return 'bg-green-500/10 text-green-400 border-green-500/30';
+      if (status === 'Missing') return 'bg-red-500/10 text-red-400 border-red-500/30';
+      return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30';
+  }
 </script>
 
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm h-full">
@@ -28,32 +33,49 @@
         <div class="h-16 bg-surface rounded"></div>
     </div>
   {:else if data}
-    <div class="grid grid-cols-1 gap-4">
+    <div class="grid grid-cols-1 gap-3">
         <!-- Title -->
-        <div class="p-3 bg-background rounded-lg border border-base">
-            <p class="text-xs text-muted font-bold mb-1">{m.seo_page_title()}</p>
-            <p class="text-sm {data.title ? 'text-inverse text-primary-text' : 'text-red-500'}">{data.title || m.seo_missing_title()}</p>
+        <div class="p-3 bg-sunken rounded-lg border border-base">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-xs text-muted font-bold">{m.seo_page_title()}</p>
+                <span class="px-1.5 py-0.5 text-xs rounded border {statusBadge(data.title.status)}">{data.title.status} ({data.title.length} chars)</span>
+            </div>
+            <p class="text-sm text-primary-text font-mono wrap-break-word">{data.title.text}</p>
         </div>
         
-        <!-- Description -->
-        <div class="p-3 bg-background rounded-lg border border-base">
-            <p class="text-xs text-muted font-bold mb-1">{m.seo_meta_desc()}</p>
-            <p class="text-sm {data.description ? 'text-inverse text-primary-text' : 'text-red-500'}">{data.description || m.seo_missing_desc()}</p>
+        <!-- Meta Description -->
+        <div class="p-3 bg-sunken rounded-lg border border-base">
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-xs text-muted font-bold">{m.seo_meta_desc()}</p>
+                <span class="px-1.5 py-0.5 text-xs rounded border {statusBadge(data.meta_description.status)}">{data.meta_description.status} ({data.meta_description.length} chars)</span>
+            </div>
+            <p class="text-sm text-primary-text wrap-break-word">{data.meta_description.text}</p>
         </div>
 
-        <!-- H1 Tags -->
-        <div class="p-3 bg-background rounded-lg border border-base flex justify-between items-center">
-            <div>
-                <p class="text-xs text-muted font-bold mb-1">{m.seo_h1_tags()}</p>
-                <p class="text-sm text-inverse text-primary-text">{m.seo_h1_count({ count: data.h1_count })}</p>
+        <!-- Keywords -->
+        <div class="p-3 bg-sunken rounded-lg border border-base">
+            <p class="text-xs text-muted font-bold mb-1">Meta Keywords</p>
+            <p class="text-sm text-primary-text font-mono wrap-break-word">{data.meta_keywords}</p>
+        </div>
+
+        <!-- Technical Meta -->
+        <div class="grid grid-cols-2 gap-2">
+            <div class="p-2.5 bg-sunken rounded-lg border border-base">
+                <p class="text-xs text-muted font-bold">Canonical</p>
+                <p class="text-xs text-primary-text font-mono mt-1 break-all">{data.canonical_url}</p>
             </div>
-            {#if data.h1_count === 1}
-                <span class="px-2 py-1 bg-green-500/10 text-green-500 text-xs rounded border border-green-500/30">{m.seo_tag_optimal()}</span>
-            {:else if data.h1_count > 1}
-                <span class="px-2 py-1 bg-yellow-500/10 text-yellow-600 text-xs rounded border border-yellow-500/30">{m.seo_tag_multiple()}</span>
-            {:else}
-                <span class="px-2 py-1 bg-red-500/10 text-red-500 text-xs rounded border border-red-500/30">{m.seo_tag_missing()}</span>
-            {/if}
+            <div class="p-2.5 bg-sunken rounded-lg border border-base">
+                <p class="text-xs text-muted font-bold">Robots</p>
+                <p class="text-xs text-primary-text font-mono mt-1">{data.meta_robots}</p>
+            </div>
+            <div class="p-2.5 bg-sunken rounded-lg border border-base">
+                <p class="text-xs text-muted font-bold">Viewport</p>
+                <p class="text-xs text-primary-text font-mono mt-1 break-all">{data.viewport}</p>
+            </div>
+            <div class="p-2.5 bg-sunken rounded-lg border border-base">
+                <p class="text-xs text-muted font-bold">Language</p>
+                <p class="text-xs text-primary-text font-mono mt-1">{data.language}</p>
+            </div>
         </div>
     </div>
   {:else}

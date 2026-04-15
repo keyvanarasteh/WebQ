@@ -1,27 +1,30 @@
 <script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import * as m from '$lib/paraglide/messages';
+  import type { DomainInfoResult } from '$lib/types/intelligence';
   import DomainOverview from '$lib/components/intelligence/domain-info/DomainOverview.svelte';
   import SslStatus from '$lib/components/intelligence/domain-info/SslStatus.svelte';
   import PortSecurityMatrix from '$lib/components/intelligence/domain-info/PortSecurityMatrix.svelte';
+  import SecurityDetails from '$lib/components/intelligence/domain-info/SecurityDetails.svelte';
   import DomainInfoGuide from '$lib/components/intelligence/domain-info/DomainInfoGuide.svelte';
   import { Search, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
 
-  // State: Using Svelte 5 Runes for reactive data
   let targetDomain = $state('');
-  let scanResult = $state<any>(null); // To be typed as DomainInfoResult
+  let scanResult = $state<DomainInfoResult | null>(null);
+  let scanError = $state<string | null>(null);
   let showGuide = $state(false);
   
   async function performScan() {
       if (!targetDomain) return;
       appState.setScanning(true, 'DOMAIN INFO');
+      scanError = null;
       
       try {
-          // Calling rust backend API
-          scanResult = await invoke('scan_domain_info', { domain: targetDomain });
+          scanResult = await invoke<DomainInfoResult>('scan_domain_info', { domain: targetDomain });
       } catch (e) {
-          // Toast Error Handling
+          scanError = e instanceof Error ? e.message : String(e);
+          console.error('Domain Info scan failed:', e);
       } finally {
           appState.setScanning(false, '');
       }
@@ -65,6 +68,13 @@
       </div>
   </div>
 
+  <!-- Error State -->
+  {#if scanError}
+      <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-mono">
+          ⚠ Scan Error: {scanError}
+      </div>
+  {/if}
+
   <!-- Adaptive Grid Layout -->
   {#if scanResult || appState.isScanning}
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -72,7 +82,8 @@
               <DomainOverview isLoading={appState.isScanning} result={scanResult} />
           </div>
           <div class="lg:col-span-1 space-y-6">
-              <SslStatus isLoading={appState.isScanning} ssl={scanResult?.ssl} />
+              <SslStatus isLoading={appState.isScanning} ssl={scanResult?.ssl ?? null} />
+              <SecurityDetails isLoading={appState.isScanning} security={scanResult?.security ?? null} score={scanResult?.security_score} />
               <PortSecurityMatrix isLoading={appState.isScanning} ports={scanResult?.open_ports} score={scanResult?.security_score} />
           </div>
       </div>

@@ -1,24 +1,28 @@
 <script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import * as m from '$lib/paraglide/messages';
-  import { Search, HelpCircle } from 'lucide-svelte';
+  import type { DomainDnsResult } from '$lib/types/intelligence';
+  import { Search, HelpCircle, Clock } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import DnsRecordsBoard from '$lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte';
   import DnsSecurityCheck from '$lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte';
   import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
 
   let targetDomain = $state('');
-  let scanResult = $state<any>(null); // DomainDnsResult
+  let scanResult = $state<DomainDnsResult | null>(null);
+  let scanError = $state<string | null>(null);
   let showGuide = $state(false);
   
   async function performScan() {
       if (!targetDomain) return;
       appState.setScanning(true, 'DOMAIN DNS');
+      scanError = null;
       
       try {
-          scanResult = await invoke('scan_domain_dns', { domain: targetDomain });
+          scanResult = await invoke<DomainDnsResult>('scan_domain_dns', { domain: targetDomain });
       } catch (e) {
-          console.error(e);
+          scanError = e instanceof Error ? e.message : String(e);
+          console.error('DNS scan failed:', e);
       } finally {
           appState.setScanning(false, '');
       }
@@ -60,6 +64,22 @@
           </button>
       </div>
   </div>
+
+  <!-- Scan Metadata -->
+  {#if scanResult && !appState.isScanning}
+      <div class="flex items-center gap-4 text-xs text-muted font-mono">
+          <span>Domain: <span class="text-accent">{scanResult.domain}</span></span>
+          <span class="flex items-center gap-1"><Clock class="size-3" /> {scanResult.response_time_ms} ms</span>
+          <span>@ {new Date(scanResult.timestamp).toLocaleString()}</span>
+      </div>
+  {/if}
+
+  <!-- Error State -->
+  {#if scanError}
+      <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm font-mono">
+          ⚠ DNS Scan Error: {scanError}
+      </div>
+  {/if}
 
   {#if scanResult || appState.isScanning}
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
