@@ -1,29 +1,47 @@
 <script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import * as m from '$lib/paraglide/messages';
-  import type { DomainDnsResult } from '$lib/types/intelligence';
+  import type { DomainDnsResult, ScanProgressEvent } from '$lib/types/intelligence';
   import { Search, HelpCircle, Clock } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import { listen, type UnlistenFn } from '@tauri-apps/api/event';
   import DnsRecordsBoard from '$lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte';
   import DnsSecurityCheck from '$lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte';
   import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
+  import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<DomainDnsResult | null>(null);
   let scanError = $state<string | null>(null);
   let showGuide = $state(false);
+
+  let scanLogs = $state<ScanProgressEvent[]>([]);
+  let scanProgress = $state(0);
+  let unlistenProgress: UnlistenFn | null = null;
   
   async function performScan() {
       if (!targetDomain) return;
       appState.setScanning(true, 'DOMAIN DNS');
       scanError = null;
+      scanLogs = [];
+      scanProgress = 0;
       
+      unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+          scanLogs.push(event.payload);
+          scanProgress = event.payload.percentage;
+      });
+
       try {
           scanResult = await invoke<DomainDnsResult>('scan_domain_dns', { domain: targetDomain });
+          scanProgress = 100;
       } catch (e) {
           scanError = e instanceof Error ? e.message : String(e);
           console.error('DNS scan failed:', e);
       } finally {
+          if (unlistenProgress) {
+              unlistenProgress();
+              unlistenProgress = null;
+          }
           appState.setScanning(false, '');
       }
   }
@@ -82,8 +100,12 @@
       </div>
   {/if}
 
-  {#if scanResult || appState.isScanning}
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  {#if appState.isScanning}
+      <div class="mt-8 animate-fade-in">
+          <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
+      </div>
+  {:else if scanResult}
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
           <div class="lg:col-span-2">
               <DnsRecordsBoard records={scanResult?.records} isLoading={appState.isScanning} />
           </div>

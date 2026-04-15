@@ -1,31 +1,49 @@
 <script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import * as m from '$lib/paraglide/messages';
-  import type { DomainInfoResult } from '$lib/types/intelligence';
+  import type { DomainInfoResult, ScanProgressEvent } from '$lib/types/intelligence';
   import DomainOverview from '$lib/components/intelligence/domain-info/DomainOverview.svelte';
   import SslStatus from '$lib/components/intelligence/domain-info/SslStatus.svelte';
   import PortSecurityMatrix from '$lib/components/intelligence/domain-info/PortSecurityMatrix.svelte';
   import SecurityDetails from '$lib/components/intelligence/domain-info/SecurityDetails.svelte';
   import DomainInfoGuide from '$lib/components/intelligence/domain-info/DomainInfoGuide.svelte';
+  import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
   import { Search, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 
   let targetDomain = $state('');
   let scanResult = $state<DomainInfoResult | null>(null);
   let scanError = $state<string | null>(null);
   let showGuide = $state(false);
+
+  let scanLogs = $state<ScanProgressEvent[]>([]);
+  let scanProgress = $state(0);
+  let unlistenProgress: UnlistenFn | null = null;
   
   async function performScan() {
       if (!targetDomain) return;
       appState.setScanning(true, 'DOMAIN INFO');
       scanError = null;
+      scanLogs = [];
+      scanProgress = 0;
       
+      unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+          scanLogs.push(event.payload);
+          scanProgress = event.payload.percentage;
+      });
+
       try {
           scanResult = await invoke<DomainInfoResult>('scan_domain_info', { domain: targetDomain });
+          scanProgress = 100;
       } catch (e) {
           scanError = e instanceof Error ? e.message : String(e);
           console.error('Domain Info scan failed:', e);
       } finally {
+          if (unlistenProgress) {
+              unlistenProgress();
+              unlistenProgress = null;
+          }
           appState.setScanning(false, '');
       }
   }
@@ -76,9 +94,13 @@
       </div>
   {/if}
 
-  <!-- Adaptive Grid Layout -->
-  {#if scanResult || appState.isScanning}
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  {#if appState.isScanning}
+      <div class="mt-8 animate-fade-in">
+          <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
+      </div>
+  {:else if scanResult}
+      <!-- Adaptive Grid Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade-in">
           <div class="lg:col-span-2">
               <DomainOverview isLoading={appState.isScanning} result={scanResult} />
           </div>

@@ -210,3 +210,12 @@ export interface SeoAnalysisResult {
 	page_speed_factors: PageSpeedResult;
 	seo_score: SeoScoreResult;
 }
+
+// ── Progress & Console Types ─────────────────────────────────────────────────
+
+export interface ScanProgressEvent {
+	module: string;
+	percentage: number;
+	message: string;
+	status: string;
+}

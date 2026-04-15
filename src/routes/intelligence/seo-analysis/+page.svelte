@@ -1,9 +1,10 @@
 <script lang="ts">
   import { appState } from '$lib/stores/AppState.svelte';
   import * as m from '$lib/paraglide/messages';
-  import type { SeoAnalysisResult } from '$lib/types/intelligence';
+  import type { SeoAnalysisResult, ScanProgressEvent } from '$lib/types/intelligence';
   import { Search, HelpCircle } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
+  import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 
   // Components — all 13 sections
   import SeoScoreGauge from '$lib/components/intelligence/seo-analysis/SeoScoreGauge.svelte';
@@ -20,23 +21,40 @@
   import ImageSeoCard from '$lib/components/intelligence/seo-analysis/ImageSeoCard.svelte';
   import PageSpeedFactors from '$lib/components/intelligence/seo-analysis/PageSpeedFactors.svelte';
   import SeoGuide from '$lib/components/recon/guides/SeoGuide.svelte';
+  import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<SeoAnalysisResult | null>(null);
   let scanError = $state<string | null>(null);
   let showGuide = $state(false);
+
+  let scanLogs = $state<ScanProgressEvent[]>([]);
+  let scanProgress = $state(0);
+  let unlistenProgress: UnlistenFn | null = null;
   
   async function performScan() {
       if (!targetDomain) return;
       appState.setScanning(true, 'SEO ANALYSIS');
       scanError = null;
+      scanLogs = [];
+      scanProgress = 0;
       
+      unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+          scanLogs.push(event.payload);
+          scanProgress = event.payload.percentage;
+      });
+
       try {
           scanResult = await invoke<SeoAnalysisResult>('scan_seo_analysis', { url: targetDomain });
+          scanProgress = 100;
       } catch (e) {
           scanError = e instanceof Error ? e.message : String(e);
           console.error('SEO Analysis failed:', e);
       } finally {
+          if (unlistenProgress) {
+              unlistenProgress();
+              unlistenProgress = null;
+          }
           appState.setScanning(false, '');
       }
   }
@@ -86,9 +104,13 @@
       </div>
   {/if}
 
-  {#if scanResult || appState.isScanning}
+  {#if appState.isScanning}
+      <div class="mt-8 animate-fade-in">
+          <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
+      </div>
+  {:else if scanResult}
       <!-- Row 1: Score + Basic SEO + Content -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in">
           <div class="lg:col-span-1">
               <SeoScoreGauge data={scanResult?.seo_score} isLoading={appState.isScanning} />
           </div>

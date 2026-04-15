@@ -3,6 +3,7 @@ pub mod system_health;
 pub mod db;
 
 use crate::error::AppError;
+use tauri::Emitter;
 use web_analyzer::domain_info::{get_domain_info, DomainInfoResult};
 use web_analyzer::domain_dns::{get_dns_records, DomainDnsResult};
 use web_analyzer::seo_analysis::{analyze_advanced_seo, SeoAnalysisResult};
@@ -73,18 +74,36 @@ macro_rules! log_and_execute_scan {
 }
 
 #[tauri::command]
-async fn scan_domain_info(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<DomainInfoResult, AppError> {
-    log_and_execute_scan!(pool, domain, "DomainInfo", get_domain_info(&domain))
+async fn scan_domain_info(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<DomainInfoResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "DomainInfo", get_domain_info(&domain, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_domain_dns(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<DomainDnsResult, AppError> {
-    log_and_execute_scan!(pool, domain, "DomainDns", get_dns_records(&domain))
+async fn scan_domain_dns(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<DomainDnsResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "DomainDns", get_dns_records(&domain, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_seo_analysis(url: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<SeoAnalysisResult, AppError> {
-    log_and_execute_scan!(pool, url, "SeoAnalysis", analyze_advanced_seo(&url))
+async fn scan_seo_analysis(url: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<SeoAnalysisResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, url, "SeoAnalysis", analyze_advanced_seo(&url, Some(tx)))
 }
 
 #[tauri::command]
