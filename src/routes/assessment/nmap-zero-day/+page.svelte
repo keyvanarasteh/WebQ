@@ -7,12 +7,28 @@
     import NmapVulnGrid from '$lib/components/assessment/nmap-zero-day/NmapVulnGrid.svelte';
     import NmapGuide from '$lib/components/assessment/nmap-zero-day/NmapGuide.svelte';
     import { HelpCircle } from 'lucide-svelte';
+    import { fade } from 'svelte/transition';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
 
     let domain = $state('');
     let loading = $state(false);
     let error = $state<string | null>(null);
     let result = $state<any>(null);
     let showGuide = $state(false);
+
+    let logs = $state<ScanProgressEvent[]>([]);
+    let progressPercent = $state(0);
+
+    $effect(() => {
+        let unlistenP: UnlistenFn | null = null;
+        listen<ScanProgressEvent>('scan-progress', (event) => {
+            logs.push(event.payload);
+            progressPercent = event.payload.percentage;
+        }).then(u => unlistenP = u);
+        return () => { if (unlistenP) unlistenP(); };
+    });
 
     async function analyzeDomain() {
         if (!domain.trim()) {
@@ -23,6 +39,10 @@
         loading = true;
         error = null;
         result = null;
+        logs = [];
+        progressPercent = 0;
+        logs = [];
+        progressPercent = 0;
 
         try {
             const response = await invoke('scan_nmap_zero_day', { domain });
@@ -77,7 +97,7 @@
         <button
             onclick={analyzeDomain}
             disabled={loading || !domain.trim()}
-            class="bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-primary-text px-8 py-3.5 rounded-xl font-medium flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(244,63,94,0.2)]"
+            class="bg-linear-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-primary-text px-8 py-3.5 rounded-xl font-medium flex items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(244,63,94,0.2)]"
         >
             {#if loading}
                 <Loader2 size={18} class="animate-spin" />

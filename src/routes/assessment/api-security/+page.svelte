@@ -6,6 +6,9 @@
     import ApiFuzzerRadar from '$lib/components/assessment/api-security/ApiFuzzerRadar.svelte';
     import ApiVulnLog from '$lib/components/assessment/api-security/ApiVulnLog.svelte';
     import ApiSecurityGuide from '$lib/components/assessment/api-security/ApiSecurityGuide.svelte';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
 
     let domain = $state('');
     let isScanning = $state(false);
@@ -13,9 +16,17 @@
     let error = $state<string | null>(null);
     let showGuide = $state(false);
     
-    // Fuzzing simulation
-    let currentReqs = $state(0);
-    let simInterval: ReturnType<typeof setInterval>;
+    let logs = $state<ScanProgressEvent[]>([]);
+    let progressPercent = $state(0);
+
+    $effect(() => {
+        let unlistenP: UnlistenFn | null = null;
+        listen<ScanProgressEvent>('scan-progress', (event) => {
+            logs.push(event.payload);
+            progressPercent = event.payload.percentage;
+        }).then(u => unlistenP = u);
+        return () => { if (unlistenP) unlistenP(); };
+    });
 
     async function startScan() {
         if (!domain) {
@@ -26,12 +37,8 @@
         isScanning = true;
         error = null;
         scanResult = null;
-        currentReqs = 0;
-
-        // Simulate a rapid fuzzer Req/s indicator during loading
-        simInterval = setInterval(() => {
-            currentReqs = Math.floor(Math.random() * 400) + 150; // Random req/s between 150-550
-        }, 150);
+        logs = [];
+        progressPercent = 0;
 
         try {
             const res = await invoke('scan_api_security', { domain });
@@ -40,7 +47,6 @@
             error = e.toString();
         } finally {
             isScanning = false;
-            clearInterval(simInterval);
         }
     }
 </script>
@@ -108,25 +114,10 @@
         {/if}
     </div>
 
-    <!-- Fuzzing Indicator (Simulated) -->
+    <!-- Fuzzing Stream (Real-Time Terminal) -->
     {#if isScanning}
-        <div class="mb-6 p-6 border border-subtle bg-glass rounded-xl flex flex-col items-center justify-center gap-4" transition:fade>
-            <Terminal size={32} class="text-rose-400 animate-pulse" />
-            <div class="text-center">
-                <h3 class="text-lg font-medium text-primary-text mb-1">Deep Fuzzing In Progress</h3>
-                <p class="text-sm text-muted">Injecting destructive payloads and probing structural weaknesses.</p>
-            </div>
-            
-            <div class="mt-4 flex gap-8">
-                <div class="text-center">
-                    <div class="text-2xl font-mono text-emerald-400">{currentReqs}</div>
-                    <div class="text-xs text-muted uppercase tracking-wider mt-1">Req/s (Speed)</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-2xl font-mono text-rose-400 animate-pulse">9</div>
-                    <div class="text-xs text-muted uppercase tracking-wider mt-1">Suites Active</div>
-                </div>
-            </div>
+        <div class="mb-6" transition:fade>
+            <ScanTerminal {logs} {progressPercent} />
         </div>
     {/if}
 

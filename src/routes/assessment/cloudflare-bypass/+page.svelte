@@ -5,6 +5,9 @@
     import BypassGrid from '$lib/components/assessment/cloudflare-bypass/BypassGrid.svelte';
     import BypassGuide from '$lib/components/assessment/cloudflare-bypass/BypassGuide.svelte';
     import { slide } from 'svelte/transition';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
 
     let targetDomain = $state('');
     let isScanning = $state(false);
@@ -17,6 +20,18 @@
     let errorMessage = $state<string | null>(null);
     let showGuide = $state(false);
 
+    let logs = $state<ScanProgressEvent[]>([]);
+    let progressPercent = $state(0);
+
+    $effect(() => {
+        let unlistenP: UnlistenFn | null = null;
+        listen<ScanProgressEvent>('scan-progress', (event) => {
+            logs.push(event.payload);
+            progressPercent = event.payload.percentage;
+        }).then(u => unlistenP = u);
+        return () => { if (unlistenP) unlistenP(); };
+    });
+
     async function runScan() {
         if (!targetDomain.trim()) {
             errorMessage = "Domain is required.";
@@ -26,6 +41,8 @@
         isScanning = true;
         errorMessage = null;
         scanResult = null;
+        logs = [];
+        progressPercent = 0;
 
         try {
             scanResult = await invoke('scan_cloudflare_bypass', {
@@ -96,6 +113,13 @@
             </div>
         </div>
     </div>
+
+    <!-- Active terminal stream overlay -->
+    {#if isScanning}
+        <div class="mt-6">
+            <ScanTerminal {logs} {progressPercent} />
+        </div>
+    {/if}
 
     <BypassGuide bind:isOpen={showGuide} />
 

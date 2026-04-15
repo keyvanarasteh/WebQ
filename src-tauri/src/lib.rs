@@ -132,33 +132,69 @@ async fn scan_advanced_content(domain: String, pool: tauri::State<'_, sqlx::Sqli
 }
 
 #[tauri::command]
-async fn scan_security_posture(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<SecurityAnalysisResult, AppError> {
-    log_and_execute_scan!(pool, domain, "SecurityAnalysis", web_analyzer::security_analysis::analyze_security(&domain))
+async fn scan_security_posture(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<SecurityAnalysisResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "SecurityAnalysis", web_analyzer::security_analysis::analyze_security(&domain, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_subdomain_takeover(domain: String, subdomains: Vec<String>, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<TakeoverResult, AppError> {
-    log_and_execute_scan!(pool, domain, "Takeover", web_analyzer::subdomain_takeover::check_subdomain_takeover(&domain, &subdomains))
+async fn scan_subdomain_takeover(domain: String, subdomains: Vec<String>, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<TakeoverResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "Takeover", web_analyzer::subdomain_takeover::check_subdomain_takeover(&domain, &subdomains, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_cloudflare_bypass(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<CloudflareBypassResult, AppError> {
-    log_and_execute_scan!(pool, domain, "CloudflareBypass", web_analyzer::cloudflare_bypass::find_real_ip(&domain))
+async fn scan_cloudflare_bypass(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<CloudflareBypassResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "CloudflareBypass", web_analyzer::cloudflare_bypass::find_real_ip(&domain, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_nmap_zero_day(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<NmapScanResult, AppError> {
-    log_and_execute_scan!(pool, domain, "NmapZeroDay", web_analyzer::nmap_zero_day::run_nmap_scan(&domain))
+async fn scan_nmap_zero_day(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<NmapScanResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "NmapZeroDay", web_analyzer::nmap_zero_day::run_nmap_scan(&domain, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_api_security(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<ApiScanResult, AppError> {
-    log_and_execute_scan!(pool, domain, "ApiSecurity", web_analyzer::api_security_scanner::scan_api_endpoints(&domain))
+async fn scan_api_security(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<ApiScanResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "ApiSecurity", web_analyzer::api_security_scanner::scan_api_endpoints(&domain, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_geo_analysis(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<GeoAnalysisResult, AppError> {
-    log_and_execute_scan!(pool, domain, "GeoAnalysis", web_analyzer::geo_analysis::analyze_geo(&domain))
+async fn scan_geo_analysis(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<GeoAnalysisResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "GeoAnalysis", web_analyzer::geo_analysis::analyze_geo(&domain, Some(tx)))
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

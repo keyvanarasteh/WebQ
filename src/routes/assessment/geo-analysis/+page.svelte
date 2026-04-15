@@ -5,12 +5,27 @@
     import { slide, fade } from 'svelte/transition';
     import ApiBotDirectives from '$lib/components/assessment/geo-analysis/ApiBotDirectives.svelte';
     import GeofencingGuide from '$lib/components/assessment/geo-analysis/GeofencingGuide.svelte';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
 
     let domain = $state('');
     let isScanning = $state(false);
     let scanResult = $state<any>(null);
     let error = $state<string | null>(null);
     let showGuide = $state(false);
+
+    let logs = $state<ScanProgressEvent[]>([]);
+    let progressPercent = $state(0);
+
+    $effect(() => {
+        let unlistenP: UnlistenFn | null = null;
+        listen<ScanProgressEvent>('scan-progress', (event) => {
+            logs.push(event.payload);
+            progressPercent = event.payload.percentage;
+        }).then(u => unlistenP = u);
+        return () => { if (unlistenP) unlistenP(); };
+    });
 
     async function startScan() {
         if (!domain) {
@@ -21,6 +36,8 @@
         isScanning = true;
         error = null;
         scanResult = null;
+        logs = [];
+        progressPercent = 0;
 
         try {
             const res = await invoke('scan_geo_analysis', { domain });
@@ -100,6 +117,13 @@
             </div>
         {/if}
     </div>
+
+    <!-- Scanning Terminal output -->
+    {#if isScanning}
+        <div class="mb-6" transition:fade>
+            <ScanTerminal {logs} {progressPercent} />
+        </div>
+    {/if}
 
     <!-- Results Structure -->
     {#if scanResult && !isScanning}

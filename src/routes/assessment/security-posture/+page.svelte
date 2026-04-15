@@ -9,6 +9,10 @@
     import CorsCookieAnalysis from '$lib/components/assessment/security-posture/CorsCookieAnalysis.svelte';
     import HeadersAnalysis from '$lib/components/assessment/security-posture/HeadersAnalysis.svelte';
     import SecurityPostureGuide from '$lib/components/assessment/security-posture/SecurityPostureGuide.svelte';
+    import { fade } from 'svelte/transition';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
 
     type SecurityAnalysisResult = {
         domain: string;
@@ -30,12 +34,28 @@
     // Guide Modal
     let showGuide = $state(false);
 
+    let logs = $state<ScanProgressEvent[]>([]);
+    let progressPercent = $state(0);
+
+    $effect(() => {
+        let unlistenP: UnlistenFn | null = null;
+        listen<ScanProgressEvent>('scan-progress', (event) => {
+            logs.push(event.payload);
+            progressPercent = event.payload.percentage;
+        }).then(u => unlistenP = u);
+        return () => { if (unlistenP) unlistenP(); };
+    });
+
     async function scanTarget() {
         if (!targetDomain) return;
         
         status = 'loading';
         errorMessage = '';
         results = null;
+        logs = [];
+        progressPercent = 0;
+        logs = [];
+        progressPercent = 0;
 
         try {
             results = await invoke<SecurityAnalysisResult>('scan_security_posture', { domain: targetDomain });

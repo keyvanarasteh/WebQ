@@ -4,6 +4,10 @@
   import { ShieldAlert, Search, Loader2, AlertCircle, RefreshCw } from 'lucide-svelte';
   import TakeoverGrid from '$lib/components/assessment/subdomain-takeover/TakeoverGrid.svelte';
   import TakeoverGuide from '$lib/components/assessment/subdomain-takeover/TakeoverGuide.svelte';
+  import { fade } from 'svelte/transition';
+  import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+  import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
+  import type { ScanProgressEvent } from '$lib/types/intelligence';
   
   let targetDomain = $state('');
   let subdomainsRaw = $state('');
@@ -12,12 +16,28 @@
   let scanResult = $state<any>(null);
   let showGuide = $state(false);
   
+  let logs = $state<ScanProgressEvent[]>([]);
+  let progressPercent = $state(0);
+
+  $effect(() => {
+      let unlistenP: UnlistenFn | null = null;
+      listen<ScanProgressEvent>('scan-progress', (event) => {
+          logs.push(event.payload);
+          progressPercent = event.payload.percentage;
+      }).then(u => unlistenP = u);
+      return () => { if (unlistenP) unlistenP(); };
+  });
+  
   async function startScan() {
     if (!targetDomain || !subdomainsRaw.trim()) return;
     
     isScanning = true;
     scanError = null;
     scanResult = null;
+    logs = [];
+    progressPercent = 0;
+    logs = [];
+    progressPercent = 0;
     
     try {
       const subdomainsList = subdomainsRaw.split('\n')
