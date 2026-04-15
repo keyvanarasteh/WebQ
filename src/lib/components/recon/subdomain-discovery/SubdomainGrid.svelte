@@ -49,7 +49,12 @@
 							{typeof item === 'string' ? item : item.host}
 						</td>
 						<td class="px-6 py-3 whitespace-nowrap border-r border-base/50 text-center">
-							{#if item.status === 200}
+							{#if typeof item === 'string'}
+								<span class="inline-flex items-center gap-1.5 rounded bg-background px-2 py-1.5 text-xs text-muted border border-base/50 group-hover:border-indigo-500/50 transition-colors cursor-help" title="Historical string payload lacking advanced HTTP checks">
+									<Target size={12} class="text-indigo-500" />
+									Discovered
+								</span>
+							{:else if item.status === 200}
 								<span class="inline-flex items-center gap-1.5 rounded bg-emerald-500/10 px-2 py-1.5 text-xs text-emerald-400 border border-emerald-500/20">
 									<Target size={12} class="text-emerald-500" />
 									Live (200)
