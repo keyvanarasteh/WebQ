@@ -3,8 +3,10 @@
   import DomainsRoadmap from '$lib/components/roadmap/DomainsRoadmap.svelte';
   import PortsRoadmap from '$lib/components/roadmap/PortsRoadmap.svelte';
   import HeadersRoadmap from '$lib/components/roadmap/HeadersRoadmap.svelte';
+  import StatusCodesRoadmap from '$lib/components/roadmap/StatusCodesRoadmap.svelte';
+  import { ServerCrash } from 'lucide-svelte';
 
-  let activeTab = $state<'domains' | 'ports' | 'headers'>('domains');
+  let activeTab = $state<'domains' | 'ports' | 'headers' | 'status_codes'>('domains');
 </script>
 
 <svelte:head>
@@ -46,6 +48,13 @@
           <BookOpenCheck class="size-4" />
           Security Headers Matrix
       </button>
+      <button 
+          onclick={() => activeTab = 'status_codes'}
+          class="px-5 sm:px-8 py-2.5 rounded-lg text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center gap-2 transition-all {activeTab === 'status_codes' ? 'bg-rose-500/20 text-primary-text border border-rose-500/30' : 'text-muted hover:text-primary-text hover:bg-surface'}"
+      >
+          <ServerCrash class="size-4" />
+          HTTP Codes Matrix
+      </button>
   </div>
 
   <div class="relative w-full">
@@ -53,8 +62,10 @@
           <DomainsRoadmap />
       {:else if activeTab === 'ports'}
           <PortsRoadmap />
-      {:else}
+      {:else if activeTab === 'headers'}
           <HeadersRoadmap />
+      {:else}
+          <StatusCodesRoadmap />
       {/if}
   </div>
 </div>
