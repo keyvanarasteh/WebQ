@@ -12,17 +12,17 @@
 		const timers = [
 			setTimeout(() => {
 				splashClass = 'split';
-			}, 3000),
+			}, 1800),
 			setTimeout(() => {
 				splashClass = 'split explode';
-			}, 4200),
+			}, 2500),
 			setTimeout(() => {
 				splashClass = 'split explode fade-out';
-			}, 5000),
+			}, 3000),
 			setTimeout(() => {
 				show = false;
 				onComplete();
-			}, 5800)
+			}, 3600)
 		];
 
 		return () => {
@@ -44,18 +44,18 @@
 		
 		<div class="cyber-lines">
 			<!-- Lines -->
-			<div class="line" style="transform: rotate(30deg); animation-delay: 0.8s;"></div>
-			<div class="line" style="transform: rotate(150deg); animation-delay: 0.9s;"></div>
-			<div class="line" style="transform: rotate(270deg); animation-delay: 1.0s;"></div>
-			<div class="line" style="transform: rotate(210deg); animation-delay: 1.1s;"></div>
-			<div class="line" style="transform: rotate(330deg); animation-delay: 1.2s;"></div>
+			<div class="line" style="transform: rotate(30deg); animation-delay: 0.4s;"></div>
+			<div class="line" style="transform: rotate(150deg); animation-delay: 0.45s;"></div>
+			<div class="line" style="transform: rotate(270deg); animation-delay: 0.5s;"></div>
+			<div class="line" style="transform: rotate(210deg); animation-delay: 0.55s;"></div>
+			<div class="line" style="transform: rotate(330deg); animation-delay: 0.6s;"></div>
 			
 			<!-- Nodes -->
-			<div class="node" style="top: calc(50% + 10vw); left: calc(50% + 17.32vw); animation-delay: 1.2s;"></div>
-			<div class="node" style="top: calc(50% + 10vw); left: calc(50% - 17.32vw); animation-delay: 1.3s;"></div>
-			<div class="node" style="top: calc(50% - 20vw); left: 50%; animation-delay: 1.4s;"></div>
-			<div class="node" style="top: calc(50% - 10vw); left: calc(50% - 17.32vw); animation-delay: 1.5s;"></div>
-			<div class="node" style="top: calc(50% - 10vw); left: calc(50% + 17.32vw); animation-delay: 1.6s;"></div>
+			<div class="node" style="top: calc(50% + 10vw); left: calc(50% + 17.32vw); animation-delay: 0.6s;"></div>
+			<div class="node" style="top: calc(50% + 10vw); left: calc(50% - 17.32vw); animation-delay: 0.65s;"></div>
+			<div class="node" style="top: calc(50% - 20vw); left: 50%; animation-delay: 0.7s;"></div>
+			<div class="node" style="top: calc(50% - 10vw); left: calc(50% - 17.32vw); animation-delay: 0.75s;"></div>
+			<div class="node" style="top: calc(50% - 10vw); left: calc(50% + 17.32vw); animation-delay: 0.8s;"></div>
 		</div>
 		
 		<div class="core-dot"></div>

@@ -51,7 +51,7 @@
 		background: linear-gradient(90deg, var(--boot-accent), transparent);
 		transform-origin: 0 0;
 		opacity: 0;
-		animation: shootLine 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		animation: shootLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 
 	@keyframes shootLine {
@@ -68,7 +68,7 @@
 		border-radius: 50%;
 		box-shadow: 0 0 10px 2px #fff;
 		opacity: 0;
-		animation: nodePop 1.5s ease-out forwards;
+		animation: nodePop 0.8s ease-out forwards;
 	}
 
 	@keyframes nodePop {
@@ -94,12 +94,12 @@
 		overflow: hidden;
 		white-space: nowrap;
 		width: 0;
-		animation: typeLine 1.5s steps(40, end) forwards;
+		animation: typeLine 0.8s steps(40, end) forwards;
 	}
-	.mt-line:nth-child(1) { animation-delay: 0.5s; }
-	.mt-line:nth-child(2) { animation-delay: 1.5s; }
-	.mt-line:nth-child(3) { animation-delay: 2.5s; }
-	.mt-line:nth-child(4) { animation-delay: 3.5s; }
+	.mt-line:nth-child(1) { animation-delay: 0.3s; }
+	.mt-line:nth-child(2) { animation-delay: 0.8s; }
+	.mt-line:nth-child(3) { animation-delay: 1.3s; }
+	.mt-line:nth-child(4) { animation-delay: 1.8s; }
 
 	@keyframes typeLine {
 		from { width: 0; }
@@ -117,8 +117,8 @@
 		text-transform: uppercase;
 		z-index: 10;
 		pointer-events: none;
-		animation: logoReveal 2.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-		animation-delay: 0.5s;
+		animation: logoReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		animation-delay: 0.3s;
 		opacity: 0;
 		letter-spacing: 0.25em;
 		width: 400px;
@@ -130,7 +130,7 @@
 
 	.logo-p1, .logo-p2, .logo-p3 {
 		display: inline-block;
-		transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	/* SPLIT STATE: W EB Q */
@@ -173,7 +173,7 @@
 		opacity: 0;
 		transform: scale(0.5);
 		pointer-events: none;
-		transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+		transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 		z-index: 20;
 	}
 	#splashScreen.explode .glassmorphism-sweep {
@@ -238,7 +238,7 @@
 		opacity: 0;
 	}
 	#splashScreen.explode .shockwave {
-		animation: shockwaveExplode 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		animation: shockwaveExplode 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 	}
 	@keyframes shockwaveExplode {
 		0% { transform: scale(1); opacity: 1; border-width: 50px; }
