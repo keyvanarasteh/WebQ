@@ -81,6 +81,10 @@
   --border-glass: rgba(255, 255, 255, 0.1);
 }
 
+html {
+  font-size: 12px !important; /* Aggressive 75% scale - forces ALL rem-based fonts, paddings, margins, buttons, and headings to shrink proportionally */
+}
+
 body {
   @apply bg-background text-primary-text;
 }
