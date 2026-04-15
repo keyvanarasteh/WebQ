@@ -7,3 +7,4 @@
 !.env.example
 *.log
 /src-tauri/target
+src-tauri/webq_telemetry.db

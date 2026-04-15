@@ -4,7 +4,13 @@
 	import * as m from '$lib/paraglide/messages';
 	import SubdomainTreeGuide from './SubdomainTreeGuide.svelte';
 	
-	let { data, rootDomain, isPending = false }: { data: string[] | null, rootDomain: string, isPending?: boolean } = $props();
+	type SubdomainDetail = {
+		host: string;
+		status: number | null;
+		resolution_error: string | null;
+	};
+	
+	let { data, rootDomain, isPending = false }: { data: SubdomainDetail[] | null, rootDomain: string, isPending?: boolean } = $props();
 	let guideOpen = $state(false);
 
 	type Node = {
@@ -12,14 +18,17 @@
 		full: string;
 		children: Record<string, Node>;
 		isLeaf: boolean;
+		status?: number | null | undefined;
+		error?: string | null | undefined;
 	};
 
 	let tree = $derived.by(() => {
 		const root: Node = { name: rootDomain, full: rootDomain, children: {}, isLeaf: true };
 		if (!data) return root;
 		
-		for (const subdomain of data) {
-			if (subdomain === rootDomain) continue;
+		for (const detail of data) {
+			const subdomain = typeof detail === 'string' ? detail : (detail?.host || '');
+			if (!subdomain || subdomain === rootDomain) continue;
 			
 			let prefix = subdomain;
 			if (subdomain.endsWith(`.${rootDomain}`)) {
@@ -40,8 +49,13 @@
 						name: part,
 						full: fqdn,
 						children: {},
-						isLeaf: true
+						isLeaf: true,
+						status: i === parts.length - 1 ? (detail as any).status : undefined,
+						error: i === parts.length - 1 ? (detail as any).resolution_error : undefined,
 					};
+				} else if (i === parts.length - 1) {
+					current.children[part].status = (detail as any).status;
+					current.children[part].error = (detail as any).resolution_error;
 				}
 				current.isLeaf = false;
 				current = current.children[part] as Node;
@@ -68,6 +82,19 @@
 			<span class="font-mono text-sm text-secondary-text group-hover:text-primary-text transition-colors">
 				{node.name}
 			</span>
+			
+			{#if node.status === 200}
+				<span class="ml-2 inline-block size-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" title="Live (200)"></span>
+			{:else if node.status === 403}
+				<span class="ml-2 inline-block size-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" title="Forbidden (403)"></span>
+			{:else if node.status === 404}
+				<span class="ml-2 inline-block size-2 rounded-full bg-slate-500" title="Not Found (404)"></span>
+			{:else if node.status}
+				<span class="ml-2 inline-block size-2 rounded-full bg-indigo-500" title="Active ({node.status})"></span>
+			{:else if node.isLeaf}
+				<span class="ml-2 inline-block size-2 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(239,68,68,0.5)]" title={node.error || "Offline"}></span>
+			{/if}
+
 			{#if !Object.keys(node.children).length}
 				<a 
 					href={`http://${node.full}`} 

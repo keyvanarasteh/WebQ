@@ -24,9 +24,15 @@
 	let activeTab = $state<'tree' | 'grid'>('tree');
 	
 	// Defined data structure matching Rust
+	type SubdomainDetail = {
+		host: string;
+		status: number | null;
+		resolution_error: string | null;
+	};
+
 	type ResultPayload = {
 		domain: string;
-		subdomains: string[];
+		subdomains: SubdomainDetail[];
 		total_found: number;
 		filtered_count: number;
 		response_time_ms: number;
