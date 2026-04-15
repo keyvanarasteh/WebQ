@@ -234,7 +234,7 @@
 			</div>
 		</div>
 
-		{#if isScanning || scanLogs.length > 0}
+		{#if isScanning && scanLogs.length > 0}
 			<div class="mt-4 animate-fade-in lg:col-span-8">
 				<ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
 			</div>
