@@ -30,11 +30,21 @@
   });
 
   let { children } = $props();
-  let isBooted = $state(false);
+  // Svelte 5 universal run: check sessionStorage safely
+  let isBooted = $state(typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('webq-booted') === 'true' : false);
   let showCloseConfirm = $state(false);
+
+  function handleBootComplete() {
+      isBooted = true;
+      if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.setItem('webq-booted', 'true');
+      }
+  }
 </script>
 
-<NeuralBootSequence onComplete={() => isBooted = true} />
+{#if !isBooted}
+<NeuralBootSequence onComplete={handleBootComplete} />
+{/if}
 
 {#if isBooted}
 <div class="h-10 w-full fixed top-0 left-0 z-900 select-none">
