@@ -1,0 +1,49 @@
+name: webq 
+base: core22 
+version: '1.0.0'
+summary: A high-performance web intelligence and cybersecurity platform.
+description: |
+  WebQ is a cross-platform Web Intelligence and Cybersecurity platform 
+  built with Rust, Svelte 5, and Tauri, powered by the web-analyzer crate.
+
+grade: stable
+confinement: strict
+
+# Explicitly target multiple architectures for the build
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+
+apps:
+  webq:
+    command: usr/bin/webq
+    extensions: [gnome] 
+    plugs:
+      - network
+      - network-bind
+      - home
+
+parts:
+  node-deps:
+    plugin: npm
+    source: .
+    npm-node-version: "20.10.0"
+
+  webq-gui:
+    after: [node-deps]
+    plugin: rust
+    source: src-tauri
+    override-build: |
+      npm run tauri build
+      mkdir -p $CRAFT_PART_INSTALL/usr/bin
+      cp target/release/webq $CRAFT_PART_INSTALL/usr/bin/webq
+    build-packages:
+      - libwebkit2gtk-4.1-dev
+      - build-essential
+      - curl
+      - wget
+      - file
+      - libxdo-dev
+      - libssl-dev
+      - libayatana-appindicator3-dev
+      - librsvg2-dev
