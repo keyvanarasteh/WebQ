@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-  <title>Infrastructure Roadmap | WebQ</title>
+  <title>Infrastructure Wiki | WebQ</title>
 </svelte:head>
 
 <div class="max-w-7xl mx-auto w-full px-4 py-8 animate-fade-in space-y-12 mb-20">
@@ -18,7 +18,7 @@
   <div>
       <h1 class="text-4xl font-black text-primary-text tracking-widest uppercase flex items-center gap-4">
           <ShieldPlus class="size-8 text-cyan-400" />
-          Infrastructure Roadmap
+          Infrastructure Wiki
       </h1>
       <p class="text-muted mt-3 text-lg max-w-3xl">
           Complete transparent tracking of our TCP intelligence integrations. Web-Analyzer connects directly to native remote systems for real-time security scanning and footprinting.
