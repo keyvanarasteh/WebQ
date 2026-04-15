@@ -31,6 +31,19 @@
 
       <div class="flex items-center justify-between p-4 bg-background rounded-lg border border-base flex-wrap gap-4">
         <div>
+          <p class="font-medium text-primary-text">Accessibility & Motion</p>
+          <p class="text-sm text-muted">Disable CSS animations and transitions for performance or accessibility.</p>
+        </div>
+        <button 
+          onclick={() => appState.animationsEnabled = !appState.animationsEnabled}
+          class="px-5 py-2 rounded-md font-bold border border-base transition-all {appState.animationsEnabled ? 'bg-cyan-500/20 text-accent border-cyan-500/30 hover:bg-cyan-500/30' : 'bg-surface text-muted hover:bg-base'}"
+        >
+          {appState.animationsEnabled ? 'Motion Enabled' : 'Reduced Motion'}
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between p-4 bg-background rounded-lg border border-base flex-wrap gap-4">
+        <div>
           <p class="font-medium text-primary-text cursor-not-allowed">Export Path (WIP)</p>
           <p class="text-sm text-muted">Default directory for Web Analyzer reports.</p>
         </div>

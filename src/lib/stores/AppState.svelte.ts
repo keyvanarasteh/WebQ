@@ -1,5 +1,6 @@
 class AppState {
     theme = $state<'dark' | 'light' | 'system'>('system');
+    animationsEnabled = $state(true);
     sidebarOpen = $state(true);
     isScanning = $state(false);
     activeModule = $state<string | null>(null);

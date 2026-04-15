@@ -111,3 +111,10 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 }
+
+/* Global Animation & Transition Disable Override */
+.disable-animations *, .disable-animations *::before, .disable-animations *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}

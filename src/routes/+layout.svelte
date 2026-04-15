@@ -23,12 +23,21 @@
 
   if (typeof localStorage !== "undefined") {
       setLanguageTag((localStorage.getItem('webq-lang') || 'en') as "en" | "tr");
+      const storedAnim = localStorage.getItem('webq-animations');
+      if (storedAnim !== null) {
+          appState.animationsEnabled = storedAnim === 'true';
+      }
   }
 
   $effect(() => {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const isDark = appState.theme === 'dark' || (appState.theme === 'system' && prefersDark);
       document.documentElement.classList.toggle('dark', isDark);
+      
+      document.documentElement.classList.toggle('disable-animations', !appState.animationsEnabled);
+      if (typeof localStorage !== "undefined") {
+          localStorage.setItem('webq-animations', appState.animationsEnabled.toString());
+      }
   });
 
   let { children } = $props();
