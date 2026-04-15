@@ -117,8 +117,14 @@ async fn validate_bulk_domains(domains: Vec<String>) -> Result<BulkValidationRes
 }
 
 #[tauri::command]
-async fn scan_subdomains(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<SubdomainDiscoveryResult, AppError> {
-    log_and_execute_scan!(pool, domain, "SubdomainDiscovery", discover_subdomains(&domain))
+async fn scan_subdomains(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<SubdomainDiscoveryResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "SubdomainDiscovery", discover_subdomains(&domain, Some(tx)))
 }
 
 #[tauri::command]

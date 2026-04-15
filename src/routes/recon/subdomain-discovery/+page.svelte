@@ -1,12 +1,16 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
 	import { invoke } from '@tauri-apps/api/core';
+	import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 	import * as m from '$lib/paraglide/messages';
+	import type { ScanProgressEvent } from '$lib/types/intelligence';
+	import { formatRelativeTime } from '$lib/utils/time';
 
 	// Components
 	import SubdomainTree from '$lib/components/recon/subdomain-discovery/SubdomainTree.svelte';
 	import SubdomainGrid from '$lib/components/recon/subdomain-discovery/SubdomainGrid.svelte';
 	import SubdomainGuide from '$lib/components/recon/guides/SubdomainGuide.svelte';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
 	import { reportStore } from '$lib/stores/ReportStore.svelte';
 
 	// Icons
@@ -31,7 +35,39 @@
 	let scanResult = $state<ResultPayload | null>(null);
 	let showGuide = $state(false);
 
+	interface HistoricalScanHydration<T> {
+		started_at: string;
+		duration_ms: number;
+		raw_json_blob: T;
+	}
+
+	let localHydration = $state<HistoricalScanHydration<ResultPayload> | null>(null);
+	let scanLogs = $state<ScanProgressEvent[]>([]);
+	let scanProgress = $state(0);
+	let unlistenProgress: UnlistenFn | null = null;
+
 	// ── Handlers ──────────────────────────────────────────────────────────────
+	
+	async function checkLocalHistory() {
+		if (!targetDomain || targetDomain.length < 3) return;
+		try {
+			const history = await invoke<HistoricalScanHydration<ResultPayload> | null>('get_latest_domain_intel', {
+				domain: targetDomain.trim(),
+				scanModule: 'SubdomainDiscovery'
+			});
+			
+			if (history) {
+				localHydration = history;
+				scanResult = history.raw_json_blob;
+				errorMsg = null;
+			} else {
+				localHydration = null;
+				scanResult = null;
+			}
+		} catch (e) {
+			console.error("Failed history check", e);
+		}
+	}
 	
 	async function handleScan(e: Event) {
 		e.preventDefault();
@@ -39,6 +75,14 @@
 		
 		isScanning = true;
 		errorMsg = null;
+		localHydration = null;
+		scanLogs = [];
+		scanProgress = 0;
+		
+		unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+			scanLogs.push(event.payload);
+			scanProgress = event.payload.percentage;
+		});
 		
 		try {
 			// Trigger Rust Tauri command mapped to web-analyzer's subfinder
@@ -46,12 +90,17 @@
 				domain: targetDomain 
 			});
 			scanResult = result;
+			scanProgress = 100;
 			reportStore.addResult(targetDomain, "Subdomain Discovery", scanResult);
 		} catch (err) {
 			errorMsg = err as string;
 			// Reset
 			scanResult = null;
 		} finally {
+			if (unlistenProgress) {
+				unlistenProgress();
+				unlistenProgress = null;
+			}
 			isScanning = false;
 		}
 	}
@@ -99,6 +148,7 @@
 								list="historic-domains"
 								bind:value={targetDomain}
 								disabled={isScanning}
+								onchange={() => checkLocalHistory()}
 								placeholder="e.g. example.com"
 								class="block w-full rounded-lg border border-base bg-surface p-3 pl-10 text-sm text-primary-text placeholder-muted shadow-inner focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50"
 								autofocus
@@ -133,6 +183,14 @@
 			</div>
 
 			<!-- Stats Row -->
+			{#if localHydration && !isScanning}
+				<div class="flex items-center gap-2 justify-end -mt-2 animate-fade-in pr-2 mb-2">
+					<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 text-cyan-400 rounded-full text-[10px] font-mono border border-cyan-500/20 uppercase tracking-widest shrink-0">
+						Restored Scan from {formatRelativeTime(localHydration.started_at)} ({localHydration.duration_ms}ms)
+					</span>
+				</div>
+			{/if}
+
 			<div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
 				<div class="flex flex-col items-center justify-center rounded-xl border border-base/50 bg-surface p-4 shadow-sm relative overflow-hidden group">
 					<div class="absolute inset-0 bg-linear-to-t from-sky-500/5 to-transparent"></div>
@@ -171,6 +229,12 @@
 				</div>
 			</div>
 		</div>
+
+		{#if isScanning || scanLogs.length > 0}
+			<div class="mt-4 animate-fade-in lg:col-span-8">
+				<ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
+			</div>
+		{/if}
 
 		<SubdomainGuide bind:isOpen={showGuide} />
 	</div>
