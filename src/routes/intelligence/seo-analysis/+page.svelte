@@ -64,6 +64,7 @@
               <input 
                   type="text" 
                   bind:value={targetDomain} 
+                  onkeydown={(e) => e.key === 'Enter' && performScan()}
                   placeholder="Enter URL (e.g. https://example.com)"
                   class="w-full bg-background border border-base rounded-lg py-2 pl-10 pr-4 text-primary-text focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all font-mono text-sm"
               />
