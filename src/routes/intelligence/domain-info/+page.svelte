@@ -108,9 +108,9 @@
               <DomainOverview isLoading={appState.isScanning} result={scanResult} />
           </div>
           <div class="lg:col-span-1 space-y-6">
-              <SslStatus isLoading={appState.isScanning} ssl={scanResult?.ssl ?? null} />
-              <SecurityDetails isLoading={appState.isScanning} security={scanResult?.security ?? null} score={scanResult?.security_score} />
-              <PortSecurityMatrix isLoading={appState.isScanning} ports={scanResult?.open_ports} score={scanResult?.security_score} />
+              <SslStatus isLoading={appState.isScanning} ssl={scanResult?.ssl ?? null} domain={targetDomain} />
+              <SecurityDetails isLoading={appState.isScanning} security={scanResult?.security ?? null} score={scanResult?.security_score} domain={targetDomain} />
+              <PortSecurityMatrix isLoading={appState.isScanning} ports={scanResult?.open_ports} score={scanResult?.security_score} domain={targetDomain} />
           </div>
       </div>
   {/if}

@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [56] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~289
+📈 **Progress Statistics:** [57] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~290
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -38,6 +38,7 @@
   - *Input:* `open_ports`, `security`, `security_score`.
   - *Output:* 100 üzerinden animasyonlu genel güvenlik skoru, eksik HTTPS veya Firewall kuralları yüzünden tespit edilen açık port listesi.
   - *Visualize:* NumberFlow ile artan animasyonlu 0-100 skoru. Açık portlar için Grid: 80/443 yeşil, tehlikeli olanlar (21, 22, 3306) kırmızı yanıp sönen noktalar (ping animation).
+- [x] Component (Advanced UX): `Domain Info` modülündeki tüm bileşenler (DomainOverview, SslStatus, PortSecurityMatrix, SecurityDetails) için monolithic scan'den bağımsız, progresif ve eşzamanlı çalışabilen Tauri command (Refresh) altyapısı kuruldu. `scanResult` verisini beklemeden asenkron component hydrate desteği sağlandı.
 - [x] Arkaplan: Rust Tauri Command `scan_domain_info` fonksiyonu `web_analyzer::domain_info`'yu asenkron Tokio thread'inde çağıracak. Hata yönetimi Paraglide ile lokalize edilip Svelte-Sonner toast olarak verilecek. (Real-time MPSC terminal arayüzü ile tamamlandı)
 
 ### 2.2 Domain DNS Modülü (`domain_dns`) [Mimari ve UX Planı]

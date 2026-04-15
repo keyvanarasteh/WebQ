@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { HelpCircle, Server } from 'lucide-svelte';
+  import { HelpCircle, Server, RefreshCw } from 'lucide-svelte';
+  import { invoke } from '@tauri-apps/api/core';
   import * as m from '$lib/paraglide/messages';
   import PortSecurityGuide from './PortSecurityGuide.svelte';
 
@@ -7,10 +8,39 @@
       isLoading: boolean;
       ports: string[] | undefined;
       score: number | undefined;
+      domain: string;
   };
 
-  let { isLoading, ports, score }: PortSecurityProps = $props();
+  let { isLoading, ports, score, domain }: PortSecurityProps = $props();
   let guideOpen = $state(false);
+  let isRescanning = $state(false);
+  let localPorts = $state<string[] | undefined>(undefined);
+
+  $effect(() => {
+      if (ports !== undefined) {
+          localPorts = ports;
+      }
+  });
+
+  async function handleRescan() {
+      if (!domain) return;
+      isRescanning = true;
+      try {
+          const ipInfo = await invoke<{ ipv4: string | null }>('scan_ip_resolution', { domain });
+          if (ipInfo.ipv4) {
+              localPorts = await invoke<string[]>('scan_ports', { ip: ipInfo.ipv4 });
+          } else {
+              console.error("Could not resolve IPv4 for Port Scan");
+              localPorts = [];
+          }
+      } catch(e) {
+          console.error("Failed to rescan Ports:", e);
+      } finally {
+          isRescanning = false;
+      }
+  }
+
+  let finalLoading = $derived(isLoading || isRescanning);
 </script>
 
 <PortSecurityGuide bind:isOpen={guideOpen} />
@@ -18,12 +48,19 @@
 <div class="bg-background border border-base rounded-xl p-6 shadow-sm transition-all duration-300">
   <div class="flex items-center justify-between mb-4">
       <h3 class="text-lg font-bold text-accent">Port Security</h3>
-      <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_ports_title()}>
-          <HelpCircle class="size-4" />
-      </button>
+      <div class="flex items-center gap-1">
+          {#if !isLoading && domain}
+              <button onclick={handleRescan} disabled={isRescanning} class="p-1.5 rounded-lg text-muted hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all disabled:opacity-50" title="Independent Ports Rescan">
+                  <RefreshCw class="size-4 {isRescanning ? 'animate-spin' : ''}" />
+              </button>
+          {/if}
+          <button onclick={() => guideOpen = true} class="p-1.5 rounded-lg text-muted hover:text-accent hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 transition-all" title={m.guide_ports_title()}>
+              <HelpCircle class="size-4" />
+          </button>
+      </div>
   </div>
 
-  {#if isLoading}
+  {#if finalLoading}
       <div class="space-y-4">
           <div class="h-10 w-full bg-surface/50 rounded-lg animate-pulse"></div>
           <div class="flex gap-2">
@@ -42,8 +79,8 @@
       <div class="border-t border-base pt-4">
           <p class="text-xs text-muted uppercase tracking-widest mb-3">Open Ports</p>
           <div class="flex flex-wrap gap-2">
-              {#if ports && ports.length > 0}
-                  {#each ports as port, i (i)}
+              {#if localPorts && localPorts.length > 0}
+                  {#each localPorts as port, i (i)}
                       {@const isDanger = port.startsWith('21') || port.startsWith('22') || port.startsWith('3306')}
                       <span class="px-2 py-1 text-xs font-mono rounded-md border
                           {isDanger ? 'bg-red-500/10 border-red-500/50 text-red-400' : 'bg-cyan-500/10 border-cyan-500/30 text-accent'}">

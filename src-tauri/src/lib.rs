@@ -197,6 +197,116 @@ async fn scan_geo_analysis(domain: String, pool: tauri::State<'_, sqlx::SqlitePo
     log_and_execute_scan!(pool, domain, "GeoAnalysis", web_analyzer::geo_analysis::analyze_geo(&domain, Some(tx)))
 }
 
+        // -- Decoupled Domain Info Endpoints --
+#[derive(serde::Serialize)]
+pub struct IpResolutionInfo {
+    ipv4: Option<String>,
+    ipv6: Vec<String>,
+    all_ipv4: Vec<String>,
+    reverse_dns: Option<String>,
+}
+
+#[tauri::command]
+async fn scan_ip_resolution(domain: String) -> Result<IpResolutionInfo, AppError> {
+    let mut ipv4 = None;
+    let mut all_ipv4 = vec![];
+    let mut ipv6 = vec![];
+    
+    // We clean the domain exactly like web-analyzer does inside get_domain_info
+    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
+    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+
+    if let Ok(addrs) = tokio::net::lookup_host(format!("{}:80", clean)).await {
+        for addr in addrs {
+            match addr.ip() {
+                std::net::IpAddr::V4(ip) => all_ipv4.push(ip.to_string()),
+                std::net::IpAddr::V6(ip) => ipv6.push(ip.to_string()),
+            }
+        }
+    }
+    if !all_ipv4.is_empty() {
+        ipv4 = Some(all_ipv4[0].clone());
+    }
+    
+    let reverse_dns = if let Some(ref ip) = ipv4 {
+        web_analyzer::domain_info::reverse_dns_lookup(ip).await
+    } else {
+        None
+    };
+    
+    Ok(IpResolutionInfo { ipv4, ipv6, all_ipv4, reverse_dns })
+}
+
+#[tauri::command]
+async fn scan_whois(domain: String) -> Result<web_analyzer::domain_info::WhoisInfo, AppError> {
+    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
+    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    Ok(web_analyzer::domain_info::query_whois(&clean).await)
+}
+
+#[tauri::command]
+async fn scan_ssl(domain: String) -> Result<web_analyzer::domain_info::SslInfo, AppError> {
+    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
+    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    Ok(web_analyzer::domain_info::check_ssl(&clean).await)
+}
+
+#[tauri::command]
+async fn scan_ports(ip: String) -> Result<Vec<String>, AppError> {
+    Ok(web_analyzer::domain_info::scan_ports(Some(&ip)).await)
+}
+
+#[derive(serde::Serialize)]
+pub struct HttpStatusInfo {
+    status: Option<String>,
+    server: Option<String>,
+    response_time_ms: Option<f64>
+}
+
+#[tauri::command]
+async fn scan_http_status(domain: String) -> Result<HttpStatusInfo, AppError> {
+    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
+    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(5))
+        .danger_accept_invalid_certs(true)
+        .redirect(reqwest::redirect::Policy::limited(3))
+        .user_agent("Mozilla/5.0")
+        .build()
+        .map_err(|e| AppError::ModuleFailed(e.to_string()))?;
+        
+    let res = web_analyzer::domain_info::check_http_status(&client, &clean).await;
+    Ok(HttpStatusInfo {
+        status: res.0,
+        server: res.1,
+        response_time_ms: res.2
+    })
+}
+
+#[tauri::command]
+async fn scan_security_headers(domain: String) -> Result<web_analyzer::domain_info::SecurityInfo, AppError> {
+    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
+    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+
+    let client = reqwest::Client::builder()
+        .timeout(std::time::Duration::from_secs(5))
+        .danger_accept_invalid_certs(true)
+        .redirect(reqwest::redirect::Policy::limited(3))
+        .user_agent("Mozilla/5.0")
+        .build()
+        .map_err(|e| AppError::ModuleFailed(e.to_string()))?;
+        
+    Ok(web_analyzer::domain_info::check_security(&client, &clean).await)
+}
+
+#[tauri::command]
+async fn scan_dns_records(domain: String) -> Result<web_analyzer::domain_info::DnsInfo, AppError> {
+    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
+    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    Ok(web_analyzer::domain_info::get_dns_records(&clean).await)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -232,7 +342,14 @@ pub fn run() {
             scan_cloudflare_bypass,
             scan_nmap_zero_day,
             scan_api_security,
-            scan_geo_analysis
+            scan_geo_analysis,
+            scan_ip_resolution,
+            scan_whois,
+            scan_ssl,
+            scan_ports,
+            scan_http_status,
+            scan_security_headers,
+            scan_dns_records
         ])
         .run(tauri::generate_context!())
         .expect("error while running WebQ application");
