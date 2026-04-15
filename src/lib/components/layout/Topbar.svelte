@@ -1,6 +1,6 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
-    import { Menu, FileDown } from 'lucide-svelte';
+    import { Menu, FileDown, Sun, Moon, Monitor } from 'lucide-svelte';
     import ReportExporterModal from '$lib/components/reports/ReportExporterModal.svelte';
     import SegmentedControl from '$lib/components/ui/SegmentedControl.svelte';
 
@@ -8,9 +8,9 @@
 
     // Light/Dark segmented
     const themeOptions = [
-        { label: 'Dark', value: 'dark' },
-        { label: 'System', value: 'system' },
-        { label: 'Light', value: 'light' }
+        { label: 'Dark', value: 'dark', icon: Moon },
+        { label: 'System', value: 'system', icon: Monitor },
+        { label: 'Light', value: 'light', icon: Sun }
     ];
 
     // Language segmented
