@@ -71,15 +71,17 @@
               <div class="h-6 w-12 bg-surface rounded animate-pulse"></div>
           </div>
       </div>
-  {:else if score != null}
+  {:else if localPorts !== undefined}
       <!-- Security Score -->
-      <div class="mb-6">
-          <p class="text-5xl font-black {score > 70 ? 'text-green-500' : 'text-orange-500'}">{score}</p>
-          <p class="text-sm text-muted font-medium tracking-wide">TOTAL SECURITY SCORE</p>
-      </div>
+      {#if score != null}
+          <div class="mb-6">
+              <p class="text-5xl font-black {score > 70 ? 'text-green-500' : 'text-orange-500'}">{score}</p>
+              <p class="text-sm text-muted font-medium tracking-wide">TOTAL SECURITY SCORE</p>
+          </div>
+      {/if}
 
       <!-- Open ports grid -->
-      <div class="border-t border-base pt-4">
+      <div class="{score != null ? 'border-t border-base pt-4' : 'pt-2'}">
           <p class="text-xs text-muted uppercase tracking-widest mb-3">Open Ports</p>
           <div class="flex flex-wrap gap-2">
               {#if localPorts && localPorts.length > 0}
