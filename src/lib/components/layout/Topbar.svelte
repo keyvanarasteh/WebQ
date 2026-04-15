@@ -9,6 +9,7 @@
     // Light/Dark segmented
     const themeOptions = [
         { label: 'Dark', value: 'dark' },
+        { label: 'System', value: 'system' },
         { label: 'Light', value: 'light' }
     ];
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Shield, Github, Box, User, ExternalLink } from 'lucide-svelte';
+  import { Shield, Github, Box, User, ExternalLink, Globe, Link } from 'lucide-svelte';
 </script>
 
 <div class="space-y-6 max-w-4xl mx-auto pb-10">
@@ -41,6 +41,30 @@
           <div>
             <p class="font-medium text-primary-text">Engine: web-analyzer crate</p>
             <p class="text-sm text-muted">The high-performance Rust reconnaissance engine powering WebQ.</p>
+          </div>
+        </div>
+        <ExternalLink class="w-5 h-5 text-muted group-hover:text-cyan-400 transition-colors" />
+      </a>
+
+      <h3 class="text-lg font-semibold text-accent border-b border-base pb-2 mt-8">Corporate</h3>
+      
+      <a href="https://qline.tech" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 bg-background rounded-lg border border-base hover:bg-surface hover:border-cyan-500/50 transition-all group">
+        <div class="flex items-center gap-4">
+          <Globe class="w-6 h-6 text-muted group-hover:text-primary-text transition-colors" />
+          <div>
+            <p class="font-medium text-primary-text">QLine Tech</p>
+            <p class="text-sm text-muted">Visit our main technology hub for advanced security solutions.</p>
+          </div>
+        </div>
+        <ExternalLink class="w-5 h-5 text-muted group-hover:text-cyan-400 transition-colors" />
+      </a>
+
+      <a href="https://qline.tech/apps/webq/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 bg-background rounded-lg border border-base hover:bg-surface hover:border-cyan-500/50 transition-all group">
+        <div class="flex items-center gap-4">
+          <Link class="w-6 h-6 text-muted group-hover:text-primary-text transition-colors" />
+          <div>
+            <p class="font-medium text-primary-text">WebQ Product Page</p>
+            <p class="text-sm text-muted">Official landing page, documentation and update changelogs.</p>
           </div>
         </div>
         <ExternalLink class="w-5 h-5 text-muted group-hover:text-cyan-400 transition-colors" />

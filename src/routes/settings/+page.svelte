@@ -6,6 +6,7 @@
 
   const themeOptions = [
     { label: 'Obsidian Dark', value: 'dark' },
+    { label: 'System Auto', value: 'system' },
     { label: 'Cyber Light', value: 'light' }
   ];
 </script>

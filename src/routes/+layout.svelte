@@ -26,7 +26,9 @@
   }
 
   $effect(() => {
-      document.documentElement.classList.toggle('dark', appState.theme === 'dark');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = appState.theme === 'dark' || (appState.theme === 'system' && prefersDark);
+      document.documentElement.classList.toggle('dark', isDark);
   });
 
   let { children } = $props();

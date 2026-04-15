@@ -1,11 +1,13 @@
 class AppState {
-    theme = $state<'dark' | 'light'>('dark');
+    theme = $state<'dark' | 'light' | 'system'>('system');
     sidebarOpen = $state(true);
     isScanning = $state(false);
     activeModule = $state<string | null>(null);
 
     toggleTheme() {
-        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+        if (this.theme === 'dark') this.theme = 'light';
+        else if (this.theme === 'light') this.theme = 'system';
+        else this.theme = 'dark';
     }
 
     setScanning(status: boolean, moduleName: string) {
