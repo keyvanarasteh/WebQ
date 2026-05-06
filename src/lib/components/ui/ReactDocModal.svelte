@@ -140,22 +140,22 @@
 {#if isOpen}
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
 <div 
-  class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-overlay/80 backdrop-blur-sm transition-all duration-300"
+  class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-all duration-300"
   onclick={close}
 >
   <div 
-      class="bg-background border flex flex-col border-border/50 rounded-xl shadow-[0_0_50px_rgba(34,211,238,0.05)] w-full max-w-4xl max-h-[85vh] overflow-hidden"
+      class="bg-background border flex flex-col border-border rounded-xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden"
       onclick={(e) => e.stopPropagation()}
   >
       <!-- HEADER -->
-      <div class="px-6 py-4 border-b border-border/50 bg-surface/50 flex justify-between items-center sticky top-0 z-10 shrink-0">
+      <div class="px-6 py-4 border-b border-border bg-surface/80 backdrop-blur-md flex justify-between items-center sticky top-0 z-10 shrink-0">
           <div class="flex items-center gap-3">
               <div class="p-2 bg-blue-500/10 rounded-lg">
-                  <BookOpen class="w-5 h-5 text-blue-400" />
+                  <BookOpen class="w-5 h-5 text-blue-500 dark:text-blue-400" />
               </div>
               <div>
                   <h2 class="text-xl font-black text-primary-text tracking-wide">{currentData.title}</h2>
-                  <p class="text-xs font-mono text-blue-400/70 tracking-widest uppercase">React2Shell Documentation</p>
+                  <p class="text-xs font-mono text-blue-500/70 dark:text-blue-400/70 tracking-widest uppercase">React2Shell Documentation</p>
               </div>
           </div>
           
@@ -173,15 +173,15 @@
       <!-- SCROLLABLE CONTENT AREA -->
       <div class="p-6 overflow-y-auto w-full h-full custom-scrollbar">
           
-          <div class="mb-8 p-4 bg-surface/30 border border-border/50 rounded-lg">
+          <div class="mb-8 p-4 bg-surface/50 border border-border rounded-lg shadow-sm">
               <p class="text-primary-text text-sm leading-relaxed">{currentData.desc}</p>
           </div>
 
           {#if section === 'target'}
               <div class="space-y-6">
-                  {#each (currentData as any).sections as sec}
-                      <div class="bg-surface/20 border border-border/30 rounded-lg p-5">
-                          <h3 class="text-lg font-bold text-red-400 flex items-center gap-2 mb-3">
+                  {#each (currentData as any).sections as sec (sec.q)}
+                      <div class="bg-surface border border-border/50 rounded-lg p-5 shadow-sm hover:border-border transition-colors">
+                          <h3 class="text-lg font-bold text-red-500 dark:text-red-400 flex items-center gap-2 mb-3">
                               <ShieldAlert class="w-5 h-5" /> {sec.q}
                           </h3>
                           <div class="text-sm text-primary-text/90 leading-relaxed space-y-2 whitespace-pre-wrap">
@@ -192,9 +192,9 @@
               </div>
           {:else}
               <div class="space-y-4 relative">
-                  <div class="absolute left-[27px] top-[40px] bottom-[40px] w-0.5 bg-border/50 z-0"></div>
+                  <div class="absolute left-[27px] top-[40px] bottom-[40px] w-0.5 bg-border z-0"></div>
                   
-                  <h3 class="text-lg font-bold text-blue-400 mb-6">Logical Execution Flow</h3>
+                  <h3 class="text-lg font-bold text-blue-500 dark:text-blue-400 mb-6">Logical Execution Flow</h3>
 
                   {#each (currentData as any).flow as step, i}
                       {#if step.note}
@@ -205,22 +205,22 @@
                                   </div>
                               </div>
                               <div class="bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-3 w-full shadow-sm">
-                                  <pre class="text-xs font-mono text-yellow-400/90 whitespace-pre-wrap">{step.note}</pre>
+                                  <pre class="text-xs font-mono text-yellow-600 dark:text-yellow-400/90 whitespace-pre-wrap">{step.note}</pre>
                               </div>
                           </div>
                       {:else}
                           <div class="flex items-start gap-4 relative z-10">
                               <div class="w-14 shrink-0 flex justify-center mt-1">
-                                  <div class="p-2 rounded-lg {step.actor === 'Attacker' ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}">
-                                      {#if step.actor === 'Attacker'}
+                                  <div class="p-2 rounded-lg {step.actor === 'Attacker' || step.actor === 'Saldırgan' ? 'bg-red-500/10 text-red-500 dark:text-red-400 border border-red-500/20' : 'bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/20'}">
+                                      {#if step.actor === 'Attacker' || step.actor === 'Saldırgan'}
                                           <Cpu class="w-4 h-4" />
                                       {:else}
                                           <Server class="w-4 h-4" />
                                       {/if}
                                   </div>
                               </div>
-                              <div class="flex-1 bg-surface border border-border/50 rounded-lg p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                  <span class="font-bold text-sm {step.actor === 'Attacker' ? 'text-red-400' : 'text-blue-400'}">{step.actor}</span>
+                              <div class="flex-1 bg-surface border border-border rounded-lg p-4 shadow-sm hover:border-border/80 transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                  <span class="font-bold text-sm {step.actor === 'Attacker' || step.actor === 'Saldırgan' ? 'text-red-500 dark:text-red-400' : 'text-blue-500 dark:text-blue-400'}">{step.actor}</span>
                                   
                                   <div class="flex flex-col items-center flex-1">
                                       <span class="text-xs font-mono text-muted mb-1">{step.action}</span>
@@ -229,7 +229,7 @@
                                       </div>
                                   </div>
 
-                                  <span class="font-bold text-sm {step.target === 'Attacker' ? 'text-red-400' : 'text-blue-400'}">{step.target}</span>
+                                  <span class="font-bold text-sm {step.target === 'Attacker' || step.target === 'Saldırgan' ? 'text-red-500 dark:text-red-400' : 'text-blue-500 dark:text-blue-400'}">{step.target}</span>
                               </div>
                           </div>
                       {/if}
@@ -251,10 +251,10 @@
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--border-base, #333);
+  background: rgba(150, 150, 150, 0.3);
   border-radius: 4px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--bg-surface-hover, #444);
+  background: rgba(150, 150, 150, 0.5);
 }
 </style>
