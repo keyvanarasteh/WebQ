@@ -18,6 +18,10 @@ use web_analyzer::cloudflare_bypass::CloudflareBypassResult;
 use web_analyzer::nmap_zero_day::NmapScanResult;
 use web_analyzer::api_security_scanner::ApiScanResult;
 use web_analyzer::geo_analysis::GeoAnalysisResult;
+use web_analyzer::react::{
+    execute_source_leak, execute_rce_command, execute_rce,
+    SourceLeakResult, RceCommandOutput, RceResult
+};
 
 #[derive(serde::Serialize)]
 pub struct DependencyStatus {
@@ -203,6 +207,21 @@ async fn scan_geo_analysis(domain: String, pool: tauri::State<'_, sqlx::SqlitePo
     log_and_execute_scan!(pool, domain, "GeoAnalysis", web_analyzer::geo_analysis::analyze_geo(&domain, Some(tx)))
 }
 
+#[tauri::command]
+async fn scan_react_source_leak(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<SourceLeakResult, AppError> {
+    log_and_execute_scan!(pool, domain, "ReactSourceLeak", execute_source_leak(&domain))
+}
+
+#[tauri::command]
+async fn scan_react_rce_command(domain: String, command: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<RceCommandOutput, AppError> {
+    log_and_execute_scan!(pool, domain, "ReactRceCommand", execute_rce_command(&domain, &command))
+}
+
+#[tauri::command]
+async fn scan_react_rce_full(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<RceResult, AppError> {
+    log_and_execute_scan!(pool, domain, "ReactRceFull", execute_rce(&domain))
+}
+
         // -- Decoupled Domain Info Endpoints --
 #[derive(serde::Serialize)]
 pub struct IpResolutionInfo {
@@ -356,6 +375,9 @@ pub fn run() {
             scan_http_status,
             scan_security_headers,
             scan_dns_records,
+            scan_react_source_leak,
+            scan_react_rce_command,
+            scan_react_rce_full,
             db::get_unique_scanned_domains,
             db::get_latest_domain_intel
         ])
