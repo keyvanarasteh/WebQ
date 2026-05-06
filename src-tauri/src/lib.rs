@@ -20,7 +20,7 @@ use web_analyzer::api_security_scanner::ApiScanResult;
 use web_analyzer::geo_analysis::GeoAnalysisResult;
 use web_analyzer::react::{
     execute_source_leak, execute_rce_command, execute_rce,
-    SourceLeakResult, RceCommandOutput, RceResult
+    SourceLeakResult, RceCommandOutput, RceResult, React2ShellScanner, ScanResult
 };
 
 #[derive(serde::Serialize)]
@@ -222,6 +222,14 @@ async fn scan_react_rce_full(domain: String, pool: tauri::State<'_, sqlx::Sqlite
     log_and_execute_scan!(pool, domain, "ReactRceFull", execute_rce(&domain))
 }
 
+#[tauri::command]
+async fn scan_react2shell(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<ScanResult, AppError> {
+    log_and_execute_scan!(pool, domain.clone(), "React2Shell", async {
+        let mut scanner = React2ShellScanner::new(&domain).await?;
+        scanner.scan().await
+    })
+}
+
         // -- Decoupled Domain Info Endpoints --
 #[derive(serde::Serialize)]
 pub struct IpResolutionInfo {
@@ -378,6 +386,7 @@ pub fn run() {
             scan_react_source_leak,
             scan_react_rce_command,
             scan_react_rce_full,
+            scan_react2shell,
             db::get_unique_scanned_domains,
             db::get_latest_domain_intel
         ])

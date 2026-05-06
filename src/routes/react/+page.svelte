@@ -9,16 +9,18 @@
     let sourceLeakResult = $state<any>(null);
     let rceCommandResult = $state<any>(null);
     let rceFullResult = $state<any>(null);
+    let comprehensiveResult = $state<any>(null);
     
     let loadingLeak = $state(false);
     let loadingRceCmd = $state(false);
     let loadingRceFull = $state(false);
+    let loadingComprehensive = $state(false);
     let error = $state("");
 
     let isModalOpen = $state(false);
-    let modalSection = $state<"target" | "leak" | "rce_command" | "rce_full">("target");
+    let modalSection = $state<"target" | "leak" | "rce_command" | "rce_full" | "comprehensive">("target");
 
-    function openModal(section: "target" | "leak" | "rce_command" | "rce_full") {
+    function openModal(section: "target" | "leak" | "rce_command" | "rce_full" | "comprehensive") {
         modalSection = section;
         isModalOpen = true;
     }
@@ -58,6 +60,18 @@
             loadingRceFull = false;
         }
     }
+
+    async function runComprehensiveScan() {
+        loadingComprehensive = true;
+        error = "";
+        try {
+            comprehensiveResult = await invoke("scan_react2shell", { domain: target });
+        } catch (e: unknown) {
+            error = e instanceof Error ? e.message : String(e);
+        } finally {
+            loadingComprehensive = false;
+        }
+    }
 </script>
 
 <ReactDocModal bind:isOpen={isModalOpen} section={modalSection} />
@@ -94,6 +108,118 @@
         {#if error}
             <div class="mt-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm flex items-center gap-2">
                 <AlertTriangle class="w-4 h-4" /> {error}
+            </div>
+        {/if}
+    </div>
+
+    <!-- Comprehensive Scan Card -->
+    <div class="bg-surface/30 border border-border/50 rounded-xl p-6 shadow-lg mb-8 relative overflow-hidden flex flex-col">
+        <div class="absolute top-4 right-4 z-10 flex items-center gap-2">
+            <button 
+                onclick={() => openModal('comprehensive')}
+                class="p-1 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 rounded transition-colors border border-blue-500/20 flex items-center justify-center"
+                title="View Comprehensive Scan Documentation"
+            >
+                <Info class="w-4 h-4" />
+            </button>
+            <span class="bg-red-500/20 text-red-400 text-xs px-2 py-1 rounded-md font-medium border border-red-500/30">Active Exploit</span>
+        </div>
+        <div class="flex items-center gap-3 mb-4">
+            <div class="p-2 bg-background rounded-lg shadow-inner">
+                <Activity class="w-5 h-5 text-red-500" />
+            </div>
+            <h2 class="text-lg font-bold text-primary-text">Comprehensive React2Shell Scan</h2>
+        </div>
+        <p class="text-sm text-muted mb-6">Orchestrates the entire React2Shell vulnerability identification suite: header fingerprinting, RSC endpoint discovery, and secret extraction.</p>
+        <button onclick={runComprehensiveScan} disabled={loadingComprehensive} class="w-full py-3 bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 rounded-lg transition-colors font-bold disabled:opacity-50">
+            {loadingComprehensive ? 'Scanning Target...' : 'Execute Comprehensive Scan'}
+        </button>
+
+        {#if comprehensiveResult}
+            <div class="mt-6 space-y-4">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-4 bg-background border border-border/50 rounded-lg">
+                        <div class="text-xs text-muted mb-1">Status</div>
+                        <div class="font-bold {comprehensiveResult.vulnerable ? 'text-red-400' : 'text-green-400'}">
+                            {comprehensiveResult.vulnerable ? 'VULNERABLE' : 'SECURE'}
+                        </div>
+                    </div>
+                    <div class="p-4 bg-background border border-border/50 rounded-lg">
+                        <div class="text-xs text-muted mb-1">Framework</div>
+                        <div class="font-bold text-primary-text">
+                            {comprehensiveResult.is_nextjs ? 'Next.js' : 'Unknown'} 
+                            {#if comprehensiveResult.nextjs_version}
+                                <span class="text-xs ml-1 text-muted">v{comprehensiveResult.nextjs_version.version}</span>
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="p-4 bg-background border border-border/50 rounded-lg">
+                        <div class="text-xs text-muted mb-1">React Version</div>
+                        <div class="font-bold text-primary-text">
+                            {#if comprehensiveResult.react_version}
+                                v{comprehensiveResult.react_version.version}
+                            {:else}
+                                Unknown
+                            {/if}
+                        </div>
+                    </div>
+                    <div class="p-4 bg-background border border-border/50 rounded-lg">
+                        <div class="text-xs text-muted mb-1">RSC Enabled</div>
+                        <div class="font-bold {comprehensiveResult.rsc_enabled ? 'text-yellow-400' : 'text-green-400'}">
+                            {comprehensiveResult.rsc_enabled ? 'YES' : 'NO'}
+                        </div>
+                    </div>
+                </div>
+
+                {#if comprehensiveResult.secrets && comprehensiveResult.secrets.length > 0}
+                    <div class="p-4 bg-background border border-red-500/30 rounded-lg">
+                        <h3 class="text-sm font-bold text-red-400 mb-3 flex items-center gap-2">
+                            <AlertTriangle class="w-4 h-4" /> Leaked Secrets Discovered ({comprehensiveResult.secrets.length})
+                        </h3>
+                        <div class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
+                            {#each comprehensiveResult.secrets as secret}
+                                <div class="bg-surface/50 border border-border/50 rounded p-2 text-xs">
+                                    <div class="flex justify-between items-start mb-1">
+                                        <span class="font-bold text-red-400">{secret.secret_type}</span>
+                                        <span class="text-muted">Source: {secret.source}</span>
+                                    </div>
+                                    <div class="font-mono text-primary-text break-all">{secret.value}</div>
+                                    {#if secret.context}
+                                        <div class="mt-1 text-muted/70 italic border-l-2 border-border/50 pl-2">{secret.context}</div>
+                                    {/if}
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
+
+                {#if comprehensiveResult.dependencies && comprehensiveResult.dependencies.length > 0}
+                    <div class="p-4 bg-background border border-border/50 rounded-lg">
+                        <h3 class="text-sm font-bold text-primary-text mb-3">Detected Dependencies</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            {#each comprehensiveResult.dependencies as dep}
+                                <div class="bg-surface/50 border border-border/50 rounded p-2 text-xs flex justify-between">
+                                    <span class="font-bold text-blue-400">{dep.name}</span>
+                                    <span class="text-primary-text font-mono">{dep.version}</span>
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
+                
+                {#if comprehensiveResult.exposed_files && comprehensiveResult.exposed_files.length > 0}
+                    <div class="p-4 bg-background border border-border/50 rounded-lg">
+                        <h3 class="text-sm font-bold text-primary-text mb-3">Exposed Sensitive Files</h3>
+                        <div class="space-y-2">
+                            {#each comprehensiveResult.exposed_files as file}
+                                <div class="bg-surface/50 border border-border/50 rounded p-2 text-xs flex justify-between items-center">
+                                    <span class="font-bold text-yellow-400">{file.path}</span>
+                                    <a href={file.url} target="_blank" class="text-blue-400 hover:underline">{file.url}</a>
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                {/if}
             </div>
         {/if}
     </div>

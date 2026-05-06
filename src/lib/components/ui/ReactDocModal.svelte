@@ -7,7 +7,7 @@
       section = "target"
   } : {
       isOpen: boolean;
-      section: "target" | "leak" | "rce_command" | "rce_full";
+      section: "target" | "leak" | "rce_command" | "rce_full" | "comprehensive";
   } = $props();
 
   let lang = $derived(languageTag() as "en" | "tr");
@@ -77,6 +77,19 @@
                   { actor: "Target", action: "HTTP Response", target: "Attacker", color: "green" },
                   { note: "Validates exit_code == 0 and body contains 'react2shell_pwned.txt'" }
               ]
+          },
+          comprehensive: {
+              title: "Comprehensive React2Shell Scan",
+              desc: "Executes a fully-featured automated scan to detect CVE-2025-55182/CVE-2025-55183. Includes header fingerprinting, bundle source analysis, and secret leakage discovery.",
+              flow: [
+                  { actor: "Scanner", action: "Initial HTTP GET", target: "Target" },
+                  { note: "Identify Next.js/React versions from headers and '__NEXT_DATA__' blocks" },
+                  { actor: "Target", action: "HTTP Response", target: "Scanner", color: "gray" },
+                  { note: "Discover RSC Endpoints by parsing client-side JavaScript bundles" },
+                  { actor: "Scanner", action: "RSC Exploit Payload", target: "Target" },
+                  { actor: "Target", action: "Source code leak", target: "Scanner", color: "green" },
+                  { note: "Analyze leaked source for secrets, credentials, and configuration files" }
+              ]
           }
       },
       tr: {
@@ -129,6 +142,19 @@
                   { actor: "Saldırgan", action: "execute_rce_command(poc_cmd)", target: "Hedef" },
                   { actor: "Hedef", action: "HTTP Yanıtı", target: "Saldırgan", color: "green" },
                   { note: "exit_code == 0 ve gövdenin 'react2shell_pwned.txt' içerdiği doğrulanır" }
+              ]
+          },
+          comprehensive: {
+              title: "Kapsamlı React2Shell Taraması",
+              desc: "CVE-2025-55182/CVE-2025-55183 zafiyetlerini tespit etmek için tam donanımlı otomatik bir tarama yürütür. Sürüm parmak izi alma, JS kaynak kodu analizi ve sızdırılmış sır tespiti içerir.",
+              flow: [
+                  { actor: "Tarayıcı", action: "İlk HTTP GET", target: "Hedef" },
+                  { note: "Başlıklardan ve '__NEXT_DATA__' bloklarından Next.js/React sürümlerini belirler" },
+                  { actor: "Hedef", action: "HTTP Yanıtı", target: "Tarayıcı", color: "gray" },
+                  { note: "İstemci tarafı JS dosyalarını ayrıştırarak RSC Uç Noktalarını keşfeder" },
+                  { actor: "Tarayıcı", action: "RSC Sömürü Yükü", target: "Hedef" },
+                  { actor: "Hedef", action: "Kaynak Kodu Sızıntısı", target: "Tarayıcı", color: "green" },
+                  { note: "Sızdırılan kaynak kodunda sırlar, kimlik bilgileri ve ayar dosyalarını analiz eder" }
               ]
           }
       }
