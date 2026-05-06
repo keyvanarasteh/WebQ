@@ -1,9 +1,10 @@
 pub mod error;
 pub mod system_health;
 pub mod db;
+pub mod honeypot;
 
 use crate::error::AppError;
-use tauri::Emitter;
+use tauri::{Emitter, Manager};
 use web_analyzer::domain_info::{get_domain_info, DomainInfoResult};
 use web_analyzer::domain_dns::{get_dns_records, DomainDnsResult};
 use web_analyzer::seo_analysis::{analyze_advanced_seo, SeoAnalysisResult};
@@ -347,6 +348,8 @@ pub fn run() {
             tauri::async_runtime::block_on(async {
                 db::init_db(app.handle()).await.expect("Failed to initialize SQLite database");
             });
+            let honeypot_state = std::sync::Arc::new(honeypot::HoneypotState::new(app.handle().clone()));
+            app.manage(honeypot_state);
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
@@ -388,7 +391,13 @@ pub fn run() {
             scan_react_rce_full,
             scan_react2shell,
             db::get_unique_scanned_domains,
-            db::get_latest_domain_intel
+            db::get_latest_domain_intel,
+            honeypot::start_honeypot,
+            honeypot::stop_honeypot,
+            honeypot::get_honeypot_status,
+            honeypot::get_top_attackers,
+            honeypot::test_payload_locally,
+            honeypot::update_honeypot_config
         ])
         .run(tauri::generate_context!())
         .expect("error while running WebQ application");

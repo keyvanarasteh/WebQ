@@ -42,3 +42,7 @@ reqwest = "0.13.2"
 
 [dev-dependencies]
 tempfile = "3.27.0"
+
+[dependencies.axum]
+version = "0.7.5"
+features = ["macros"]
