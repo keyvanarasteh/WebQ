@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { XIcon, BookOpen, ArrowRight, ArrowDown, Activity, ShieldAlert, Cpu } from 'lucide-svelte';
+  import { XIcon, BookOpen, ArrowRight, ArrowDown, Activity, ShieldAlert, Cpu, Server } from 'lucide-svelte';
   import { languageTag } from '$lib/paraglide/runtime';
 
   let { 
