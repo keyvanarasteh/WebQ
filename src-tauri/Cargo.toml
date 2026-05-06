@@ -1,6 +1,6 @@
 [package]
 name = "webq-app"
-version = "0.3.3"
+version = "0.3.4"
 description = "WebQ Security Platform Backend"
 authors = ["drvoid"]
 edition = "2021"
@@ -25,7 +25,7 @@ tokio = { version = "1.51.1", features = ["full"] }
 tracing = "0.1"
 anyhow = "1"
 thiserror = "1"
-web-analyzer = { path = "/home/drvoid/Qix/web-analyzer" }
+web-analyzer = "0.1.10"
 tauri-plugin-dialog = "2.7.0"
 tauri-plugin-fs = "2.5.0"
 tauri-plugin-os = "2.3.2"

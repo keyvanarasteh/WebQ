@@ -1,6 +1,6 @@
 {
   "name": "webq",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "WebQ Security Platform",
   "type": "module",
   "scripts": {
