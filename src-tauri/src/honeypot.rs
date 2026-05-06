@@ -75,11 +75,10 @@ async fn honeypot_handler(
     // Build the response based on the simulation
     let status = StatusCode::from_u16(result.simulated_status).unwrap_or(StatusCode::OK);
     
-    // Convert HashMap headers back
-    let mut response = axum::response::Response::builder().status(status);
-    for (k, v) in result.simulated_headers {
-        response = response.header(k, v);
-    }
+    // Apply content type header
+    let response = axum::response::Response::builder()
+        .status(status)
+        .header("Content-Type", result.content_type);
     
     if result.suggested_delay_ms > 0 {
         tokio::time::sleep(tokio::time::Duration::from_millis(result.suggested_delay_ms)).await;

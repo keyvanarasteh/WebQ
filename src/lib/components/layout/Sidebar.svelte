@@ -12,6 +12,7 @@
         { name: 'Reconnaissance', path: '/recon', icon: Target },
         { name: 'Security Assessment', path: '/assessment/security-posture', icon: Network },
         { name: 'React2Shell', path: '/react', icon: ShieldAlert },
+        { name: 'React Honeypot', path: '/react/honeypot', icon: Shield },
         { name: 'Wiki', path: '/roadmap', icon: Database },
         { name: 'Settings', path: '/settings', icon: Settings },
         { name: 'About & Feedback', path: '/about', icon: Info },
