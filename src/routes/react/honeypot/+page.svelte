@@ -69,7 +69,12 @@
             if (isRunning) {
                 statusMessage = await invoke("stop_honeypot");
             } else {
-                await invoke("update_honeypot_config", { config });
+                await invoke("update_honeypot_config", { 
+                    realisticTiming: config.realistic_timing,
+                    fakeRscResponses: config.fake_rsc_responses,
+                    sessionTracking: config.session_tracking,
+                    progressiveSizing: config.progressive_sizing
+                });
                 statusMessage = await invoke("start_honeypot", { port });
             }
             await checkStatus();
@@ -88,7 +93,12 @@
 
     async function saveConfig() {
         try {
-            await invoke("update_honeypot_config", { config });
+            await invoke("update_honeypot_config", { 
+                realisticTiming: config.realistic_timing,
+                fakeRscResponses: config.fake_rsc_responses,
+                sessionTracking: config.session_tracking,
+                progressiveSizing: config.progressive_sizing
+            });
             statusMessage = "Configuration updated successfully";
             setTimeout(() => statusMessage = "", 3000);
         } catch (e: any) {
