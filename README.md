@@ -62,6 +62,16 @@ WebQ bridges the entire suite of `web-analyzer` features into an interactive cro
 
 ---
 
+## 🤝 OpenSource Requests
+
+Help us build the next generation of cybersecurity tools! We are actively looking for community contributions. Check out our open requests below:
+
+| Request | Description | Details |
+|---------|-------------|---------|
+| **React2Shell Honeypot** | Implement UI components for the React2Shell Honeypot engine | [Read Request](./REQUEST.md) |
+
+---
+
 ## 🚀 Quick Start (Development)
 
 ### Prerequisites
