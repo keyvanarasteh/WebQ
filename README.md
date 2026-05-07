@@ -69,6 +69,7 @@ Help us build the next generation of cybersecurity tools! We are actively lookin
 | Request | Description | Details |
 |---------|-------------|---------|
 | **React2Shell Honeypot** | Implement UI components for the React2Shell Honeypot engine | [Read Request](./REQUEST.md) |
+| **React2Shell UI Profiling** | Build Attacker Profiling and Signature Matrix UI for React2Shell | [Read Request](./docs/ideas/react2shell_ui.md) |
 
 ---
 
