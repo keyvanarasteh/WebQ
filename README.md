@@ -73,6 +73,12 @@ Help us build the next generation of cybersecurity tools! We are actively lookin
 | **Intelligence Gathering Extended UI** | Expose missing SEO, CMS, SSL, and DNS telemetry in the UI | [Read Request](./docs/ideas/intelligence_gathering_extended_ui.md) |
 | **Reconnaissance Extended UI** | Surface data provenance and code context windows for scanners | [Read Request](./docs/ideas/reconnaissance_extended_ui.md) |
 | **Security Assessment Extended UI** | Add Exploit-DB linkage and granular header/cookie analysis | [Read Request](./docs/ideas/security_assessment_extended_ui.md) |
+| **Engine Transparency UI** | Expose backend dictionaries, regexes, and payload rulesets | [Read Request](./docs/ideas/engine_transparency_ui.md) |
+| **AI Crawler Readiness Dashboard** | Visualize LLMs.txt, WebMCP endpoints, and bot-blocking posture | [Read Request](./docs/ideas/ai_crawler_readiness_ui.md) |
+| **Bulk Domain Triage UI** | Expose the async semaphore engine for high-concurrency batch scanning | [Read Request](./docs/ideas/bulk_domain_triage_ui.md) |
+| **Infrastructure Port Matrix** | Map 100+ ports to specific DB/DevOps services and show SSL expiry | [Read Request](./docs/ideas/infrastructure_port_matrix.md) |
+| **Configurable Nmap Profiles** | Allow custom Nmap flags (Stealth, Exhaustive) instead of hardcoded args | [Read Request](./docs/ideas/nmap_custom_profiles.md) |
+| **DNS Investigation Dashboard** | Render parallelized A/MX/TXT records and SPF/DMARC health | [Read Request](./docs/ideas/dns_investigation_dashboard.md) |
 
 ---
 
