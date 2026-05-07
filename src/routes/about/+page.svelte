@@ -86,7 +86,27 @@
           </div>
         </div>
         
-        <a href="https://github.com/keyvanarasteh" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-surface text-muted hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors border border-transparent hover:border-cyan-500/30">
+        <a href="https://github.com/keyvanarasteh" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-surface text-muted hover:text-cyan-400 hover:bg-cyan-500/10 transition-colors border border-transparent hover:border-cyan-500/30" aria-label="Keyvan Arasteh GitHub Profile">
+          <Github class="w-5 h-5" />
+        </a>
+    </div>
+  </section>
+
+  <section class="bg-surface/20 border border-base rounded-xl p-6 shadow-lg mt-6">
+    <h3 class="text-lg font-semibold text-accent border-b border-base pb-2 mb-4">Contributors</h3>
+    
+    <div class="flex items-center justify-between p-4 bg-background rounded-lg border border-base">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-full bg-linear-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg">
+            <User class="w-6 h-6 text-white" />
+          </div>
+          <div>
+            <p class="font-bold text-primary-text">Morteza (Mori) <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded ml-2">@mrrtzz</span></p>
+            <p class="text-sm text-muted">React2Shell Honeypot Telemetry UI — Attacker Profiling, Signature Matrix & Dashboard.</p>
+          </div>
+        </div>
+        
+        <a href="https://github.com/mrrtzz" target="_blank" rel="noopener noreferrer" class="p-2 rounded-lg bg-surface text-muted hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors border border-transparent hover:border-emerald-500/30" aria-label="Morteza GitHub Profile">
           <Github class="w-5 h-5" />
         </a>
     </div>
