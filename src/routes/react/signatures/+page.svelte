@@ -38,7 +38,7 @@
                     category: "XSS",
                     ids: "xss:reflected, polyglot, stored_payload",
                     description: "Session hijacking, client-side execution.",
-                    curl: 'curl "http://target/search?q=<script>alert(1)</script>"',
+                    curl: 'curl "http://target/search?q=<scr' + 'ipt>alert(1)</scr' + 'ipt>"',
                     remediation: "Context-aware output encoding (HTML, JS contexts); strict CSP."
                 },
                 {

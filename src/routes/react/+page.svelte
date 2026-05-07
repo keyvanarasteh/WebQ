@@ -11,7 +11,7 @@
 
     let liveEvents = $state([
         { id: 1, time: new Date().toISOString(), category: "SQL Injection", severity: "Critical", attacker_ip: "192.168.1.104", payload: "admin' OR 1=1 --" },
-        { id: 2, time: new Date(Date.now() - 5000).toISOString(), category: "XSS", severity: "High", attacker_ip: "10.0.0.5", payload: "<script>alert(1)</script>" },
+        { id: 2, time: new Date(Date.now() - 5000).toISOString(), category: "XSS", severity: "High", attacker_ip: "10.0.0.5", payload: "<scr" + "ipt>alert(1)</scr" + "ipt>" },
         { id: 3, time: new Date(Date.now() - 15000).toISOString(), category: "Path Traversal", severity: "High", attacker_ip: "172.16.0.2", payload: "../../../../etc/passwd" },
     ]);
 
