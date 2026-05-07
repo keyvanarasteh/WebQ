@@ -70,6 +70,9 @@ Help us build the next generation of cybersecurity tools! We are actively lookin
 |---------|-------------|---------|
 | **React2Shell Honeypot** | Implement UI components for the React2Shell Honeypot engine | [Read Request](./REQUEST.md) |
 | **React2Shell UI Profiling** | Build Attacker Profiling and Signature Matrix UI for React2Shell | [Read Request](./docs/ideas/react2shell_ui.md) |
+| **Intelligence Gathering Extended UI** | Expose missing SEO, CMS, SSL, and DNS telemetry in the UI | [Read Request](./docs/ideas/intelligence_gathering_extended_ui.md) |
+| **Reconnaissance Extended UI** | Surface data provenance and code context windows for scanners | [Read Request](./docs/ideas/reconnaissance_extended_ui.md) |
+| **Security Assessment Extended UI** | Add Exploit-DB linkage and granular header/cookie analysis | [Read Request](./docs/ideas/security_assessment_extended_ui.md) |
 
 ---
 

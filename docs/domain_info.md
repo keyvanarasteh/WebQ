@@ -32,3 +32,7 @@ The frontend is implemented in `/src/routes/intelligence/domain-info/` and `/src
 2.  `+page.svelte` invokes the decoupled Tauri commands in parallel.
 3.  Tauri asynchronously executes the Rust routines without blocking the main thread.
 4.  Data is fed back to the Svelte components which reactively update using `$state` and `$derived` variables.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Intelligence Gathering Extended UI](./ideas/intelligence_gathering_extended_ui.md) request for details.
+

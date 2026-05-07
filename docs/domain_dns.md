@@ -25,3 +25,7 @@ The module relies on the following Svelte 5 components (located in `/src/lib/com
 2.  Tauri fires the `scan_domain_dns` command, delegating to the `web-analyzer` crate.
 3.  The backend streams realtime DNS lookup events to the frontend.
 4.  The results are populated into the reactive `DnsRecordsBoard` and analyzed by the `DnsSecurityCheck` module to assess threat vulnerability levels.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Intelligence Gathering Extended UI](./ideas/intelligence_gathering_extended_ui.md) request for details.
+

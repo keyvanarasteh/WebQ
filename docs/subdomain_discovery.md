@@ -16,3 +16,7 @@ The `scan_subdomains` Tauri command triggers `discover_subdomains`.
 Located in `/src/lib/components/recon/subdomain-discovery/`:
 *   **`SubdomainGrid.svelte`**: A robust data visualization grid charting out all resolved subdomains alongside their corresponding IP addresses and resolution times.
 *   **Guides (`SubdomainTreeGuide.svelte`, etc.)**: Educational overlays detailing enumeration methodologies, the importance of asset discovery, and how to interpret the results.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Reconnaissance Extended UI](./ideas/reconnaissance_extended_ui.md) request for details.
+

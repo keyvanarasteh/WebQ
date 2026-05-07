@@ -16,3 +16,7 @@ The `scan_advanced_content` command utilizes the `advanced_content_scanner` from
 Located in `/src/lib/components/recon/advanced-scanner/`:
 *   **`ScannerMasonry.svelte`**: A dense, masonry-style grid layout grouping the detected vulnerabilities, exposed endpoints, and secret leakages by severity.
 *   **`AdvancedScannerGuide.svelte`**: A comprehensive educational guide explaining the impact of secret exposure and mitigation techniques.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Reconnaissance Extended UI](./ideas/reconnaissance_extended_ui.md) request for details.
+

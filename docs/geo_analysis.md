@@ -17,3 +17,7 @@ Located in `/src/lib/components/assessment/geo-analysis/`:
 *   **`ApiBotDirectives.svelte`**: Visualizes the allowed/disallowed scraping permissions for major AI crawlers, extracting intelligence from `robots.txt`.
 *   **`LLMsTxtCard.svelte`**: Specifically parses and displays the contents of the newly standardized `/llms.txt` if present.
 *   **`WebMcpInspector.svelte`**: Detects and analyzes exposed Model Context Protocol (MCP) servers, highlighting potential data leakage via AI agents.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Security Assessment Extended UI](./ideas/security_assessment_extended_ui.md) request for details.
+

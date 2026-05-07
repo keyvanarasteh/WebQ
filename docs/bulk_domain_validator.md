@@ -16,3 +16,7 @@ The `validate_bulk_domains` command wraps the `validate_domains_bulk` function f
 Located in `/src/lib/components/recon/domain-validator/`:
 *   **`ValidationDataGrid.svelte`**: A dense, sortable table displaying per-domain results for DNS, HTTP, and SSL checks. Uses Lucide icons (Check/X) to highlight failures.
 *   **`ValidationStatsBar.svelte`**: A high-level dashboard indicating total success rates, active errors, and processing time.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Intelligence Gathering Extended UI](./ideas/intelligence_gathering_extended_ui.md) request for details.
+

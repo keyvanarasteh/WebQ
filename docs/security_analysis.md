@@ -21,3 +21,7 @@ This module features an extensive set of components located in `/src/lib/compone
 *   **`HeadersAnalysis.svelte` / `SslAnalysisGrade.svelte`**: Deep inspections of HSTS, CSP, and TLS configurations.
 *   **`VulnScanLog.svelte`**: A rolling log of the live scanning execution.
 *   **Interactive Guides**: Nearly every component has an accompanying `*Guide.svelte` to teach SecOps principles.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Security Assessment Extended UI](./ideas/security_assessment_extended_ui.md) request for details.
+

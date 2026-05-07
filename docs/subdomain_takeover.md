@@ -18,3 +18,7 @@ Located in `/src/lib/components/assessment/subdomain-takeover/`:
 *   **`TakeoverGrid.svelte`**: Visualizes all tested subdomains, mapping them to their resolved CNAMEs. Flags vulnerable assets with critical red badges if a SaaS fingerprint matches an unregistered state.
 *   **`TakeoverRiskBadges.svelte`**: Summarizes the severity of found vulnerabilities.
 *   **`TakeoverGuide.svelte`**: Educational overlay explaining the mechanics of subdomain takeover attacks and remediation strategies.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Security Assessment Extended UI](./ideas/security_assessment_extended_ui.md) request for details.
+

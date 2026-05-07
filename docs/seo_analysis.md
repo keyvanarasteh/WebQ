@@ -29,3 +29,7 @@ This module has one of the most extensive UI implementations located in `/src/li
 1.  A URL is submitted to the `/intelligence/seo-analysis` route.
 2.  Tauri fetches and parses the HTML alongside header responses.
 3.  The detailed `SeoAnalysisResult` payload is fed reactively to the dozen specialized Svelte components rendering categorized metrics and scores.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Intelligence Gathering Extended UI](./ideas/intelligence_gathering_extended_ui.md) request for details.
+

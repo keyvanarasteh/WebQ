@@ -26,3 +26,7 @@ The module utilizes the following UI components located in `/src/lib/components/
 2.  Tauri fires the `scan_web_technologies` command, instructing the backend to parse the HTTP responses.
 3.  The results are matched against regex signatures and returned as a serialized `WebTechResult`.
 4.  The Svelte frontend loops through the detected stacks, rendering categorized badges and conditionally mounting the `WordPressScanner` if a WP payload is detected.
+
+## Missing Sub-Features
+While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Intelligence Gathering Extended UI](./ideas/intelligence_gathering_extended_ui.md) request for details.
+
