@@ -123,6 +123,17 @@ _Deploying an annotated `v*` tag dynamically triggers the `.github/workflows/rel
 
 ---
 
+## 👥 Contributors
+
+Thanks to all the amazing people who have contributed to WebQ!
+
+| Contributor | Role | Contribution |
+|-------------|------|-------------|
+| [**Keyvan Arasteh**](https://github.com/keyvanarasteh) | Core Developer | Architecture, Engine Integration, Full-Stack Development |
+| [**Morteza (Mori)**](https://github.com/mrrtzz) | Contributor | React2Shell Honeypot Telemetry UI, Attacker Profiling, Signature Matrix ([#7](https://github.com/keyvanarasteh/WebQ/pull/7)) |
+
+---
+
 <p align="center">
   <sub>UI crafted with ✨ Obsidian Dashboards — İstinye University</sub>
 </p>
