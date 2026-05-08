@@ -1,6 +1,6 @@
 name: webq 
 base: core22 
-version: '0.3.3'
+version: '0.4.0'
 summary: A high-performance web intelligence and cybersecurity platform.
 description: |
   WebQ is a cross-platform Web Intelligence and Cybersecurity platform 
@@ -46,6 +46,7 @@ parts:
       - curl
       - wget
       - file
+      - unzip
       - libxdo-dev
       - libssl-dev
       - libayatana-appindicator3-dev
