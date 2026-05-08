@@ -7,7 +7,22 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Notify build started
+  notify-start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📡 Telegram — Build Started
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          MSG="🔨 <b>WebQ Release Build Started</b>%0A%0A📦 Tag: <code>${TAG}</code>%0A🔗 <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Workflow</a>%0A%0A⏳ Building for: Linux, Windows, macOS (x86 + ARM)"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.DEBUGGER_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.DEBUGGER_ADMIN_ID }}" \
+            -d text="${MSG}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true"
+
   release:
+    needs: notify-start
     permissions:
       contents: write
     strategy:
@@ -16,12 +31,16 @@ jobs:
         include:
           - platform: 'macos-latest'
             args: '--target aarch64-apple-darwin'
+            label: '🍎 macOS (Apple Silicon)'
           - platform: 'macos-latest'
             args: '--target x86_64-apple-darwin'
+            label: '🍎 macOS (Intel)'
           - platform: 'ubuntu-22.04'
             args: ''
+            label: '🐧 Linux (x86_64)'
           - platform: 'windows-latest'
             args: ''
+            label: '🪟 Windows (x86_64)'
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -115,3 +134,51 @@ jobs:
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
+
+      - name: 📡 Telegram — Platform Build Success
+        if: success()
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          MSG="✅ <b>${{ matrix.label }} Build Passed</b>%0A%0A📦 Tag: <code>${TAG}</code>%0A⏱️ Job: <code>${{ matrix.platform }}</code>"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.DEBUGGER_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.DEBUGGER_ADMIN_ID }}" \
+            -d text="${MSG}" \
+            -d parse_mode="HTML"
+
+      - name: 📡 Telegram — Platform Build Failed
+        if: failure()
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          MSG="❌ <b>${{ matrix.label }} Build FAILED</b>%0A%0A📦 Tag: <code>${TAG}</code>%0A🔗 <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Logs</a>"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.DEBUGGER_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.DEBUGGER_ADMIN_ID }}" \
+            -d text="${MSG}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true"
+
+  # Final summary after all builds complete
+  notify-done:
+    needs: release
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: 📡 Telegram — Release Summary
+        shell: bash
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          STATUS="${{ needs.release.result }}"
+          if [ "$STATUS" = "success" ]; then
+            ICON="🎉"
+            LABEL="All Builds Passed"
+          else
+            ICON="⚠️"
+            LABEL="Some Builds Failed"
+          fi
+          MSG="${ICON} <b>WebQ ${TAG} — ${LABEL}</b>%0A%0A📦 <a href='https://github.com/${{ github.repository }}/releases/tag/${TAG}'>View Release</a>%0A🔗 <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Workflow Run</a>"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.DEBUGGER_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.DEBUGGER_ADMIN_ID }}" \
+            -d text="${MSG}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true"
