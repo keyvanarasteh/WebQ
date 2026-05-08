@@ -2,21 +2,19 @@ name: Publish multi-arch Snap
 on:
   push:
     tags:
-      - 'v*' # Trigger build on version tags (e.g., v1.0.0)
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
     strategy:
       matrix:
-        # Define the architectures you want GitHub to build
         architecture: [amd64, arm64]
-    
+
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
 
-      # Setup QEMU for ARM64 builds on standard GitHub Runners
       - name: Set up QEMU
         if: matrix.architecture == 'arm64'
         uses: docker/setup-qemu-action@v3
@@ -31,8 +29,28 @@ jobs:
       - name: Publish to Snap Store
         uses: snapcore/action-publish@v1
         env:
-          # Injected from the GitHub Secret
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
         with:
           snap: ${{ steps.snapBuild.outputs.snap }}
           release: edge
+
+      - name: 📡 Telegram — Snap Build Success
+        if: success()
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          MSG="✅ <b>Snap Build Passed</b> (${{ matrix.architecture }})%0A%0A📦 Tag: <code>${TAG}</code>%0A🏪 Published to Snap Store (edge)"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.DEBUGGER_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.DEBUGGER_ADMIN_ID }}" \
+            -d text="${MSG}" \
+            -d parse_mode="HTML"
+
+      - name: 📡 Telegram — Snap Build Failed
+        if: failure()
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          MSG="❌ <b>Snap Build FAILED</b> (${{ matrix.architecture }})%0A%0A📦 Tag: <code>${TAG}</code>%0A🔗 <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Logs</a>"
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.DEBUGGER_BOT_TOKEN }}/sendMessage" \
+            -d chat_id="${{ secrets.DEBUGGER_ADMIN_ID }}" \
+            -d text="${MSG}" \
+            -d parse_mode="HTML" \
+            -d disable_web_page_preview="true"
