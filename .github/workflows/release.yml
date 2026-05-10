@@ -17,7 +17,7 @@ jobs:
           MSG="🔨 <b>WebQ Release Build Started</b>%0A%0A📦 Tag: <code>${TAG}</code>%0A🔗 <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>View Workflow</a>%0A%0A⏳ Building for: Linux, Windows, macOS (x86 + ARM)"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN_QLINETECH }}/sendMessage" \
             -d chat_id="${{ secrets.QLINE_ID }}" \
-            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_ID }}" \
+            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_DEBUGGER_ID }}" \
             -d text="${MSG}" \
             -d parse_mode="HTML" \
             -d disable_web_page_preview="true"
@@ -144,7 +144,7 @@ jobs:
           MSG="✅ <b>${{ matrix.label }} Build Passed</b>%0A%0A📦 Tag: <code>${TAG}</code>%0A⏱️ Job: <code>${{ matrix.platform }}</code>"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN_QLINETECH }}/sendMessage" \
             -d chat_id="${{ secrets.QLINE_ID }}" \
-            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_ID }}" \
+            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_DEBUGGER_ID }}" \
             -d text="${MSG}" \
             -d parse_mode="HTML"
 
@@ -175,7 +175,7 @@ jobs:
           
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN_QLINETECH }}/sendMessage" \
             -d chat_id="${{ secrets.QLINE_ID }}" \
-            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_ID }}" \
+            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_DEBUGGER_ID }}" \
             -d text="${MSG}" \
             -d parse_mode="HTML" \
             -d disable_web_page_preview="true"
@@ -201,7 +201,7 @@ jobs:
           MSG="${ICON} <b>WebQ ${TAG} — ${LABEL}</b>%0A%0A📦 <a href='https://github.com/${{ github.repository }}/releases/tag/${TAG}'>View Release</a>%0A🔗 <a href='https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'>Workflow Run</a>"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN_QLINETECH }}/sendMessage" \
             -d chat_id="${{ secrets.QLINE_ID }}" \
-            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_ID }}" \
+            -d message_thread_id="${{ secrets.QLINE_TOPIC_WEBQ_RELEASES_ID }}" \
             -d text="${MSG}" \
             -d parse_mode="HTML" \
             -d disable_web_page_preview="true"
