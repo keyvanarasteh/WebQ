@@ -1,0 +1,3 @@
+[submodule ".secrets/QPV"]
+	path = .secrets/QPV
+	url = git@github.com:keyvanarasteh/QPV.git
