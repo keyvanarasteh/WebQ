@@ -11,7 +11,7 @@
         { name: 'Intelligence', path: '/intelligence/domain-info', icon: Search },
         { name: 'Reconnaissance', path: '/recon', icon: Target },
         { name: 'Security Assessment', path: '/assessment/security-posture', icon: Network },
-        { name: 'React2Shell', path: '/react', icon: ShieldAlert },
+        { name: 'React2Shell', path: '/react', icon: ShieldAlert, exact: true },
         { name: 'React Honeypot', path: '/react/honeypot', icon: Shield },
         { name: 'Wiki', path: '/roadmap', icon: Database },
         { name: 'Settings', path: '/settings', icon: Settings },
@@ -30,7 +30,8 @@
 
         <nav class="flex-1 space-y-2">
             {#each menuItems as item (item.name)}
-                {@const active = $page.url.pathname === resolve(item.path) || ($page.url.pathname.startsWith(resolve(item.path) + '/') && item.path !== '/')}
+                {@const itemPath = resolve(item.path)}
+                {@const active = $page.url.pathname === itemPath || (!item.exact && $page.url.pathname.startsWith(itemPath + '/') && item.path !== '/')}
                 <a href={resolve(item.path)} class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all {active ? 'text-primary-text bg-surface shadow-[0_0_15px_rgba(34,211,238,0.15)] ring-1 ring-cyan-500/20' : 'text-muted hover:text-primary-text hover:bg-surface'}">
                     <item.icon class="size-4 {active ? 'text-cyan-400' : 'text-accent/80'}" />
                     {item.name}

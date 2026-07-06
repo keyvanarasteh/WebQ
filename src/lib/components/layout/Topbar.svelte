@@ -3,6 +3,7 @@
     import { Menu, FileDown, Sun, Moon, Monitor } from 'lucide-svelte';
     import ReportExporterModal from '$lib/components/reports/ReportExporterModal.svelte';
     import SegmentedControl from '$lib/components/ui/SegmentedControl.svelte';
+    import { BROWSER } from 'esm-env';
 
     let showExportModal = $state(false);
 
@@ -18,10 +19,10 @@
         { label: 'EN', value: 'en' },
         { label: 'TR', value: 'tr' }
     ];
-    let currentLang = $state(typeof localStorage !== 'undefined' ? (localStorage.getItem('webq-lang') || 'en') : 'en');
+    let currentLang = $state(BROWSER ? (localStorage.getItem('webq-lang') || 'en') : 'en');
     
     $effect(() => {
-        if (typeof window !== 'undefined') {
+        if (BROWSER) {
             const savedLang = localStorage.getItem('webq-lang') || 'en';
             if (currentLang !== savedLang && (currentLang === 'en' || currentLang === 'tr')) {
                 localStorage.setItem('webq-lang', currentLang);

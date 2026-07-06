@@ -117,6 +117,44 @@ jobs:
             echo "RELEASE_EOF"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Derive Apple signing identity
+        id: apple-signing-identity
+        if: matrix.platform == 'macos-latest'
+        shell: bash
+        env:
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${APPLE_CERTIFICATE}" ]; then
+            echo "::error::APPLE_CERTIFICATE is not set."
+            exit 1
+          fi
+
+          if [ -z "${APPLE_CERTIFICATE_PASSWORD}" ]; then
+            echo "::error::APPLE_CERTIFICATE_PASSWORD is not set."
+            exit 1
+          fi
+
+          KEYCHAIN="$RUNNER_TEMP/webq-signing-check.keychain-db"
+          CERT_PATH="$RUNNER_TEMP/webq-signing-check.p12"
+          KEYCHAIN_PASSWORD="$(uuidgen)"
+
+          base64 --decode <<< "${APPLE_CERTIFICATE}" > "${CERT_PATH}" 2>/dev/null || base64 -D <<< "${APPLE_CERTIFICATE}" > "${CERT_PATH}"
+          security create-keychain -p "${KEYCHAIN_PASSWORD}" "${KEYCHAIN}"
+          security unlock-keychain -p "${KEYCHAIN_PASSWORD}" "${KEYCHAIN}"
+          security import "${CERT_PATH}" -k "${KEYCHAIN}" -P "${APPLE_CERTIFICATE_PASSWORD}" -T /usr/bin/codesign -T /usr/bin/security
+
+          IDENTITY="$(security find-identity -v -p codesigning "${KEYCHAIN}" | sed -n 's/.*"\(.*\)".*/\1/p' | head -n 1)"
+          if [ -z "${IDENTITY}" ]; then
+            echo "::error::No code signing identity found in APPLE_CERTIFICATE."
+            exit 1
+          fi
+
+          echo "Using Apple signing identity: ${IDENTITY}"
+          echo "identity=${IDENTITY}" >> "$GITHUB_OUTPUT"
+
       - name: Build and Release Tauri app
         uses: tauri-apps/tauri-action@v0
         env:
@@ -124,7 +162,7 @@ jobs:
           # Apple Code Signing & Notarization
           APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
           APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_SIGNING_IDENTITY: ${{ steps.apple-signing-identity.outputs.identity }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

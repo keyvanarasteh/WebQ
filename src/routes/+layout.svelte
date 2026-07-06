@@ -9,11 +9,12 @@
   import { appState } from "$lib/stores/AppState.svelte";
   import { Toaster, toast } from 'svelte-sonner';
   import { Minus, Square, X, Monitor } from 'lucide-svelte';
-  import { getCurrentWindow } from '@tauri-apps/api/window';
+  import type { Window } from '@tauri-apps/api/window';
   import { onMount } from 'svelte';
+  import { BROWSER } from 'esm-env';
 
   // Global error handler for unhandled backend/Tauri exceptions
-  if (typeof window !== "undefined") {
+  if (BROWSER) {
     window.addEventListener('unhandledrejection', (event) => {
         const err = event.reason;
         console.error("Unhandled Promise Rejection:", err);
@@ -22,7 +23,7 @@
     });
   }
 
-  if (typeof localStorage !== "undefined") {
+  if (BROWSER) {
       setLanguageTag((localStorage.getItem('webq-lang') || 'en') as "en" | "tr");
       const storedAnim = localStorage.getItem('webq-animations');
       if (storedAnim !== null) {
@@ -31,31 +32,46 @@
   }
 
   $effect(() => {
+      if (!BROWSER) return;
+
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const isDark = appState.theme === 'dark' || (appState.theme === 'system' && prefersDark);
       document.documentElement.classList.toggle('dark', isDark);
       
       document.documentElement.classList.toggle('disable-animations', !appState.animationsEnabled);
-      if (typeof localStorage !== "undefined") {
-          localStorage.setItem('webq-animations', appState.animationsEnabled.toString());
-      }
+      localStorage.setItem('webq-animations', appState.animationsEnabled.toString());
   });
 
   let { children } = $props();
   // Svelte 5 universal run: check sessionStorage safely
-  let isBooted = $state(typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('webq-booted') === 'true' : false);
+  let isBooted = $state(BROWSER ? sessionStorage.getItem('webq-booted') === 'true' : false);
   let showCloseConfirm = $state(false);
+  let appWindow = $state<Window | null>(null);
 
   function handleBootComplete() {
       isBooted = true;
-      if (typeof sessionStorage !== 'undefined') {
+      if (BROWSER) {
           sessionStorage.setItem('webq-booted', 'true');
       }
   }
 
-  onMount(() => {
+  onMount(async () => {
+      const { getCurrentWindow } = await import('@tauri-apps/api/window');
+      appWindow = getCurrentWindow();
       appState.fetchScannedDomains();
   });
+
+  function minimizeWindow() {
+      void appWindow?.minimize();
+  }
+
+  function toggleMaximizeWindow() {
+      void appWindow?.toggleMaximize();
+  }
+
+  function closeWindow() {
+      void appWindow?.close();
+  }
 </script>
 
 {#if !isBooted}
@@ -69,7 +85,7 @@
     <div 
         class="absolute inset-0 bg-background border-b border-base"
         data-tauri-drag-region
-        ondblclick={() => getCurrentWindow().toggleMaximize()}
+        ondblclick={toggleMaximizeWindow}
     ></div>
 
     <!-- Foreground content -->
@@ -80,10 +96,10 @@
         </div>
         
         <div class="flex items-center gap-1 pointer-events-auto">
-            <button onclick={() => getCurrentWindow().minimize()} class="p-1.5 rounded-md text-muted hover:bg-surface hover:text-primary-text transition-colors" title="Minimize" aria-label="Minimize window">
+            <button onclick={minimizeWindow} class="p-1.5 rounded-md text-muted hover:bg-surface hover:text-primary-text transition-colors" title="Minimize" aria-label="Minimize window">
                 <Minus size={14} />
             </button>
-            <button onclick={() => getCurrentWindow().toggleMaximize()} class="p-1.5 rounded-md text-muted hover:bg-surface hover:text-primary-text transition-colors" title="Maximize" aria-label="Maximize window">
+            <button onclick={toggleMaximizeWindow} class="p-1.5 rounded-md text-muted hover:bg-surface hover:text-primary-text transition-colors" title="Maximize" aria-label="Maximize window">
                 <Square size={14} />
             </button>
             <button onclick={() => showCloseConfirm = true} class="p-1.5 rounded-md text-muted hover:bg-red-500 hover:text-white transition-colors" title="Close" aria-label="Close window">
@@ -121,7 +137,7 @@
     <p class="text-sm text-secondary-text">Are you sure you want to close the application? Any ongoing intelligence scans will be terminated.</p>
     <div class="flex justify-end gap-2 mt-4">
       <button onclick={() => showCloseConfirm = false} class="px-4 py-2 text-sm rounded-md bg-sunken text-primary-text hover:brightness-110 transition-colors font-medium">Cancel</button>
-      <button onclick={() => getCurrentWindow().close()} class="px-4 py-2 text-sm rounded-md bg-red-600 hover:bg-red-500 text-white transition-colors font-medium">Close App</button>
+      <button onclick={closeWindow} class="px-4 py-2 text-sm rounded-md bg-red-600 hover:bg-red-500 text-white transition-colors font-medium">Close App</button>
     </div>
   </div>
 </div>
