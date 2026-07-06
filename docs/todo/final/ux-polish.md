@@ -2,7 +2,7 @@
 
 ## Status
 
-Partially implemented.
+Partially implemented. Double-checked against the assessment pages on 2026-07-06.
 
 ## Implemented
 
@@ -21,8 +21,8 @@ Partially implemented.
 - [ ] Add F11 fullscreen toggle via Tauri window APIs.
 - [ ] Add Always-on-Top toggle via Tauri window APIs.
 - [ ] Update Tauri permissions/capabilities for fullscreen and always-on-top if needed.
-- [ ] Render `<ScanTerminal />` during Security Posture scans; the listener already exists.
-- [ ] Render `<ScanTerminal />` during Subdomain Takeover scans; the listener already exists.
-- [ ] Remove duplicated `logs = []; progressPercent = 0;` assignments in assessment pages.
+- [ ] Render `<ScanTerminal />` during Security Posture scans; imports/listener/state exist, but no terminal is present in the page body.
+- [ ] Render `<ScanTerminal />` during Subdomain Takeover scans; imports/listener/state exist, but no terminal is present in the page body.
+- [ ] Remove duplicated `logs = []; progressPercent = 0;` assignments in Security Posture and Subdomain Takeover pages.
 - [ ] Replace broad `any` types in assessment page result objects with typed interfaces.
 - [ ] Use toast feedback consistently for scan failures and successful DB saves.

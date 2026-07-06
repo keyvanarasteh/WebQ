@@ -1,15 +1,17 @@
 # Web Analyzer Contract Check
 
-Last checked: 2026-07-06 against `/Users/Q/Documents/web-analyzer`.
+Last checked: 2026-07-06 against `/Users/Q/Documents/web-analyzer` and crates.io `web-analyzer` `0.1.11`.
 
 ## Dependency Reality
 
 - Local crate path: `/Users/Q/Documents/web-analyzer`
-- Local crate version: `0.1.10`
+- Local crate version: `0.1.11`
+- Published crate version: `0.1.11`
+- Published tag: `v0.1.11`
 - WebQ dependency declaration: `web-analyzer = { path = "../../web-analyzer" }` in `src-tauri/Cargo.toml`
 - WebQ lockfile source: local path dependency entry with no registry checksum
 
-Important: WebQ is now wired to the local sibling crate for active development. Publishing or version bumping `web-analyzer` is still required before returning WebQ to a crates.io-only release dependency.
+Important: WebQ is still wired to the local sibling crate for active development. Before a WebQ release, choose whether to keep that path dependency or switch to crates.io `web-analyzer = "0.1.11"`.
 
 ## Progress API Contract
 
@@ -45,10 +47,13 @@ Archived scratch docs used these stale or wrong names:
 - `ScanProgress` is defined in `src/lib.rs` with `module`, `percentage`, `message`, and `status`.
 - `domain_info::check_ssl` computes `days_until_expiry` from OpenSSL `notAfter` output in the local source.
 - `react_honeypot::HoneypotEngine` provides `process_request`, `get_top_threats`, and config support used by WebQ.
+- `web-analyzer` `0.1.11` includes the progress sender support WebQ now calls for Web Technologies, Contact Spy, Advanced Content Scanner, Cloudflare Bypass, and Bulk Domain Validator per-domain progress.
+- `web-analyzer` `0.1.11` includes the Android/Rustls CI fix that removed the AWS-LC/Android compiler blocker.
 
 ## Remaining Verification Tasks
 
-- [ ] Make `cargo` available in this shell.
-- [ ] Run `cargo check` in `/Users/Q/Documents/web-analyzer`.
+- [x] Run `cargo check` in `/Users/Q/Documents/web-analyzer`.
+- [x] Publish or version-bump `web-analyzer` before switching WebQ back to a crates.io release dependency.
+- [ ] Refresh `src-tauri/Cargo.lock` so the local path dependency resolves as `web-analyzer` `0.1.11`, or switch WebQ to crates.io `web-analyzer = "0.1.11"`.
 - [ ] Run `cargo check` in `/Users/Q/Documents/WebQ/src-tauri`.
-- [ ] Publish or version-bump `web-analyzer` before switching WebQ back to a crates.io release dependency.
+- [ ] Run `bun run check` in `/Users/Q/Documents/WebQ`.

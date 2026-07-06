@@ -4,7 +4,7 @@ Last checked: 2026-07-06 against WebQ and `/Users/Q/Documents/web-analyzer`.
 
 ## Status
 
-Several modules are functional but do not have the same progress/history integration level as the main intelligence and assessment pages.
+Several modules are functional but do not have the same progress/history integration level as the main intelligence and assessment pages. The newly completed progress APIs are available in `web-analyzer` `0.1.11`.
 
 ## Progress Streaming Coverage
 
@@ -31,6 +31,7 @@ Recently fixed:
 - [x] Contact Spy: `crawl_contacts(&domain, max_pages, Some(tx))` streams progress and renders `<ScanTerminal />`.
 - [x] Advanced Content Scanner: `scan_content(&domain, Some(tx))` streams progress and renders `<ScanTerminal />`.
 - [x] Bulk Domain Validator: `validate_domains_bulk(&domains, 10, Some(tx))` streams per-domain progress and renders `<ScanTerminal />`.
+- [x] Cloudflare Bypass: `find_real_ip(&domain, Some(tx))` progress support is present in the released crate.
 
 ## History Logging Coverage
 
@@ -65,5 +66,6 @@ Recently fixed:
 - [x] Add progress sender support in `web-analyzer` for Web Technologies, Contact Spy, Advanced Content, and Bulk Domain Validator.
 - [x] Update WebQ Tauri commands for those modules to forward progress via `app_handle.emit("scan-progress", payload)`.
 - [x] Add SQLite logging for Bulk Domain Validator.
+- [ ] Refresh or switch the WebQ `web-analyzer` dependency to verify these paths against published `0.1.11`.
 - [ ] Add optional SQLite persistence for honeypot events and attacker profiles.
 - [x] Update `TODO.md` to stop marking Bulk Domain Validator streaming as complete until it is actually wired.

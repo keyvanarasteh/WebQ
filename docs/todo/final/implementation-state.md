@@ -10,7 +10,7 @@ Last checked: 2026-07-06
 - `REQUEST.md`: React2Shell honeypot/UI request. Backend honeypot exists, but dashboard/signature/profile pages are not fully wired to live data.
 - `CHECKUP.md`: Old step-by-step audit workflow. Stale paths and process instructions; archive as scratch.
 - `docs/todo/*`: Mixed old implementation plans and task files. Most progress-channel items are now implemented in backend and frontend, with a few rendering/UX gaps still active.
-- `/Users/Q/Documents/web-analyzer`: Local crate source checked for function names, progress APIs, and SSL expiry behavior.
+- `/Users/Q/Documents/web-analyzer`: Local crate source checked for function names, progress APIs, SSL expiry behavior, and release state.
 
 ## Implemented Or Mostly Implemented
 
@@ -23,7 +23,7 @@ Last checked: 2026-07-06
   - `scan-progress` MPSC forwarding exists for Domain Info, Domain DNS, SEO, Subdomain Discovery, Security Posture, Subdomain Takeover, Cloudflare Bypass, Nmap Zero Day, API Security, and Geo Analysis.
   - Most frontend pages listen to `scan-progress` and render `<ScanTerminal />`.
   - Security Posture and Subdomain Takeover listen to `scan-progress` but still do not render `<ScanTerminal />` in the page body.
-  - Bulk Domain Validator now has start/complete progress events; Web Technologies, Contact Spy, Advanced Content, and React scan commands do not have progress parity yet.
+  - Bulk Domain Validator, Web Technologies, Contact Spy, Advanced Content, and Cloudflare Bypass now have crate-level progress support in `web-analyzer` `0.1.11`; React scan commands still do not have progress parity.
 - SQLite History:
   - `src-tauri/src/db.rs` initializes SQLite with WAL mode.
   - `scans` and `scan_results` tables exist.
@@ -34,7 +34,7 @@ Last checked: 2026-07-06
 - Keyboard:
   - `Ctrl/Cmd+K` command palette exists.
 - SSL expiry:
-  - `/Users/Q/Documents/web-analyzer/src/domain_info.rs` computes `days_until_expiry`; WebQ uses the local path crate until those changes are published or version-bumped.
+  - `/Users/Q/Documents/web-analyzer/src/domain_info.rs` computes `days_until_expiry`; `web-analyzer` `0.1.11` is now published, but WebQ still uses the local path crate until the dependency mode is changed.
 - Crate contract:
   - See `docs/todo/final/web-analyzer-contract.md` for verified local function names and stale archived names.
   - WebQ currently uses the sibling local path dependency at `/Users/Q/Documents/web-analyzer` for active development.
@@ -52,6 +52,6 @@ Last checked: 2026-07-06
 - Render progress terminals in Security Posture and Subdomain Takeover pages; they listen but do not display the terminal.
 - Decide whether React2Shell scan/source-leak/RCE commands need `scan-progress` support.
 - React2Shell live dashboard/profile/signature completion.
-- Publish or version-bump `web-analyzer` before returning WebQ to a crates.io release dependency.
+- Refresh or switch the WebQ `web-analyzer` dependency now that `0.1.11` is published.
 - Re-run Rust checks once `cargo` is available in PATH.
 - Final security test pass and 1.0.0 release.
