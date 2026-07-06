@@ -29,5 +29,6 @@ Release preparation is mostly implemented; final verification remains.
 - [ ] Smoke test core scans against safe test targets, including Web Technologies, Contact Spy, Advanced Content Scanner, Bulk Domain Validator, and Cloudflare Bypass progress.
 - [ ] Verify macOS Apple Silicon build on the target Mac.
 - [ ] Verify Windows NSIS/MSI build on a clean Windows host or VM.
+- [ ] Re-run and audit Snapcraft packaging; see [Snapcraft Release Audit](snapcraft-release-audit.md).
 - [ ] Decide 1.0.0 release criteria and update `CHANGELOG.md`.
 - [ ] Tag and publish the release.

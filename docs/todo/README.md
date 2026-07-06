@@ -25,7 +25,8 @@ Use `docs/todo/final/` as the active todo source. The list below is ordered for 
 | 9 | [Release And Platform Checklists](final/release.md) | pending |
 | 10 | [macOS Release Checklist](final/release-macos.md) | pending |
 | 11 | [Windows Release Checklist](final/release-windows.md) | pending |
-| 12 | [Cleanup And Trash Notes](final/cleanup-trash.md) | pending |
+| 12 | [Snapcraft Release Audit](final/snapcraft-release-audit.md) | pending |
+| 13 | [Cleanup And Trash Notes](final/cleanup-trash.md) | pending |
 
 ## Next WebQ Implementation Steps
 
@@ -33,3 +34,4 @@ Use `docs/todo/final/` as the active todo source. The list below is ordered for 
 - Add optional SQLite persistence for honeypot attack events and attacker snapshots if historical analysis is required.
 - Add a real Recent Scans widget on the dashboard.
 - Finish release packaging checks for macOS and Windows.
+- Re-run and audit Snapcraft after macOS signing is green.
