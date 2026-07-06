@@ -1,6 +1,6 @@
 # WebQ Todo Index
 
-Use `docs/todo/final/` as the active todo source. The list below is ordered for a clean DevOps path: verify the dependency contract first, roll WebQ onto the released engine state, close integration gaps, stabilize UX/data, then package and release.
+Use `docs/todo/final/` as the active todo source. Completed implementation notes are removed from this folder once they no longer track live work.
 
 ## Current Engine Baseline
 
@@ -14,23 +14,21 @@ Use `docs/todo/final/` as the active todo source. The list below is ordered for 
 
 | Order | Todo | Status |
 |---:|---|---|
-| 1 | [Implementation State](final/implementation-state.md) | done |
-| 2 | [Web Analyzer Contract](final/web-analyzer-contract.md) | done |
-| 3 | [Web Analyzer 0.1.11 Rollout](final/web-analyzer-0-1-11-rollout.md) | done |
-| 4 | [Module Integration Gaps](final/module-integration-gaps.md) | in progress |
-| 5 | [DNS Clipboard Export](final/dns-clipboard.md) | done |
-| 6 | [Scan History And SQLite](final/history-sqlite.md) | in progress |
-| 7 | [React2Shell Honeypot And UI](final/react2shell.md) | in progress |
-| 8 | [UX Polish And Shortcuts](final/ux-polish.md) | in progress |
-| 9 | [Release And Platform Checklists](final/release.md) | pending |
-| 10 | [macOS Release Signing Audit](final/macos-release-signing-audit.md) | pending |
-| 11 | [macOS Release Checklist](final/release-macos.md) | pending |
-| 12 | [Windows Release Checklist](final/release-windows.md) | pending |
-| 13 | [Snapcraft Release Audit](final/snapcraft-release-audit.md) | pending |
-| 14 | [Cleanup And Trash Notes](final/cleanup-trash.md) | pending |
+| 1 | [JADX Integration](final/jadx-integration.md) | planned |
+| 2 | [Module Integration Gaps](final/module-integration-gaps.md) | in progress |
+| 3 | [Scan History And SQLite](final/history-sqlite.md) | in progress |
+| 4 | [React2Shell Honeypot And UI](final/react2shell.md) | in progress |
+| 5 | [UX Polish And Shortcuts](final/ux-polish.md) | in progress |
+| 6 | [Release And Platform Checklists](final/release.md) | pending |
+| 7 | [macOS Release Signing Audit](final/macos-release-signing-audit.md) | pending |
+| 8 | [macOS Release Checklist](final/release-macos.md) | pending |
+| 9 | [Windows Release Checklist](final/release-windows.md) | pending |
+| 10 | [Snapcraft Release Audit](final/snapcraft-release-audit.md) | pending |
+| 11 | [Cleanup And Trash Notes](final/cleanup-trash.md) | pending |
 
 ## Next WebQ Implementation Steps
 
+- Plan and implement JADX-based Android static analysis.
 - Smoke test progress terminals in Tauri dev mode for Web Technologies, Contact Spy, Advanced Content Scanner, Bulk Domain Validator, Cloudflare Bypass, Security Posture, and Subdomain Takeover.
 - Add optional SQLite persistence for honeypot attack events and attacker snapshots if historical analysis is required.
 - Add a real Recent Scans widget on the dashboard.

@@ -27,10 +27,8 @@ These files are no longer the active task list. They were duplicated, stale, or 
 
 Use only these files for remaining work:
 
-- `docs/todo/final/dns-clipboard.md`
+- `docs/todo/final/jadx-integration.md`
 - `docs/todo/final/history-sqlite.md`
-- `docs/todo/final/web-analyzer-contract.md`
-- `docs/todo/final/web-analyzer-0-1-11-rollout.md`
 - `docs/todo/final/module-integration-gaps.md`
 - `docs/todo/final/react2shell.md`
 - `docs/todo/final/ux-polish.md`

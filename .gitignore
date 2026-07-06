@@ -9,3 +9,7 @@
 /src-tauri/target
 src-tauri/webq_telemetry.db
 snapcraft-login.txt
+
+# npm is the canonical package manager; a stray bun.lock makes tauri-action pick Bun in CI
+bun.lock
+bun.lockb

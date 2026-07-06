@@ -2,7 +2,7 @@
 
 ## Status
 
-Pending. Current macOS release verification failed before Tauri reached the native build/sign/notarize phase.
+Fix applied locally (2026-07-07): `tauriScript: npm run tauri` added to the release workflow and `bun.lock` removed/gitignored. Awaiting a `Release` re-run from `main` to verify build, signing, and notarization end to end.
 
 ## Latest Check
 
@@ -39,8 +39,8 @@ Observed failures:
 
 ## Audit And Fix Tasks
 
-- [ ] Force the Tauri action to use npm by adding `tauriScript: npm run tauri` to `.github/workflows/release.yml`.
-- [ ] Decide whether `bun.lock` should stay in the repo or be removed if release builds are standardized on npm.
+- [x] Force the Tauri action to use npm by adding `tauriScript: npm run tauri` to `.github/workflows/release.yml`.
+- [x] Decide whether `bun.lock` should stay in the repo or be removed if release builds are standardized on npm. Decision: removed; `bun.lock`/`bun.lockb` are now gitignored so the action can never auto-detect Bun again.
 - [ ] Re-run `Release` manually from `main`.
 - [ ] Confirm both macOS jobs pass `Derive Apple signing identity`.
 - [ ] Confirm both macOS jobs reach Rust/Tauri compilation.
