@@ -34,10 +34,10 @@ Last checked: 2026-07-06
 - Keyboard:
   - `Ctrl/Cmd+K` command palette exists.
 - SSL expiry:
-  - `/Users/Q/Documents/web-analyzer/src/domain_info.rs` now computes `days_until_expiry`; ensure the published `web-analyzer = "0.1.10"` dependency includes this behavior or bump the crate.
+  - `/Users/Q/Documents/web-analyzer/src/domain_info.rs` computes `days_until_expiry`; WebQ uses the local path crate until those changes are published or version-bumped.
 - Crate contract:
   - See `docs/todo/final/web-analyzer-contract.md` for verified local function names and stale archived names.
-  - WebQ currently uses the crates.io `web-analyzer = "0.1.10"` package from `Cargo.lock`, not a local path dependency to `/Users/Q/Documents/web-analyzer`.
+  - WebQ currently uses the sibling local path dependency at `/Users/Q/Documents/web-analyzer` for active development.
 - Module integration:
   - See `docs/todo/final/module-integration-gaps.md` for progress/history parity gaps.
 
@@ -50,8 +50,8 @@ Last checked: 2026-07-06
 - Use or remove `SpotlightCard.svelte`; currently present but not used.
 - Finish history filtering, favorites, bulk actions, statistics, and richer detail hydration.
 - Render progress terminals in Security Posture and Subdomain Takeover pages; they listen but do not display the terminal.
-- Decide whether remaining non-streaming modules need `scan-progress` support.
+- Decide whether React2Shell scan/source-leak/RCE commands need `scan-progress` support.
 - React2Shell live dashboard/profile/signature completion.
-- Decide whether to keep the registry `web-analyzer` dependency or switch to a local path dependency for active development.
+- Publish or version-bump `web-analyzer` before returning WebQ to a crates.io release dependency.
 - Re-run Rust checks once `cargo` is available in PATH.
 - Final security test pass and 1.0.0 release.

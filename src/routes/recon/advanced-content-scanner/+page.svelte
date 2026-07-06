@@ -1,10 +1,13 @@
 <script lang="ts">
     import { invoke } from '@tauri-apps/api/core';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
     import { FileSearch, Search, Globe, AlertCircle, Loader2, HelpCircle } from 'lucide-svelte';
     import * as m from '$lib/paraglide/messages';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
     
     import ScannerMasonry from '$lib/components/recon/advanced-scanner/ScannerMasonry.svelte';
     import AdvancedScannerGuide from '$lib/components/recon/advanced-scanner/AdvancedScannerGuide.svelte';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
     import type { ScannerResult } from '$lib/components/recon/advanced-scanner/ScannerMasonry.svelte';
 
     let targetDomain = $state('');
@@ -12,6 +15,9 @@
     let scanError = $state<string | null>(null);
     let scanResult = $state<ScannerResult | null>(null);
     let isGuideOpen = $state(false);
+    let scanLogs = $state<ScanProgressEvent[]>([]);
+    let scanProgress = $state(0);
+    let unlistenProgress: UnlistenFn | null = null;
 
     async function handleScan() {
         if (!targetDomain) return;
@@ -19,6 +25,12 @@
         isScanning = true;
         scanError = null;
         scanResult = null;
+        scanLogs = [];
+        scanProgress = 0;
+        unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+            scanLogs.push(event.payload);
+            scanProgress = event.payload.percentage;
+        });
         
         try {
             const rawResult = await invoke('scan_advanced_content', {
@@ -29,6 +41,10 @@
             console.error('Advanced Content scan failed:', error);
             scanError = error as string;
         } finally {
+            if (unlistenProgress) {
+                unlistenProgress();
+                unlistenProgress = null;
+            }
             isScanning = false;
         }
     }
@@ -98,6 +114,10 @@
                 <p class="text-xs text-red-400/80 mt-1">{scanError}</p>
             </div>
         </div>
+    {/if}
+
+    {#if isScanning || scanLogs.length > 0}
+        <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
     {/if}
 
     <ScannerMasonry result={scanResult} isLoading={isScanning} />

@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { appState } from '$lib/stores/AppState.svelte';
 	import { invoke } from '@tauri-apps/api/core';
-	import { listen } from '@tauri-apps/api/event';
+	import { listen, type UnlistenFn } from '@tauri-apps/api/event';
 	import * as m from '$lib/paraglide/messages';
+	import type { ScanProgressEvent } from '$lib/types/intelligence';
 
 	// Components
 	import ContactMasonry from '$lib/components/recon/contact-spy/ContactMasonry.svelte';
-	import CrawlingConsole, { type CrawlLog } from '$lib/components/recon/contact-spy/CrawlingConsole.svelte';
 	import ContactSpyGuide from '$lib/components/recon/guides/ContactSpyGuide.svelte';
+	import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
 	import { reportStore } from '$lib/stores/ReportStore.svelte';
 
 	// Icons
@@ -20,31 +21,9 @@
 
 	// Strongly typed according to backend response
 	let scanResult = $state<any>(null); // ContactSpyResult
-	let logs = $state<CrawlLog[]>([]);
-
-	let logIdCounters = 0;
-	let unlistenCrawlStatus: (() => void) | null = null;
-
-	$effect(() => {
-		async function setupListener() {
-			unlistenCrawlStatus = await listen<{ url: string, status: string }>('crawl_status', (event) => {
-				const now = new Date();
-				const payload = event.payload;
-				logs.push({
-					id: logIdCounters++,
-					timestamp: now.toISOString().slice(11, 23),
-					status: 'info',
-					message: `Scraping: ${payload.url}`
-				});
-				if (logs.length > 500) logs.shift(); // Keep bounded
-			});
-		}
-		setupListener();
-
-		return () => {
-			if (unlistenCrawlStatus) unlistenCrawlStatus();
-		};
-	});
+	let scanLogs = $state<ScanProgressEvent[]>([]);
+	let scanProgress = $state(0);
+	let unlistenProgress: UnlistenFn | null = null;
 
 	// ── Logic ─────────────────────────────────────────────────────────────────
 
@@ -52,35 +31,34 @@
 		if (!targetDomain) return;
 		appState.setScanning(true, 'CONTACT SPY');
 		scanResult = null;
-		logs = [];
+		scanLogs = [];
+		scanProgress = 0;
 		showGuide = false; // Collapse guide when starting scan to reveal full card width
+		unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+			scanLogs.push(event.payload);
+			scanProgress = event.payload.percentage;
+			if (scanLogs.length > 500) scanLogs.shift();
+		});
 		
 		try {
-			logs.push({
-				id: logIdCounters++,
-				timestamp: new Date().toISOString().slice(11, 23),
-				status: 'success',
-				message: `Started BFS Spider task on ${targetDomain} with MAX_DEPTH 2...`
-			});
 			// Limit to 25 pages by default to keep responsiveness high
 			scanResult = await invoke('scan_contacts', { domain: targetDomain, maxPages: 25 });
 			reportStore.addResult(targetDomain, "Contact Spy", scanResult);
-			logs.push({
-				id: logIdCounters++,
-				timestamp: new Date().toISOString().slice(11, 23),
-				status: 'success',
-				message: `Successfully mapped surface contacts.`
-			});
 		} catch (e: unknown) {
 			console.error("Scan Failed", e);
 			const msg = e instanceof Error ? e.message : String(e);
-			logs.push({
-				id: logIdCounters++,
-				timestamp: new Date().toISOString().slice(11, 23),
-				status: 'error',
+			scanProgress = 100;
+			scanLogs.push({
+				module: 'Contact Spy',
+				percentage: 100,
+				status: 'Error',
 				message: `Crawl aborted: ${msg}`
 			});
 		} finally {
+			if (unlistenProgress) {
+				unlistenProgress();
+				unlistenProgress = null;
+			}
 			appState.setScanning(false, '');
 		}
 	}
@@ -155,8 +133,8 @@
 
 	<!-- Results Area -->
 	<div class="grow flex flex-col gap-6">
-		{#if appState.isScanning || logs.length > 0}
-			<CrawlingConsole logs={logs} />
+		{#if appState.isScanning || scanLogs.length > 0}
+			<ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
 		{/if}
 		<ContactMasonry results={scanResult} isLoading={appState.isScanning} />
 	</div>

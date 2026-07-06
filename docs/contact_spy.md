@@ -14,11 +14,10 @@ The `scan_contacts` command invokes `crawl_contacts` from `web-analyzer`.
 
 ## Frontend UI Components
 Located in `/src/lib/components/recon/contact-spy/`:
-*   **`CrawlingConsole.svelte`**: A visual "hacker-style" terminal output displaying the live spidering process and URLs visited.
+*   **`ScanTerminal.svelte`**: Shared progress terminal displaying the live spidering process through `scan-progress` events.
 *   **`EmailHarvester.svelte`**: Extracts and lists all validated email addresses found during the crawl.
 *   **`SocialOsintBox.svelte`**: Categorizes and links to extracted social media profiles (Twitter, LinkedIn, Facebook, etc.).
 *   **`ContactMasonry.svelte`**: The overarching layout component organizing the harvested data into a clean, glassmorphism dashboard.
 
 ## Missing Sub-Features
 While the core module is integrated, `web-analyzer` returns significant additional data that is currently missing from the WebQ UI. See the [Reconnaissance Extended UI](./ideas/reconnaissance_extended_ui.md) request for details.
-

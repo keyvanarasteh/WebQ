@@ -5910,8 +5910,6 @@ dependencies = [
 [[package]]
 name = "web-analyzer"
 version = "0.1.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "65e3a5d12b8c0fdbef8d362a009162334836a455e254270d157bdcec2cb33916"
 dependencies = [
  "chrono",
  "regex",

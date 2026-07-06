@@ -112,8 +112,14 @@ async fn scan_seo_analysis(url: String, pool: tauri::State<'_, sqlx::SqlitePool>
 }
 
 #[tauri::command]
-async fn scan_web_technologies(url: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<WebTechResult, AppError> {
-    log_and_execute_scan!(pool, url, "WebTech", detect_web_technologies(&url))
+async fn scan_web_technologies(url: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<WebTechResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, url, "WebTech", detect_web_technologies(&url, Some(tx)))
 }
 
 #[tauri::command]
@@ -125,25 +131,18 @@ async fn validate_bulk_domains(domains: Vec<String>, pool: tauri::State<'_, sqlx
     };
     let start_time = std::time::Instant::now();
 
-    let _ = app_handle.emit("scan-progress", web_analyzer::ScanProgress {
-        module: "Domain Validator".into(),
-        percentage: 5.0,
-        message: format!("Starting validation for {} domain(s)...", domains.len()),
-        status: "Info".into(),
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
     });
 
-    let result = validate_domains_bulk(&domains, 10).await;
+    let result = validate_domains_bulk(&domains, 10, Some(tx)).await;
     let duration = start_time.elapsed().as_millis() as i64;
     let json = serde_json::to_value(&result).unwrap_or_default();
 
     let _ = db::log_scan_to_db(&*pool, &target, "DomainValidator", "Completed", None, duration, 0, 0, &json).await;
-
-    let _ = app_handle.emit("scan-progress", web_analyzer::ScanProgress {
-        module: "Domain Validator".into(),
-        percentage: 100.0,
-        message: "Bulk validation complete.".into(),
-        status: "Success".into(),
-    });
 
     Ok(result)
 }
@@ -160,13 +159,25 @@ async fn scan_subdomains(domain: String, pool: tauri::State<'_, sqlx::SqlitePool
 }
 
 #[tauri::command]
-async fn scan_contacts(domain: String, max_pages: usize, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<ContactSpyResult, AppError> {
-    log_and_execute_scan!(pool, domain, "ContactSpy", crawl_contacts(&domain, max_pages))
+async fn scan_contacts(domain: String, max_pages: usize, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<ContactSpyResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "ContactSpy", crawl_contacts(&domain, max_pages, Some(tx)))
 }
 
 #[tauri::command]
-async fn scan_advanced_content(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<ScannerResult, AppError> {
-    log_and_execute_scan!(pool, domain, "AdvancedContent", web_analyzer::advanced_content_scanner::scan_content(&domain))
+async fn scan_advanced_content(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<ScannerResult, AppError> {
+    let (tx, mut rx) = tokio::sync::mpsc::channel(100);
+    tokio::spawn(async move {
+        while let Some(progress) = rx.recv().await {
+            let _ = app_handle.emit("scan-progress", progress);
+        }
+    });
+    log_and_execute_scan!(pool, domain, "AdvancedContent", web_analyzer::advanced_content_scanner::scan_content(&domain, Some(tx)))
 }
 
 #[tauri::command]

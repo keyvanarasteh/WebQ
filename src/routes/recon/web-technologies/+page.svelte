@@ -1,26 +1,42 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
-  import * as m from '$lib/paraglide/messages';
-  import { Search, HelpCircle } from 'lucide-svelte';
-  import { invoke } from '@tauri-apps/api/core';
-  import TechStackGrid from '$lib/components/recon/web-technologies/TechStackGrid.svelte';
-  import WordPressScanner from '$lib/components/recon/web-technologies/WordPressScanner.svelte';
-  import SecurityHeadersList from '$lib/components/recon/web-technologies/SecurityHeadersList.svelte';
-  import TechStackGuide from '$lib/components/recon/guides/TechStackGuide.svelte';
+    import * as m from '$lib/paraglide/messages';
+    import { Search, HelpCircle } from 'lucide-svelte';
+    import { invoke } from '@tauri-apps/api/core';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
+    import TechStackGrid from '$lib/components/recon/web-technologies/TechStackGrid.svelte';
+    import WordPressScanner from '$lib/components/recon/web-technologies/WordPressScanner.svelte';
+    import SecurityHeadersList from '$lib/components/recon/web-technologies/SecurityHeadersList.svelte';
+    import TechStackGuide from '$lib/components/recon/guides/TechStackGuide.svelte';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
 
   let targetDomain = $state('');
   let scanResult = $state<any>(null); // WebTechResult
   let showGuide = $state(false);
+  let scanLogs = $state<ScanProgressEvent[]>([]);
+  let scanProgress = $state(0);
+  let unlistenProgress: UnlistenFn | null = null;
   
   async function performScan() {
       if (!targetDomain) return;
       appState.setScanning(true, 'WEB TECHNOLOGIES');
+      scanLogs = [];
+      scanProgress = 0;
+      unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+          scanLogs.push(event.payload);
+          scanProgress = event.payload.percentage;
+      });
       
       try {
           scanResult = await invoke('scan_web_technologies', { url: targetDomain });
       } catch (e) {
           console.error(e);
       } finally {
+          if (unlistenProgress) {
+              unlistenProgress();
+              unlistenProgress = null;
+          }
           appState.setScanning(false, '');
       }
   }
@@ -64,6 +80,11 @@
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {#if appState.isScanning || scanLogs.length > 0}
+          <div class="lg:col-span-2">
+              <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
+          </div>
+      {/if}
       <TechStackGrid data={scanResult ?? undefined} isLoading={appState.isScanning} />
       <WordPressScanner data={scanResult?.wp_analysis ?? undefined} isLoading={appState.isScanning} />
       
