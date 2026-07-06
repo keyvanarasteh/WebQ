@@ -13,24 +13,25 @@ Partially implemented. Double-checked against `src-tauri/src/honeypot.rs`, `src-
 - [x] `/react/honeypot` calls `get_top_attackers` for the local page state.
 - [x] `/react/honeypot` includes a config panel and architecture documentation modal.
 - [x] React2Shell scanner/source-leak/RCE Tauri commands are logged through SQLite history.
+- [x] `/react` dashboard listens for `honeypot-attack-detected` events and derives KPIs/vector distribution from live state.
+- [x] `/react/attackers` loads attacker profiles from `get_top_attackers`.
+- [x] `/react/signatures` uses a shared full 40+ signature matrix.
+- [x] `/react/honeypot` local payload tester now sends the backend-required request shape.
+- [x] Frontend interfaces are typed for live attack events and attacker profiles.
 
 ## Gaps
 
-- [ ] `/react` dashboard uses mock KPIs, mock live events, and mock vector distribution.
-- [ ] `/react/attackers` uses mock attacker profiles instead of `get_top_attackers`.
-- [ ] `/react/signatures` only includes a small sample of the `REQUEST.md` signature matrix.
-- [ ] `testPayload()` in `/react/honeypot` calls `test_payload_locally` with `{ payload }`, but the backend command requires `method`, `path`, `queryString`, `body`, and `headers`.
 - [ ] Honeypot events are session-local and not persisted to SQLite.
 - [ ] There is no full attacker/event history table with filters.
-- [ ] React2Shell scanner/source-leak/RCE commands return final results but do not emit `scan-progress`.
+- [x] React2Shell scanner/source-leak/RCE commands are documented as final-result-only actions for now.
 
 ## Tasks
 
-- [ ] Fix `/react/honeypot` local payload tester payload shape.
-- [ ] Add inputs for method/path/query/body/headers or map a single payload into a default POST body intentionally.
-- [ ] Wire `/react` dashboard to live event state or backend summary commands.
-- [ ] Wire `/react/attackers` to `get_top_attackers`.
-- [ ] Replace `/react/signatures` sample data with the full 40+ signature matrix, preferably generated from a shared data file.
+- [x] Fix `/react/honeypot` local payload tester payload shape.
+- [x] Map the single payload tester input into an intentional default POST request body.
+- [x] Wire `/react` dashboard to live event state.
+- [x] Wire `/react/attackers` to `get_top_attackers`.
+- [x] Replace `/react/signatures` sample data with the full 40+ signature matrix in a shared data file.
 - [ ] Persist attack events and attacker snapshots to SQLite if historical analysis is required.
-- [ ] Add typed frontend interfaces for `AttackEvent`, `AttackerProfile`, and honeypot config.
-- [ ] Decide whether React2Shell scanner/source-leak/RCE should emit `scan-progress`, or document them as final-result-only commands.
+- [x] Add typed frontend interfaces for `AttackEvent` and `AttackerProfile`.
+- [x] Document React2Shell scanner/source-leak/RCE as final-result-only commands.

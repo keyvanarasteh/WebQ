@@ -21,9 +21,9 @@ Implemented `scan-progress` streaming:
 - [x] API Security
 - [x] Geo Analysis
 
-No `scan-progress` streaming currently wired:
+Final-result-only actions:
 
-- [ ] React2Shell scanner/source-leak/RCE commands do not emit `scan-progress`.
+- [x] React2Shell scanner/source-leak/RCE commands do not emit `scan-progress`; keep them final-result-only until `web-analyzer` exposes phased progress for those operations.
 
 Recently fixed:
 
@@ -62,10 +62,10 @@ Recently fixed:
 
 ## Tasks
 
-- [ ] Decide whether every module needs progress streaming, or document which modules intentionally return only final results.
+- [x] Decide whether every module needs progress streaming, or document which modules intentionally return only final results.
 - [x] Add progress sender support in `web-analyzer` for Web Technologies, Contact Spy, Advanced Content, and Bulk Domain Validator.
 - [x] Update WebQ Tauri commands for those modules to forward progress via `app_handle.emit("scan-progress", payload)`.
 - [x] Add SQLite logging for Bulk Domain Validator.
-- [ ] Refresh or switch the WebQ `web-analyzer` dependency to verify these paths against published `0.1.11`.
+- [x] Refresh or switch the WebQ `web-analyzer` dependency to verify these paths against published `0.1.11`.
 - [ ] Add optional SQLite persistence for honeypot events and attacker profiles.
 - [x] Update `TODO.md` to stop marking Bulk Domain Validator streaming as complete until it is actually wired.

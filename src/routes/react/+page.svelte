@@ -1,39 +1,61 @@
 <script lang="ts">
     import { Shield, Activity, Target, AlertTriangle, UserX, Ban, PieChart } from "lucide-svelte";
     import { onMount, onDestroy } from "svelte";
+    import { listen } from "@tauri-apps/api/event";
 
-    // Mock data for the dashboard
-    let kpis = $state({
-        totalEvents: 428,
-        uniqueAttackers: 35,
-        blockedPayloads: 412
+    type AttackEvent = {
+        event_id?: string;
+        timestamp: string;
+        category: string;
+        severity: string;
+        attacker_ip: string;
+        matched_payload: string;
+    };
+
+    const colors = ["#ef4444", "#f97316", "#eab308", "#3b82f6", "#a855f7", "#14b8a6"];
+    let liveEvents = $state<AttackEvent[]>([]);
+    let unlisten: (() => void) | null = null;
+
+    const kpis = $derived({
+        totalEvents: liveEvents.length,
+        uniqueAttackers: new Set(liveEvents.map((event) => event.attacker_ip)).size,
+        blockedPayloads: liveEvents.filter((event) => ["Critical", "High"].includes(event.severity)).length
     });
 
-    let liveEvents = $state([
-        { id: 1, time: new Date().toISOString(), category: "SQL Injection", severity: "Critical", attacker_ip: "192.168.1.104", payload: "admin' OR 1=1 --" },
-        { id: 2, time: new Date(Date.now() - 5000).toISOString(), category: "XSS", severity: "High", attacker_ip: "10.0.0.5", payload: "<scr" + "ipt>alert(1)</scr" + "ipt>" },
-        { id: 3, time: new Date(Date.now() - 15000).toISOString(), category: "Path Traversal", severity: "High", attacker_ip: "172.16.0.2", payload: "../../../../etc/passwd" },
-    ]);
+    const vectorDistribution = $derived.by(() => {
+        const totals = new Map<string, number>();
+        for (const event of liveEvents) {
+            totals.set(event.category, (totals.get(event.category) ?? 0) + 1);
+        }
+        const total = liveEvents.length || 1;
+        const entries = Array.from(totals.entries()).sort((a, b) => b[1] - a[1]);
+        return entries.length > 0
+            ? entries.slice(0, 6).map(([name, count], index) => ({
+                name,
+                value: Math.round((count / total) * 100),
+                color: colors[index % colors.length]
+            }))
+            : [{ name: "No Events", value: 100, color: "#334155" }];
+    });
 
-    let vectorDistribution = [
-        { name: "SQLi", value: 35, color: "#ef4444" },
-        { name: "XSS", value: 25, color: "#f97316" },
-        { name: "RCE", value: 15, color: "#eab308" },
-        { name: "LFI", value: 10, color: "#3b82f6" },
-        { name: "Other", value: 15, color: "#a855f7" }
-    ];
+    const slices = $derived.by(() => {
+        let cumulativePercent = 0;
+        return vectorDistribution.map(slice => {
+            const start = cumulativePercent;
+            cumulativePercent += slice.value;
+            const end = cumulativePercent;
+            return { ...slice, start, end };
+        });
+    });
 
-    // Simple SVG pie chart math
-    let cumulativePercent = 0;
-    const slices = vectorDistribution.map(slice => {
-        const start = cumulativePercent;
-        cumulativePercent += slice.value;
-        const end = cumulativePercent;
-        return {
-            ...slice,
-            start,
-            end
-        };
+    onMount(async () => {
+        unlisten = await listen("honeypot-attack-detected", (event: any) => {
+            liveEvents = [event.payload, ...liveEvents].slice(0, 100);
+        });
+    });
+
+    onDestroy(() => {
+        if (unlisten) unlisten();
     });
 
     function getCoordinatesForPercent(percent: number) {
@@ -88,6 +110,12 @@
                 <h2 class="text-lg font-bold text-primary-text">Live Threat Feed</h2>
             </div>
             <div class="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-3">
+                {#if liveEvents.length === 0}
+                    <div class="h-full flex flex-col items-center justify-center text-muted opacity-60">
+                        <AlertTriangle class="w-10 h-10 mb-3" />
+                        <p>Start the honeypot to stream live detection events here.</p>
+                    </div>
+                {:else}
                 {#each liveEvents as event}
                     <div class="bg-background border border-border/50 rounded-lg p-3 hover:border-red-500/30 transition-colors">
                         <div class="flex justify-between items-start mb-2">
@@ -95,7 +123,7 @@
                                 <span class="w-2 h-2 rounded-full {event.severity === 'Critical' ? 'bg-red-500 animate-pulse' : 'bg-orange-500'}"></span>
                                 <span class="text-xs font-bold {event.severity === 'Critical' ? 'text-red-500' : 'text-orange-500'} uppercase tracking-wider">{event.severity}</span>
                                 <span class="text-xs text-muted">|</span>
-                                <span class="text-xs font-mono text-primary-text">{new Date(event.time).toLocaleTimeString()}</span>
+                                <span class="text-xs font-mono text-primary-text">{new Date(event.timestamp).toLocaleTimeString()}</span>
                             </div>
                             <span class="text-xs font-mono bg-surface px-2 py-0.5 rounded border border-border">{event.attacker_ip}</span>
                         </div>
@@ -104,10 +132,11 @@
                         </div>
                         <div class="bg-surface/50 border border-border/50 rounded p-2 mt-2">
                             <div class="text-xs text-muted mb-1">Matched Payload</div>
-                            <div class="font-mono text-xs text-red-400 break-all bg-background p-1.5 rounded border border-red-500/10">{event.payload}</div>
+                            <div class="font-mono text-xs text-red-400 break-all bg-background p-1.5 rounded border border-red-500/10">{event.matched_payload}</div>
                         </div>
                     </div>
                 {/each}
+                {/if}
             </div>
         </div>
 

@@ -62,8 +62,6 @@
         results = null;
         logs = [];
         progressPercent = 0;
-        logs = [];
-        progressPercent = 0;
 
         try {
             results = await invoke<SecurityAnalysisResult>('scan_security_posture', { domain: targetDomain });
@@ -131,6 +129,12 @@
         <div class="p-4 mb-8 border rounded-lg bg-red-500/10 border-red-500/20 text-red-400 flex items-start gap-3">
             <ShieldAlert class="w-5 h-5 shrink-0" />
             <p>{errorMessage}</p>
+        </div>
+    {/if}
+
+    {#if status === 'loading' || logs.length > 0}
+        <div class="mb-8">
+            <ScanTerminal {logs} {progressPercent} />
         </div>
     {/if}
 

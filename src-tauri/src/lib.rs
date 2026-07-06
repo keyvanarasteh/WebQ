@@ -1,28 +1,28 @@
-pub mod error;
-pub mod system_health;
 pub mod db;
+pub mod error;
 pub mod honeypot;
+pub mod system_health;
 
 use crate::error::AppError;
 use tauri::{Emitter, Manager};
-use web_analyzer::domain_info::{get_domain_info, DomainInfoResult};
-use web_analyzer::domain_dns::{get_dns_records, DomainDnsResult};
-use web_analyzer::seo_analysis::{analyze_advanced_seo, SeoAnalysisResult};
-use web_analyzer::web_technologies::{detect_web_technologies, WebTechResult};
-use web_analyzer::domain_validator::{validate_domains_bulk, BulkValidationResult};
-use web_analyzer::subdomain_discovery::{discover_subdomains, SubdomainDiscoveryResult};
-use web_analyzer::contact_spy::{crawl_contacts, ContactSpyResult};
 use web_analyzer::advanced_content_scanner::ScannerResult;
-use web_analyzer::security_analysis::SecurityAnalysisResult;
-use web_analyzer::subdomain_takeover::TakeoverResult;
-use web_analyzer::cloudflare_bypass::CloudflareBypassResult;
-use web_analyzer::nmap_zero_day::NmapScanResult;
 use web_analyzer::api_security_scanner::ApiScanResult;
+use web_analyzer::cloudflare_bypass::CloudflareBypassResult;
+use web_analyzer::contact_spy::{crawl_contacts, ContactSpyResult};
+use web_analyzer::domain_dns::{get_dns_records, DomainDnsResult};
+use web_analyzer::domain_info::{get_domain_info, DomainInfoResult};
+use web_analyzer::domain_validator::{validate_domains_bulk, BulkValidationResult};
 use web_analyzer::geo_analysis::GeoAnalysisResult;
+use web_analyzer::nmap_zero_day::NmapScanResult;
 use web_analyzer::react::{
-    execute_source_leak, execute_rce_command, execute_rce,
-    SourceLeakResult, RceCommandOutput, RceResult, React2ShellScanner, ScanResult
+    execute_rce, execute_rce_command, execute_source_leak, RceCommandOutput, RceResult,
+    React2ShellScanner, ScanResult, SourceLeakResult,
 };
+use web_analyzer::security_analysis::SecurityAnalysisResult;
+use web_analyzer::seo_analysis::{analyze_advanced_seo, SeoAnalysisResult};
+use web_analyzer::subdomain_discovery::{discover_subdomains, SubdomainDiscoveryResult};
+use web_analyzer::subdomain_takeover::TakeoverResult;
+use web_analyzer::web_technologies::{detect_web_technologies, WebTechResult};
 
 #[derive(serde::Serialize)]
 pub struct DependencyStatus {
@@ -37,20 +37,13 @@ async fn check_dependencies() -> Result<DependencyStatus, AppError> {
         .arg("-V")
         .output()
         .is_ok();
-    let dig = std::process::Command::new("dig")
-        .arg("-v")
-        .output()
-        .is_ok();
+    let dig = std::process::Command::new("dig").arg("-v").output().is_ok();
     let openssl = std::process::Command::new("openssl")
         .arg("version")
         .output()
         .is_ok();
-        
-    Ok(DependencyStatus {
-        nmap,
-        dig,
-        openssl,
-    })
+
+    Ok(DependencyStatus { nmap, dig, openssl })
 }
 
 #[tauri::command]
@@ -63,15 +56,37 @@ macro_rules! log_and_execute_scan {
         let start_time = std::time::Instant::now();
         let result = $future.await;
         let duration = start_time.elapsed().as_millis() as i64;
-        
+
         match result {
             Ok(data) => {
                 let json = serde_json::to_value(&data).unwrap_or_default();
-                let _ = db::log_scan_to_db(&*$pool, &$domain, $module, "Completed", None, duration, 0, 0, &json).await;
+                let _ = db::log_scan_to_db(
+                    &*$pool,
+                    &$domain,
+                    $module,
+                    "Completed",
+                    None,
+                    duration,
+                    0,
+                    0,
+                    &json,
+                )
+                .await;
                 Ok(data)
-            },
+            }
             Err(e) => {
-                let _ = db::log_scan_to_db(&*$pool, &$domain, $module, "Failed", Some(&e.to_string()), duration, 0, 0, &serde_json::json!({})).await;
+                let _ = db::log_scan_to_db(
+                    &*$pool,
+                    &$domain,
+                    $module,
+                    "Failed",
+                    Some(&e.to_string()),
+                    duration,
+                    0,
+                    0,
+                    &serde_json::json!({}),
+                )
+                .await;
                 Err(AppError::ModuleFailed(e.to_string()))
             }
         }
@@ -79,51 +94,91 @@ macro_rules! log_and_execute_scan {
 }
 
 #[tauri::command]
-async fn scan_domain_info(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<DomainInfoResult, AppError> {
+async fn scan_domain_info(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<DomainInfoResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "DomainInfo", get_domain_info(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "DomainInfo",
+        get_domain_info(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_domain_dns(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<DomainDnsResult, AppError> {
+async fn scan_domain_dns(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<DomainDnsResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "DomainDns", get_dns_records(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "DomainDns",
+        get_dns_records(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_seo_analysis(url: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<SeoAnalysisResult, AppError> {
+async fn scan_seo_analysis(
+    url: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<SeoAnalysisResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, url, "SeoAnalysis", analyze_advanced_seo(&url, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        url,
+        "SeoAnalysis",
+        analyze_advanced_seo(&url, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_web_technologies(url: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<WebTechResult, AppError> {
+async fn scan_web_technologies(
+    url: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<WebTechResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, url, "WebTech", detect_web_technologies(&url, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        url,
+        "WebTech",
+        detect_web_technologies(&url, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn validate_bulk_domains(domains: Vec<String>, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<BulkValidationResult, AppError> {
+async fn validate_bulk_domains(
+    domains: Vec<String>,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<BulkValidationResult, AppError> {
     let target = if domains.len() == 1 {
         domains[0].clone()
     } else {
@@ -142,134 +197,251 @@ async fn validate_bulk_domains(domains: Vec<String>, pool: tauri::State<'_, sqlx
     let duration = start_time.elapsed().as_millis() as i64;
     let json = serde_json::to_value(&result).unwrap_or_default();
 
-    let _ = db::log_scan_to_db(&*pool, &target, "DomainValidator", "Completed", None, duration, 0, 0, &json).await;
+    let _ = db::log_scan_to_db(
+        &*pool,
+        &target,
+        "DomainValidator",
+        "Completed",
+        None,
+        duration,
+        0,
+        0,
+        &json,
+    )
+    .await;
 
     Ok(result)
 }
 
 #[tauri::command]
-async fn scan_subdomains(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<SubdomainDiscoveryResult, AppError> {
+async fn scan_subdomains(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<SubdomainDiscoveryResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "SubdomainDiscovery", discover_subdomains(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "SubdomainDiscovery",
+        discover_subdomains(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_contacts(domain: String, max_pages: usize, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<ContactSpyResult, AppError> {
+async fn scan_contacts(
+    domain: String,
+    max_pages: usize,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<ContactSpyResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "ContactSpy", crawl_contacts(&domain, max_pages, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "ContactSpy",
+        crawl_contacts(&domain, max_pages, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_advanced_content(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<ScannerResult, AppError> {
+async fn scan_advanced_content(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<ScannerResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "AdvancedContent", web_analyzer::advanced_content_scanner::scan_content(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "AdvancedContent",
+        web_analyzer::advanced_content_scanner::scan_content(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_security_posture(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<SecurityAnalysisResult, AppError> {
+async fn scan_security_posture(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<SecurityAnalysisResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "SecurityAnalysis", web_analyzer::security_analysis::analyze_security(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "SecurityAnalysis",
+        web_analyzer::security_analysis::analyze_security(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_subdomain_takeover(domain: String, subdomains: Vec<String>, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<TakeoverResult, AppError> {
+async fn scan_subdomain_takeover(
+    domain: String,
+    subdomains: Vec<String>,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<TakeoverResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "Takeover", web_analyzer::subdomain_takeover::check_subdomain_takeover(&domain, &subdomains, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "Takeover",
+        web_analyzer::subdomain_takeover::check_subdomain_takeover(&domain, &subdomains, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_cloudflare_bypass(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<CloudflareBypassResult, AppError> {
+async fn scan_cloudflare_bypass(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<CloudflareBypassResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "CloudflareBypass", web_analyzer::cloudflare_bypass::find_real_ip(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "CloudflareBypass",
+        web_analyzer::cloudflare_bypass::find_real_ip(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_nmap_zero_day(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<NmapScanResult, AppError> {
+async fn scan_nmap_zero_day(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<NmapScanResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "NmapZeroDay", web_analyzer::nmap_zero_day::run_nmap_scan(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "NmapZeroDay",
+        web_analyzer::nmap_zero_day::run_nmap_scan(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_api_security(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<ApiScanResult, AppError> {
+async fn scan_api_security(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<ApiScanResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "ApiSecurity", web_analyzer::api_security_scanner::scan_api_endpoints(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "ApiSecurity",
+        web_analyzer::api_security_scanner::scan_api_endpoints(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_geo_analysis(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<GeoAnalysisResult, AppError> {
+async fn scan_geo_analysis(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+    app_handle: tauri::AppHandle,
+) -> Result<GeoAnalysisResult, AppError> {
     let (tx, mut rx) = tokio::sync::mpsc::channel(100);
     tokio::spawn(async move {
         while let Some(progress) = rx.recv().await {
             let _ = app_handle.emit("scan-progress", progress);
         }
     });
-    log_and_execute_scan!(pool, domain, "GeoAnalysis", web_analyzer::geo_analysis::analyze_geo(&domain, Some(tx)))
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "GeoAnalysis",
+        web_analyzer::geo_analysis::analyze_geo(&domain, Some(tx))
+    )
 }
 
 #[tauri::command]
-async fn scan_react_source_leak(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<SourceLeakResult, AppError> {
-    log_and_execute_scan!(pool, domain, "ReactSourceLeak", execute_source_leak(&domain))
+async fn scan_react_source_leak(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+) -> Result<SourceLeakResult, AppError> {
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "ReactSourceLeak",
+        execute_source_leak(&domain)
+    )
 }
 
 #[tauri::command]
-async fn scan_react_rce_command(domain: String, command: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<RceCommandOutput, AppError> {
-    log_and_execute_scan!(pool, domain, "ReactRceCommand", execute_rce_command(&domain, &command))
+async fn scan_react_rce_command(
+    domain: String,
+    command: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+) -> Result<RceCommandOutput, AppError> {
+    log_and_execute_scan!(
+        pool,
+        domain,
+        "ReactRceCommand",
+        execute_rce_command(&domain, &command)
+    )
 }
 
 #[tauri::command]
-async fn scan_react_rce_full(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<RceResult, AppError> {
+async fn scan_react_rce_full(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+) -> Result<RceResult, AppError> {
     log_and_execute_scan!(pool, domain, "ReactRceFull", execute_rce(&domain))
 }
 
 #[tauri::command]
-async fn scan_react2shell(domain: String, pool: tauri::State<'_, sqlx::SqlitePool>) -> Result<ScanResult, AppError> {
+async fn scan_react2shell(
+    domain: String,
+    pool: tauri::State<'_, sqlx::SqlitePool>,
+) -> Result<ScanResult, AppError> {
     log_and_execute_scan!(pool, domain.clone(), "React2Shell", async {
         let mut scanner = React2ShellScanner::new(&domain).await?;
         scanner.scan().await
     })
 }
 
-        // -- Decoupled Domain Info Endpoints --
+// -- Decoupled Domain Info Endpoints --
 #[derive(serde::Serialize)]
 pub struct IpResolutionInfo {
     ipv4: Option<String>,
@@ -283,10 +455,20 @@ async fn scan_ip_resolution(domain: String) -> Result<IpResolutionInfo, AppError
     let mut ipv4 = None;
     let mut all_ipv4 = vec![];
     let mut ipv6 = vec![];
-    
+
     // We clean the domain exactly like web-analyzer does inside get_domain_info
-    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
-    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    let d = domain
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
+        .replace("www.", "");
+    let clean = d
+        .split('/')
+        .next()
+        .unwrap_or(&d)
+        .split(':')
+        .next()
+        .unwrap_or(&d)
+        .to_string();
 
     if let Ok(addrs) = tokio::net::lookup_host(format!("{}:80", clean)).await {
         for addr in addrs {
@@ -299,27 +481,52 @@ async fn scan_ip_resolution(domain: String) -> Result<IpResolutionInfo, AppError
     if !all_ipv4.is_empty() {
         ipv4 = Some(all_ipv4[0].clone());
     }
-    
+
     let reverse_dns = if let Some(ref ip) = ipv4 {
         web_analyzer::domain_info::reverse_dns_lookup(ip).await
     } else {
         None
     };
-    
-    Ok(IpResolutionInfo { ipv4, ipv6, all_ipv4, reverse_dns })
+
+    Ok(IpResolutionInfo {
+        ipv4,
+        ipv6,
+        all_ipv4,
+        reverse_dns,
+    })
 }
 
 #[tauri::command]
 async fn scan_whois(domain: String) -> Result<web_analyzer::domain_info::WhoisInfo, AppError> {
-    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
-    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    let d = domain
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
+        .replace("www.", "");
+    let clean = d
+        .split('/')
+        .next()
+        .unwrap_or(&d)
+        .split(':')
+        .next()
+        .unwrap_or(&d)
+        .to_string();
     Ok(web_analyzer::domain_info::query_whois(&clean).await)
 }
 
 #[tauri::command]
 async fn scan_ssl(domain: String) -> Result<web_analyzer::domain_info::SslInfo, AppError> {
-    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
-    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    let d = domain
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
+        .replace("www.", "");
+    let clean = d
+        .split('/')
+        .next()
+        .unwrap_or(&d)
+        .split(':')
+        .next()
+        .unwrap_or(&d)
+        .to_string();
     Ok(web_analyzer::domain_info::check_ssl(&clean).await)
 }
 
@@ -332,13 +539,23 @@ async fn scan_ports(ip: String) -> Result<Vec<String>, AppError> {
 pub struct HttpStatusInfo {
     status: Option<String>,
     server: Option<String>,
-    response_time_ms: Option<f64>
+    response_time_ms: Option<f64>,
 }
 
 #[tauri::command]
 async fn scan_http_status(domain: String) -> Result<HttpStatusInfo, AppError> {
-    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
-    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    let d = domain
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
+        .replace("www.", "");
+    let clean = d
+        .split('/')
+        .next()
+        .unwrap_or(&d)
+        .split(':')
+        .next()
+        .unwrap_or(&d)
+        .to_string();
 
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(5))
@@ -347,19 +564,31 @@ async fn scan_http_status(domain: String) -> Result<HttpStatusInfo, AppError> {
         .user_agent("Mozilla/5.0")
         .build()
         .map_err(|e| AppError::ModuleFailed(e.to_string()))?;
-        
+
     let res = web_analyzer::domain_info::check_http_status(&client, &clean).await;
     Ok(HttpStatusInfo {
         status: res.0,
         server: res.1,
-        response_time_ms: res.2
+        response_time_ms: res.2,
     })
 }
 
 #[tauri::command]
-async fn scan_security_headers(domain: String) -> Result<web_analyzer::domain_info::SecurityInfo, AppError> {
-    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
-    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+async fn scan_security_headers(
+    domain: String,
+) -> Result<web_analyzer::domain_info::SecurityInfo, AppError> {
+    let d = domain
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
+        .replace("www.", "");
+    let clean = d
+        .split('/')
+        .next()
+        .unwrap_or(&d)
+        .split(':')
+        .next()
+        .unwrap_or(&d)
+        .to_string();
 
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(5))
@@ -368,14 +597,24 @@ async fn scan_security_headers(domain: String) -> Result<web_analyzer::domain_in
         .user_agent("Mozilla/5.0")
         .build()
         .map_err(|e| AppError::ModuleFailed(e.to_string()))?;
-        
+
     Ok(web_analyzer::domain_info::check_security(&client, &clean).await)
 }
 
 #[tauri::command]
 async fn scan_dns_records(domain: String) -> Result<web_analyzer::domain_info::DnsInfo, AppError> {
-    let d = domain.trim_start_matches("https://").trim_start_matches("http://").replace("www.", "");
-    let clean = d.split('/').next().unwrap_or(&d).split(':').next().unwrap_or(&d).to_string();
+    let d = domain
+        .trim_start_matches("https://")
+        .trim_start_matches("http://")
+        .replace("www.", "");
+    let clean = d
+        .split('/')
+        .next()
+        .unwrap_or(&d)
+        .split(':')
+        .next()
+        .unwrap_or(&d)
+        .to_string();
     Ok(web_analyzer::domain_info::get_dns_records(&clean).await)
 }
 
@@ -384,9 +623,12 @@ pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
             tauri::async_runtime::block_on(async {
-                db::init_db(app.handle()).await.expect("Failed to initialize SQLite database");
+                db::init_db(app.handle())
+                    .await
+                    .expect("Failed to initialize SQLite database");
             });
-            let honeypot_state = std::sync::Arc::new(honeypot::HoneypotState::new(app.handle().clone()));
+            let honeypot_state =
+                std::sync::Arc::new(honeypot::HoneypotState::new(app.handle().clone()));
             app.manage(honeypot_state);
             Ok(())
         })
@@ -396,7 +638,10 @@ pub fn run() {
         .plugin(tauri_plugin_os::init())
         .invoke_handler(tauri::generate_handler![
             db::get_scans_paginated,
+            db::get_global_statistics,
             db::delete_scan,
+            db::toggle_favorite,
+            db::bulk_delete_scans,
             db::get_scan_blob_details,
             db::get_db_stats,
             db::nuke_history,

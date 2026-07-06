@@ -108,7 +108,17 @@
 
     async function testPayload() {
         try {
-            testResult = await invoke("test_payload_locally", { payload: payloadToTest });
+            error = "";
+            testResult = await invoke("test_payload_locally", {
+                method: "POST",
+                path: "/api/test",
+                queryString: "",
+                body: payloadToTest,
+                headers: {
+                    "content-type": "application/json",
+                    "user-agent": "WebQ Local Payload Simulator"
+                }
+            });
         } catch (e: any) {
             error = e.toString();
         }

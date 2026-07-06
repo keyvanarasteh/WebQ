@@ -8,10 +8,10 @@ Last checked: 2026-07-06 against `/Users/Q/Documents/web-analyzer` and crates.io
 - Local crate version: `0.1.11`
 - Published crate version: `0.1.11`
 - Published tag: `v0.1.11`
-- WebQ dependency declaration: `web-analyzer = { path = "../../web-analyzer" }` in `src-tauri/Cargo.toml`
-- WebQ lockfile source: local path dependency entry with no registry checksum
+- WebQ dependency declaration: `web-analyzer = "0.1.11"` in `src-tauri/Cargo.toml`
+- WebQ lockfile source: crates.io registry entry with checksum `0c6607e9fee3ee048b3d31937257cf839a75bf53f83a45b3430a489e46b941dc`
 
-Important: WebQ is still wired to the local sibling crate for active development. Before a WebQ release, choose whether to keep that path dependency or switch to crates.io `web-analyzer = "0.1.11"`.
+Important: WebQ is now wired to the published crate for release-mode verification. Switch back to the sibling path dependency only for active local crate development.
 
 ## Progress API Contract
 
@@ -54,6 +54,6 @@ Archived scratch docs used these stale or wrong names:
 
 - [x] Run `cargo check` in `/Users/Q/Documents/web-analyzer`.
 - [x] Publish or version-bump `web-analyzer` before switching WebQ back to a crates.io release dependency.
-- [ ] Refresh `src-tauri/Cargo.lock` so the local path dependency resolves as `web-analyzer` `0.1.11`, or switch WebQ to crates.io `web-analyzer = "0.1.11"`.
-- [ ] Run `cargo check` in `/Users/Q/Documents/WebQ/src-tauri`.
-- [ ] Run `bun run check` in `/Users/Q/Documents/WebQ`.
+- [x] Refresh `src-tauri/Cargo.lock` so WebQ resolves crates.io `web-analyzer = "0.1.11"`.
+- [x] Run `cargo check` in `/Users/Q/Documents/WebQ/src-tauri`.
+- [x] Run `npm run check` in `/Users/Q/Documents/WebQ`.

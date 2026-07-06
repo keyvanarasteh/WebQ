@@ -32,6 +32,26 @@
     a.click();
     URL.revokeObjectURL(url);
   }
+
+  function titleize(key: string) {
+    return key.replace(/_/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+  }
+
+  const summaryEntries = $derived(
+    rawBlob && typeof rawBlob === 'object'
+      ? Object.entries(rawBlob)
+          .filter(([, value]) => value === null || ['string', 'number', 'boolean'].includes(typeof value))
+          .slice(0, 12)
+      : []
+  );
+
+  const objectSections = $derived(
+    rawBlob && typeof rawBlob === 'object'
+      ? Object.entries(rawBlob)
+          .filter(([, value]) => value && typeof value === 'object')
+          .slice(0, 8)
+      : []
+  );
 </script>
 
 <div class="space-y-6">
@@ -60,6 +80,33 @@
                 <Download size={16} class="text-accent" /> Export JSON
             </button>
         </div>
+
+        {#if summaryEntries.length > 0}
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {#each summaryEntries as [key, value]}
+                    <div class="bg-surface/60 border border-base rounded-xl p-4">
+                        <div class="text-xs uppercase tracking-widest text-muted mb-1">{titleize(key)}</div>
+                        <div class="text-primary-text font-mono text-sm break-all">{String(value)}</div>
+                    </div>
+                {/each}
+            </div>
+        {/if}
+
+        {#if objectSections.length > 0}
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+                {#each objectSections as [key, value]}
+                    <div class="bg-surface/50 border border-base rounded-xl overflow-hidden">
+                        <div class="px-4 py-3 border-b border-base bg-surface/70 flex items-center justify-between">
+                            <h2 class="text-sm font-bold text-primary-text">{titleize(key)}</h2>
+                            <span class="text-xs text-muted font-mono">
+                                {Array.isArray(value) ? `${value.length} items` : `${Object.keys(value as Record<string, unknown>).length} fields`}
+                            </span>
+                        </div>
+                        <pre class="p-4 text-xs text-cyan-200 font-mono overflow-auto max-h-72 custom-scrollbar">{JSON.stringify(value, null, 2)}</pre>
+                    </div>
+                {/each}
+            </div>
+        {/if}
 
         <div class="bg-[#0b0c10] border border-base rounded-xl overflow-hidden shadow-xl">
             <div class="bg-surface/80 border-b border-base px-4 py-2 flex items-center justify-between">

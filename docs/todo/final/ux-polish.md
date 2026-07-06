@@ -11,6 +11,9 @@ Partially implemented. Double-checked against the assessment pages on 2026-07-06
 - [x] `Ctrl/Cmd+K` command palette exists.
 - [x] Per-input Enter-to-scan exists on many pages.
 - [x] `SpotlightCard.svelte` exists as a reusable component.
+- [x] Security Posture renders `<ScanTerminal />` during scans and after progress logs arrive.
+- [x] Subdomain Takeover renders `<ScanTerminal />` during scans and after progress logs arrive.
+- [x] Duplicated progress reset assignments were removed from Security Posture and Subdomain Takeover.
 
 ## Remaining Tasks
 
@@ -21,8 +24,8 @@ Partially implemented. Double-checked against the assessment pages on 2026-07-06
 - [ ] Add F11 fullscreen toggle via Tauri window APIs.
 - [ ] Add Always-on-Top toggle via Tauri window APIs.
 - [ ] Update Tauri permissions/capabilities for fullscreen and always-on-top if needed.
-- [ ] Render `<ScanTerminal />` during Security Posture scans; imports/listener/state exist, but no terminal is present in the page body.
-- [ ] Render `<ScanTerminal />` during Subdomain Takeover scans; imports/listener/state exist, but no terminal is present in the page body.
-- [ ] Remove duplicated `logs = []; progressPercent = 0;` assignments in Security Posture and Subdomain Takeover pages.
+- [x] Render `<ScanTerminal />` during Security Posture scans.
+- [x] Render `<ScanTerminal />` during Subdomain Takeover scans.
+- [x] Remove duplicated `logs = []; progressPercent = 0;` assignments in Security Posture and Subdomain Takeover pages.
 - [ ] Replace broad `any` types in assessment page result objects with typed interfaces.
 - [ ] Use toast feedback consistently for scan failures and successful DB saves.

@@ -5909,11 +5909,14 @@ dependencies = [
 
 [[package]]
 name = "web-analyzer"
-version = "0.1.10"
+version = "0.1.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0c6607e9fee3ee048b3d31937257cf839a75bf53f83a45b3430a489e46b941dc"
 dependencies = [
  "chrono",
  "regex",
  "reqwest",
+ "rustls",
  "scraper",
  "serde",
  "serde_json",
@@ -6028,7 +6031,7 @@ dependencies = [
 
 [[package]]
 name = "webq-app"
-version = "0.3.4"
+version = "0.4.1"
 dependencies = [
  "anyhow",
  "axum",

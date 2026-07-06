@@ -1,51 +1,40 @@
 <script lang="ts">
-    import { ShieldAlert, Cpu, Globe, Activity, Terminal } from "lucide-svelte";
+    import { ShieldAlert, Cpu, Globe, Activity, Terminal, RefreshCw } from "lucide-svelte";
+    import { invoke } from "@tauri-apps/api/core";
+    import { onMount } from "svelte";
 
-    // Mock AttackerProfile data
-    let topAttackers = $state([
-        {
-            ip: "192.168.1.104",
-            risk_score: 95.5,
-            total_requests: 1420,
-            is_automated: true,
-            browser_fingerprint: {
-                os: "Linux x86_64",
-                browser: "Chrome 114 (Headless)",
-                is_headless: true
-            },
-            geographic_origin: "Russia",
-            primary_vector: "SQL Injection",
-            last_seen: new Date(Date.now() - 10000).toISOString()
-        },
-        {
-            ip: "10.0.0.5",
-            risk_score: 82.0,
-            total_requests: 850,
-            is_automated: false,
-            browser_fingerprint: {
-                os: "Windows 10",
-                browser: "Firefox 112",
-                is_headless: false
-            },
-            geographic_origin: "United States",
-            primary_vector: "XSS",
-            last_seen: new Date(Date.now() - 45000).toISOString()
-        },
-        {
-            ip: "172.16.0.2",
-            risk_score: 65.3,
-            total_requests: 310,
-            is_automated: true,
-            browser_fingerprint: {
-                os: "macOS 13.4",
-                browser: "Safari 16.5",
-                is_headless: false
-            },
-            geographic_origin: "China",
-            primary_vector: "Path Traversal",
-            last_seen: new Date(Date.now() - 120000).toISOString()
+    type AttackerProfile = {
+        ip: string;
+        risk_score: number;
+        total_requests: number;
+        is_automated: boolean;
+        browser_fingerprint?: {
+            os?: string;
+            browser?: string;
+            is_headless?: boolean;
+        };
+        geographic_origin?: string;
+        primary_vector?: string;
+        last_seen: string;
+    };
+
+    let topAttackers = $state<AttackerProfile[]>([]);
+    let isLoading = $state(true);
+    let error = $state("");
+
+    onMount(loadAttackers);
+
+    async function loadAttackers() {
+        try {
+            isLoading = true;
+            error = "";
+            topAttackers = await invoke<AttackerProfile[]>("get_top_attackers");
+        } catch (e: any) {
+            error = e.toString();
+        } finally {
+            isLoading = false;
         }
-    ]);
+    }
 
     function formatTime(iso: string) {
         return new Date(iso).toLocaleTimeString();
@@ -64,12 +53,20 @@
                 <ShieldAlert class="w-5 h-5 text-purple-500" />
                 <h2 class="text-lg font-bold text-primary-text">Threat Actor Database</h2>
             </div>
-            <span class="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-500 text-xs font-bold border border-purple-500/20">
-                {topAttackers.length} Profiles
-            </span>
+            <div class="flex items-center gap-2">
+                <button onclick={loadAttackers} class="p-1.5 rounded-lg text-muted hover:text-purple-400 hover:bg-purple-500/10 transition-colors" title="Refresh attackers">
+                    <RefreshCw class="w-4 h-4 {isLoading ? 'animate-spin' : ''}" />
+                </button>
+                <span class="px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-500 text-xs font-bold border border-purple-500/20">
+                    {topAttackers.length} Profiles
+                </span>
+            </div>
         </div>
         
         <div class="overflow-x-auto">
+            {#if error}
+                <div class="p-6 text-red-400 bg-red-500/10 border-b border-red-500/20">{error}</div>
+            {/if}
             <table class="w-full text-left border-collapse">
                 <thead>
                     <tr class="border-b border-border/50 bg-background/50">
@@ -112,11 +109,11 @@
                             <td class="p-4">
                                 <div class="flex flex-col gap-1 text-xs font-mono text-muted">
                                     <div class="flex items-center gap-1">
-                                        <Cpu class="w-3 h-3 text-blue-400" /> {profile.browser_fingerprint.os}
+                                        <Cpu class="w-3 h-3 text-blue-400" /> {profile.browser_fingerprint?.os ?? 'Unknown OS'}
                                     </div>
                                     <div class="flex items-center gap-1">
-                                        <Globe class="w-3 h-3 text-purple-400" /> {profile.browser_fingerprint.browser}
-                                        {#if profile.browser_fingerprint.is_headless}
+                                        <Globe class="w-3 h-3 text-purple-400" /> {profile.browser_fingerprint?.browser ?? 'Unknown browser'}
+                                        {#if profile.browser_fingerprint?.is_headless}
                                             <span class="ml-1 px-1 py-0.5 bg-red-500/10 text-red-400 rounded border border-red-500/20 text-[10px]">Headless</span>
                                         {/if}
                                     </div>
@@ -131,7 +128,7 @@
                         <tr>
                             <td colspan="6" class="p-8 text-center text-muted">
                                 <Activity class="w-8 h-8 mx-auto mb-2 opacity-50" />
-                                <p>No attacker profiles generated yet.</p>
+                                <p>{isLoading ? 'Loading attacker profiles...' : 'No attacker profiles generated yet.'}</p>
                             </td>
                         </tr>
                     {/if}

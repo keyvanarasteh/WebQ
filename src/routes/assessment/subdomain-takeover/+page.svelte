@@ -36,8 +36,6 @@
     scanResult = null;
     logs = [];
     progressPercent = 0;
-    logs = [];
-    progressPercent = 0;
     
     try {
       const subdomainsList = subdomainsRaw.split('\n')
@@ -134,6 +132,10 @@
         {scanError}
       </div>
     </div>
+  {/if}
+
+  {#if isScanning || logs.length > 0}
+    <ScanTerminal {logs} {progressPercent} />
   {/if}
 
   <!-- Results -->

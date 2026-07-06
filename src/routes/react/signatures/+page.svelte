@@ -1,82 +1,7 @@
 <script lang="ts">
     import { ChevronDown, ChevronUp, Code, FileCode, ShieldAlert, FileSearch, Terminal } from "lucide-svelte";
     
-    // Using a portion of the data from REQUEST.md to keep the file size reasonable
-    const signatures = [
-        {
-            severity: "Critical",
-            color: "red",
-            items: [
-                {
-                    category: "SQL Injection",
-                    ids: "sqli:classic_tautology, union_select, blind_time, error_based, stacked",
-                    description: "Database dump, Auth bypass, Remote Code Execution (via xp_cmdshell).",
-                    curl: 'curl -X POST -d "username=admin\' OR 1=1 --" http://target/api/login',
-                    remediation: "Use Prepared Statements / Parameterized Queries. Employ ORMs safely."
-                },
-                {
-                    category: "Command Injection",
-                    ids: "cmdi:unix_pipe, unix_advanced, windows, blind_oob",
-                    description: "Full Remote Code Execution (RCE) as the web user.",
-                    curl: 'curl "http://target/api/ping?host=127.0.0.1;id"',
-                    remediation: "Avoid exec/system; use language-specific APIs and strict input validation."
-                },
-                {
-                    category: "RSC Flight Injection",
-                    ids: "rsc_attack:flight_injection",
-                    description: "Internal server action manipulation; potential RCE.",
-                    curl: "curl -X POST -d '[[ \"$\", \"@action\", null, {\"type\": \"blob_handler\"} ]]' http://target/_rsc/page",
-                    remediation: "Keep React/Next.js patched (CVE-2025-55182). Strictly validate RSC payloads."
-                }
-            ]
-        },
-        {
-            severity: "High",
-            color: "orange",
-            items: [
-                {
-                    category: "XSS",
-                    ids: "xss:reflected, polyglot, stored_payload",
-                    description: "Session hijacking, client-side execution.",
-                    curl: 'curl "http://target/search?q=<scr' + 'ipt>alert(1)</scr' + 'ipt>"',
-                    remediation: "Context-aware output encoding (HTML, JS contexts); strict CSP."
-                },
-                {
-                    category: "Path Traversal",
-                    ids: "path_traversal:dot_dot_slash, absolute_path",
-                    description: "Sensitive file disclosure.",
-                    curl: 'curl "http://target/download?file=../../../../etc/shadow"',
-                    remediation: "Use absolute paths; strip ../; validate input against allowed directories."
-                }
-            ]
-        },
-        {
-            severity: "Medium",
-            color: "yellow",
-            items: [
-                {
-                    category: "Open Redirect",
-                    ids: "open_redirect:url_param",
-                    description: "Phishing, OAuth token theft.",
-                    curl: 'curl "http://target/login?next=http://evil.com"',
-                    remediation: "Whitelist redirect URLs; use relative paths exclusively."
-                }
-            ]
-        },
-        {
-            severity: "Low",
-            color: "blue",
-            items: [
-                {
-                    category: "Fake Crawlers",
-                    ids: "user_agent:fake_crawler",
-                    description: "Reconnaissance gathering.",
-                    curl: 'curl -A "sqlmap/1.5" http://target/',
-                    remediation: "Block known malicious User-Agents at the WAF level."
-                }
-            ]
-        }
-    ];
+    import { reactSignatureGroups } from "$lib/data/reactSignatures";
 
     let expandedSections = $state<Record<string, boolean>>({});
 
@@ -91,7 +16,7 @@
         <p class="text-muted text-lg">Comprehensive documentation of React2Shell Honeypot detection vectors.</p>
     </div>
 
-    {#each signatures as group}
+    {#each reactSignatureGroups as group}
         <div class="mb-8">
             <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-{group.color}-500">
                 <ShieldAlert class="w-6 h-6" /> {group.severity} Severity
