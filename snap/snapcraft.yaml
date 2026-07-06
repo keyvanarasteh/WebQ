@@ -39,9 +39,9 @@ parts:
 
       npm ci
       
-      # Build Tauri application
+      # Build the Tauri binary only; Snapcraft creates the Snap package.
       cargo install tauri-cli --version "^2.0.0"
-      cargo tauri build
+      cargo tauri build --no-bundle
       
       # Copy final executable
       mkdir -p $CRAFT_PART_INSTALL/usr/bin
