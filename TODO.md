@@ -1,5 +1,5 @@
 # WebQ Projesi Görev Takip Çizelgesi
-📈 **Progress Statistics:** [58] done, [0] ongoing, [0] implemented, [1] skipped. Toplam Görev: ~290
+📈 **Progress Statistics:** [115] done, [20] open, [2] skipped. Toplam checkbox görevi: 137
 
 ## Faz 1: Proje Temelleri ve Mimari Hazırlık
 - [x] AGENTS.md ve GEMINI.md kuralları tamamlandı.
@@ -104,7 +104,8 @@
   - *Input:* Her domain'in DNS, HTTP ve SSL validasyon durumu (`ValidationResult`).
   - *Output:* Table/Grid satırları.
   - *Visualize:* Her domain için 3 sütunlu "Checkmark" matrisi. Hatalı domain'ler soluklaşacak (opacity-50).
-- [x] Arkaplan: Rust tarafında multi-threading (Tokio) kullanılarak toplu analiz başlatan `validate_bulk_domains` komutu eklenecek. Mümkünse stream (tauri event handler) üzerinden `%` (yüzde) bazlı aktarım sağlanacak.
+- [x] Arkaplan: Rust tarafında multi-threading (Tokio) kullanılarak toplu analiz başlatan `validate_bulk_domains` komutu eklenecek.
+- [ ] Stream: Bulk Domain Validator için `scan-progress` / Tauri event üzerinden yüzde bazlı canlı aktarım eklenecek.
 
 ### 2.6 Localization & Multi-Language
 - [x] Paraglide-js EN/TR (Multi-language) entegrasyonu WebTech, Domain Validator ve SEO Analysis modülleri için tamamlanacak.
@@ -243,13 +244,14 @@
 - [x] Windows (msi / nsis) derleme profillerinin oluşturulması.
 - [x] Github Actions (CI/CD) Workflow `release.yml` oluşturulması.
 - [x] **[CI FIX] macOS Code Signing Failure:** Github Actions'ta `APPLE_CERTIFICATE` boş olmasına rağmen tauri-action'ın imzalamaya çalışıp çökmesini önlemek için release.yml içindeki Apple ortam değişkenleri yorum satırına alındı.
-- [x] **[DEPS] Wildcard Versioning:** `web-analyzer` dependency wildcard (`*`) versiyonuna (Issue #5) doğru şekilde güncellendi.
+- [x] **[DEPS] Web Analyzer Pin:** `web-analyzer` dependency `0.1.10` sürümüne sabitlendi.
+- [ ] **[DEPS] Local Crate Parity:** `/Users/Q/Documents/web-analyzer` ile crates.io `web-analyzer = "0.1.10"` kaynak/parite kontrolü yapılacak veya geliştirme için local path dependency kararı verilecek.
 - [ ] Son güvenlik testleri ve 1.0.0 Release Yayını.
 
 ## Faz 7: Scan History & SQLite Database Architecture (Offline Persistence)
 ### 7.1 Veritabanı Mimarisi & Şema Yapısı (Backend - SeaORM / Sqlx)
-- [ ] Arkan plan: SQLite veritabanı entegrasyonu `src-tauri/src/db/` dizinine eklenecek. SQLite için `WAL` modu (Write-Ahead Logging) asenkron I/O performansını artırmak adına aktif edilecek.
-- [ ] Schema 1: **`scans`** (Ana Tarama Oturum Tablosu)
+- [x] Arka plan: SQLite veritabanı entegrasyonu `src-tauri/src/db.rs` içinde eklendi. SQLite için `WAL` modu (Write-Ahead Logging) aktif edildi.
+- [x] Schema 1: **`scans`** (Ana Tarama Oturum Tablosu)
   - `id`: UUID (Primary Key)
   - `target_domain`: String (Hedef adres e.g `example.com`, indekslenecek - `CREATE INDEX idx_scans_domain`)
   - `scan_module`: Enum (`SecurityAnalysis`, `DomainDns`, `SubdomainDiscovery`, `SeoAnalysis`, `NmapZeroDay`, `WebTech`, `ContactSpy`)
@@ -260,7 +262,7 @@
   - `duration_ms`: i64 (Taramanın ne kadar sürdüğü, performans istatistikleri için)
   - `started_at`: DateTime (Tarama başlama tarihi)
   - `finished_at`: Option<DateTime> (Tarama bitiş tarihi)
-- [ ] Schema 2: **`scan_results`** (Detaylı Sonuç & İstatistik Tablosu)
+- [x] Schema 2: **`scan_results`** (Detaylı Sonuç & İstatistik Tablosu)
   - `id`: UUID (Primary Key)
   - `scan_id`: Foreign Key (`scans.id` ile cascade delete, zorunlu constraint)
   - `security_score`: Option<i32> (Tarihsel Data-Grid Dashboardlarında hızlı line-chart çizimi için)
@@ -278,12 +280,13 @@
     - **`CloudflareBypassResult`**: (`FoundIp` array)
     - **`ContactSpyResult`**: (Emails, `SocialMedia` node'ları)
 - [ ] Database Queries (Tauri Commands in `src-tauri/src/db.rs`):
-  - `get_scans_paginated(limit, offset, filter_domain, filter_module, sort_by)`: Veri tablosu için Server-Side Pagination ve arama fonksiyonu.
-  - `get_global_statistics()`: Son 30 günün ortalama security score'u, en çok test edilen 5 domain, module kullanım oranları, tespit edilen toplam zafiyetlerin `Group By` sorgusu (Frontend'deki Pie, Bar ve Line Chartlar için).
-  - `get_scan_blob_details(id)`: UI, Dashboard Row açıldığında sadece gerekli olan bu ağır JSON blobu request edecek (Lazy loading logic).
-  - `toggle_favorite(id)`: Scan'in favori statüsünü tetikleme.
-  - `bulk_delete_scans(ids: Vec<UUID>)`: Seçili scan'leri veritabanından toplu kalıcı silme.
-  - `export_scan_json(id)`: Json raw blobu disk üzerine yazdırma.
+  - [x] `get_scans_paginated(limit, offset)`: temel server-side pagination eklendi.
+  - [ ] `get_scans_paginated(limit, offset, filter_domain, filter_module, sort_by)`: filtreleme/sıralama genişletmesi eklenecek.
+  - [ ] `get_global_statistics()`: Son 30 günün ortalama security score'u, en çok test edilen 5 domain, module kullanım oranları, tespit edilen toplam zafiyetlerin `Group By` sorgusu (Frontend'deki Pie, Bar ve Line Chartlar için).
+  - [x] `get_scan_blob_details(id)`: UI, Dashboard Row açıldığında sadece gerekli olan bu ağır JSON blobu request edecek (Lazy loading logic).
+  - [ ] `toggle_favorite(id)`: Scan'in favori statüsünü tetikleme.
+  - [ ] `bulk_delete_scans(ids: Vec<UUID>)`: Seçili scan'leri veritabanından toplu kalıcı silme.
+  - [ ] `export_scan_json(id)`: Json raw blobu disk üzerine yazdırma.
 
 ### 7.2 History Dashboard & Widgets (Frontend)
 - [ ] Ana Sayfa (Main Dashboard) Widget: `src/routes/+page.svelte` içine "Recent Scans" veri tablosu mini-widget'ının (Son 5 tarama) eklenmesi.
@@ -294,4 +297,3 @@
 ### 7.3 Mevcut Sayfa Modifikasyonları
 - [ ] Zafiyet Raporlaması: Mevcut Recon ve Intelligence sayfalarında, sonuçlar ekrana basılırken arka planda asenkron olarak SQLite'a kaydolduğuna dair "Saved to DB" Svelte-Sonner onayı.
 - [x] Ayarlar (Settings) Modifikasyonu: Veritabanını yedekleme (Export SQLite), veritabanı boyutunu görme ve komple sıfırlama (Nuke History) fonksiyonları için tehlike (Danger) butonları.
-
