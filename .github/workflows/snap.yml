@@ -19,6 +19,13 @@ jobs:
         if: matrix.architecture == 'arm64'
         uses: docker/setup-qemu-action@v3
 
+      - name: Build Snap
+        uses: snapcore/action-build@v1
+        id: snapBuild
+        with:
+          build-info: true
+          snapcraft-args: --target-arch=${{ matrix.architecture }}
+
       - name: Validate Snap Store credentials
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
@@ -27,13 +34,6 @@ jobs:
             echo "::error::SNAPCRAFT_STORE_CREDENTIALS is not set. Generate Snap Store credentials and add them as a repository Actions secret before publishing Snap releases."
             exit 1
           fi
-        
-      - name: Build Snap
-        uses: snapcore/action-build@v1
-        id: snapBuild
-        with:
-          build-info: true
-          snapcraft-args: --target-arch=${{ matrix.architecture }}
 
       - name: Publish to Snap Store
         uses: snapcore/action-publish@v1
