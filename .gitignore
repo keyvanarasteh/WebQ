@@ -8,3 +8,4 @@
 *.log
 /src-tauri/target
 src-tauri/webq_telemetry.db
+snapcraft-login.txt
