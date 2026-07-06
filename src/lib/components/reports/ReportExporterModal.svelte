@@ -1,19 +1,91 @@
 <script lang="ts">
     import { X, FileJson, FileText, FileBadge, FileArchive } from 'lucide-svelte';
     import { reportStore } from '$lib/stores/ReportStore.svelte';
+    import { appState } from '$lib/stores/AppState.svelte';
     import { exportToJson, exportToMarkdown, exportToPdf, exportToDocx } from '$lib/utils/export';
+    import { invoke } from '@tauri-apps/api/core';
     import { toast } from 'svelte-sonner';
 
     let { open = $bindable(false) } : { open: boolean } = $props();
 
-    let domains = $derived(reportStore.getAvailableDomains());
+    type ScanRow = {
+        id: string;
+        target_domain: string;
+        scan_module: string;
+        status: string;
+        started_at: string;
+    };
+
+    let domains = $state<string[]>([]);
     let selectedDomain = $state('');
+    let isLoadingDomains = $state(false);
+    let reportCache = $state<Record<string, Record<string, unknown>>>({});
 
     $effect(() => {
-        if (domains.length > 0 && !selectedDomain) {
-            selectedDomain = domains[domains.length - 1] ?? ''; // Select newest
+        if (open) {
+            void refreshDomains();
         }
     });
+
+    $effect(() => {
+        if (domains.length > 0 && (!selectedDomain || !domains.includes(selectedDomain))) {
+            selectedDomain = domains[0] ?? '';
+        } else if (domains.length === 0) {
+            selectedDomain = '';
+        }
+    });
+
+    async function refreshDomains() {
+        isLoadingDomains = true;
+
+        try {
+            const dbDomains = await invoke<string[]>('get_unique_scanned_domains');
+            appState.historicDomains = dbDomains;
+            domains = uniqueDomains([...dbDomains, ...reportStore.getAvailableDomains()]);
+        } catch (e) {
+            console.error('Failed to load report domains', e);
+            domains = reportStore.getAvailableDomains();
+        } finally {
+            isLoadingDomains = false;
+        }
+    }
+
+    function uniqueDomains(values: string[]) {
+        return values.filter((domain, index, all) => domain && all.indexOf(domain) === index);
+    }
+
+    async function getReportData(domain: string): Promise<Record<string, unknown>> {
+        const cached = reportCache[domain];
+        if (cached && Object.keys(cached).length > 0) {
+            return cached;
+        }
+
+        const data: Record<string, unknown> = { ...reportStore.getReportForDomain(domain) };
+
+        try {
+            const scans = await invoke<ScanRow[]>('get_scans_paginated', {
+                limit: 100,
+                offset: 0,
+                filterDomain: domain,
+                filterModule: null,
+                filterStatus: 'Completed',
+                dateFrom: null,
+                dateTo: null,
+                sortBy: 'started_at',
+                sortDir: 'desc'
+            });
+
+            for (const scan of scans) {
+                if (data[scan.scan_module]) continue;
+                data[scan.scan_module] = await invoke<unknown>('get_scan_blob_details', { scanId: scan.id });
+            }
+        } catch (e) {
+            console.error('Failed to hydrate report data', e);
+        }
+
+        reportCache = { ...reportCache, [domain]: data };
+        return data;
+    }
 
     async function handleExport(format: 'json' | 'md' | 'pdf' | 'docx') {
         if (!selectedDomain) {
@@ -21,7 +93,7 @@
             return;
         }
 
-        const data = reportStore.getReportForDomain(selectedDomain);
+        const data = await getReportData(selectedDomain);
         if (Object.keys(data).length === 0) {
             toast.error("No data available for the selected domain.");
             return;
@@ -70,7 +142,9 @@
                             <option value={domain}>{domain}</option>
                         {/each}
                     </select>
-                    {#if domains.length === 0}
+                    {#if isLoadingDomains}
+                        <p class="text-[10px] text-cyan-500 mt-2 font-mono">Loading scan history...</p>
+                    {:else if domains.length === 0}
                         <p class="text-[10px] text-amber-500 mt-2 font-mono">No scan data available. Run a scan first.</p>
                     {/if}
                 </div>
