@@ -24,7 +24,7 @@ jobs:
         id: snapBuild
         with:
           build-info: true
-          snapcraft-args: --target-arch=${{ matrix.architecture }}
+          snapcraft-args: pack --build-for=${{ matrix.architecture }}
 
       - name: Validate Snap Store credentials
         env:
