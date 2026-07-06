@@ -27,6 +27,7 @@ Release preparation is mostly implemented; final verification remains.
 - [x] Run `cargo check` in `src-tauri`.
 - [ ] Smoke test Tauri dev mode.
 - [ ] Smoke test core scans against safe test targets, including Web Technologies, Contact Spy, Advanced Content Scanner, Bulk Domain Validator, and Cloudflare Bypass progress.
+- [ ] Fix the release workflow package-manager mismatch; see [macOS Release Signing Audit](macos-release-signing-audit.md).
 - [ ] Verify macOS Apple Silicon build on the target Mac.
 - [ ] Verify Windows NSIS/MSI build on a clean Windows host or VM.
 - [ ] Re-run and audit Snapcraft packaging; see [Snapcraft Release Audit](snapcraft-release-audit.md).

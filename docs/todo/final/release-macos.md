@@ -41,3 +41,4 @@ This document covers the complete workflow for compiling and signing the native 
 ## 6. Known MacOS Specific Edge Cases
 - Network Firewall constraints: MacOS may aggressively pop up "Do you want the application WebQ.app to accept incoming network connections?" The user must click "Allow" to prevent deep network scans from being dropped.
 - Dependency paths: MacOS binaries usually sit in `/usr/bin/` or `/opt/homebrew/bin/`. Ensure the system dependency engine handles paths correctly instead of panicking.
+- CI release status: the latest manual Release run passed Apple signing identity derivation but failed before native build because `tauri-action` auto-selected Bun while the workflow installs npm. Track this in [macOS Release Signing Audit](macos-release-signing-audit.md).

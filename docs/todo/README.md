@@ -23,15 +23,17 @@ Use `docs/todo/final/` as the active todo source. The list below is ordered for 
 | 7 | [React2Shell Honeypot And UI](final/react2shell.md) | in progress |
 | 8 | [UX Polish And Shortcuts](final/ux-polish.md) | in progress |
 | 9 | [Release And Platform Checklists](final/release.md) | pending |
-| 10 | [macOS Release Checklist](final/release-macos.md) | pending |
-| 11 | [Windows Release Checklist](final/release-windows.md) | pending |
-| 12 | [Snapcraft Release Audit](final/snapcraft-release-audit.md) | pending |
-| 13 | [Cleanup And Trash Notes](final/cleanup-trash.md) | pending |
+| 10 | [macOS Release Signing Audit](final/macos-release-signing-audit.md) | pending |
+| 11 | [macOS Release Checklist](final/release-macos.md) | pending |
+| 12 | [Windows Release Checklist](final/release-windows.md) | pending |
+| 13 | [Snapcraft Release Audit](final/snapcraft-release-audit.md) | pending |
+| 14 | [Cleanup And Trash Notes](final/cleanup-trash.md) | pending |
 
 ## Next WebQ Implementation Steps
 
 - Smoke test progress terminals in Tauri dev mode for Web Technologies, Contact Spy, Advanced Content Scanner, Bulk Domain Validator, Cloudflare Bypass, Security Posture, and Subdomain Takeover.
 - Add optional SQLite persistence for honeypot attack events and attacker snapshots if historical analysis is required.
 - Add a real Recent Scans widget on the dashboard.
+- Fix the release workflow package-manager mismatch so `tauri-action` runs `npm run tauri` instead of auto-detected Bun.
 - Finish release packaging checks for macOS and Windows.
 - Re-run and audit Snapcraft after macOS signing is green.
