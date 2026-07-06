@@ -1,26 +1,43 @@
 <script lang="ts">
     import { appState } from '$lib/stores/AppState.svelte';
-  import * as m from '$lib/paraglide/messages';
-  import { Search, UploadCloud, HelpCircle } from 'lucide-svelte';
-  import { invoke } from '@tauri-apps/api/core';
-  import ValidationStatsBar from '$lib/components/recon/domain-validator/ValidationStatsBar.svelte';
-  import ValidationDataGrid from '$lib/components/recon/domain-validator/ValidationDataGrid.svelte';
-  import ValidatorGuide from '$lib/components/recon/guides/ValidatorGuide.svelte';
+    import * as m from '$lib/paraglide/messages';
+    import { UploadCloud, HelpCircle } from 'lucide-svelte';
+    import { invoke } from '@tauri-apps/api/core';
+    import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+    import type { ScanProgressEvent } from '$lib/types/intelligence';
+    import ValidationStatsBar from '$lib/components/recon/domain-validator/ValidationStatsBar.svelte';
+    import ValidationDataGrid from '$lib/components/recon/domain-validator/ValidationDataGrid.svelte';
+    import ValidatorGuide from '$lib/components/recon/guides/ValidatorGuide.svelte';
+    import ScanTerminal from '$lib/components/ui/ScanTerminal.svelte';
 
   let targetDomains = $state('');
   let scanResult = $state<any>(null); // BulkValidationResult
   let showGuide = $state(false);
+  let scanLogs = $state<ScanProgressEvent[]>([]);
+  let scanProgress = $state(0);
+  let unlistenProgress: UnlistenFn | null = null;
   
   async function performBulkScan() {
       if (!targetDomains) return;
       const domains = targetDomains.split(',').map(d => d.trim()).filter(Boolean);
       
       appState.setScanning(true, 'BULK VALIDATION');
+      scanLogs = [];
+      scanProgress = 0;
+      unlistenProgress = await listen<ScanProgressEvent>('scan-progress', (event) => {
+          scanLogs.push(event.payload);
+          scanProgress = event.payload.percentage;
+      });
+
       try {
           scanResult = await invoke('validate_bulk_domains', { domains });
       } catch (e) {
           console.error(e);
       } finally {
+          if (unlistenProgress) {
+              unlistenProgress();
+              unlistenProgress = null;
+          }
           appState.setScanning(false, '');
       }
   }
@@ -64,6 +81,9 @@
   </div>
 
   <div class="space-y-6">
+      {#if appState.isScanning || scanLogs.length > 0}
+          <ScanTerminal logs={scanLogs} progressPercent={scanProgress} />
+      {/if}
       <ValidationStatsBar stats={scanResult?.stats} isLoading={appState.isScanning} />
       <ValidationDataGrid results={scanResult?.results} isLoading={appState.isScanning} />
   </div>

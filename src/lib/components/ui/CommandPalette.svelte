@@ -2,7 +2,9 @@
     import { Search, Shield, Target, Network, Settings, X, Terminal } from 'lucide-svelte';
     import { fade, fly } from 'svelte/transition';
     import { backOut } from 'svelte/easing';
+    // @ts-expect-error SvelteKit virtual modules generated dynamically
     import { goto } from '$app/navigation';
+    // @ts-expect-error SvelteKit virtual modules generated dynamically
     import { resolve } from '$app/paths';
 
     let isOpen = $state(false);

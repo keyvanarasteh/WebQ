@@ -1,8 +1,9 @@
 <script lang="ts">
   import { invoke } from '@tauri-apps/api/core';
+  // @ts-expect-error SvelteKit virtual modules generated dynamically
   import { page } from '$app/stores';
   import { ArrowLeft, Database, Download } from 'lucide-svelte';
-  // @ts-expect-error
+  // @ts-expect-error SvelteKit virtual modules generated dynamically
   import { resolve } from '$app/paths';
   import { onMount } from 'svelte';
 

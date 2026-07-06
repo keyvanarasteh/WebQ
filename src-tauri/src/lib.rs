@@ -117,8 +117,35 @@ async fn scan_web_technologies(url: String, pool: tauri::State<'_, sqlx::SqliteP
 }
 
 #[tauri::command]
-async fn validate_bulk_domains(domains: Vec<String>) -> Result<BulkValidationResult, AppError> {
-    Ok(validate_domains_bulk(&domains, 10).await)
+async fn validate_bulk_domains(domains: Vec<String>, pool: tauri::State<'_, sqlx::SqlitePool>, app_handle: tauri::AppHandle) -> Result<BulkValidationResult, AppError> {
+    let target = if domains.len() == 1 {
+        domains[0].clone()
+    } else {
+        format!("bulk:{} domains", domains.len())
+    };
+    let start_time = std::time::Instant::now();
+
+    let _ = app_handle.emit("scan-progress", web_analyzer::ScanProgress {
+        module: "Domain Validator".into(),
+        percentage: 5.0,
+        message: format!("Starting validation for {} domain(s)...", domains.len()),
+        status: "Info".into(),
+    });
+
+    let result = validate_domains_bulk(&domains, 10).await;
+    let duration = start_time.elapsed().as_millis() as i64;
+    let json = serde_json::to_value(&result).unwrap_or_default();
+
+    let _ = db::log_scan_to_db(&*pool, &target, "DomainValidator", "Completed", None, duration, 0, 0, &json).await;
+
+    let _ = app_handle.emit("scan-progress", web_analyzer::ScanProgress {
+        module: "Domain Validator".into(),
+        percentage: 100.0,
+        message: "Bulk validation complete.".into(),
+        status: "Success".into(),
+    });
+
+    Ok(result)
 }
 
 #[tauri::command]

@@ -2,9 +2,10 @@
   import { appState } from '$lib/stores/AppState.svelte';
   import * as m from '$lib/paraglide/messages';
   import type { DomainDnsResult, ScanProgressEvent } from '$lib/types/intelligence';
-  import { Search, HelpCircle, Clock } from 'lucide-svelte';
+  import { Search, HelpCircle, Clock, Copy, Check } from 'lucide-svelte';
   import { invoke } from '@tauri-apps/api/core';
   import { listen, type UnlistenFn } from '@tauri-apps/api/event';
+  import { toast } from 'svelte-sonner';
   import DnsRecordsBoard from '$lib/components/intelligence/domain-dns/DnsRecordsBoard.svelte';
   import DnsSecurityCheck from '$lib/components/intelligence/domain-dns/DnsSecurityCheck.svelte';
   import DnsGuide from '$lib/components/recon/guides/DnsGuide.svelte';
@@ -26,6 +27,7 @@
   let scanLogs = $state<ScanProgressEvent[]>([]);
   let scanProgress = $state(0);
   let unlistenProgress: UnlistenFn | null = null;
+  let copiedDnsJson = $state(false);
   
   async function checkLocalHistory() {
       if (!targetDomain || targetDomain.length < 3) return;
@@ -75,6 +77,30 @@
           appState.setScanning(false, '');
       }
   }
+
+  async function copyDnsJson() {
+      if (!scanResult) return;
+
+      const payload = {
+          domain: scanResult.domain,
+          timestamp: scanResult.timestamp,
+          response_time_ms: scanResult.response_time_ms,
+          records: scanResult.records
+      };
+
+      try {
+          await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+          copiedDnsJson = true;
+          toast.success('DNS records copied', {
+              description: `${scanResult.domain} records are now in the clipboard.`
+          });
+          setTimeout(() => copiedDnsJson = false, 1600);
+      } catch (e) {
+          toast.error('Clipboard copy failed', {
+              description: e instanceof Error ? e.message : String(e)
+          });
+      }
+  }
 </script>
 
 <div class="space-y-6 max-w-7xl mx-auto w-full">
@@ -118,20 +144,34 @@
 
   <!-- Scan Metadata -->
   {#if scanResult && !appState.isScanning}
-      <div class="flex items-center justify-between gap-4">
-          <div class="flex items-center gap-4 text-xs text-muted font-mono">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-center gap-4 text-xs text-muted font-mono flex-wrap">
               <span>Domain: <span class="text-accent">{scanResult.domain}</span></span>
               <span class="flex items-center gap-1"><Clock class="size-3" /> {scanResult.response_time_ms} ms</span>
               <span>@ {new Date(scanResult.timestamp).toLocaleString()}</span>
           </div>
-          
-          {#if localHydration}
-              <div class="flex items-center animate-fade-in">
+
+          <div class="flex items-center gap-2 flex-wrap">
+              <button
+                  onclick={copyDnsJson}
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-base rounded-lg text-[11px] font-mono uppercase tracking-widest text-secondary-text hover:text-accent hover:border-cyan-500/40 transition-colors"
+                  title="Copy DNS records as JSON"
+              >
+                  {#if copiedDnsJson}
+                      <Check class="size-3.5 text-green-400" />
+                      Copied
+                  {:else}
+                      <Copy class="size-3.5" />
+                      Copy JSON
+                  {/if}
+              </button>
+
+              {#if localHydration}
                   <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-cyan-500/10 text-cyan-400 rounded-full text-[10px] font-mono border border-cyan-500/20 uppercase tracking-widest shrink-0">
                       Restored Scan from {formatRelativeTime(localHydration.started_at)} ({localHydration.duration_ms}ms)
                   </span>
-              </div>
-          {/if}
+              {/if}
+          </div>
       </div>
   {/if}
 

@@ -23,11 +23,11 @@ Last checked: 2026-07-06
   - `scan-progress` MPSC forwarding exists for Domain Info, Domain DNS, SEO, Subdomain Discovery, Security Posture, Subdomain Takeover, Cloudflare Bypass, Nmap Zero Day, API Security, and Geo Analysis.
   - Most frontend pages listen to `scan-progress` and render `<ScanTerminal />`.
   - Security Posture and Subdomain Takeover listen to `scan-progress` but still do not render `<ScanTerminal />` in the page body.
-  - Web Technologies, Bulk Domain Validator, Contact Spy, Advanced Content, and React scan commands do not have progress parity yet.
+  - Bulk Domain Validator now has start/complete progress events; Web Technologies, Contact Spy, Advanced Content, and React scan commands do not have progress parity yet.
 - SQLite History:
   - `src-tauri/src/db.rs` initializes SQLite with WAL mode.
   - `scans` and `scan_results` tables exist.
-  - Scan logging, pagination, detail blob lookup, delete, stats, nuke history, unique-domain lookup, and latest module hydration exist.
+  - Scan logging, pagination, detail blob lookup, delete, stats, nuke history, unique-domain lookup, latest module hydration, and Bulk Domain Validator history logging exist.
   - `/history` and `/history/[id]` routes exist.
 - Reporting:
   - JSON, Markdown, PDF, and DOCX export utilities exist.
